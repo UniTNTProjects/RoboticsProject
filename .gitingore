@@ -10,4 +10,6 @@
 ./computer_vision/data_generation/roboflowset/train/
 ./computer_vision/data_generation/roboflowset/test/
 ./computer_vision/data_generation/LabBlocks/
-
+./computer_vision/data_generation/dataset/**
+./computer_vision/data_generation/dataset/*
+*.jpg
