@@ -1,5 +1,10 @@
 #pragma once
 #include "FSMState.h"
+#include <bits/stdc++.h>
+#include <iostream>
+#include "controller.h"
+
+using namespace std;
 
 class FSMState;
 
@@ -7,14 +12,13 @@ class FSM
 {
 public:
     FSM();
-    // Same as before
     inline FSMState *getCurrentState() const { return currentState; }
-    // In here, we'll delegate the state transition to the currentState
     void toggle();
-    // This will get called by the current state
     void setState(FSMState &newState);
+    int currentPosIndex = -1;
+    vector<tuple<double, double, double>> positions;
+    Controller controller;
 
 private:
-    // LightState here is now a class, not the enum that we saw earlier
     FSMState *currentState;
 };
