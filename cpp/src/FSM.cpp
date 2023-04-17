@@ -21,3 +21,18 @@ void FSM::toggle()
 
     currentState->toggle(this);
 }
+
+int main(int argc, char **argv)
+{
+
+    ros::init(argc, argv, "controller_ur5");
+
+    FSM fsm;
+    while (true)
+    {
+        /* code */
+        fsm.toggle();
+    }
+
+    return 0;
+}

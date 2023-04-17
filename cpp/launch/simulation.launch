@@ -1,0 +1,12 @@
+<?xml version="1.0" ?>
+
+<launch>
+    <arg name="assignement" default="2" />
+
+
+    <rosparam command="load" file="$(env HOME)/ros_ws/src/locosim/RoboticsProject/cpp/launch/area.yaml" />
+
+    <node name="lego_0" pkg="gazebo_ros" respawn="false" type="spawn_model" args="-x 0.82   -y 0.57 -z 0.925 -file $(env HOME)/ros_ws/src/locosim/RoboticsProject/models/X1-Y1-Z2/X1-Y1-Z2.sdf -model 0 -sdf" />
+
+    <node pkg="robot_project" name="FSM_ass$(arg assignement)" type="FSM_ass$(arg assignement)" output="screen" />
+</launch>
