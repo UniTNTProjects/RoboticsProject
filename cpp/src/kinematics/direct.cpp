@@ -1,4 +1,5 @@
 #include <eigenMatrices.h>
+//#include <kinematicsFunction.h>
 #include <cmath>
 
 using namespace std;
@@ -10,7 +11,7 @@ using namespace std;
 
 
 //dh parameters
-//Vector of the a distance (expressed in metres)
+//Vector of the A distance (expressed in metres)
 const double A[] = {0, -0.425, -0.3922, 0, 0, 0};
 //Vector of the D distance (expressed in metres)
 const double D[] = {0.1625, 0, 0, 0.1333, 0.0997, 0.0996};
