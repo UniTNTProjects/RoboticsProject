@@ -1,4 +1,4 @@
-#include <Eigen/Dense>
+#include <eigen3/Eigen/Dense>
 
 typedef Eigen::Matrix<double, 6, 1> jointValues;
 typedef Eigen::Matrix<double, 4, 4> homoMatrix;
