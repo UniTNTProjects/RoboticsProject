@@ -1,10 +1,4 @@
-<<<<<<< HEAD
-// #include <eigenMatrices.h>
-#include "eigenMatrices.h"
-=======
 #include <eigenMatrices.h>
-//#include <kinematicsFunction.h>
->>>>>>> 615bc44404579e61f0bd47f03cee673b2c931905
 #include <cmath>
 
 using namespace std;
