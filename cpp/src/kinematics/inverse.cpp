@@ -94,7 +94,7 @@ auto T65f =  [&](double th6) ->homoMatrix{
 
   
 //related to th11 a th51
-T06 = T60.inverse();
+homoMatrix T06 = T60.inverse();
 coordinates Xhat, Yhat;
 Xhat << T06(0,0), T06(1,0), T06(2,0);
 Yhat << T06(0,1), T06(1,1), T06(2,1);
@@ -112,19 +112,19 @@ th(5,3) = real(atan2(((-Xhat[1] * sin(th(0,1)) + Yhat[1] * cos(th(0,1))) / sin(t
 //finding th3
 homoMatrix T41m = T10f(th(0,0)).inverse() * T60 * T65f(th(5,0)).inverse() * T54f(th(4,0)).inverse();
 coordinates p41_1;
-p41_1 << T41m(0,3), T41m(1,3), T41m(2,3);
+double p41_1 << T41m(0,3), T41m(1,3), T41m(2,3);
 double p41xz_1 = sqrt(pow(p41_1[0], 2) + pow(p41_1[2], 2));
  
 T41m = T10f(th(0,0)).inverse() * T60 * T65f(th(5,1)).inverse() * T54f(th(4,1)).inverse();
-p41_2 = T41m(0,3), T41m(1,3), T41m(2,3);
-p41xz_2 = sqrt(pow(p41_2[0], 2) + pow(p41_2[2]));
+double p41_2 = T41m(0,3), T41m(1,3), T41m(2,3);
+double p41xz_2 = sqrt(pow(p41_2[0], 2) + pow(p41_2[2]));
  
 T41m = T10f(th(0,1)).inverse() * T60 * T65f(th(5,2)).inverse() * T54f(th(4,2)).inverse();
-p41_3 = T41m(0,3), T41m(1,3), T41m(2,3);
-p41xz_3 = sqrt(pow(p41_3[0], 2) + pow(p41_3[2], 2));
+double p41_3 = T41m(0,3), T41m(1,3), T41m(2,3);
+double p41xz_3 = sqrt(pow(p41_3[0], 2) + pow(p41_3[2], 2));
  
 T41m = T10f(th(0,1)).inverse() * T60 * T65f(th(5,3)).inverse() * T54f(th(4,3)).inverse();
-p41_4 = T41m(0,3), T41m(1,3), T41m(2,3);
+double p41_4 = T41m(0,3), T41m(1,3), T41m(2,3);
 double p41xz_4 = sqrt(pow(p41_4[0], 2) + pow(p41_4[2], 2));
  
 //Computation of the 8 possible values for th3    
@@ -144,10 +144,10 @@ th(1,1) = real(atan2(-p41_2[2], -p41_2[0]) - asin((-A[2] * sin(th(2,1))) / p41xz
 th(1,2) = real(atan2(-p41_3[2], -p41_3[0]) - asin((-A[2] * sin(th(2,2))) / p41xz_3));
 th(1,3) = real(atan2(-p41_4[2], -p41_4[0]) - asin((-A[2] * sin(th(2,3))) / p41xz_4));
  
-th(1,4) = real(atan2(-p41_1[2], -p41_1[0]) - asin((A[2] * sin(th3_1)) / p41xz_1));
-th(1,5) = real(atan2(-p41_2[2], -p41_2[0]) - asin((A[2] * sin(th3_2)) / p41xz_2));
-th(1,6) = real(atan2(-p41_3[2], -p41_3[0]) - asin((A[2] * sin(th3_3)) / p41xz_3));
-th(1,7) = real(atan2(-p41_4[2], -p41_4[0]) - asin((A[2] * sin(th3_4)) / p41xz_4));
+th(1,4) = real(atan2(-p41_1[2], -p41_1[0]) - asin((A[2] * sin(th(2,0))) / p41xz_1));
+th(1,5) = real(atan2(-p41_2[2], -p41_2[0]) - asin((A[2] * sin(th(2,1))) / p41xz_2));
+th(1,6) = real(atan2(-p41_3[2], -p41_3[0]) - asin((A[2] * sin(th(2,2))) / p41xz_3));
+th(1,7) = real(atan2(-p41_4[2], -p41_4[0]) - asin((A[2] * sin(th(2,3))) / p41xz_4));
  
  //find th4
  homoMatrix T43m = T32f(th(2,0)).inverse() * T21f(th(1,0)).inverse() * T10f(th(0,0)).inverse() * T60 * T65f(th(5,0)).inverse() * T54f(th(4,0)).inverse();
