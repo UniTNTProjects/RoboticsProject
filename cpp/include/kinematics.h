@@ -14,6 +14,7 @@ void ur5Direct(jointValues th, coordinates pe, rotMatrix re);
 jointValues ur5Inverse(coordinates pe, rotMatrix re);
 
 //Jacobian of UR5
-MatrixXd ur5Jac(const vector<double>& Th);
+Matrix<double, 6, 6> ur5Jac(jointValues& Th) 
+;
 
 
