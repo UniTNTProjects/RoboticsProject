@@ -1,21 +1,22 @@
 #include <iostream>
 #include <vector>
 #include <cmath>
-#include <eigenMatrices.h>
+#include "eigenMatrices.h"
 
-using namespace std;
 using namespace Eigen;
+using namespace std;
 
-Matrix<double, 6, 6> ur5Jac(jointValues& Th) {
-    const double A[] = {0, -0.425, -0.3922, 0, 0, 0};
-    const double D[] = {0.1625, 0, 0, 0.1333, 0.0997, 0.0996};
+
+MatrixXd ur5Jac(const vector<double>& Th) {
+    vector<double> A = {0, -0.425, -0.3922, 0, 0, 0};
+    vector<double> D = {0.1625, 0, 0, 0.1333, 0.0997, 0.0996};
 
     double A1 = A[0], A2 = A[1], A3 = A[2], A4 = A[3], A5 = A[4], A6 = A[5];
     double D1 = D[0], D2 = D[1], D3 = D[2], D4 = D[3], D5 = D[4], D6 = D[5];
 
     double th1 = Th[0], th2 = Th[1], th3 = Th[2], th4 = Th[3], th5 = Th[4], th6 = Th[5];
 
-    Matrix<double, 6, 6> J;
+    MatrixXd J(6, 6);
 
     J(0, 0) = D5 * (cos(th1) * cos(th5) + cos(th2 + th3 + th4) * sin(th1) * sin(th5)) + D3 * cos(th1) + D4 * cos(th1) - A3 * cos(th2 + th3) * sin(th1) - A2 * cos(th2) * sin(th1) - D5 * sin(th2 + th3 + th4) * sin(th1);
     J(1, 0) = D5 * (cos(th5) * sin(th1) - cos(th2 + th3 + th4) * cos(th1) * sin(th5)) + D3 * sin(th1) + D4 * sin(th1) + A3 * cos(th2 + th3) * cos(th1) + A2 * cos(th1) * cos(th2) + D5 * sin(th2 + th3 + th4) * cos(th1);
@@ -62,7 +63,8 @@ Matrix<double, 6, 6> ur5Jac(jointValues& Th) {
     return J;
 }
 
-int main(){
-    return 0;
+int main() {
+    vector<double> Th = {0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+    MatrixXd J = ur5Jac(Th);
 }
 
