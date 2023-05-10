@@ -11,7 +11,6 @@ using namespace std;
 
 jointValues inverse(coordinates pe, rotMatrix re) {
 
-std::complex<double> complex_converter(1.0, 0.0);
 jointValues th;
 
 //dh parameters
