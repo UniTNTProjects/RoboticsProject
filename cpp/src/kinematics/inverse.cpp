@@ -215,19 +215,3 @@ double th3_7 = real(atan2(Xhat43(1), Xhat43(0)) * complex_converter);
 return th;
     
 }
-
-
-int main(){
-    coordinates pe;
-    pe << 0.4, 0.5, 0.6;
-
-    rotMatrix re;
-    re << 1, 0, 0,
-        0, 1, 0,
-        0, 0, 1;
-
-    Matrix<double, 8, 6> inv = ur5Inverse(pe, re);
-    cout << "Joint angles: \n" << inv << endl;
-
-    return 0;
-}

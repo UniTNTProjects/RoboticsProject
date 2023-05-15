@@ -61,8 +61,3 @@ Matrix<double, 6, 6> ur5Jac(jointValues& Th) {
 
     return J;
 }
-
-int main(){
-    return 0;
-}
-

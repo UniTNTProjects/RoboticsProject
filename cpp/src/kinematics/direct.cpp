@@ -83,7 +83,3 @@ void ur5Direct(jointValues &th, coordinates &pe, rotMatrix &re) {
     //(1:3, 1:3);
 
 }
-
-int main(){
-    return 0;
-}
