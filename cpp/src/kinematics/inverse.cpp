@@ -23,10 +23,6 @@ Matrix<double, 8, 6> ur5Inverse(coordinates pe, rotMatrix re)
     const double D[] = {0.1625, 0, 0, 0.1333, 0.0997, 0.0996};
 
     homoMatrix T60;
-    // T60 << re[0], re[3], re[6], pe[0],
-    //         re[1],  re[4], re[7], pe[1],
-    //         re[2], re[5], re[8], pe[3],
-    //         0, 0, 0, 1;
 
     T60 << re(0), re(3), re(6), pe(0),
         re(1), re(4), re(7), pe(1),
@@ -95,9 +91,6 @@ auto T65f =  [&](double th6) -> homoMatrix{
  Matrix<double, 4, 1>mat;
  mat << 0.0, 0.0, -D[5], 1.0;
  p50 << T60 * mat;
-
-//  th(0,0) = atan2(p50(1, 0), p50(0, 0)) + acos(D[3] / (sqrt(pow(p50(1, 0), 2) + pow(p50(0, 0), 2)))) + M_PI/2;
-//  th(0,1) = atan2(p50(1, 0), p50(0, 0)) - acos(D[3] / (sqrt(pow(p50(1, 0), 2) + pow(p50(0, 0), 2)))) + M_PI/2;
 
  double th0_0 = atan2(p50[1], p50[0]) + acos(D[3] / (sqrt(pow(p50[1], 2) + pow(p50[0], 2)))) + M_PI/2;
  double th0_1 = atan2(p50[1], p50[0]) - acos(D[3] / (sqrt(pow(p50[1], 2) + pow(p50[0], 2)))) + M_PI/2;

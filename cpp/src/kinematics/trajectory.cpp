@@ -1,45 +1,38 @@
-#include <eigenMatrices.h>
-#include <kinematics.h>
-#include <complex.h>
-#include <cmath>
 #include <iostream>
+#include <vector>
+#include <Eigen/Dense>
+#include <kinematics.h>
 
 using namespace Eigen;
 using namespace std;
 
-double *ur5Trajectory(const jointValues &initial_joints, const jointValues &final_joints, int n)
+vector<Matrix<double, 1, 7>> ur5Trajectory(jointValues initial_position, jointValues final_position, double minT, double maxT, double dt)
 {
-    Eigen::Matrix<double, 6, 4> coeff;
-    for (int i = 0; i < 6; i++)
-    {
-        // Matrix associated to the third degree system
-        Eigen::Matrix<double, 4, 4> m;
-        m << 1, 0, 0, 0,
-            0, 1, 0, 0,
-            1, 1, 1, 1,
-            0, 1, 2, 3;
+    Matrix<double, 6, 4> A;
+    for (int i = 0; i < 6; i++) {
+        Matrix<double,4 ,4> M;
+        M << 1, minT, minT * minT, minT * minT * minT,
+             0, 1, 2 * minT, 3 * minT * minT,
+             1, maxT, maxT * maxT, maxT * maxT * maxT,
+             0, 1, 2 * maxT, 3 * maxT * maxT;
 
-        Eigen::Matrix<double, 4, 1> a, b;
-        b << initial_joints(i), 0, final_joints(i), 0;
+        Matrix<double, 4, 1> a, b;
+        b << initial_position(i), 0, final_position(i), 0;
 
-        // Solve system m*coeff=b
-        a = m.inverse() * b;
-
-        for (int j = 0; j < 4; j++)
-            coeff(i, j) = a(j);
+        a = M.inverse() * b;
+        A.row(i) = a.transpose();
     }
-
-    // Allocate dynamically the return vector
-    double *theta = (double *)malloc(sizeof(double) * 6 * n);
-
-    for (double t = 0; t < 1; t += 1.0 / n)
-    {
-        for (int i = 0; i < 6; i++)
-        {
-            double q = coeff(i, 0) + coeff(i, 1) * t + coeff(i, 2) * t * t + coeff(i, 3) * t * t * t;
-            theta[(int)(t * n) * 6 + i] = q;
+    
+    vector<Matrix<double, 1, 7>> Th;
+    
+    for (double t = minT; t <= maxT; t += dt) {
+        Matrix<double, 1, 7> th;
+        th(0) = t;
+        for (int i = 0; i < 6; i++) {
+            double q = A(i, 0) + A(i, 1) * t + A(i, 2) * t * t + A(i, 3) * t * t * t;
+            th(i + 1) = q;
         }
+        Th.push_back(th);
     }
-
-    return theta;
+    return Th;
 }

@@ -16,4 +16,4 @@ Matrix<double, 8, 6> ur5Inverse(coordinates pe, rotMatrix re);
 // Jacobian of UR5
 Matrix<double, 6, 6> ur5Jac(jointValues &Th);
 
-vector<Matrix<double, 1, 7>> ur5Trajectory(jointValues initial_position, jointValues final_position, double minT, double maxT, double dt)
+vector<Matrix<double, 1, 7>> ur5Trajectory(jointValues initial_position, jointValues final_position, double minT, double maxT, double dt);
