@@ -6,7 +6,8 @@
 using namespace std;
 using namespace Eigen;
 
-Matrix<double, 6, 6> ur5Jac(jointValues& Th) {
+Matrix<double, 6, 6> ur5Jac(jointValues &Th)
+{
     const double A[] = {0, -0.425, -0.3922, 0, 0, 0};
     const double D[] = {0.1625, 0, 0, 0.1333, 0.0997, 0.0996};
 

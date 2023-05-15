@@ -4,6 +4,7 @@
 FSM::FSM()
 {
     currentState = &Wait::getInstance();
+    controller = Controller();
 }
 
 void FSM::setState(FSMState &newState)
@@ -28,6 +29,7 @@ int main(int argc, char **argv)
     ros::init(argc, argv, "controller_ur5");
 
     FSM fsm;
+    fsm = FSM();
     while (true)
     {
         /* code */
