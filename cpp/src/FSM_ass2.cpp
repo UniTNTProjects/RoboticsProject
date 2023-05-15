@@ -21,8 +21,13 @@ void Wait::enter(FSM *fsm)
 void Wait::exit(FSM *fsm)
 {
     // Do something
-    fsm->positions.push_back(make_tuple((double)fsm->currentPosIndex / 10, 0.0, 0.0));
-    fsm->positions.push_back(make_tuple((double)fsm->currentPosIndex / 5, 0.0, 0.0));
+
+    fsm->positions.push_back(make_tuple(-0.8172,
+                                        -0.2329,
+                                        0.0628));
+    fsm->positions.push_back(make_tuple(-0.75,
+                                        -0.25,
+                                        0.05));
     cout << "Exited Wait State" << endl
          << endl;
 }
@@ -43,8 +48,14 @@ void Move::toggle(FSM *fsm)
         fsm->currentPosIndex++;
 
         cout << "Moving to position: " << get<0>(fsm->positions[fsm->currentPosIndex]) << ", " << get<1>(fsm->positions[fsm->currentPosIndex]) << ", " << get<2>(fsm->positions[fsm->currentPosIndex]) << endl;
-
-        // if we have picked up an object already enter place down state
+        coordinates cord;
+        cord << get<0>(fsm->positions[fsm->currentPosIndex]), get<1>(fsm->positions[fsm->currentPosIndex]), get<2>(fsm->positions[fsm->currentPosIndex]);
+        rotMatrix rot;
+        rot << 1.0, 0.0, 0.0,
+            0.0, 0.0, -1.0,
+            0.0, 1.0, 0.0;
+        fsm->controller.move_to(cord, rot, 50);
+        //  if we have picked up an object already enter place down state
         fsm->setState(PlaceDown::getInstance());
     }
     else
@@ -53,8 +64,14 @@ void Move::toggle(FSM *fsm)
         fsm->currentPosIndex++;
 
         cout << "Moving to position: " << get<0>(fsm->positions[fsm->currentPosIndex]) << ", " << get<1>(fsm->positions[fsm->currentPosIndex]) << ", " << get<2>(fsm->positions[fsm->currentPosIndex]) << endl;
-
-        // if we dont have picked up an object already enter pick up state
+        coordinates cord;
+        cord << get<0>(fsm->positions[fsm->currentPosIndex]), get<1>(fsm->positions[fsm->currentPosIndex]), get<2>(fsm->positions[fsm->currentPosIndex]);
+        rotMatrix rot;
+        rot << 0.0, -1.0, 0.0,
+            1.0, 0.0, 0.0,
+            0.0, 0.0, 1.0;
+        fsm->controller.move_to(cord, rot, 50);
+        //  if we dont have picked up an object already enter pick up state
         fsm->setState(PickUp::getInstance());
     }
 }
