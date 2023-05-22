@@ -80,4 +80,5 @@ void ur5Direct(jointValues &th, coordinates &pe, rotMatrix &re)
         T06(1, 0), T06(1, 1), T06(1, 2),
         T06(2, 0), T06(2, 1), T06(2, 2);
     //(1:3, 1:3);
+
 }
