@@ -109,6 +109,7 @@ bool Controller::move_to(const coordinates &position, const rotMatrix &rotation,
 
     jointValues init_joint = get_joint_state();
     Eigen::Matrix<double, 8, 6> inverse_kinematics_res = ur5Inverse(position, rotation);
+    cout << "inverse_kinematics_res:\n " << inverse_kinematics_res << endl;
 
     int *indexes = sort_ik_result(inverse_kinematics_res, init_joint);
 
@@ -126,11 +127,11 @@ bool Controller::move_to(const coordinates &position, const rotMatrix &rotation,
         {
             init_linear_filter();
 
-            for (int i = 0; i < steps; i++)
+            for (int j = 0; j < steps; j++)
             {
                 jointValues des_not_linear;
-                des_not_linear << trajectory[i * 6], trajectory[i * 6 + 1], trajectory[i * 6 + 2],
-                    trajectory[i * 6 + 3], trajectory[i * 6 + 4], trajectory[i * 6 + 5];
+                des_not_linear << trajectory[j * 6], trajectory[j * 6 + 1], trajectory[j * 6 + 2],
+                    trajectory[j * 6 + 3], trajectory[j * 6 + 4], trajectory[j * 6 + 5];
 
                 // send the trajectory
                 cout << "sending trajectory" << endl;
@@ -194,7 +195,8 @@ bool Controller ::check_trajectory(double *traj, int step)
         }
 
         MatrixXd jacobian = ur5Jac(joints);
-
+        cout << "jacobian: " << jacobian << endl;
+        /*
         if (abs(jacobian.determinant()) < 0.0001)
         {
             cout << "trajectory invalid 1" << endl;
@@ -205,10 +207,11 @@ bool Controller ::check_trajectory(double *traj, int step)
         Eigen::JacobiSVD<Eigen::MatrixXd> svd(jacobian, Eigen::ComputeThinU | Eigen::ComputeThinV);
         if (abs(svd.singularValues()(5)) < 0.00001)
         {
-            cout << svd.singularValues()(5) << endl;
             cout << "trajectory invalid 2" << endl;
+            cout << abs(svd.singularValues()(5)) << endl;
             return false;
         }
+        */
     }
     cout << "trajectory checked" << endl;
     return true;
