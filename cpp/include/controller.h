@@ -18,6 +18,9 @@ private:
     bool real_robot;
     bool gripper_sim;
 
+    jointValues filter_1;
+    jointValues filter_2;
+
     double loop_time = 0.;
     double loop_frequency = 1000.;
     ros::Publisher pub_des_jstate;
@@ -28,7 +31,7 @@ private:
     void send_state(const jointValues &joint_pos);
     void sent_gripper_diameter(const int diameter);
     bool check_trajectory(vector<double *> traj, int step);
-    jointValues linear_filter_calc(const jointValues &joints_des);
+    jointValues secondOrderFilter(const jointValues &input, const double rate, const double settling_time);
     void init_linear_filter(void);
     double compute_error(const jointValues &first_vector, const jointValues &second_vector);
 

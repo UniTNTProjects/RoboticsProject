@@ -9,21 +9,21 @@ int *sort_ik_result(const Eigen::Matrix<double, 8, 6> &ik_result, const jointVal
 static jointValues current_joints;
 static GripperStateVector current_gripper;
 
-static double v_ref;
 static bool callbackdimerda = false;
-static jointValues linear_fil;
 
 void Controller::joint_state_callback(const sensor_msgs::JointState::ConstPtr &msg)
 {
     callbackdimerda = true;
-    cout << "joint_state_callback" << endl;
+    // cout << "joint_state_callback" << endl;
     int n = (real_robot) ? 6 : 8;
 
     if (n > 6)
     {
-        current_gripper << msg->position[6], msg->position[7];
+        current_gripper << msg->position[1], msg->position[2];
     }
-    current_joints << msg->position[0], msg->position[1], msg->position[2], msg->position[3], msg->position[4], msg->position[5];
+    // current_joints << msg->position[0], msg->position[6], msg->position[7], msg->position[3], msg->position[4], msg->position[5];
+    current_joints << msg->position[4], msg->position[3], msg->position[0], msg->position[5], msg->position[6], msg->position[7];
+    // cout << "current_joints " << current_joints << endl;
 }
 
 Controller::Controller() : loop_rate(1000.)
@@ -57,9 +57,23 @@ void Controller::send_state(const jointValues &joint_pos)
         joint_state_msg_array.data[6] = current_gripper(0);
         joint_state_msg_array.data[7] = current_gripper(1);
     }
+
     for (int i = 0; i < 6; i++)
     {
-        joint_state_msg_array.data[i] = joint_pos[i];
+        joint_state_msg_array.data[i] = joint_pos(i);
+    }
+    /*
+    joint_state_msg_array.data[0] = joint_pos(4);
+    joint_state_msg_array.data[1] = joint_pos(3);
+    joint_state_msg_array.data[2] = joint_pos(0);
+    joint_state_msg_array.data[3] = joint_pos(5);
+    joint_state_msg_array.data[4] = joint_pos(1);
+    joint_state_msg_array.data[5] = joint_pos(2);
+    */
+
+    for (int i = 0; i < 8; i++)
+    {
+        cout << "joint_state_msg_array.data[" << i << "] " << joint_state_msg_array.data[i] << endl;
     }
 
     pub_des_jstate.publish(joint_state_msg_array);
@@ -90,25 +104,22 @@ GripperStateVector Controller::get_gripper_state()
 void Controller::init_linear_filter(void)
 {
     cout << "init linear filter" << endl;
-    linear_fil = get_joint_state();
-    v_ref = 0.0;
+    filter_1 = current_joints;
+    filter_2 = current_joints;
 }
 
-jointValues Controller::linear_filter_calc(const jointValues &joints_des)
+jointValues Controller::secondOrderFilter(const jointValues &input, const double rate, const double settling_time)
 {
-    double v_des = 0.6;
-    v_ref += (v_des - v_ref) * 0.005;
-    linear_fil += 1 / loop_frequency * v_ref * (joints_des - linear_fil) / (joints_des - linear_fil).norm();
 
-    return linear_fil;
+    double dt = 1 / rate;
+    double gain = dt / (0.1 * settling_time + dt);
+    filter_1 = (1 - gain) * filter_1 + gain * input;
+    filter_2 = (1 - gain) * filter_2 + gain * filter_1;
+    return filter_2;
 }
 
 bool Controller::move_to(const coordinates &position, const rotMatrix &rotation, int steps)
 {
-
-    cout << "position: " << position << endl;
-    cout << "rotation: " << rotation << endl;
-
     jointValues init_joint = current_joints;
     Eigen::Matrix<double, 8, 6> inverse_kinematics_res = ur5Inverse(position, rotation);
     cout << "inverse_kinematics_res:\n " << inverse_kinematics_res << endl;
@@ -125,19 +136,10 @@ bool Controller::move_to(const coordinates &position, const rotMatrix &rotation,
 
         cout << "joint_to_check: " << joint_to_check << endl;
         cout << "init_joint: " << init_joint << endl;
+        cout << "init gripper" << current_gripper << endl;
 
         vector<double *> trajectory = vector<double *>();
-        /*
-        ur5Trajectory(trajectory, init_joint, joint_to_check, 0.0, 1.0, 1 / (double)steps);
-        for (int i = 0; i < trajectory.size(); i++)
-        {
-            cout << "Trajectory " << i << ": ";
-            for (int j = 0; j < 6; j++)
-            {
-                cout << trajectory.at(i)[j] << " ";
-            }
-            cout << endl;
-        }*/
+
         double minT = 0.0;
         double maxT = 1.0;
         jointValues initial_position = init_joint;
@@ -162,9 +164,10 @@ bool Controller::move_to(const coordinates &position, const rotMatrix &rotation,
 
         for (double t = minT; t <= maxT; t += dt)
         {
-            double th[6];
+            double *th = new double[6];
             for (int i = 0; i < 6; i++)
             {
+
                 double q = A(i, 0) + A(i, 1) * t + A(i, 2) * t * t + A(i, 3) * t * t * t;
                 th[i] = q;
             }
@@ -172,6 +175,7 @@ bool Controller::move_to(const coordinates &position, const rotMatrix &rotation,
             trajectory.push_back(th);
         }
 
+        // print trajectory
         for (int i = 0; i < trajectory.size(); i++)
         {
             cout << "Trajectory " << i << ": ";
@@ -181,6 +185,7 @@ bool Controller::move_to(const coordinates &position, const rotMatrix &rotation,
             }
             cout << endl;
         }
+
         if (check_trajectory(trajectory, steps))
         {
             init_linear_filter();
@@ -198,17 +203,17 @@ bool Controller::move_to(const coordinates &position, const rotMatrix &rotation,
 
                 // send the trajectory
                 cout << "sending trajectory" << endl;
-
-                while (ros::ok() && 0.05 < compute_error(des_not_linear, get_joint_state()))
+                while (ros::ok() && 0.05 < compute_error(des_not_linear, current_joints))
                 {
-                    cout << "error: " << compute_error(des_not_linear, get_joint_state()) << endl;
-                    jointValues q_des = linear_filter_calc(des_not_linear);
+                    cout << "error: " << compute_error(des_not_linear, current_joints) << endl;
+                    jointValues q_des = secondOrderFilter(des_not_linear, 10, 0.5);
+                    // cout << "q_des: " << q_des << endl;
                     send_state(q_des);
                     loop_rate.sleep();
                     ros::spinOnce();
                 }
             }
-
+            cout << "Done" << endl;
             return true;
         }
     }
@@ -246,7 +251,7 @@ bool Controller ::check_trajectory(vector<double *> traj, int step)
         double *traj_i = traj[i];
         joints << traj_i[0], traj_i[1], traj_i[2],
             traj_i[3], traj_i[4], traj_i[5];
-        ur5Direct(joints, cord, rot);
+        // ur5Direct(joints, cord, rot);
 
         if (joints.norm() == 0)
         {
@@ -255,6 +260,14 @@ bool Controller ::check_trajectory(vector<double *> traj, int step)
 
         MatrixXd jacobian = ur5Jac(joints);
         // cout << "jacobian: " << jacobian << endl;
+        /*
+        if (joints(2) > 0.74 && joints(1) > -0.4)
+        {
+            cout << "----------\ntrajectory invalid 0" << endl;
+            cout << "not valid values\n-------------\n"
+                 << endl;
+            return false;
+        }
 
         if (abs(jacobian.determinant()) < 0.000001)
         {
@@ -271,8 +284,9 @@ bool Controller ::check_trajectory(vector<double *> traj, int step)
             cout << abs(svd.singularValues()(5)) << endl;
             return false;
         }
+        */
     }
-    cout << "trajectory checked" << endl;
+    cout << "trajectory valid" << endl;
     return true;
 }
 
@@ -302,10 +316,10 @@ void Controller::move_gripper_to(const int diameter)
     coordinates cord;
     rotMatrix rot;
     jointValues joints;
-    joints = get_joint_state();
+    joints = current_joints;
     ur5Direct(joints, cord, rot);
-    cout << "cord: " << cord << endl;
-    cout << "rot: " << rot << endl;
+    cout << "cord initial: " << cord << endl;
+    cout << "rot inital: " << rot << endl;
 
     sent_gripper_diameter(diameter);
 }
