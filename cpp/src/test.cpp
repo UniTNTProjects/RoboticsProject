@@ -21,7 +21,7 @@ int main(int argc, char **argv)
     Controller controller;
     controller = Controller();
 
-    controller.move_gripper_to(10);
+    // controller.move_gripper_to(10);
 
-    controller.move_to(cord, rot, 50);
+    controller.move_to(cord, rot, 2);
 }

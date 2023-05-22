@@ -102,7 +102,7 @@ jointValues Controller::linear_filter_calc(const jointValues &joints_des)
 
 bool Controller::move_to(const coordinates &position, const rotMatrix &rotation, int steps)
 {
-    double *trajectory;
+    std::vector<double *> trajectory;
 
     cout << "position: " << position << endl;
     cout << "rotation: " << rotation << endl;
@@ -121,7 +121,7 @@ bool Controller::move_to(const coordinates &position, const rotMatrix &rotation,
         joint_to_check << inverse_kinematics_res(index, 0), inverse_kinematics_res(index, 1), inverse_kinematics_res(index, 2),
             inverse_kinematics_res(index, 3), inverse_kinematics_res(index, 4), inverse_kinematics_res(index, 5);
 
-        trajectory = ur5Trajectory(init_joint, joint_to_check, steps);
+        trajectory = ur5Trajectory(init_joint, joint_to_check, 0.0, 1.0, 1 / (double)steps);
 
         if (check_trajectory(trajectory, steps))
         {
@@ -129,9 +129,17 @@ bool Controller::move_to(const coordinates &position, const rotMatrix &rotation,
 
             for (int j = 0; j < steps; j++)
             {
+                cout << "step: " << j << endl;
+                // get i element of variable "trajectory" and put it in new variable
                 jointValues des_not_linear;
-                des_not_linear << trajectory[j * 6], trajectory[j * 6 + 1], trajectory[j * 6 + 2],
-                    trajectory[j * 6 + 3], trajectory[j * 6 + 4], trajectory[j * 6 + 5];
+                double *traj_j = trajectory[j];
+                des_not_linear << traj_j[0], traj_j[1], traj_j[2],
+                    traj_j[3], traj_j[4], traj_j[5];
+
+                cout << "des_not_linear: " << des_not_linear << endl;
+
+                cout << "des_not_linear: " << des_not_linear << endl;
+                cout << "\n\n\n\n\n\n\n";
 
                 // send the trajectory
                 cout << "sending trajectory" << endl;
@@ -146,15 +154,9 @@ bool Controller::move_to(const coordinates &position, const rotMatrix &rotation,
                 }
             }
 
-            free(trajectory);
             return true;
         }
-        else
-        {
-            free(trajectory);
-        }
     }
-
     return false;
 }
 
@@ -178,7 +180,7 @@ int *sort_ik_result(const Eigen::Matrix<double, 8, 6> &ik_result, const jointVal
     return list;
 }
 
-bool Controller ::check_trajectory(double *traj, int step)
+bool Controller ::check_trajectory(vector<double *> traj, int step)
 {
     cout << "check trajectory" << endl;
     for (int i = 0; i < step; i++)
@@ -186,7 +188,9 @@ bool Controller ::check_trajectory(double *traj, int step)
         coordinates cord;
         rotMatrix rot;
         jointValues joints;
-        joints << traj[i * 6], traj[i * 6 + 1], traj[i * 6 + 2], traj[i * 6 + 3], traj[i * 6 + 4], traj[i * 6 + 5];
+        double *traj_i = traj[i];
+        joints << traj_i[0], traj_i[1], traj_i[2],
+            traj_i[3], traj_i[4], traj_i[5];
         ur5Direct(joints, cord, rot);
 
         if (joints.norm() == 0)
@@ -195,23 +199,22 @@ bool Controller ::check_trajectory(double *traj, int step)
         }
 
         MatrixXd jacobian = ur5Jac(joints);
-        cout << "jacobian: " << jacobian << endl;
-        /*
+        // cout << "jacobian: " << jacobian << endl;
+
         if (abs(jacobian.determinant()) < 0.0001)
         {
             cout << "trajectory invalid 1" << endl;
             cout << abs(jacobian.determinant()) << endl;
             return false;
         }
-
+        /*
         Eigen::JacobiSVD<Eigen::MatrixXd> svd(jacobian, Eigen::ComputeThinU | Eigen::ComputeThinV);
         if (abs(svd.singularValues()(5)) < 0.00001)
         {
             cout << "trajectory invalid 2" << endl;
             cout << abs(svd.singularValues()(5)) << endl;
             return false;
-        }
-        */
+        }*/
     }
     cout << "trajectory checked" << endl;
     return true;

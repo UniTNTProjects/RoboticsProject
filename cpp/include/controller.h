@@ -30,7 +30,7 @@ private:
     void joint_state_callback(const sensor_msgs::JointState::ConstPtr &msg);
     void send_state(const jointValues &joint_pos);
     void sent_gripper_diameter(const int diameter);
-    bool check_trajectory(double *traj, int step);
+    bool check_trajectory(vector<double *> traj, int step);
     jointValues linear_filter_calc(const jointValues &joints_des);
     void init_linear_filter(void);
     double compute_error(const jointValues &first_vector, const jointValues &second_vector);
