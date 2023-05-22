@@ -6,7 +6,7 @@
 using namespace Eigen;
 using namespace std;
 
-vector<Matrix<double, 1, 7>> ur5Trajectory(jointValues initial_position, jointValues final_position, double minT, double maxT, double dt)
+vector<double*> ur5Trajectory(jointValues initial_position, jointValues final_position, double minT, double maxT, double dt)
 {
     Matrix<double, 6, 4> A;
     for (int i = 0; i < 6; i++) {
@@ -23,16 +23,19 @@ vector<Matrix<double, 1, 7>> ur5Trajectory(jointValues initial_position, jointVa
         A.row(i) = a.transpose();
     }
     
-    vector<Matrix<double, 1, 7>> Th;
+    vector<double*> Th;
     
     for (double t = minT; t <= maxT; t += dt) {
-        Matrix<double, 1, 7> th;
-        th(0) = t;
+        double th[6];
         for (int i = 0; i < 6; i++) {
             double q = A(i, 0) + A(i, 1) * t + A(i, 2) * t * t + A(i, 3) * t * t * t;
-            th(i + 1) = q;
+            th[i] = q;
         }
         Th.push_back(th);
     }
     return Th;
+}
+
+int main(){
+    return 0;
 }
