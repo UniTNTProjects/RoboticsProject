@@ -24,9 +24,6 @@ private:
     ros::Publisher pub_gripper_diameter;
     ros::Subscriber sub_joint_state;
 
-    jointValues current_joints;
-    GripperStateVector current_gripper;
-
     void joint_state_callback(const sensor_msgs::JointState::ConstPtr &msg);
     void send_state(const jointValues &joint_pos);
     void sent_gripper_diameter(const int diameter);

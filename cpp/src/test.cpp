@@ -11,17 +11,17 @@ int main(int argc, char **argv)
     coordinates cord;
     rotMatrix rot;
 
-    cord << 0.75,
-        -0.25,
-        0.05;
-    rot << 1.0, 0.0, 0.0,
-        0.0, 0.0, -1.0,
-        0.0, 1.0, 0.0;
+    cord << 0.602441,
+        0.661121,
+        0.069559;
+    rot << 0.614737, -0.355196, -0.704226,
+        0.42184, -0.606364, 0.674072,
+        -0.666445, -0.711448, -0.222918;
 
     Controller controller;
     controller = Controller();
 
-    // controller.move_gripper_to(10);
+    controller.move_gripper_to(10);
 
-    controller.move_to(cord, rot, 2);
+    controller.move_to(cord, rot, 20);
 }

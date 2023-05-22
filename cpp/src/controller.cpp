@@ -6,27 +6,24 @@ using namespace std;
 
 int *sort_ik_result(const Eigen::Matrix<double, 8, 6> &ik_result, const jointValues &initial_joints);
 
+static jointValues current_joints;
+static GripperStateVector current_gripper;
+
 static double v_ref;
+static bool callbackdimerda = false;
 static jointValues linear_fil;
 
 void Controller::joint_state_callback(const sensor_msgs::JointState::ConstPtr &msg)
 {
+    callbackdimerda = true;
     cout << "joint_state_callback" << endl;
     int n = (real_robot) ? 6 : 8;
 
-    for (int i = 0; i < n; i++)
+    if (n > 6)
     {
-        if (i >= 6)
-        {
-            // std::cout << "current gripper n°" << i - 6 << ": " << msg->position[i] << std::endl;
-            current_gripper(i - 6) = msg->position[i];
-        }
-        else
-        {
-            // std::cout << "current joint n°" << i << ": " << msg->position[i] << std::endl;
-            current_joints(i) = msg->position[i];
-        }
+        current_gripper << msg->position[6], msg->position[7];
     }
+    current_joints << msg->position[0], msg->position[1], msg->position[2], msg->position[3], msg->position[4], msg->position[5];
 }
 
 Controller::Controller() : loop_rate(1000.)
@@ -37,6 +34,12 @@ Controller::Controller() : loop_rate(1000.)
     sub_joint_state = node.subscribe("/ur5/joint_states", 1, &Controller::joint_state_callback, this);
     pub_des_jstate = node.advertise<std_msgs::Float64MultiArray>("/ur5/joint_group_pos_controller/command", 1000);
     pub_gripper_diameter = node.advertise<std_msgs::Int32>("/ur5/gripper_controller/command", 1);
+
+    while (!callbackdimerda)
+    {
+        ros::spinOnce();
+        loop_rate.sleep();
+    }
 }
 
 void Controller::send_state(const jointValues &joint_pos)
@@ -102,12 +105,11 @@ jointValues Controller::linear_filter_calc(const jointValues &joints_des)
 
 bool Controller::move_to(const coordinates &position, const rotMatrix &rotation, int steps)
 {
-    std::vector<double *> trajectory;
 
     cout << "position: " << position << endl;
     cout << "rotation: " << rotation << endl;
 
-    jointValues init_joint = get_joint_state();
+    jointValues init_joint = current_joints;
     Eigen::Matrix<double, 8, 6> inverse_kinematics_res = ur5Inverse(position, rotation);
     cout << "inverse_kinematics_res:\n " << inverse_kinematics_res << endl;
 
@@ -121,8 +123,64 @@ bool Controller::move_to(const coordinates &position, const rotMatrix &rotation,
         joint_to_check << inverse_kinematics_res(index, 0), inverse_kinematics_res(index, 1), inverse_kinematics_res(index, 2),
             inverse_kinematics_res(index, 3), inverse_kinematics_res(index, 4), inverse_kinematics_res(index, 5);
 
-        trajectory = ur5Trajectory(init_joint, joint_to_check, 0.0, 1.0, 1 / (double)steps);
+        cout << "joint_to_check: " << joint_to_check << endl;
+        cout << "init_joint: " << init_joint << endl;
 
+        vector<double *> trajectory = vector<double *>();
+        /*
+        ur5Trajectory(trajectory, init_joint, joint_to_check, 0.0, 1.0, 1 / (double)steps);
+        for (int i = 0; i < trajectory.size(); i++)
+        {
+            cout << "Trajectory " << i << ": ";
+            for (int j = 0; j < 6; j++)
+            {
+                cout << trajectory.at(i)[j] << " ";
+            }
+            cout << endl;
+        }*/
+        double minT = 0.0;
+        double maxT = 1.0;
+        jointValues initial_position = init_joint;
+        jointValues final_position = joint_to_check;
+        double dt = 1 / (double)steps;
+
+        Matrix<double, 6, 4> A;
+        for (int i = 0; i < 6; i++)
+        {
+            Matrix<double, 4, 4> M;
+            M << 1, minT, minT * minT, minT * minT * minT,
+                0, 1, 2 * minT, 3 * minT * minT,
+                1, maxT, maxT * maxT, maxT * maxT * maxT,
+                0, 1, 2 * maxT, 3 * maxT * maxT;
+
+            Matrix<double, 4, 1> a, b;
+            b << initial_position(i), 0, final_position(i), 0;
+
+            a = M.inverse() * b;
+            A.row(i) = a.transpose();
+        }
+
+        for (double t = minT; t <= maxT; t += dt)
+        {
+            double th[6];
+            for (int i = 0; i < 6; i++)
+            {
+                double q = A(i, 0) + A(i, 1) * t + A(i, 2) * t * t + A(i, 3) * t * t * t;
+                th[i] = q;
+            }
+
+            trajectory.push_back(th);
+        }
+
+        for (int i = 0; i < trajectory.size(); i++)
+        {
+            cout << "Trajectory " << i << ": ";
+            for (int j = 0; j < 6; j++)
+            {
+                cout << trajectory.at(i)[j] << " ";
+            }
+            cout << endl;
+        }
         if (check_trajectory(trajectory, steps))
         {
             init_linear_filter();
@@ -137,9 +195,6 @@ bool Controller::move_to(const coordinates &position, const rotMatrix &rotation,
                     traj_j[3], traj_j[4], traj_j[5];
 
                 cout << "des_not_linear: " << des_not_linear << endl;
-
-                cout << "des_not_linear: " << des_not_linear << endl;
-                cout << "\n\n\n\n\n\n\n";
 
                 // send the trajectory
                 cout << "sending trajectory" << endl;
@@ -201,20 +256,21 @@ bool Controller ::check_trajectory(vector<double *> traj, int step)
         MatrixXd jacobian = ur5Jac(joints);
         // cout << "jacobian: " << jacobian << endl;
 
-        if (abs(jacobian.determinant()) < 0.0001)
+        if (abs(jacobian.determinant()) < 0.000001)
         {
-            cout << "trajectory invalid 1" << endl;
-            cout << abs(jacobian.determinant()) << endl;
+            cout << "----------\ntrajectory invalid 1" << endl;
+            cout << "determinant of jacobian is " << abs(jacobian.determinant()) << "\n-------------\n"
+                 << endl;
             return false;
         }
-        /*
+
         Eigen::JacobiSVD<Eigen::MatrixXd> svd(jacobian, Eigen::ComputeThinU | Eigen::ComputeThinV);
-        if (abs(svd.singularValues()(5)) < 0.00001)
+        if (abs(svd.singularValues()(5)) < 0.0000001)
         {
             cout << "trajectory invalid 2" << endl;
             cout << abs(svd.singularValues()(5)) << endl;
             return false;
-        }*/
+        }
     }
     cout << "trajectory checked" << endl;
     return true;
