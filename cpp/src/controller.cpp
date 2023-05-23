@@ -4,16 +4,14 @@
 
 using namespace std;
 
-int *sort_ik_result(const Eigen::Matrix<double, 8, 6> &ik_result, const jointValues &initial_joints);
-
 static jointValues current_joints;
 static GripperStateVector current_gripper;
 
-static bool callbackdimerda = false;
+static bool joint_initialized = false;
 
 void Controller::joint_state_callback(const sensor_msgs::JointState::ConstPtr &msg)
 {
-    callbackdimerda = true;
+    joint_initialized = true;
     // cout << "joint_state_callback" << endl;
     int n = (real_robot) ? 6 : 8;
 
@@ -21,7 +19,6 @@ void Controller::joint_state_callback(const sensor_msgs::JointState::ConstPtr &m
     {
         current_gripper << msg->position[1], msg->position[2];
     }
-    // current_joints << msg->position[0], msg->position[6], msg->position[7], msg->position[3], msg->position[4], msg->position[5];
     current_joints << msg->position[4], msg->position[3], msg->position[0], msg->position[5], msg->position[6], msg->position[7];
     // cout << "current_joints " << current_joints << endl;
 }
@@ -35,7 +32,7 @@ Controller::Controller() : loop_rate(1000.)
     pub_des_jstate = node.advertise<std_msgs::Float64MultiArray>("/ur5/joint_group_pos_controller/command", 1000);
     pub_gripper_diameter = node.advertise<std_msgs::Int32>("/ur5/gripper_controller/command", 1);
 
-    while (!callbackdimerda)
+    while (!joint_initialized)
     {
         ros::spinOnce();
         loop_rate.sleep();
@@ -44,7 +41,6 @@ Controller::Controller() : loop_rate(1000.)
 
 void Controller::send_state(const jointValues &joint_pos)
 {
-    // std::cout << "q_des " << joint_pos.transpose() << std::endl;
 
     std_msgs::Float64MultiArray joint_state_msg_array;
     if (real_robot)
@@ -62,19 +58,13 @@ void Controller::send_state(const jointValues &joint_pos)
     {
         joint_state_msg_array.data[i] = joint_pos(i);
     }
-    /*
-    joint_state_msg_array.data[0] = joint_pos(4);
-    joint_state_msg_array.data[1] = joint_pos(3);
-    joint_state_msg_array.data[2] = joint_pos(0);
-    joint_state_msg_array.data[3] = joint_pos(5);
-    joint_state_msg_array.data[4] = joint_pos(1);
-    joint_state_msg_array.data[5] = joint_pos(2);
-    */
 
+    /*
     for (int i = 0; i < 8; i++)
     {
         cout << "joint_state_msg_array.data[" << i << "] " << joint_state_msg_array.data[i] << endl;
     }
+    */
 
     pub_des_jstate.publish(joint_state_msg_array);
 }
@@ -101,14 +91,14 @@ GripperStateVector Controller::get_gripper_state()
     return current_gripper;
 }
 
-void Controller::init_linear_filter(void)
+void Controller::init_filter(void)
 {
     cout << "init linear filter" << endl;
     filter_1 = current_joints;
     filter_2 = current_joints;
 }
 
-jointValues Controller::secondOrderFilter(const jointValues &input, const double rate, const double settling_time)
+jointValues Controller::second_order_filter(const jointValues &input, const double rate, const double settling_time)
 {
 
     double dt = 1 / rate;
@@ -122,7 +112,7 @@ bool Controller::move_to(const coordinates &position, const rotMatrix &rotation,
 {
     jointValues init_joint = current_joints;
     Eigen::Matrix<double, 8, 6> inverse_kinematics_res = ur5Inverse(position, rotation);
-    cout << "inverse_kinematics_res:\n " << inverse_kinematics_res << endl;
+    // cout << "inverse_kinematics_res:\n " << inverse_kinematics_res << endl;
 
     int *indexes = sort_ik_result(inverse_kinematics_res, init_joint);
 
@@ -134,93 +124,57 @@ bool Controller::move_to(const coordinates &position, const rotMatrix &rotation,
         joint_to_check << inverse_kinematics_res(index, 0), inverse_kinematics_res(index, 1), inverse_kinematics_res(index, 2),
             inverse_kinematics_res(index, 3), inverse_kinematics_res(index, 4), inverse_kinematics_res(index, 5);
 
+        /*
         cout << "joint_to_check: " << joint_to_check << endl;
         cout << "init_joint: " << init_joint << endl;
         cout << "init gripper" << current_gripper << endl;
+        */
 
         vector<double *> trajectory = vector<double *>();
-
-        double minT = 0.0;
-        double maxT = 1.0;
-        jointValues initial_position = init_joint;
-        jointValues final_position = joint_to_check;
-        double dt = 1 / (double)steps;
-
-        Matrix<double, 6, 4> A;
-        for (int i = 0; i < 6; i++)
+        for (int i = 0; i < steps; i++)
         {
-            Matrix<double, 4, 4> M;
-            M << 1, minT, minT * minT, minT * minT * minT,
-                0, 1, 2 * minT, 3 * minT * minT,
-                1, maxT, maxT * maxT, maxT * maxT * maxT,
-                0, 1, 2 * maxT, 3 * maxT * maxT;
-
-            Matrix<double, 4, 1> a, b;
-            b << initial_position(i), 0, final_position(i), 0;
-
-            a = M.inverse() * b;
-            A.row(i) = a.transpose();
+            trajectory.push_back(new double[6]);
         }
 
-        for (double t = minT; t <= maxT; t += dt)
-        {
-            double *th = new double[6];
-            for (int i = 0; i < 6; i++)
-            {
-
-                double q = A(i, 0) + A(i, 1) * t + A(i, 2) * t * t + A(i, 3) * t * t * t;
-                th[i] = q;
-            }
-
-            trajectory.push_back(th);
-        }
-
-        // print trajectory
-        for (int i = 0; i < trajectory.size(); i++)
-        {
-            cout << "Trajectory " << i << ": ";
-            for (int j = 0; j < 6; j++)
-            {
-                cout << trajectory.at(i)[j] << " ";
-            }
-            cout << endl;
-        }
+        ur5Trajectory(&trajectory, init_joint, joint_to_check, steps);
 
         if (check_trajectory(trajectory, steps))
         {
-            init_linear_filter();
+            init_filter();
 
+            cout << "Start moving to position: " << position.transpose() << endl;
             for (int j = 0; j < steps; j++)
             {
-                cout << "step: " << j << endl;
                 // get i element of variable "trajectory" and put it in new variable
                 jointValues des_not_linear;
                 double *traj_j = trajectory[j];
                 des_not_linear << traj_j[0], traj_j[1], traj_j[2],
                     traj_j[3], traj_j[4], traj_j[5];
 
-                cout << "des_not_linear: " << des_not_linear << endl;
-
                 // send the trajectory
-                cout << "sending trajectory" << endl;
+
                 while (ros::ok() && 0.05 < compute_error(des_not_linear, current_joints))
                 {
-                    cout << "error: " << compute_error(des_not_linear, current_joints) << endl;
-                    jointValues q_des = secondOrderFilter(des_not_linear, 10, 0.5);
+                    // cout << "error: " << compute_error(des_not_linear, current_joints) << endl;
+                    jointValues q_des = second_order_filter(des_not_linear, loop_frequency, 1);
                     // cout << "q_des: " << q_des << endl;
                     send_state(q_des);
                     loop_rate.sleep();
+
                     ros::spinOnce();
                 }
             }
-            cout << "Done" << endl;
+
+            cout << "Done\n------------\n"
+                 << endl;
+            ros::Duration(0.2).sleep();
             return true;
         }
     }
     return false;
 }
 
-int *sort_ik_result(const Eigen::Matrix<double, 8, 6> &ik_result, const jointValues &initial_joints)
+int *Controller::sort_ik_result(const Eigen::Matrix<double, 8, 6> &ik_result, const jointValues &initial_joints)
 {
     multimap<double, int> m;
     for (int i = 0; i < 8; i++)
@@ -235,6 +189,7 @@ int *sort_ik_result(const Eigen::Matrix<double, 8, 6> &ik_result, const jointVal
     int i = 0;
     for (auto const &it : m)
     {
+
         list[i++] = it.second;
     }
     return list;
@@ -251,7 +206,6 @@ bool Controller ::check_trajectory(vector<double *> traj, int step)
         double *traj_i = traj[i];
         joints << traj_i[0], traj_i[1], traj_i[2],
             traj_i[3], traj_i[4], traj_i[5];
-        // ur5Direct(joints, cord, rot);
 
         if (joints.norm() == 0)
         {
@@ -268,6 +222,7 @@ bool Controller ::check_trajectory(vector<double *> traj, int step)
                  << endl;
             return false;
         }
+        */
 
         if (abs(jacobian.determinant()) < 0.000001)
         {
@@ -284,7 +239,6 @@ bool Controller ::check_trajectory(vector<double *> traj, int step)
             cout << abs(svd.singularValues()(5)) << endl;
             return false;
         }
-        */
     }
     cout << "trajectory valid" << endl;
     return true;
@@ -313,13 +267,16 @@ double Controller::compute_error(const jointValues &first_vector, const jointVal
 void Controller::move_gripper_to(const int diameter)
 {
 
+    sent_gripper_diameter(diameter);
+}
+
+void Controller::print_current_pos_rot()
+{
     coordinates cord;
     rotMatrix rot;
     jointValues joints;
     joints = current_joints;
     ur5Direct(joints, cord, rot);
-    cout << "cord initial: " << cord << endl;
-    cout << "rot inital: " << rot << endl;
-
-    sent_gripper_diameter(diameter);
+    cout << "cord: " << cord << endl;
+    cout << "rot: " << rot << endl;
 }

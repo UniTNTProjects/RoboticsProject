@@ -31,9 +31,10 @@ private:
     void send_state(const jointValues &joint_pos);
     void sent_gripper_diameter(const int diameter);
     bool check_trajectory(vector<double *> traj, int step);
-    jointValues secondOrderFilter(const jointValues &input, const double rate, const double settling_time);
-    void init_linear_filter(void);
+    jointValues second_order_filter(const jointValues &input, const double rate, const double settling_time);
+    void init_filter(void);
     double compute_error(const jointValues &first_vector, const jointValues &second_vector);
+    int *sort_ik_result(const Eigen::Matrix<double, 8, 6> &ik_result, const jointValues &initial_joints);
 
 public:
     Controller();
@@ -41,6 +42,7 @@ public:
     GripperStateVector get_gripper_state();
     bool move_to(const coordinates &position, const rotMatrix &rotation, int steps);
     void move_gripper_to(const int diameter);
+    void print_current_pos_rot();
 };
 
 #endif
