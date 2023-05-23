@@ -21,8 +21,7 @@ private:
     jointValues filter_1;
     jointValues filter_2;
 
-    double loop_time = 0.;
-    double loop_frequency = 1000.;
+    double loop_frequency;
     ros::Publisher pub_des_jstate;
     ros::Publisher pub_gripper_diameter;
     ros::Subscriber sub_joint_state;
@@ -37,7 +36,7 @@ private:
     int *sort_ik_result(const Eigen::Matrix<double, 8, 6> &ik_result, const jointValues &initial_joints);
 
 public:
-    Controller();
+    Controller(double loop_frequency);
     jointValues get_joint_state();
     GripperStateVector get_gripper_state();
     bool move_to(const coordinates &position, const rotMatrix &rotation, int steps);

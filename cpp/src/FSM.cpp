@@ -4,7 +4,7 @@
 FSM::FSM()
 {
     currentState = &Wait::getInstance();
-    controller = Controller();
+    controller = Controller(1000.);
 }
 
 void FSM::setState(FSMState &newState)
@@ -32,7 +32,6 @@ int main(int argc, char **argv)
     fsm = FSM();
     while (true)
     {
-        /* code */
         fsm.toggle();
     }
 

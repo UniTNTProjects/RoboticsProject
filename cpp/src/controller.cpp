@@ -23,8 +23,9 @@ void Controller::joint_state_callback(const sensor_msgs::JointState::ConstPtr &m
     // cout << "current_joints " << current_joints << endl;
 }
 
-Controller::Controller() : loop_rate(1000.)
+Controller::Controller(double loop_frequency) : loop_rate(loop_frequency)
 {
+    this->loop_frequency = loop_frequency;
     node.getParam("/real_robot", real_robot);
     node.getParam("/gripper_sim", gripper_sim);
 
