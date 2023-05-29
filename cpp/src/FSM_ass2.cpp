@@ -5,11 +5,14 @@ using namespace std;
 void Wait::toggle(FSM *fsm)
 {
 
-    if (fsm->positions.size() > 10)
+    if (fsm->counter++ < 1)
     {
-        return;
+        fsm->setState(Move::getInstance());
     }
-    fsm->setState(Move::getInstance());
+    else
+    {
+        fsm->isDone = true;
+    }
 }
 
 void Wait::enter(FSM *fsm)
@@ -21,13 +24,18 @@ void Wait::enter(FSM *fsm)
 void Wait::exit(FSM *fsm)
 {
     // Do something
+    coordinates a, b;
+    a << 0.2, -0.2, 0.6;
+    b << 0.3, -0.3, 0.6;
 
-    fsm->positions.push_back(make_tuple(-0.8172,
-                                        -0.2329,
-                                        0.0628));
-    fsm->positions.push_back(make_tuple(-0.75,
-                                        -0.25,
-                                        0.05));
+    rotMatrix rot;
+    rot << 1.0, 0.0, 0.0,
+        0.0, 1.0, 0.0,
+        0.0, 0.0, 1.0;
+
+    fsm->addPosition(a, rot);
+    fsm->addPosition(b, rot);
+
     cout << "Exited Wait State" << endl
          << endl;
 }
@@ -40,46 +48,36 @@ FSMState &Wait::getInstance()
 
 void Move::toggle(FSM *fsm)
 {
-    cout << "currentPosIndex: " << fsm->currentPosIndex << endl;
 
-    if (fsm->currentPosIndex % 2 == 0)
+    if (fsm->isError)
     {
-        // move to next position
-        fsm->currentPosIndex++;
-
-        cout << "Moving to position: " << get<0>(fsm->positions[fsm->currentPosIndex]) << ", " << get<1>(fsm->positions[fsm->currentPosIndex]) << ", " << get<2>(fsm->positions[fsm->currentPosIndex]) << endl;
-        coordinates cord;
-        cord << get<0>(fsm->positions[fsm->currentPosIndex]), get<1>(fsm->positions[fsm->currentPosIndex]), get<2>(fsm->positions[fsm->currentPosIndex]);
-        rotMatrix rot;
-        rot << 1.0, 0.0, 0.0,
-            0.0, 0.0, -1.0,
-            0.0, 1.0, 0.0;
-        fsm->controller.move_to(cord, rot, 50);
-        //  if we have picked up an object already enter place down state
-        fsm->setState(PlaceDown::getInstance());
+        fsm->setState(Wait::getInstance());
     }
     else
     {
-        // move to next position
-        fsm->currentPosIndex++;
-
-        cout << "Moving to position: " << get<0>(fsm->positions[fsm->currentPosIndex]) << ", " << get<1>(fsm->positions[fsm->currentPosIndex]) << ", " << get<2>(fsm->positions[fsm->currentPosIndex]) << endl;
-        coordinates cord;
-        cord << get<0>(fsm->positions[fsm->currentPosIndex]), get<1>(fsm->positions[fsm->currentPosIndex]), get<2>(fsm->positions[fsm->currentPosIndex]);
-        rotMatrix rot;
-        rot << 0.0, -1.0, 0.0,
-            1.0, 0.0, 0.0,
-            0.0, 0.0, 1.0;
-        fsm->controller.move_to(cord, rot, 50);
-        //  if we dont have picked up an object already enter pick up state
-        fsm->setState(PickUp::getInstance());
+        if (fsm->isGripping)
+        {
+            fsm->setState(PlaceDown::getInstance());
+        }
+        else
+        {
+            fsm->setState(PickUp::getInstance());
+        }
     }
 }
 
 void Move::enter(FSM *fsm)
 {
     cout << "Entered Move State" << endl;
+
     // Do something
+    pair<coordinates, rotMatrix> nextPos = fsm->getNextPosition();
+    if (!(fsm->moveTo(nextPos.first, nextPos.second)))
+    {
+        fsm->isError = true;
+        cout << "Error moving to position: " << nextPos.first << endl;
+    }
+
     return;
 }
 
@@ -105,9 +103,7 @@ void PickUp::toggle(FSM *fsm)
 void PickUp::enter(FSM *fsm)
 {
     cout << "Entered PickUp State" << endl;
-
-    fsm->controller.move_gripper_to(10);
-    cout << "Picked up object at position: " << get<0>(fsm->positions[fsm->currentPosIndex]) << ", " << get<1>(fsm->positions[fsm->currentPosIndex]) << ", " << get<2>(fsm->positions[fsm->currentPosIndex]) << endl;
+    fsm->pickUp();
 }
 
 void PickUp::exit(FSM *fsm)
@@ -134,10 +130,7 @@ void PlaceDown::enter(FSM *fsm)
 {
     cout << "Entered PlaceDown State" << endl;
 
-    // Do something
-    fsm->controller.move_gripper_to(60);
-
-    cout << "Placed down object at position: " << get<0>(fsm->positions[fsm->currentPosIndex]) << ", " << get<1>(fsm->positions[fsm->currentPosIndex]) << ", " << get<2>(fsm->positions[fsm->currentPosIndex]) << endl;
+    fsm->placeDown();
 }
 
 void PlaceDown::exit(FSM *fsm)

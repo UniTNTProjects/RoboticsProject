@@ -15,9 +15,9 @@ int main(int argc, char **argv)
     /* MOVEMENT DEMO */
 
     /*
-        +z = down
         +x = left
         +y = backwards
+        +z = down
     */
 
     coordinates cord0, cord1, cord2, cord3, cord4, cord5;

@@ -4,11 +4,6 @@
 
 using namespace std;
 
-static jointValues current_joints;
-static GripperStateVector current_gripper;
-
-static bool joint_initialized = false;
-
 void Controller::joint_state_callback(const sensor_msgs::JointState::ConstPtr &msg)
 {
     joint_initialized = true;
@@ -59,11 +54,11 @@ void Controller::send_state(const jointValues &joint_pos)
     {
         joint_state_msg_array.data[i] = joint_pos(i);
     }
-
     /*
     for (int i = 0; i < 8; i++)
     {
         cout << "joint_state_msg_array.data[" << i << "] " << joint_state_msg_array.data[i] << endl;
+
     }
     */
 
@@ -92,6 +87,13 @@ GripperStateVector Controller::get_gripper_state()
     return current_gripper;
 }
 
+pair<coordinates, rotMatrix> Controller::get_position()
+{
+    coordinates cord;
+    rotMatrix rotation;
+    ur5Direct(current_joints, cord, rotation);
+    return make_pair(cord, rotation);
+}
 void Controller::init_filter(void)
 {
     cout << "init linear filter" << endl;
@@ -115,7 +117,7 @@ bool Controller::move_to(const coordinates &position, const rotMatrix &rotation,
     Eigen::Matrix<double, 8, 6> inverse_kinematics_res = ur5Inverse(position, rotation);
     // cout << "inverse_kinematics_res:\n " << inverse_kinematics_res << endl;
 
-    int *indexes = sort_ik_result(inverse_kinematics_res, init_joint);
+    int *indexes = sort_inverse(inverse_kinematics_res, init_joint);
 
     for (int i = 0; i < 8; i++)
     {
@@ -143,7 +145,7 @@ bool Controller::move_to(const coordinates &position, const rotMatrix &rotation,
         {
             init_filter();
 
-            cout << "Start moving to position: " << position.transpose() << endl;
+            cout << "\n------------\nStart moving to position: " << position.transpose() << endl;
             for (int j = 0; j < steps; j++)
             {
                 // get i element of variable "trajectory" and put it in new variable
@@ -154,13 +156,13 @@ bool Controller::move_to(const coordinates &position, const rotMatrix &rotation,
 
                 // send the trajectory
 
-                while (ros::ok() && 0.05 < compute_error(des_not_linear, current_joints))
+                while (ros::ok() && this->acceptable_error < calculate_distance(des_not_linear, current_joints))
                 {
-                    // cout << "error: " << compute_error(des_not_linear, current_joints) << endl;
+                    // cout << "error: " << calculate_distance(des_not_linear, current_joints) << endl;
                     jointValues q_des = second_order_filter(des_not_linear, loop_frequency, 1);
                     // cout << "q_des: " << q_des << endl;
                     send_state(q_des);
-                    loop_rate.sleep();
+                    this->loop_rate.sleep();
 
                     ros::spinOnce();
                 }
@@ -175,28 +177,34 @@ bool Controller::move_to(const coordinates &position, const rotMatrix &rotation,
     return false;
 }
 
-int *Controller::sort_ik_result(const Eigen::Matrix<double, 8, 6> &ik_result, const jointValues &initial_joints)
+int *Controller::sort_inverse(Eigen::Matrix<double, 8, 6> &inverse_kinematics_res, const jointValues &initial_joints)
 {
-    multimap<double, int> m;
+    multimap<double, int> sorted_inverse;
+
     for (int i = 0; i < 8; i++)
     {
-        jointValues comp;
-        comp << ik_result(i, 0), ik_result(i, 1), ik_result(i, 2),
-            ik_result(i, 3), ik_result(i, 4), ik_result(i, 5);
-        m.insert(pair<double, int>((comp - initial_joints).norm(), i));
+        jointValues inverse_i;
+        inverse_i << inverse_kinematics_res(i, 0), inverse_kinematics_res(i, 1), inverse_kinematics_res(i, 2),
+            inverse_kinematics_res(i, 3), inverse_kinematics_res(i, 4), inverse_kinematics_res(i, 5);
+
+        // double diff = (inverse_i - initial_joints).norm(); //doesnt take into account the angle normalization
+        double diff = calculate_distance(inverse_i, initial_joints);
+        sorted_inverse.insert(pair<double, int>(diff, i));
     }
 
-    int *list = (int *)malloc(sizeof(int) * 8);
+    int *sorted_indexes = new int[8];
     int i = 0;
-    for (auto const &it : m)
-    {
 
-        list[i++] = it.second;
+    for (std::multimap<double, int>::iterator it = sorted_inverse.begin(); it != sorted_inverse.end(); ++it)
+    {
+        sorted_indexes[i++] = it->second;
+        // cout << "value of sort:" << it->first << ", " << it->second << endl;
     }
-    return list;
+
+    return sorted_indexes;
 }
 
-bool Controller ::check_trajectory(vector<double *> traj, int step)
+bool Controller::check_trajectory(vector<double *> traj, int step)
 {
     cout << "check trajectory" << endl;
     for (int i = 0; i < step; i++)
@@ -204,9 +212,17 @@ bool Controller ::check_trajectory(vector<double *> traj, int step)
         coordinates cord;
         rotMatrix rot;
         jointValues joints;
-        double *traj_i = traj[i];
-        joints << traj_i[0], traj_i[1], traj_i[2],
-            traj_i[3], traj_i[4], traj_i[5];
+        joints << traj[i][0], traj[i][1], traj[i][2],
+            traj[i][3], traj[i][4], traj[i][5];
+
+        ur5Direct(joints, cord, rot);
+
+        if (!(cord(0) > min_x && cord(0) < max_x && cord(1) > min_y && cord(1) < max_y && cord(2) > min_z && cord(2) < max_z))
+        {
+            cout << "----------\ntrajectory invalid 0\ncordinates of trajectory does not fit in the workspace:" << cord.transpose() << "\n-------------\n"
+                 << endl;
+            return false;
+        }
 
         if (joints.norm() == 0)
         {
@@ -245,24 +261,27 @@ bool Controller ::check_trajectory(vector<double *> traj, int step)
     return true;
 }
 
-double norm_angle(double angle)
+double Controller::norm_angle(double angle)
 {
     if (angle > 0)
-        angle = fmod(angle, 2 * M_PI);
+    {
+        return fmod(angle, 2 * M_PI);
+    }
     else
-        angle = 2 * M_PI - fmod(-angle, 2 * M_PI);
-    return angle;
+    {
+        return 2 * M_PI - fmod(-angle, 2 * M_PI);
+    }
 }
 
-double Controller::compute_error(const jointValues &first_vector, const jointValues &second_vector)
+double Controller::calculate_distance(const jointValues &first_vector, const jointValues &second_vector)
 {
-    jointValues current_normed, desired_normed;
+    jointValues first_norm, second_norm;
     for (int i = 0; i < 6; i++)
     {
-        current_normed(i) = norm_angle(second_vector(i));
-        desired_normed(i) = norm_angle(first_vector(i));
+        first_norm(i) = norm_angle(second_vector(i));
+        second_norm(i) = norm_angle(first_vector(i));
     }
-    return (current_normed - desired_normed).norm();
+    return (first_norm - second_norm).norm();
 }
 
 void Controller::move_gripper_to(const int diameter)
