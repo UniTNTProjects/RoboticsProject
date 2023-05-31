@@ -22,7 +22,7 @@
       </collision>
       <visual name="visual">
         <geometry>
-          <mesh><uri>/home/emanuele/ros_ws/src/locosim/RoboticsProject/models/X1-Y2-Z2-CHAMFER/X1-Y2-Z2-TWINFILLET.stl</uri></mesh>
+          <mesh><uri>/home/emanuele/ros_ws/src/locosim/RoboticsProject/models/X1-Y2-Z2-TWINFILLET/X1-Y2-Z2-TWINFILLET.stl</uri></mesh>
         </geometry>
       </visual>
     </link>
