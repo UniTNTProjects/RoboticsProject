@@ -19,11 +19,13 @@ public:
 
     bool placeDown();
     bool pickUp();
-    bool moveTo(coordinates pos, rotMatrix rot);
+    bool moveTo(coordinates pos, rotMatrix rot, bool pick_or_place);
     void moveGripperTo(int diameter);
     bool isPositionQueueEmpty();
     void addPosition(coordinates pos, rotMatrix rot);
     pair<coordinates, rotMatrix> getNextPosition();
+    coordinates translateBlockCordToRobotCord(coordinates blockCord);
+    coordinates getCurrentPosition();
 
     bool isGripping = false;
     bool isError = false;
@@ -35,4 +37,11 @@ private:
     queue<pair<coordinates, rotMatrix>> *positions;
     Controller *controller;
     FSMState *currentState;
+
+    int closeGripperDiameter = 35;
+    int openGripperDiameter = 70;
+    double heightPickAndPlace = 0.14;
+
+    coordinates defaultCord;
+    rotMatrix defaultRot;
 };

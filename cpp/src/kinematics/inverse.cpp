@@ -8,7 +8,8 @@ using namespace Eigen;
 using namespace std;
 
 // Inverse Kineamtics of UR5
-double normalize(double angle){
+double normalize(double angle)
+{
     if (angle > 0)
     {
         return fmod(angle, 2 * M_PI);
@@ -108,7 +109,7 @@ Matrix<double, 8, 6> ur5Inverse(coordinates pe, rotMatrix re)
     /*
      double th0_0 = atan2(p50[1], p50[0]) + acos(D[3] / (sqrt(pow(p50[1], 2) + pow(p50[0], 2)))) + M_PI/2;
      double th0_1 = atan2(p50[1], p50[0]) - acos(D[3] / (sqrt(pow(p50[1], 2) + pow(p50[0], 2)))) + M_PI/2;
-     */ 
+     */
     double th0_0 = real(atan2(p50[1], p50[0]) * complex_converter + acos(D[3] / (sqrt(pow(p50[1], 2) + pow(p50[0], 2))) * complex_converter) + M_PI / 2);
     double th0_1 = real(atan2(p50[1], p50[0]) * complex_converter - acos(D[3] / (sqrt(pow(p50[1], 2) + pow(p50[0], 2))) * complex_converter) + M_PI / 2);
 
@@ -183,7 +184,7 @@ Matrix<double, 8, 6> ur5Inverse(coordinates pe, rotMatrix re)
     // cout << "th3_0:\n" << Xhat43 << endl;
     // cout << endl;
     double th3_0 = real(atan2(Xhat43(1), Xhat43(0)) * complex_converter);
-    
+
     T43m = T32f(th2_1).inverse() * T21f(th1_1).inverse() * T10f(th0_0).inverse() * T60 * T65f(th5_1).inverse() * T54f(th4_1).inverse();
     Xhat43 << T43m(0, 0), T43m(1, 0), T43m(2, 0);
     // cout << "th3_1:\n" << Xhat43 << endl;
@@ -226,14 +227,14 @@ Matrix<double, 8, 6> ur5Inverse(coordinates pe, rotMatrix re)
     // cout << endl;
     double th3_7 = real(atan2(Xhat43(1), Xhat43(0)) * complex_converter);
 
-    th << normalize(th0_0), normalize(th1_0), normalize(th2_0), normalize(th3_0), normalize(th4_0), normalize(th5_0),
-        normalize(th0_0), normalize(th1_1), normalize(th2_1), normalize(th3_1), normalize(th4_1), normalize(th5_1),
-        normalize(th0_1), normalize(th1_2), normalize(th2_2), normalize(th3_2), normalize(th4_2), normalize(th5_2),
-        normalize(th0_1), normalize(th1_3), normalize(th2_3), normalize(th3_3), normalize(th4_3), normalize(th5_3),
-        normalize(th0_0), normalize(th1_4), normalize(th2_4), normalize(th3_4), normalize(th4_0), normalize(th5_0),
-        normalize(th0_0), normalize(th1_5), normalize(th2_5), normalize(th3_5), normalize(th4_1), normalize(th5_1),
-        normalize(th0_1), normalize(th1_6), normalize(th2_6), normalize(th3_6), normalize(th4_2), normalize(th5_2),
-        normalize(th0_1), normalize(th1_7), normalize(th2_7), normalize(th3_7), normalize(th4_3), normalize(th5_3);
+    th << (th0_0), (th1_0), (th2_0), (th3_0), (th4_0), (th5_0),
+        (th0_0), (th1_1), (th2_1), (th3_1), (th4_1), (th5_1),
+        (th0_1), (th1_2), (th2_2), (th3_2), (th4_2), (th5_2),
+        (th0_1), (th1_3), (th2_3), (th3_3), (th4_3), (th5_3),
+        (th0_0), (th1_4), (th2_4), (th3_4), (th4_0), (th5_0),
+        (th0_0), (th1_5), (th2_5), (th3_5), (th4_1), (th5_1),
+        (th0_1), (th1_6), (th2_6), (th3_6), (th4_2), (th5_2),
+        (th0_1), (th1_7), (th2_7), (th3_7), (th4_3), (th5_3);
 
     return th;
 }

@@ -28,10 +28,59 @@ Controller::Controller(double loop_frequency) : loop_rate(loop_frequency)
     pub_des_jstate = node.advertise<std_msgs::Float64MultiArray>("/ur5/joint_group_pos_controller/command", 1000);
     pub_gripper_diameter = node.advertise<std_msgs::Int32>("/ur5/gripper_controller/command", 1);
 
+    home_position << -0.465794, -1.46997, -2.16267, -1.07975, -1.5708, 2.03659;
     while (!joint_initialized)
     {
         ros::spinOnce();
         loop_rate.sleep();
+    }
+}
+
+bool Controller::move_with_steps(const jointValues &values, const bool order[6])
+{
+
+    vector<int> joint_number_second_given;
+    jointValues firstPos, secondPos;
+    for (int i = 0; i < 6; i++)
+    {
+        if (order[i])
+        {
+            firstPos(i) = current_joints(i);
+            secondPos(i) = values(i);
+        }
+        else
+        {
+            firstPos(i) = values(i);
+            secondPos(i) = values(i);
+        }
+    }
+    vector<double *> trajectory = vector<double *>();
+    for (int i = 0; i < steps; i++)
+    {
+        trajectory.push_back(new double[6]);
+    }
+
+    vector<double *> trajectory2 = vector<double *>();
+    for (int i = 0; i < steps; i++)
+    {
+        trajectory2.push_back(new double[6]);
+    }
+
+    if (init_verify_trajectory(&trajectory, current_joints, firstPos, this->steps, false) && init_verify_trajectory(&trajectory2, firstPos, secondPos, this->steps, false))
+    {
+
+        if (move_inside(this->steps, firstPos, false, &trajectory))
+        {
+            return move_inside(this->steps, secondPos, false, &trajectory2);
+        }
+        else
+        {
+            return false;
+        }
+    }
+    else
+    {
+        return false;
     }
 }
 
@@ -67,11 +116,16 @@ void Controller::send_state(const jointValues &joint_pos)
 
 void Controller::sent_gripper_diameter(const int diameter)
 {
+    if (test_fast_mode)
+    {
+        cout << "fast test mode, skip moving gripper" << endl;
+        return;
+    }
     std::cout << "moving gripper to diameter " << diameter << std::endl;
     std_msgs::Int32 gripper_diameter_msg;
     gripper_diameter_msg.data = diameter;
     pub_gripper_diameter.publish(gripper_diameter_msg);
-    ros::Duration(3.0).sleep();
+    ros::Duration(sleep_time_after_gripper).sleep();
     cout << "gripper moved" << endl;
 }
 
@@ -111,11 +165,13 @@ jointValues Controller::second_order_filter(const jointValues &input, const doub
     return filter_2;
 }
 
-bool Controller::move_to(const coordinates &position, const rotMatrix &rotation, int steps)
+bool Controller::move_to(const coordinates &position, const rotMatrix &rotation, int steps, bool pick_or_place, bool homing)
 {
+    cout << "Requested move to " << position.transpose() << endl;
+
     jointValues init_joint = current_joints;
     Eigen::Matrix<double, 8, 6> inverse_kinematics_res = ur5Inverse(position, rotation);
-    // cout << "inverse_kinematics_res:\n " << inverse_kinematics_res << endl;
+    cout << "inverse_kinematics_res:\n " << inverse_kinematics_res.transpose() << endl;
 
     int *indexes = sort_inverse(inverse_kinematics_res, init_joint);
 
@@ -139,42 +195,115 @@ bool Controller::move_to(const coordinates &position, const rotMatrix &rotation,
             trajectory.push_back(new double[6]);
         }
 
-        ur5Trajectory(&trajectory, init_joint, joint_to_check, steps);
-
-        if (check_trajectory(trajectory, steps))
+        if (init_verify_trajectory(&trajectory, init_joint, joint_to_check, steps, pick_or_place))
         {
-            init_filter();
-
-            cout << "\n------------\nStart moving to position: " << position.transpose() << endl;
-            for (int j = 0; j < steps; j++)
-            {
-                // get i element of variable "trajectory" and put it in new variable
-                jointValues des_not_linear;
-                double *traj_j = trajectory[j];
-                des_not_linear << traj_j[0], traj_j[1], traj_j[2],
-                    traj_j[3], traj_j[4], traj_j[5];
-
-                // send the trajectory
-
-                while (ros::ok() && this->acceptable_error < calculate_distance(des_not_linear, current_joints))
-                {
-                    // cout << "error: " << calculate_distance(des_not_linear, current_joints) << endl;
-                    jointValues q_des = second_order_filter(des_not_linear, loop_frequency, 1);
-                    // cout << "q_des: " << q_des << endl;
-                    send_state(q_des);
-                    this->loop_rate.sleep();
-
-                    ros::spinOnce();
-                }
-            }
-
-            cout << "Done\n------------\n"
-                 << endl;
-            ros::Duration(0.2).sleep();
-            return true;
+            return move_inside(steps, joint_to_check, pick_or_place, &trajectory);
         }
     }
+
+    cout << "No valid trajectory found" << endl;
+
+    if (!homing)
+    {
+        cout << "Trying homing" << endl;
+        coordinates cord;
+        rotMatrix rotation;
+        ur5Direct(this->home_position, cord, rotation);
+        if (move_to(cord, rotation, steps, false, true))
+        {
+            return move_to(position, rotation, steps, pick_or_place, true);
+        }
+    }
+
+    cout << "Trying with 2 steps" << endl;
+    for (int i = 0; i < 8; i++)
+    {
+        int index = indexes[i];
+        jointValues joint_to_check;
+        joint_to_check << inverse_kinematics_res(index, 0), inverse_kinematics_res(index, 1), inverse_kinematics_res(index, 2),
+            inverse_kinematics_res(index, 3), inverse_kinematics_res(index, 4), inverse_kinematics_res(index, 5);
+        bool configurations_of_orders[4][6] = {
+            {false, false, false, false, true, true},
+            {false, false, false, true, true, true},
+            {true, true, true, false, false, false},
+            {true, true, false, false, false, false}};
+        for (int i = 0; i < 4; i++)
+        {
+            bool *order = configurations_of_orders[i];
+
+            if (move_with_steps(joint_to_check, order))
+            {
+                return true;
+            }
+        }
+    }
+    cout << "Move with 2 steps failed" << endl;
+
     return false;
+}
+
+bool Controller::init_verify_trajectory(vector<double *> *Th, jointValues init_joint, jointValues final_joint, int steps, bool pick_or_place)
+{
+    ur5Trajectory(Th, init_joint, final_joint, steps);
+    return check_trajectory(*Th, steps, pick_or_place);
+}
+
+bool Controller::move_inside(int steps, jointValues joint_to_check, bool pick_or_place, vector<double *> *trajectory)
+{
+    coordinates cord;
+    rotMatrix rotation;
+    ur5Direct(joint_to_check, cord, rotation);
+
+    cout << "moving to configuration: " << joint_to_check.transpose() << endl;
+
+    init_filter();
+
+    cout << "\n------------\nStart moving to position: " << cord.transpose() << endl;
+    bool use_filter = true;
+    if (test_fast_mode)
+    {
+        use_filter = false;
+    }
+
+    if (!use_filter)
+    {
+        cout << "\n....\n NOT USING FILTER\n....\n"
+             << endl;
+    }
+    for (int j = 0; j < steps; j++)
+    {
+        // get i element of variable "trajectory" and put it in new variable
+        jointValues des_not_linear;
+        double *traj_j = (*trajectory)[j];
+        des_not_linear << traj_j[0], traj_j[1], traj_j[2],
+            traj_j[3], traj_j[4], traj_j[5];
+
+        // cout << "des_not_linear: " << des_not_linear << endl;
+        //  send the trajectory
+
+        while (ros::ok() && this->acceptable_error < calculate_distance(des_not_linear, current_joints))
+        {
+            // cout << "error: " << calculate_distance(des_not_linear, current_joints) << endl;
+            jointValues q_des = second_order_filter(des_not_linear, loop_frequency, 1);
+            // cout << "q_des: " << q_des << endl;
+            if (use_filter)
+            {
+                send_state(q_des);
+            }
+            else
+            {
+                send_state(des_not_linear);
+            }
+            this->loop_rate.sleep();
+
+            ros::spinOnce();
+        }
+    }
+
+    cout << "Done\n------------\n"
+         << endl;
+    ros::Duration(sleep_time_after_movement).sleep();
+    return true;
 }
 
 int *Controller::sort_inverse(Eigen::Matrix<double, 8, 6> &inverse_kinematics_res, const jointValues &initial_joints)
@@ -187,8 +316,8 @@ int *Controller::sort_inverse(Eigen::Matrix<double, 8, 6> &inverse_kinematics_re
         inverse_i << inverse_kinematics_res(i, 0), inverse_kinematics_res(i, 1), inverse_kinematics_res(i, 2),
             inverse_kinematics_res(i, 3), inverse_kinematics_res(i, 4), inverse_kinematics_res(i, 5);
 
-        // double diff = (inverse_i - initial_joints).norm(); //doesnt take into account the angle normalization
-        double diff = calculate_distance(inverse_i, initial_joints);
+        double diff = (inverse_i - initial_joints).norm(); // doesnt take into account the angle normalization
+        // double diff = calculate_distance(inverse_i, initial_joints);
         sorted_inverse.insert(pair<double, int>(diff, i));
     }
 
@@ -204,9 +333,9 @@ int *Controller::sort_inverse(Eigen::Matrix<double, 8, 6> &inverse_kinematics_re
     return sorted_indexes;
 }
 
-bool Controller::check_trajectory(vector<double *> traj, int step)
+bool Controller::check_trajectory(vector<double *> traj, int step, bool pick_or_place)
 {
-    cout << "check trajectory" << endl;
+    // cout << "check trajectory" << endl;
     for (int i = 0; i < step; i++)
     {
         coordinates cord;
@@ -219,8 +348,19 @@ bool Controller::check_trajectory(vector<double *> traj, int step)
 
         if (!(cord(0) > min_x && cord(0) < max_x && cord(1) > min_y && cord(1) < max_y && cord(2) > min_z && cord(2) < max_z))
         {
-            cout << "----------\ntrajectory invalid 0\ncordinates of trajectory does not fit in the workspace:" << cord.transpose() << "\n-------------\n"
-                 << endl;
+            cout << "coordinates of trajectory does not fit in the workspace:" << cord.transpose() << endl;
+            return false;
+        }
+
+        if (!pick_or_place && cord(2) > max_z_moving)
+        {
+            cout << "cord z wrong: " << cord.transpose() << endl;
+            return false;
+        }
+
+        if (!pick_or_place && cord(2) > max_z_near_end_table && cord(1) > max_y_near_end_table)
+        {
+            cout << "cord end table wrong: " << cord.transpose() << endl;
             return false;
         }
 
@@ -231,28 +371,27 @@ bool Controller::check_trajectory(vector<double *> traj, int step)
 
         MatrixXd jacobian = ur5Jac(joints);
         // cout << "jacobian: " << jacobian << endl;
-        /*
-        if (joints(2) > 0.74 && joints(1) > -0.4)
+
+        if (joints(1) > -0.2)
         {
-            cout << "----------\ntrajectory invalid 0" << endl;
-            cout << "not valid values\n-------------\n"
-                 << endl;
+            cout << "joints(1) > -0.2" << endl;
             return false;
         }
-        */
 
         if (abs(jacobian.determinant()) < 0.000001)
         {
+            /*
             cout << "----------\ntrajectory invalid 1" << endl;
             cout << "determinant of jacobian is " << abs(jacobian.determinant()) << "\n-------------\n"
                  << endl;
+            */
             return false;
         }
 
         Eigen::JacobiSVD<Eigen::MatrixXd> svd(jacobian, Eigen::ComputeThinU | Eigen::ComputeThinV);
         if (abs(svd.singularValues()(5)) < 0.0000001)
         {
-            cout << "trajectory invalid 2" << endl;
+            // cout << "trajectory invalid 2" << endl;
             cout << abs(svd.singularValues()(5)) << endl;
             return false;
         }

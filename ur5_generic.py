@@ -48,7 +48,7 @@ class Ur5Generic(BaseControllerFixed):
     def __init__(self, robot_name="ur5"):
         super().__init__(robot_name=robot_name)
         self.real_robot = conf.robot_params[self.robot_name]['real_robot']
-        self.homing_flag = True
+        self.homing_flag = False
         if (conf.robot_params[self.robot_name]['control_type'] == "torque"):
             self.use_torque_control = 1
         else:
@@ -163,7 +163,7 @@ class Ur5Generic(BaseControllerFixed):
         rate = ros.Rate(1/conf.robot_params[p.robot_name]['dt'])
 
         time = 0
-        max_time = 3
+        max_time = 2
 
         while time < max_time and abs(gripper_dest-self.controller_manager.gm.getDesGripperJoints()[0]) > 0.01:
             self.controller_manager.gm.move_gripper(gripper_diameter)
