@@ -109,9 +109,15 @@ Matrix<double, 8, 6> ur5Inverse(coordinates pe, rotMatrix re)
     /*
      double th0_0 = atan2(p50[1], p50[0]) + acos(D[3] / (sqrt(pow(p50[1], 2) + pow(p50[0], 2)))) + M_PI/2;
      double th0_1 = atan2(p50[1], p50[0]) - acos(D[3] / (sqrt(pow(p50[1], 2) + pow(p50[0], 2)))) + M_PI/2;
+<<<<<<< HEAD
      */
     double th0_0 = real(atan2(p50[1], p50[0]) * complex_converter + acos(D[3] / (sqrt(pow(p50[1], 2) + pow(p50[0], 2))) * complex_converter) + M_PI / 2);
     double th0_1 = real(atan2(p50[1], p50[0]) * complex_converter - acos(D[3] / (sqrt(pow(p50[1], 2) + pow(p50[0], 2))) * complex_converter) + M_PI / 2);
+=======
+     */ 
+    double th0_0 = real(atan2(p50[1], p50[0]) * complex_converter + acos(D[3] / (sqrt(pow(p50[1], 2) + pow(p50[0], 2)))) * complex_converter + M_PI / 2);
+    double th0_1 = real(atan2(p50[1], p50[0]) * complex_converter - acos(D[3] / (sqrt(pow(p50[1], 2) + pow(p50[0], 2)))) * complex_converter + M_PI / 2);
+>>>>>>> b7cf42ac6558c891e555a7ba1cb4ea492df33b63
 
     // finding th5
     double th4_0 = real(acos((pe[0] * sin(th0_0) - pe[1] * cos(th0_0) - D[3]) / D[5] * complex_converter));
