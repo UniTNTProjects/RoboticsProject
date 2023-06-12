@@ -1,0 +1,6 @@
+*.png
+*.jpg
+*.txt
+**/*.png
+**/*.jpg
+computer_vision/yolo/**

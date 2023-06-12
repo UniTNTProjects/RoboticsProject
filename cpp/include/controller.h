@@ -74,6 +74,8 @@ public:
     void move_gripper_to(const int diameter);
     void print_current_pos_rot();
 
+    ros::ServiceClient get_ins;
+
     const int steps = 30;
 };
 
