@@ -98,7 +98,7 @@ class Detector:
     def publish_bounding_boxes(self):
         # Create the message
         msg = BoundingBoxes()
-        for key, box in self.boxes.items():
+        for _key, box in self.boxes.items():
             msg.boxes.append(box)
         # for key, box in self.silhouette.items():
         #     msg.silhouttes.append(box)

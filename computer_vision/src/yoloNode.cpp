@@ -10,6 +10,51 @@ bool init_sil = false;
 ros::ServiceClient pc_client;
 ros::ServiceServer getPoints_server;
 
+struct Instruction
+{
+    computer_vision::Points block;
+    computer_vision::Points sil;
+};
+
+bool checkOnSilhouette(computer_vision::BoundingBox block, computer_vision::BoundingBox sil)
+{
+    int offset = 5;
+    if (
+        block.xmin >= sil.xmin - offset &&
+        block.xmax <= sil.xmax + offset &&
+        block.ymin >= sil.ymin - offset &&
+        block.ymax <= sil.ymax + offset)
+    {
+        return true;
+    }
+    return false;
+}
+
+bool checkSameBBox(computer_vision::BoundingBox box1, computer_vision::BoundingBox box2)
+{
+    if (
+        abs(box1.xmin - box2.xmin) <= 2 &&
+        abs(box1.ymin - box2.ymin) <= 2 &&
+        abs(box1.xmax - box2.xmax) <= 2 &&
+        abs(box1.ymax - box2.ymax) <= 2)
+    {
+        return true;
+    }
+    return false;
+}
+
+computer_vision::BoundingBox getSilhouette(int class_n)
+{
+    for (const auto &box : sil)
+    {
+        if (box.first == class_n)
+        {
+            return box.second;
+        }
+    }
+    return computer_vision::BoundingBox();
+}
+
 void robot2DImageCallback(const computer_vision::BoundingBoxes &msg)
 {
 
@@ -35,10 +80,8 @@ void robot2DImageCallback(const computer_vision::BoundingBoxes &msg)
         {
             for (int i = 0; i < blocks.size(); i++)
             {
-                if ((abs(box.xmin - blocks[i].second.xmin) <= 2 &&
-                     abs(box.ymin - blocks[i].second.ymin) <= 2 &&
-                     abs(box.xmax - blocks[i].second.xmax) <= 2 &&
-                     abs(box.ymax - blocks[i].second.ymax) <= 2))
+                if (checkSameBBox(box, blocks[i].second) ||
+                    checkOnSilhouette(box, sil[box.class_n].second))
                 {
                     to_insert = false;
                     break;
@@ -116,38 +159,36 @@ vector<computer_vision::Points> getAllPoints()
     return points;
 }
 
-struct Instruction
+Instruction createInstructions()
 {
-    computer_vision::Points block;
-    computer_vision::Points sil;
-};
-
-vector<Instruction> createInstructions()
-{
-    vector<Instruction> retIns = vector<Instruction>();
     if (blocks.size() == 0)
     {
-        return retIns;
+        ROS_INFO("No blocks detected");
+        return Instruction();
     }
-    for (auto block : blocks)
+    else
     {
+        pair<int, computer_vision::BoundingBox> block = blocks.front();
+        computer_vision::BoundingBox sil = getSilhouette(block.first);
         Instruction instruction;
         instruction.block = getPointCloud((block.second.xmin + block.second.xmax) / 2, block.second.ymax);
-        // instruction.sil = getPointCloud((sil[block.first].second.xmin + sil[block.first].second.xmax) / 2, sil[block.first].second.ymax);
+        // instruction.sil = getPointCloud((sil.xmin + sil.xmax) / 2, sil.ymax);
+        // ------TESTING------
         instruction.sil = computer_vision::Points();
         instruction.sil.x = 0.85;
         instruction.sil.y = 0.70;
         instruction.sil.z = 0.87;
-        retIns.push_back(instruction);
+        // ------TESTING------
+        blocks.erase(blocks.begin());
+        return instruction;
     }
-    return retIns;
 }
 
 bool getPointsCallback(computer_vision::GetPoints::Request &req, computer_vision::GetPoints::Response &res)
 {
-    vector<Instruction> instructions = createInstructions();
-    res.point.push_back(instructions[0].block);
-    res.point.push_back(instructions[0].sil);
+    Instruction instruction = createInstructions();
+    res.point.push_back(instruction.block);
+    res.point.push_back(instruction.sil);
     return true;
 }
 
