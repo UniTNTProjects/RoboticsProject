@@ -34,6 +34,8 @@ import rosnode
 import rosgraph
 import rospkg
 
+from computer_vision.srv import PointCloud, PointCloudResponse
+
 # other utils
 from utils.math_tools import *
 import pinocchio as pin
@@ -181,11 +183,16 @@ class Ur5Generic(BaseControllerFixed):
         self.utils = Utils()
         self.utils.putIntoGlobalParamServer("gripper_sim", self.gripper)
 
+        self.pointcloud_data = []
         self.sub_pointcloud = ros.Subscriber(
             "/ur5/zed_node/point_cloud/cloud_registered",
             PointCloud2,
             callback=self.receive_pointcloud,
             queue_size=1,
+        )
+
+        self.pointcloud_srv = ros.Service(
+            "/ur5/locosim/pointcloud", PointCloud, self.handle_pointcloud_srv
         )
 
     def _receive_gripper(self, msg):
@@ -355,6 +362,10 @@ class Ur5Generic(BaseControllerFixed):
                 break
 
     def receive_pointcloud(self, msg):
+        self.pointcloud_data = msg
+
+    def handle_pointcloud_srv(self, req):
+        # print("Request:", req.x, req.y)
         points_list = []
         for data in point_cloud2.read_points(
             self.pointcloud_data,
