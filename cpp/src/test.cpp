@@ -73,4 +73,6 @@ int main(int argc, char **argv)
     controller.move_to(cordDefault3, rotDefault, 20);
     controller.move_to(cordDefault4, rotDefault, 20);
     */
+
+    // 2.08352  -1.11296   1.24823   1.43554   -1.5708 -0.512726
 }

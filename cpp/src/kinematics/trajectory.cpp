@@ -8,7 +8,6 @@ using namespace std;
 
 void ur5Trajectory(vector<double *> *Th, jointValues initial_position, jointValues final_position, int steps)
 {
-
     Matrix<double, 6, 4> A;
     for (int i = 0; i < 6; i++)
     {

@@ -29,11 +29,17 @@ Controller::Controller(double loop_frequency) : loop_rate(loop_frequency)
     pub_gripper_diameter = node.advertise<std_msgs::Int32>("/ur5/gripper_controller/command", 1);
 
     home_position << -0.465794, -1.46997, -2.16267, -1.07975, -1.5708, 2.03659;
+
     while (!joint_initialized)
     {
         ros::spinOnce();
         loop_rate.sleep();
     }
+
+    coordinates cord;
+    rotMatrix rotation;
+    ur5Direct(this->home_position, cord, rotation);
+    move_to(cord, rotation, steps, false, true);
 }
 
 bool Controller::move_with_steps(const jointValues &values, const bool order[6])
@@ -69,9 +75,9 @@ bool Controller::move_with_steps(const jointValues &values, const bool order[6])
     if (init_verify_trajectory(&trajectory, current_joints, firstPos, this->steps, false) && init_verify_trajectory(&trajectory2, firstPos, secondPos, this->steps, false))
     {
 
-        if (move_inside(this->steps, firstPos, false, &trajectory))
+        if (move_inside(this->steps, false, &trajectory))
         {
-            return move_inside(this->steps, secondPos, false, &trajectory2);
+            return move_inside(this->steps, false, &trajectory2);
         }
         else
         {
@@ -148,6 +154,7 @@ pair<coordinates, rotMatrix> Controller::get_position()
     ur5Direct(current_joints, cord, rotation);
     return make_pair(cord, rotation);
 }
+
 void Controller::init_filter(void)
 {
     cout << "init linear filter" << endl;
@@ -163,6 +170,41 @@ jointValues Controller::second_order_filter(const jointValues &input, const doub
     filter_1 = (1 - gain) * filter_1 + gain * input;
     filter_2 = (1 - gain) * filter_2 + gain * filter_1;
     return filter_2;
+}
+
+bool Controller::trajectory_multiple_positions(vector<vector<double *>> *th_sum, vector<pair<coordinates, rotMatrix>> *positions, int n_positions, int n, jointValues init_joint, vector<bool> order)
+{
+    cout << "n: " << n << endl;
+    if (n == n_positions)
+    {
+        return true;
+    }
+    coordinates cord = (*positions)[n].first;
+    rotMatrix rotation = (*positions)[n].second;
+
+    Eigen::Matrix<double, 8, 6> inverse_kinematics_res = ur5Inverse(cord, rotation);
+
+    int *indexes = sort_inverse(inverse_kinematics_res, init_joint);
+
+    for (int i = 0; i < 8; i++)
+    {
+        int index = indexes[i];
+        jointValues joint_to_check;
+        joint_to_check << inverse_kinematics_res(index, 0), inverse_kinematics_res(index, 1), inverse_kinematics_res(index, 2),
+            inverse_kinematics_res(index, 3), inverse_kinematics_res(index, 4), inverse_kinematics_res(index, 5);
+        // cout << "joint_to_check: " << joint_to_check.transpose() << endl;
+        if (init_verify_trajectory(&(th_sum->at(n)), init_joint, joint_to_check, this->steps, order[n]))
+        {
+            // cout << "trajectory verified" << endl;
+
+            if (trajectory_multiple_positions(th_sum, positions, n_positions, n + 1, joint_to_check, order))
+            {
+                return true;
+            }
+        }
+    }
+
+    return false;
 }
 
 bool Controller::move_to(const coordinates &position, const rotMatrix &rotation, int steps, bool pick_or_place, bool homing)
@@ -197,11 +239,50 @@ bool Controller::move_to(const coordinates &position, const rotMatrix &rotation,
 
         if (init_verify_trajectory(&trajectory, init_joint, joint_to_check, steps, pick_or_place))
         {
-            return move_inside(steps, joint_to_check, pick_or_place, &trajectory);
+            cout << "trajectory verified" << endl;
+            cout << "joint_to_check: " << joint_to_check.transpose() << endl;
+            return move_inside(steps, pick_or_place, &trajectory);
         }
     }
 
     cout << "No valid trajectory found" << endl;
+
+    cout << "Trying up and move" << endl;
+    coordinates currentPos = get_position().first;
+    double new_z = currentPos(2) - 0.25;
+    if (new_z < 0.45)
+    {
+        new_z = 0.45;
+    }
+    coordinates aboveCurrent, aboveNext;
+    aboveCurrent << currentPos(0), currentPos(1), new_z;
+    aboveNext << position(0), position(1), new_z;
+
+    vector<pair<coordinates, rotMatrix>> positions = vector<pair<coordinates, rotMatrix>>();
+    positions.push_back(make_pair(aboveCurrent, rotation));
+    positions.push_back(make_pair(aboveNext, rotation));
+    positions.push_back(make_pair(position, rotation));
+
+    vector<vector<double *>> th_sum = vector<vector<double *>>();
+    for (int j = 0; j < 3; j++)
+    {
+        vector<double *> trajectory = vector<double *>();
+        for (int i = 0; i < steps; i++)
+        {
+            trajectory.push_back(new double[6]);
+        }
+        th_sum.push_back(trajectory);
+    }
+
+    if (trajectory_multiple_positions(&th_sum, &positions, 3, 0, init_joint, vector<bool>{true, false, true}))
+    {
+        move_inside(steps, true, &(th_sum[0]));
+        move_inside(steps, false, &(th_sum[1]));
+        move_inside(steps, true, &(th_sum[2]));
+        return true;
+    }
+
+    cout << "Up and move failed" << endl;
 
     if (!homing)
     {
@@ -222,12 +303,13 @@ bool Controller::move_to(const coordinates &position, const rotMatrix &rotation,
         jointValues joint_to_check;
         joint_to_check << inverse_kinematics_res(index, 0), inverse_kinematics_res(index, 1), inverse_kinematics_res(index, 2),
             inverse_kinematics_res(index, 3), inverse_kinematics_res(index, 4), inverse_kinematics_res(index, 5);
-        bool configurations_of_orders[4][6] = {
+        bool configurations_of_orders[5][6] = {
+            {false, false, false, true, true, false},
             {false, false, false, false, true, true},
             {false, false, false, true, true, true},
             {true, true, true, false, false, false},
             {true, true, false, false, false, false}};
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < 5; i++)
         {
             bool *order = configurations_of_orders[i];
 
@@ -245,20 +327,23 @@ bool Controller::move_to(const coordinates &position, const rotMatrix &rotation,
 bool Controller::init_verify_trajectory(vector<double *> *Th, jointValues init_joint, jointValues final_joint, int steps, bool pick_or_place)
 {
     ur5Trajectory(Th, init_joint, final_joint, steps);
+
     return check_trajectory(*Th, steps, pick_or_place);
 }
 
-bool Controller::move_inside(int steps, jointValues joint_to_check, bool pick_or_place, vector<double *> *trajectory)
+bool Controller::move_inside(int steps, bool pick_or_place, vector<double *> *trajectory)
 {
     coordinates cord;
     rotMatrix rotation;
-    ur5Direct(joint_to_check, cord, rotation);
-
-    cout << "moving to configuration: " << joint_to_check.transpose() << endl;
+    jointValues final_joint;
+    final_joint << (*trajectory)[steps - 1][0], (*trajectory)[steps - 1][1], (*trajectory)[steps - 1][2],
+        (*trajectory)[steps - 1][3], (*trajectory)[steps - 1][4], (*trajectory)[steps - 1][5];
+    ur5Direct(final_joint, cord, rotation);
 
     init_filter();
 
     cout << "\n------------\nStart moving to position: " << cord.transpose() << endl;
+    cout << "Final joint: " << final_joint.transpose() << endl;
     bool use_filter = true;
     if (test_fast_mode)
     {
@@ -348,19 +433,28 @@ bool Controller::check_trajectory(vector<double *> traj, int step, bool pick_or_
 
         if (!(cord(0) > min_x && cord(0) < max_x && cord(1) > min_y && cord(1) < max_y && cord(2) > min_z && cord(2) < max_z))
         {
-            cout << "coordinates of trajectory does not fit in the workspace:" << cord.transpose() << endl;
+            // cout << "coordinates of trajectory does not fit in the workspace:" << cord.transpose() << endl;
             return false;
         }
 
         if (!pick_or_place && cord(2) > max_z_moving)
         {
-            cout << "cord z wrong: " << cord.transpose() << endl;
+            // cout << "cord z wrong: " << cord.transpose() << endl;
             return false;
         }
 
         if (!pick_or_place && cord(2) > max_z_near_end_table && cord(1) > max_y_near_end_table)
         {
-            cout << "cord end table wrong: " << cord.transpose() << endl;
+            // cout << "cord end table wrong: " << cord.transpose() << endl;
+            return false;
+        }
+
+        if (pick_or_place && (fabs(traj[0][4] - joints(4)) > M_PI / 2 || fabs(traj[0][5] - joints(5)) > M_PI / 2))
+        {
+            cout << "trying strange rotation for pick or place" << endl;
+            cout << "traj[0][4]: " << traj[0][4] << ", traj[0][5]: " << traj[0][5] << endl;
+            cout << "joints(4): " << joints(4) << ", joints(5): " << joints(5) << endl;
+            cout << fabs(traj[0][4] - joints(4)) << ", " << fabs(traj[0][5] - joints(5)) << endl;
             return false;
         }
 
@@ -372,9 +466,9 @@ bool Controller::check_trajectory(vector<double *> traj, int step, bool pick_or_
         MatrixXd jacobian = ur5Jac(joints);
         // cout << "jacobian: " << jacobian << endl;
 
-        if (joints(1) > -0.2)
+        if (joints(1) > -0.2 || joints(1) < -3.14)
         {
-            cout << "joints(1) > -0.2" << endl;
+            // cout << "joints(1) > -0.2" << endl;
             return false;
         }
 

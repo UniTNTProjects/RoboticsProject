@@ -34,9 +34,9 @@ void Wait::exit(FSM *fsm)
         // Do something
         coordinates cord0, cord1, cord2, cord3, cord4, cord5, cord6, cord7;
         cord0 << 0.7, 0.55, 0.87;
-        cord1 << 0.3, 0.5, 0.87;
-        cord2 << 0.6, 0.2, 0.87;
-        cord3 << 0.4, 0.25, 0.87;
+        cord1 << 0.3, 0.65, 0.87;
+        cord2 << 0.6, 0.4, 0.87;
+        cord3 << 0.4, 0.45, 0.87;
         cord4 << 0.85, 0.6, 0.87;
         cord5 << 0.85, 0.4, 0.87;
         cord6 << 0.85, 0.2, 0.87;
@@ -104,40 +104,10 @@ void Move::enter(FSM *fsm)
     pair<coordinates, rotMatrix> nextPos = fsm->getNextPosition();
     if (!(fsm->moveTo(nextPos.first, nextPos.second, false)))
     {
-        coordinates newIntermidiatePos = fsm->getCurrentPosition();
-        double new_z = newIntermidiatePos(2) - 0.25;
-        if (new_z < 0.45)
-        {
-            new_z = 0.45;
-        }
-        newIntermidiatePos(2) = new_z;
-        if (fsm->moveTo(newIntermidiatePos, nextPos.second, true))
-        {
-            coordinates secondIntermidiatePos = nextPos.first;
-            secondIntermidiatePos(2) = new_z;
-            if (fsm->moveTo(secondIntermidiatePos, nextPos.second, false))
-            {
-                if (!(fsm->moveTo(nextPos.first, nextPos.second, false)))
-                {
-                    fsm->isError = true;
-                    cout << "\n!!!!!!!!\nError moving to position: " << nextPos.first << "\n!!!!!!!!!\n"
-                         << endl;
-                    return;
-                }
-            }
-            else
-            {
-                fsm->isError = true;
-                cout << "\n!!!!!!!!\nError moving to position: " << nextPos.first << "\n!!!!!!!!!\n"
-                     << endl;
-            }
-        }
-        else
-        {
-            fsm->isError = true;
-            cout << "\n!!!!!!!!\nError moving to position: " << nextPos.first << "\n!!!!!!!!!\n"
-                 << endl;
-        }
+
+        fsm->isError = true;
+        cout << "\n!!!!!!!!\nError moving to position: " << nextPos.first << "\n!!!!!!!!!\n"
+             << endl;
     }
 
     return;

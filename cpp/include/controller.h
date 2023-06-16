@@ -62,8 +62,9 @@ private:
     int *sort_inverse(Eigen::Matrix<double, 8, 6> &inverse_kinematics_res, const jointValues &initial_joints);
     double norm_angle(double angle);
     bool move_with_steps(const jointValues &values, const bool order[6]);
-    bool move_inside(int steps, jointValues joint_to_check, bool pick_or_place, vector<double *> *trajectory);
+    bool move_inside(int steps, bool pick_or_place, vector<double *> *trajectory);
     bool init_verify_trajectory(vector<double *> *Th, jointValues init_joint, jointValues final_joint, int steps, bool pick_or_place);
+    bool trajectory_multiple_positions(vector<vector<double *>> *th_sum, vector<pair<coordinates, rotMatrix>> *positions, int n_positions, int n, jointValues init_joint, vector<bool> order);
 
 public:
     Controller(double loop_frequency);
