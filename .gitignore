@@ -1,3 +1,12 @@
+*.png
+*.jpg
+*.txt
+*.zip
+*.csv
+**/*.png
+**/*.jpg
+computer_vision/yolo/**
+c_cpp_properties.json
 ./computer_vision/data_generation/labels/
 ./computer_vision/data_generation/models/
 ./computer_vision/data_generation/images/
@@ -12,4 +21,3 @@
 ./computer_vision/data_generation/LabBlocks/
 ./computer_vision/data_generation/dataset/**
 ./computer_vision/data_generation/dataset/*
-*.jpg

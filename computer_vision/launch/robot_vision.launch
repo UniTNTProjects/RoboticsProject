@@ -1,0 +1,4 @@
+<launch>
+    <node pkg="computer_vision" name="robot_vision_node" type="yoloNode" output="screen">
+    </node>
+</launch>
