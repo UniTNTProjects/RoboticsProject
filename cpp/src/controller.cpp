@@ -1,4 +1,5 @@
 #include "controller.h"
+#include <computer_vision/GetPoints.h>
 #include <std_msgs/Int32.h>
 #include <std_msgs/Float64MultiArray.h>
 
@@ -27,8 +28,10 @@ Controller::Controller(double loop_frequency) : loop_rate(loop_frequency)
     sub_joint_state = node.subscribe("/ur5/joint_states", 1, &Controller::joint_state_callback, this);
     pub_des_jstate = node.advertise<std_msgs::Float64MultiArray>("/ur5/joint_group_pos_controller/command", 1000);
     pub_gripper_diameter = node.advertise<std_msgs::Int32>("/ur5/gripper_controller/command", 1);
-
-    home_position << -0.465794, -1.46997, -2.16267, -1.07975, -1.5708, 2.03659;
+    get_ins = node.serviceClient<computer_vision::GetPoints>("computer_vision/Points");
+    home_position
+        << -0.465794,
+        -1.46997, -2.16267, -1.07975, -1.5708, 2.03659;
     while (!joint_initialized)
     {
         ros::spinOnce();

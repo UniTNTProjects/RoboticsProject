@@ -1,0 +1,7 @@
+*.png
+*.jpg
+*.txt
+**/*.png
+**/*.jpg
+computer_vision/yolo/**
+c_cpp_properties.json
