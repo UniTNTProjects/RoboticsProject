@@ -9,7 +9,6 @@ bool block_detected = false;
 bool init_sil = false;
 ros::ServiceClient pc_client;
 ros::ServiceServer getPoints_server;
-
 struct Instruction
 {
     computer_vision::Points block;
@@ -18,15 +17,16 @@ struct Instruction
 
 bool checkOnSilhouette(computer_vision::BoundingBox block, computer_vision::BoundingBox sil)
 {
-    int offset = 5;
-    if (
-        block.xmin >= sil.xmin - offset &&
-        block.xmax <= sil.xmax + offset &&
-        block.ymin >= sil.ymin - offset &&
-        block.ymax <= sil.ymax + offset)
-    {
-        return true;
-    }
+    // int offset = 5;
+    // if (
+    //     block.xmin >= sil.xmin - offset &&
+    //     block.xmax <= sil.xmax + offset &&
+    //     block.ymin >= sil.ymin - offset &&
+    //     block.ymax <= sil.ymax + offset)
+    // {
+    //     return true;
+    // }
+    // return false;
     return false;
 }
 
@@ -57,7 +57,6 @@ computer_vision::BoundingBox getSilhouette(int class_n)
 
 void robot2DImageCallback(const computer_vision::BoundingBoxes &msg)
 {
-
     if (!init_sil)
     {
         // for (const auto &box : msg.silhouettes)
@@ -80,8 +79,9 @@ void robot2DImageCallback(const computer_vision::BoundingBoxes &msg)
         {
             for (int i = 0; i < blocks.size(); i++)
             {
-                if (checkSameBBox(box, blocks[i].second) ||
-                    checkOnSilhouette(box, sil[box.class_n].second))
+                if (checkSameBBox(box, blocks[i].second)
+                    //|| checkOnSilhouette(box, sil[box.class_n].second)
+                )
                 {
                     to_insert = false;
                     break;
@@ -133,30 +133,6 @@ computer_vision::Points getPointCloud(double x, double y)
         return computer_vision::Points();
     }
     return res;
-}
-
-vector<computer_vision::Points> getAllPoints()
-{
-    vector<computer_vision::Points> points;
-    for (int i = 0; i < blocks.size(); i++)
-    {
-        pair<int, computer_vision::BoundingBox> block = blocks[i];
-
-        // Bounding box is too large, so we rescale 5px smaller
-        double yMax = block.second.ymax - 5;
-        double yMin = block.second.ymin + 5;
-        double xMax = block.second.xmax - 5;
-        double xMin = block.second.xmin + 5;
-
-        double x = (xMax + xMin) / 2;
-        double y = yMax;
-
-        cout << "x: " << x << " y: " << y << endl;
-
-        computer_vision::Points point = getPointCloud(x, y);
-        points.push_back(point);
-    }
-    return points;
 }
 
 Instruction createInstructions()

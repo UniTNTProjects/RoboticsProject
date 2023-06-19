@@ -6,6 +6,7 @@
 *.csv
 **/*.png
 **/*.jpg
+.vscode/**
 computer_vision/yolo/**
 c_cpp_properties.json
 ./computer_vision/data_generation/labels/
@@ -22,3 +23,5 @@ c_cpp_properties.json
 ./computer_vision/data_generation/LabBlocks/
 ./computer_vision/data_generation/dataset/**
 ./computer_vision/data_generation/dataset/*
+!CMakeLists.txt
+.vscode/settings.json
