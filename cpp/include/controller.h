@@ -52,6 +52,8 @@ private:
     GripperStateVector current_gripper;
     bool joint_initialized = false;
 
+    coordinates cordDefault0, cordDefault1, cordDefault2, cordDefault3, cordDefault4, cordDefault5, robotReferenceCord; 
+
     void joint_state_callback(const sensor_msgs::JointState::ConstPtr &msg);
     void send_state(const jointValues &joint_pos);
     void sent_gripper_diameter(const int diameter);
@@ -64,6 +66,8 @@ private:
     bool move_with_steps(const jointValues &values, const bool order[6]);
     bool move_inside(int steps, jointValues joint_to_check, bool pick_or_place, vector<double *> *trajectory);
     bool init_verify_trajectory(vector<double *> *Th, jointValues init_joint, jointValues final_joint, int steps, bool pick_or_place);
+    void nearHoming(coordinates &cord, rotMatrix &rot);
+    coordinates nearHomingRec(coordinates current_cord, coordinates defaultCord, double &nearhomingdist, coordinates &nearhomingcord);
 
 public:
     Controller(double loop_frequency);

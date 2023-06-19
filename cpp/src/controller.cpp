@@ -29,11 +29,50 @@ Controller::Controller(double loop_frequency) : loop_rate(loop_frequency)
     pub_gripper_diameter = node.advertise<std_msgs::Int32>("/ur5/gripper_controller/command", 1);
 
     home_position << -0.465794, -1.46997, -2.16267, -1.07975, -1.5708, 2.03659;
+    cordDefault0 << 0.85, 0.32, 1.;
+    cordDefault1 << 0.51, 0.32, 1.;
+    cordDefault2 << 0.17, 0.32, 1.;
+    cordDefault3 << 0.85, 0.64, 1.;
+    cordDefault4 << 0.51, 0.64, 1.;
+    cordDefault5 << 0.17, 0.64, 1.;
+    robotReferenceCord << 0.5, 0.35, 1.46;
+
     while (!joint_initialized)
     {
         ros::spinOnce();
         loop_rate.sleep();
     }
+}
+
+coordinates Controller::nearHomingRec(coordinates current_cord, coordinates defaultCord, double &nearhomingdist, coordinates &nearhomingcord){
+    defaultCord << defaultCord(0) - robotReferenceCord(0), robotReferenceCord(1) - defaultCord(1), robotReferenceCord(2) - defaultCord(2);
+    double dist = sqrt(pow(current_cord(0) - defaultCord(0), 2) + pow(current_cord(1) - defaultCord(1), 2));
+    if(nearhomingdist == -1 || dist < nearhomingdist){
+        nearhomingdist = dist;
+        nearhomingcord = defaultCord;
+    }
+    return nearhomingcord;
+}
+
+//function that find the nearest homing point from the current position and the position that i need to go
+coordinates Controller::advanceNearHoming(){
+    
+}
+
+void Controller::nearHoming(coordinates &cord, rotMatrix &rot){
+
+    cout << "nearHoming" << endl;
+
+    coordinates current_cord;
+    ur5Direct(current_joints, current_cord, rot);
+    double nearhomingdist = -1;
+    coordinates nearhomingcord;
+    coordinates defaultCordArray[6] = {cordDefault0, cordDefault1, cordDefault2, cordDefault3, cordDefault4, cordDefault5};
+    for(coordinates defaultCord : defaultCordArray){
+        nearhomingcord = nearHomingRec(current_cord, defaultCord, nearhomingdist, nearhomingcord);
+    }
+
+    cord = nearhomingcord;
 }
 
 bool Controller::move_with_steps(const jointValues &values, const bool order[6])
@@ -208,7 +247,8 @@ bool Controller::move_to(const coordinates &position, const rotMatrix &rotation,
         cout << "Trying homing" << endl;
         coordinates cord;
         rotMatrix rotation;
-        ur5Direct(this->home_position, cord, rotation);
+        nearHoming(cord, rotation);
+        // ur5Direct(this->home_position, cord, rotation);
         if (move_to(cord, rotation, steps, false, true))
         {
             return move_to(position, rotation, steps, pick_or_place, true);
@@ -344,8 +384,7 @@ bool Controller::check_trajectory(vector<double *> traj, int step, bool pick_or_
         joints << traj[i][0], traj[i][1], traj[i][2],
             traj[i][3], traj[i][4], traj[i][5];
 
-        ur5Direct(joints, cord, rot);
-
+        ur5Direct(joints, cord, rot);        
         if (!(cord(0) > min_x && cord(0) < max_x && cord(1) > min_y && cord(1) < max_y && cord(2) > min_z && cord(2) < max_z))
         {
             cout << "coordinates of trajectory does not fit in the workspace:" << cord.transpose() << endl;
