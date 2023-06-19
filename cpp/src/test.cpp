@@ -19,7 +19,7 @@ int main(int argc, char **argv)
     cordDefault << 0.3, -0.3, 0.5;
 
     coordinates cord;
-    cord << 1.7, -1.7, 0.5;
+    cord << 3, -3, 0.5;
 
     controller.move_to(cord, rotDefault, 20, false, false);
 

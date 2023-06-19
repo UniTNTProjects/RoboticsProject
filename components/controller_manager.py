@@ -48,8 +48,8 @@ class ControllerManager():
         self.pub_full_jstate.publish(msg)
 
     def send_reduced_des_jstate(self, q_des):
-        print("q_des: ", q_des)
-        print("gripper:", self.gm.getDesGripperJoints())
+        #print("q_des: ", q_des)
+        #print("gripper:", self.gm.getDesGripperJoints())
         msg = Float64MultiArray()
         if self.gripper_sim and not self.real_robot:
             msg.data = np.append(q_des, self.gm.getDesGripperJoints())

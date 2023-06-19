@@ -12,7 +12,7 @@ typedef Eigen::Matrix<double, 2, 1> GripperStateVector;
 class Controller
 {
 private:
-    bool test_fast_mode = false;
+    const bool test_fast_mode = false;
 
     ros::NodeHandle node;
     ros::Rate loop_rate;
@@ -28,23 +28,23 @@ private:
     ros::Publisher pub_gripper_diameter;
     ros::Subscriber sub_joint_state;
 
-    double acceptable_error = 0.05;
+    const double acceptable_error = 0.005;
 
-    double sleep_time_after_movement = 0.5;
-    double sleep_time_after_gripper = 4;
+    const double sleep_time_after_movement = 0.5;
+    const double sleep_time_after_gripper = 6.0;
 
-    double max_x = 1;
-    double max_y = 0.4;
-    double max_z = 0.8;
+    const double max_x = 1;
+    const double max_y = 0.4;
+    const double max_z = 0.8;
 
-    double min_x = -1;
-    double min_y = -1;
-    double min_z = -1;
+    const double min_x = -1;
+    const double min_y = -1;
+    const double min_z = -1;
 
-    double max_y_near_end_table = 0.18;
-    double max_z_near_end_table = 0.58;
+    const double max_y_near_end_table = 0.18;
+    const double max_z_near_end_table = 0.58;
 
-    double max_z_moving = 0.73;
+    const double max_z_moving = 0.73;
 
     jointValues home_position;
 
@@ -52,7 +52,7 @@ private:
     GripperStateVector current_gripper;
     bool joint_initialized = false;
 
-    coordinates cordDefault0, cordDefault1, cordDefault2, cordDefault3, cordDefault4, cordDefault5, robotReferenceCord; 
+    coordinates cordDefault0, cordDefault1, cordDefault2, cordDefault3, cordDefault4, cordDefault5, robotReferenceCord;
 
     void joint_state_callback(const sensor_msgs::JointState::ConstPtr &msg);
     void send_state(const jointValues &joint_pos);
@@ -68,9 +68,10 @@ private:
     bool init_verify_trajectory(vector<double *> *Th, jointValues init_joint, jointValues final_joint, int steps, bool pick_or_place);
     void nearHoming(coordinates &cord, rotMatrix &rot);
     coordinates nearHomingRec(coordinates current_cord, coordinates defaultCord, double &nearhomingdist, coordinates &nearhomingcord);
-    void advanceNearHoming(coordinates &cord, rotMatrix &rot, jointValues final_joint);
+    void advanceNearHoming(coordinates &cord, rotMatrix &rot, coordinates final_cord);
     coordinates advanceNearHomingRec(coordinates current_cord, coordinates defaultCord, coordinates final_cord, double &nearhomingdist, coordinates &nearhomingcord);
     bool trajectory_multiple_positions(vector<vector<double *>> *th_sum, vector<pair<coordinates, rotMatrix>> *positions, int n_positions, int n, jointValues init_joint, vector<bool> order);
+    bool up_and_move(const coordinates &position, const rotMatrix &rotation, int steps, jointValues init_joint);
 
 public:
     Controller(double loop_frequency);
@@ -83,7 +84,7 @@ public:
 
     ros::ServiceClient get_ins;
 
-    const int steps = 30;
+    const int steps = 20;
 };
 
 #endif
