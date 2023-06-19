@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>computer_vision</name>
+  <version>0.0.0</version>
+  <description>publisher for ur5 in cpp</description>
+
+  <maintainer email="jacopo.tomelleri@studenti.unitn.it">jacopotomelleri</maintainer>
+  <license>TODO</license>
+
+  <!-- package.xml. Should contain these lines -->
+  <build_depend>roscpp</build_depend>
+  <build_export_depend>roscpp</build_export_depend>
+  <exec_depend>roscpp</exec_depend>
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>message_generation</build_depend>
+  <exec_depend>message_runtime</exec_depend>
+  <depend>rospy</depend>
+  <depend>sensor_msgs</depend>
+  <depend>std_msgs</depend>
+</package>

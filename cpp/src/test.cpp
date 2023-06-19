@@ -1,4 +1,5 @@
 #include "controller.h"
+#include <computer_vision/GetPoints.h>
 #include <std_msgs/Int32.h>
 #include <std_msgs/Float64MultiArray.h>
 
@@ -11,13 +12,12 @@ int main(int argc, char **argv)
     Controller controller = Controller(1000.);
 
     rotMatrix rotDefault;
-
     rotDefault << -1, 0, 0,
         0, -1, 0,
         0, 0, 1;
     coordinates cordDefault;
     cordDefault << 0.3, -0.3, 0.5;
-    controller.move_to(cordDefault, rotDefault, 5, false, false);
+    // controller.move_to(cordDefault, rotDefault, 5, false, false);
 
     // controller.move_gripper_to(10);
 
@@ -28,29 +28,39 @@ int main(int argc, char **argv)
         +y = backwards
         +z = down
     */
-    /*
-     coordinates cord0, cord1, cord2, cord3, cord4, cord5;
-     rotMatrix rot;
+    //  coordinates cord0, cord1, cord2, cord3, cord4, cord5;
+    // Call service to get next instruction
 
-     rot << 1, 0, 0,
-         0, 1, 0,
-         0, 0, 1;
-     cord0 << 0.2, -0.2, 0.5;
-     cord1 << -0.4, -0.2, 0.5;
-     cord2 << 0.4, -0.2, 0.5;
-     cord3 << 0.2, 0.3, 0.5;
-     cord4 << 0.2, -0.3, 0.5;
-     cord5 << 0.2, -0.2, 0.7;
+    computer_vision::GetPoints srv;
 
-     controller.move_to(cord0, rot, 20);
-     controller.move_to(cord1, rot, 20);
-     controller.move_to(cord2, rot, 20);
-     controller.move_to(cord0, rot, 20);
-     controller.move_to(cord3, rot, 20);
-     controller.move_to(cord4, rot, 20);
-     controller.move_to(cord0, rot, 20);
-     controller.move_to(cord5, rot, 20);
-     */
+    controller.get_ins.call(srv);
+
+    coordinates cord = coordinates();
+    coordinates sil = coordinates();
+
+    cord << srv.response.point[0].x, srv.response.point[0].y, 0.6;
+    sil << srv.response.point[1].x, srv.response.point[1].y, srv.response.point[1].z;
+
+    cout << "Cord: " << cord << endl;
+
+    rotMatrix rot;
+    rot << 1, 0, 0,
+        0, 1, 0,
+        0, 0, 1;
+    //  cord0 << 0.2, -0.2, 0.5;
+    //  cord1 << -0.4, -0.2, 0.5;
+    //  cord2 << 0.4, -0.2, 0.5;
+    //  cord3 << 0.2, 0.3, 0.5;
+    //  cord4 << 0.2, -0.3, 0.5;
+    //  cord5 << 0.2, -0.2, 0.7;
+
+    controller.move_to(cord, rot, 20, false, false);
+    // controller.move_to(cord2, rot, 20);
+    // controller.move_to(cord0, rot, 20);
+    // controller.move_to(cord3, rot, 20);
+    // controller.move_to(cord4, rot, 20);
+    // controller.move_to(cord0, rot, 20);
+    // controller.move_to(cord5, rot, 20);
 
     /*
     rotMatrix rotDefault;
@@ -73,4 +83,6 @@ int main(int argc, char **argv)
     controller.move_to(cordDefault3, rotDefault, 20);
     controller.move_to(cordDefault4, rotDefault, 20);
     */
+
+    // 2.08352  -1.11296   1.24823   1.43554   -1.5708 -0.512726
 }

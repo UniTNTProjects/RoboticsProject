@@ -9,13 +9,7 @@ FSM::FSM()
     controller = new Controller(100.);
     positions = new queue<pair<coordinates, rotMatrix>>();
 
-    defaultCord << 0.2, -0.2, 0.5;
-    defaultRot << -1, 0, 0,
-        0, -1, 0,
-        0, 0, 1;
-
     this->moveGripperTo(openGripperDiameter);
-    this->moveTo(defaultCord, defaultRot, true);
     cout << "FSM initialized" << endl;
 }
 
@@ -104,13 +98,13 @@ bool FSM::placeDown()
 {
     pair<coordinates, rotMatrix> currentPos = getNextPosition();
     positions->pop();
-    currentPos.first(2) += heightPickAndPlace;
+    currentPos.first(2) += heightPickAndPlace - (0.01);
 
     if (moveTo(currentPos.first, currentPos.second, true))
     {
         moveGripperTo(openGripperDiameter);
         isGripping = false;
-        currentPos.first(2) -= heightPickAndPlace;
+        currentPos.first(2) -= heightPickAndPlace - (0.01);
         if (moveTo(currentPos.first, currentPos.second, true))
         {
             return true;
