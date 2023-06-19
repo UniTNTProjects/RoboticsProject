@@ -60,11 +60,6 @@ coordinates Controller::nearHomingRec(coordinates current_cord, coordinates defa
     return nearhomingcord;
 }
 
-//function that find the nearest homing point from the current position and the position that i need to go
-coordinates Controller::advanceNearHoming(){
-    
-}
-
 void Controller::nearHoming(coordinates &cord, rotMatrix &rot){
 
     cout << "nearHoming" << endl;
@@ -78,6 +73,37 @@ void Controller::nearHoming(coordinates &cord, rotMatrix &rot){
         nearhomingcord = nearHomingRec(current_cord, defaultCord, nearhomingdist, nearhomingcord);
     }
 
+    cout << "nearhomingcord: " << nearhomingcord << endl;
+    cord = nearhomingcord;
+}
+
+coordinates Controller::advanceNearHomingRec(coordinates current_cord, coordinates defaultCord, coordinates final_cord, double &nearhomingdist, coordinates &nearhomingcord){
+    defaultCord << defaultCord(0) - robotReferenceCord(0), robotReferenceCord(1) - defaultCord(1), robotReferenceCord(2) - defaultCord(2);
+    double dist = sqrt(pow(current_cord(0) - defaultCord(0), 2) + pow(current_cord(1) - defaultCord(1), 2));
+    double dist2 = sqrt(pow(final_cord(0) - defaultCord(0), 2) + pow(final_cord(1) - defaultCord(1), 2));
+    if(nearhomingdist == -1 || (dist+dist2) < nearhomingdist){
+        nearhomingdist = dist+dist2;
+        nearhomingcord = defaultCord;
+    }
+    return nearhomingcord;
+}
+
+void Controller::advanceNearHoming(coordinates &cord, rotMatrix &rot, jointValues final_joint){
+    
+    cout << "advanceNearHoming" << endl;
+
+    coordinates current_cord;
+    coordinates final_cord;
+    ur5Direct(current_joints, current_cord, rot);
+    ur5Direct(final_joint, final_cord, rot);
+    double nearhomingdist = -1;
+    coordinates nearhomingcord;
+    coordinates defaultCordArray[6] = {cordDefault0, cordDefault1, cordDefault2, cordDefault3, cordDefault4, cordDefault5};
+    for(coordinates defaultCord : defaultCordArray){
+        nearhomingcord = advanceNearHomingRec(current_cord, defaultCord, final_cord, nearhomingdist, nearhomingcord);
+    }
+
+    cout << "nearhomingcord: " << nearhomingcord << endl;
     cord = nearhomingcord;
 }
 
@@ -329,6 +355,7 @@ bool Controller::move_to(const coordinates &position, const rotMatrix &rotation,
         coordinates cord;
         rotMatrix rotation;
         nearHoming(cord, rotation);
+        advanceNearHoming(cord, rotation, position);
         // ur5Direct(this->home_position, cord, rotation);
         if (move_to(cord, rotation, steps, false, true))
         {

@@ -12,4 +12,5 @@
   <depend>roscpp</depend>
   <depend>sensor_msgs</depend>
   <depend>std_msgs</depend>
+  <depend>computer_vision</depend>
 </package>
