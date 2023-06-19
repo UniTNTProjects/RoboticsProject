@@ -17,6 +17,12 @@ int main(int argc, char **argv)
         0, 0, 1;
     coordinates cordDefault;
     cordDefault << 0.3, -0.3, 0.5;
+
+    coordinates cord;
+    cord << 1.7, -1.7, 0.5;
+
+    controller.move_to(cord, rotDefault, 20, false, false);
+
     // controller.move_to(cordDefault, rotDefault, 5, false, false);
 
     // controller.move_gripper_to(10);
@@ -31,22 +37,22 @@ int main(int argc, char **argv)
     //  coordinates cord0, cord1, cord2, cord3, cord4, cord5;
     // Call service to get next instruction
 
-    computer_vision::GetPoints srv;
+    // computer_vision::GetPoints srv;
 
-    controller.get_ins.call(srv);
+    // controller.get_ins.call(srv);
 
-    coordinates cord = coordinates();
-    coordinates sil = coordinates();
+    // coordinates cord = coordinates();
+    // coordinates sil = coordinates();
 
-    cord << srv.response.point[0].x, srv.response.point[0].y, 0.6;
-    sil << srv.response.point[1].x, srv.response.point[1].y, srv.response.point[1].z;
+    // cord << srv.response.point[0].x, srv.response.point[0].y, 0.6;
+    // sil << srv.response.point[1].x, srv.response.point[1].y, srv.response.point[1].z;
 
-    cout << "Cord: " << cord << endl;
+    // cout << "Cord: " << cord << endl;
 
-    rotMatrix rot;
-    rot << 1, 0, 0,
-        0, 1, 0,
-        0, 0, 1;
+    // rotMatrix rot;
+    // rot << 1, 0, 0,
+    //     0, 1, 0,
+    //     0, 0, 1;
     //  cord0 << 0.2, -0.2, 0.5;
     //  cord1 << -0.4, -0.2, 0.5;
     //  cord2 << 0.4, -0.2, 0.5;
@@ -54,7 +60,7 @@ int main(int argc, char **argv)
     //  cord4 << 0.2, -0.3, 0.5;
     //  cord5 << 0.2, -0.2, 0.7;
 
-    controller.move_to(cord, rot, 20, false, false);
+    // controller.move_to(cord, rot, 20, false, false);
     // controller.move_to(cord2, rot, 20);
     // controller.move_to(cord0, rot, 20);
     // controller.move_to(cord3, rot, 20);
