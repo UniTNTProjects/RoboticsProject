@@ -13,7 +13,26 @@ struct Instruction
 {
     computer_vision::Points block;
     computer_vision::Points sil;
+    int angle;
 };
+
+int getOrientation(computer_vision::BoundingBox box)
+{
+    int x = box.xmax - box.xmin;
+    int y = box.ymax - box.ymin;
+    if (x > y)
+    {
+        return 0;
+    }
+    else if (x < y)
+    {
+        return 90;
+    }
+    else
+    {
+        return 45;
+    }
+}
 
 bool checkOnSilhouette(computer_vision::BoundingBox block, computer_vision::BoundingBox sil)
 {
@@ -155,6 +174,7 @@ Instruction createInstructions()
         instruction.sil.y = 0.70;
         instruction.sil.z = 0.87;
         // ------TESTING------
+        instruction.angle = getOrientation(block.second);
         blocks.erase(blocks.begin());
         return instruction;
     }
@@ -165,6 +185,7 @@ bool getPointsCallback(computer_vision::GetPoints::Request &req, computer_vision
     Instruction instruction = createInstructions();
     res.point.push_back(instruction.block);
     res.point.push_back(instruction.sil);
+    res.angle = instruction.angle;
     return true;
 }
 

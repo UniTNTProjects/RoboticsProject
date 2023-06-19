@@ -73,9 +73,11 @@ class Detector:
         self.boxes = {}  # Dictionary with the bounding boxes
         self.objects = {}  # List with all the objects detected
         self.silhouette = {}  # List with the silhouette of the objects
-
+        self.pattern = {}  # List with the pattern of the objects
         for i in range(len(names)):
             self.objects[i] = []
+
+        self.load_pattern()
 
     def preprocess(self, image):
         # Resize image
@@ -83,12 +85,21 @@ class Detector:
         image = self.letterbox(image=image)
         return image, orig_img
 
+    def load_pattern(self):
+        i = 0
+        # for i, name in enumerate(names):
+        self.pattern[i] = []
+        for j in range(3):
+            self.pattern[i].append(
+                cv2.imread(f"../data_generation/patterns/Block{i}-{45*j}.png")
+            )
+
     def show_bounding_boxes(self):
         zed_Annotator = Annotator(self.cv_image, line_width=2)
         for key, box in self.boxes.items():
             zed_Annotator.box_label(
                 box=[box.xmin, box.ymin, box.xmax, box.ymax],
-                label=f"Class: {box.Class} Conf: {box.probability}",
+                label=f"Class: {box.Class} Conf: {box.probability} ",
                 color=(0, 0, 255),
             )
         img = zed_Annotator.result()
@@ -103,6 +114,59 @@ class Detector:
         # for key, box in self.silhouette.items():
         #     msg.silhouttes.append(box)
         self.prediction_pub.publish(msg)
+
+    def det_orientatiion_pattern_matching(self, box, class_n):
+        patterns = self.pattern[class_n]
+        image = self.cv_image[
+            box[1].astype(int) : box[3].astype(int),
+            box[0].astype(int) : box[2].astype(int),
+        ]
+        threshold = 0.8
+        for i, pattern in enumerate(patterns):
+            # Rescale pattern to the size of the image
+            pattern = cv2.resize(pattern, (image.shape[1], image.shape[0]))
+
+            # Make image and pattern gray
+            image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+            pattern = cv2.cvtColor(pattern, cv2.COLOR_BGR2GRAY)
+
+            # Apply template Matching
+            res = cv2.matchTemplate(image, pattern, cv2.TM_CCOEFF_NORMED)
+            min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res)
+
+            cv2.imshow("Result", res)
+            if res >= threshold and i == 0:
+                cv2.rectangle(
+                    self.cv_image,
+                    (box[0].astype(int), box[1].astype(int)),
+                    (box[2].astype(int), box[3].astype(int)),
+                    (255, 0, 255),
+                    2,
+                )
+                cv2.imshow("Result", self.cv_image)
+                return 0
+            elif res >= threshold and i == 1:
+                cv2.rectangle(
+                    self.cv_image,
+                    (box[0].astype(int), box[1].astype(int)),
+                    (box[2].astype(int), box[3].astype(int)),
+                    (255, 0, 0),
+                    2,
+                )
+                cv2.imshow("Result", self.cv_image)
+                return 90
+            elif res >= threshold and i == 2:
+                cv2.rectangle(
+                    self.cv_image,
+                    (box[0].astype(int), box[1].astype(int)),
+                    (box[2].astype(int), box[3].astype(int)),
+                    (0, 255, 0),
+                    2,
+                )
+                cv2.imshow("Result", self.cv_image)
+                return 45
+            else:
+                return -1
 
     def callback(self, data):
         print("[YOLO] Entered in Callback")
@@ -142,11 +206,17 @@ class Detector:
                     bbox.ymin = new_coords[1].astype(int)
                     bbox.xmax = new_coords[2].astype(int)
                     bbox.ymax = new_coords[3].astype(int)
+                    # bbox.orientation = self.det_orientatiion_pattern_matching(
+                    #     new_coords, obj.cls[0]
+                    # )
                 else:
                     bbox.xmin = obj.xyxy[0][0].astype(int)
                     bbox.ymin = obj.xyxy[0][1].astype(int)
                     bbox.xmax = obj.xyxy[0][2].astype(int)
                     bbox.ymax = obj.xyxy[0][3].astype(int)
+                    # bbox.orientation = self.det_orientatiion_pattern_matching(
+                    #     obj.xyxy[0], obj.cls[0]
+                    # )
 
                 # print("After: ", new_coords)
 
