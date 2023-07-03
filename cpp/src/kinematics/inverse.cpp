@@ -1,24 +1,10 @@
-#include <eigenMatrices.h>
-#include <kinematics.h>
 #include <complex.h>
 #include <cmath>
 #include <iostream>
+#include "kinematics.h"
 
 using namespace Eigen;
 using namespace std;
-
-// Inverse Kineamtics of UR5
-double normalize(double angle)
-{
-    if (angle > 0)
-    {
-        return fmod(angle, 2 * M_PI);
-    }
-    else
-    {
-        return 2 * M_PI - fmod(-angle, 2 * M_PI);
-    }
-}
 
 Matrix<double, 8, 6> ur5Inverse(coordinates pe, rotMatrix re)
 {
@@ -26,12 +12,6 @@ Matrix<double, 8, 6> ur5Inverse(coordinates pe, rotMatrix re)
     std::complex<double> complex_converter(1.0, 0.0);
     // jointValues th;
     Matrix<double, 8, 6> th;
-
-    // dh parameters
-    // Vector of the A distance (expressed in metres)
-    const double A[] = {0, -0.425, -0.3922, 0, 0, 0};
-    // Vector of the D distance (expressed in metres)
-    const double D[] = {0.1625, 0, 0, 0.1333, 0.0997, 0.0996};
 
     homoMatrix T60;
 

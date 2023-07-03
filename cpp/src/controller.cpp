@@ -30,15 +30,6 @@ Controller::Controller(double loop_frequency, bool start_homing) : loop_rate(loo
     pub_gripper_diameter = node.advertise<std_msgs::Int32>("/ur5/gripper_controller/command", 1);
     get_ins = node.serviceClient<computer_vision::GetPoints>("computer_vision/Points");
 
-    home_position << -0.465794, -1.46997, -2.16267, -1.07975, -1.5708, 2.03659;
-    cordDefault0 << 0.85, 0.32, 1.;
-    cordDefault1 << 0.51, 0.32, 1.;
-    cordDefault2 << 0.17, 0.32, 1.;
-    cordDefault3 << 0.85, 0.64, 1.;
-    cordDefault4 << 0.51, 0.64, 1.;
-    cordDefault5 << 0.17, 0.64, 1.;
-    robotReferenceCord << 0.5, 0.35, 1.46;
-
     while (!joint_initialized)
     {
         ros::spinOnce();
@@ -48,16 +39,12 @@ Controller::Controller(double loop_frequency, bool start_homing) : loop_rate(loo
     if (start_homing)
     {
 
-        coordinates cord;
-        rotMatrix rotation;
-        ur5Direct(this->home_position, cord, rotation);
-        move_to(cord, rotation, steps, false, true);
+        move_to(defaultCordArray[0], rotDefault, steps, false, true);
     }
 }
 
 coordinates Controller::nearHomingRec(coordinates current_cord, coordinates defaultCord, double &nearhomingdist, coordinates &nearhomingcord)
 {
-    defaultCord << defaultCord(0) - robotReferenceCord(0), robotReferenceCord(1) - defaultCord(1), robotReferenceCord(2) - defaultCord(2);
     double dist = sqrt(pow(current_cord(0) - defaultCord(0), 2) + pow(current_cord(1) - defaultCord(1), 2));
     if (nearhomingdist == -1 || dist < nearhomingdist)
     {
@@ -76,7 +63,6 @@ void Controller::nearHoming(coordinates &cord, rotMatrix &rot)
     ur5Direct(current_joints, current_cord, rot);
     double nearhomingdist = -1;
     coordinates nearhomingcord;
-    coordinates defaultCordArray[6] = {cordDefault0, cordDefault1, cordDefault2, cordDefault3, cordDefault4, cordDefault5};
     for (coordinates defaultCord : defaultCordArray)
     {
         nearhomingcord = nearHomingRec(current_cord, defaultCord, nearhomingdist, nearhomingcord);
@@ -88,7 +74,6 @@ void Controller::nearHoming(coordinates &cord, rotMatrix &rot)
 
 coordinates Controller::advanceNearHomingRec(coordinates current_cord, coordinates defaultCord, coordinates final_cord, double &nearhomingdist, coordinates &nearhomingcord)
 {
-    defaultCord << defaultCord(0) - robotReferenceCord(0), robotReferenceCord(1) - defaultCord(1), robotReferenceCord(2) - defaultCord(2);
     double dist = sqrt(pow(current_cord(0) - defaultCord(0), 2) + pow(current_cord(1) - defaultCord(1), 2));
     double dist2 = sqrt(pow(final_cord(0) - defaultCord(0), 2) + pow(final_cord(1) - defaultCord(1), 2));
     if (nearhomingdist == -1 || (dist + dist2) < nearhomingdist)
@@ -108,7 +93,6 @@ void Controller::advanceNearHoming(coordinates &cord, rotMatrix &rot, coordinate
     ur5Direct(current_joints, current_cord, rot);
     double nearhomingdist = -1;
     coordinates nearhomingcord;
-    coordinates defaultCordArray[6] = {cordDefault0, cordDefault1, cordDefault2, cordDefault3, cordDefault4, cordDefault5};
     for (coordinates defaultCord : defaultCordArray)
     {
         nearhomingcord = advanceNearHomingRec(current_cord, defaultCord, final_cord, nearhomingdist, nearhomingcord);
@@ -269,6 +253,9 @@ bool Controller::trajectory_multiple_positions(vector<vector<double *>> *th_sum,
         jointValues joint_to_check;
         joint_to_check << inverse_kinematics_res(index, 0), inverse_kinematics_res(index, 1), inverse_kinematics_res(index, 2),
             inverse_kinematics_res(index, 3), inverse_kinematics_res(index, 4), inverse_kinematics_res(index, 5);
+
+        joint_to_check = bestNormalization(init_joint, joint_to_check);
+
         // cout << "joint_to_check: " << joint_to_check.transpose() << endl;
         if (init_verify_trajectory(&(th_sum->at(n)), init_joint, joint_to_check, this->steps, order[n]))
         {
@@ -331,7 +318,7 @@ bool Controller::move_to(const coordinates &position, const rotMatrix &rotation,
 
     jointValues init_joint = current_joints;
     Eigen::Matrix<double, 8, 6> inverse_kinematics_res = ur5Inverse(position, rotation);
-    // cout << "inverse_kinematics_res:\n " << inverse_kinematics_res.transpose() << endl;
+    cout << "inverse_kinematics_res:\n " << inverse_kinematics_res.transpose() << endl;
 
     int *indexes = sort_inverse(inverse_kinematics_res, init_joint);
 
@@ -343,6 +330,7 @@ bool Controller::move_to(const coordinates &position, const rotMatrix &rotation,
         joint_to_check << inverse_kinematics_res(index, 0), inverse_kinematics_res(index, 1), inverse_kinematics_res(index, 2),
             inverse_kinematics_res(index, 3), inverse_kinematics_res(index, 4), inverse_kinematics_res(index, 5);
 
+        joint_to_check = bestNormalization(init_joint, joint_to_check);
         /*
         cout << "joint_to_check: " << joint_to_check << endl;
         cout << "init_joint: " << init_joint << endl;
@@ -364,6 +352,7 @@ bool Controller::move_to(const coordinates &position, const rotMatrix &rotation,
     }
 
     cout << "No valid trajectory found" << endl;
+    return false;
 
     if (!homing)
     {
@@ -454,9 +443,9 @@ bool Controller::move_inside(int steps, bool pick_or_place, vector<double *> *tr
         // cout << "des_not_linear: " << des_not_linear << endl;
         //  send the trajectory
 
-        while (ros::ok() && this->acceptable_error < calculate_distance(des_not_linear, current_joints))
+        while (ros::ok() && this->acceptable_error < calculate_distance(current_joints, des_not_linear))
         {
-            // cout << "error: " << calculate_distance(des_not_linear, current_joints) << endl;
+            // cout << "error: " << calculate_distance(current_joints, des_not_linear) << endl;
             jointValues q_des = second_order_filter(des_not_linear, loop_frequency, 0.5);
             // cout << "q_des: " << q_des << endl;
             if (use_filter)
@@ -490,14 +479,14 @@ int *Controller::sort_inverse(Eigen::Matrix<double, 8, 6> &inverse_kinematics_re
             inverse_kinematics_res(i, 3), inverse_kinematics_res(i, 4), inverse_kinematics_res(i, 5);
 
         // double diff = (inverse_i - initial_joints).norm(); // doesnt take into account the angle normalization
-        double diff = calculate_distance_weighted(inverse_i, initial_joints);
+        double diff = calculate_distance_weighted(initial_joints, inverse_i);
 
         // facing back of the table
         if (norm_angle(inverse_i(0)) > 3.7 && norm_angle(inverse_i(0)) < 5.7)
         {
             diff += 100;
         }
-        cout << "diff: " << diff << ", i: " << i << endl;
+        // cout << "diff: " << diff << ", i: " << i << endl;
         sorted_inverse.insert(pair<double, int>(diff, i));
     }
 
@@ -529,51 +518,64 @@ bool Controller::check_trajectory(vector<double *> traj, int step, bool pick_or_
             traj[i][3], traj[i][4], traj[i][5];
 
         ur5Direct(joints, cord, rot);
-        /*
-        if (i == step - 1)
+        if (debug_traj)
         {
-            cout << "last cord: " << cord.transpose() << endl;
-            cout << "last joint: " << joints.transpose() << endl;
-            cout << "last rotation: " << endl
-                 << rot << endl;
+
+            if (i == step - 1)
+            {
+                cout << "last cord: " << cord.transpose() << endl;
+                cout << "last joint: " << joints.transpose() << endl;
+                cout << "last rotation: " << endl
+                     << rot << endl;
+            }
         }
-        */
         if (!(cord(0) > min_x && cord(0) < max_x && cord(1) > min_y && cord(1) < max_y && cord(2) > min_z && cord(2) < max_z))
         {
-            // cout << "coordinates of trajectory does not fit in the workspace:" << cord.transpose() << endl;
+            if (debug_traj)
+            {
+                cout << "coordinates of trajectory does not fit in the workspace:" << cord.transpose() << endl;
+            }
             return false;
         }
 
         if (!pick_or_place && cord(2) > max_z_moving)
         {
-            // cout << "cord z wrong: " << cord.transpose() << endl;
+            if (debug_traj)
+            {
+                cout << "cord z wrong: " << cord.transpose() << endl;
+            }
             return false;
         }
 
         if (!pick_or_place && cord(2) > max_z_near_end_table && cord(1) > max_y_near_end_table)
         {
-            // cout << "cord end table wrong: " << cord.transpose() << endl;
+            if (debug_traj)
+            {
+                cout << "cord end table wrong: " << cord.transpose() << endl;
+            }
             return false;
         }
 
         if (pick_or_place && (fabs(traj[0][4] - joints(4)) > M_PI / 2 || fabs(traj[0][5] - joints(5)) > M_PI / 2))
         {
-            /*
-            cout << "trying strange rotation for pick or place" << endl;
-            cout << "traj[0][4]: " << traj[0][4] << ", traj[0][5]: " << traj[0][5] << endl;
-            cout << "joints(4): " << joints(4) << ", joints(5): " << joints(5) << endl;
-            cout << fabs(traj[0][4] - joints(4)) << ", " << fabs(traj[0][5] - joints(5)) << endl;
-            */
+            if (debug_traj)
+            {
+                cout << "trying strange rotation for pick or place" << endl;
+                cout << "traj[0][4]: " << traj[0][4] << ", traj[0][5]: " << traj[0][5] << endl;
+                cout << "joints(4): " << joints(4) << ", joints(5): " << joints(5) << endl;
+                cout << fabs(traj[0][4] - joints(4)) << ", " << fabs(traj[0][5] - joints(5)) << endl;
+            }
             return false;
         }
 
         if (pick_or_place && (start_rotation - rot).norm() > 0.1)
         {
-            /*
-            cout << "rotations are different" << endl;
-            cout << "start_rot: " << start_rotation << endl;
-            cout << "rot: " << rot << endl;
-            */
+            if (debug_traj)
+            {
+                cout << "rotations are different" << endl;
+                cout << "start_rot: " << start_rotation << endl;
+                cout << "rot: " << rot << endl;
+            }
             return false;
         }
 
@@ -587,24 +589,31 @@ bool Controller::check_trajectory(vector<double *> traj, int step, bool pick_or_
 
         if (joints(1) > 0 || joints(1) < -3.14)
         {
-            // cout << "joints(1) > -0.2" << endl;
+            if (debug_traj)
+            {
+                cout << "joints(1) invalid:" << joints(1) << endl;
+            }
             return false;
         }
 
         if (abs(jacobian.determinant()) < 0.000001)
         {
-            /*
-            cout << "----------\ntrajectory invalid 1" << endl;
-            cout << "determinant of jacobian is " << abs(jacobian.determinant()) << "\n-------------\n"
-                 << endl;
-            */
+            if (debug_traj)
+            {
+                cout << "----------\ntrajectory invalid 1" << endl;
+                cout << "determinant of jacobian is " << abs(jacobian.determinant()) << "\n-------------\n"
+                     << endl;
+            }
             return false;
         }
 
         Eigen::JacobiSVD<Eigen::MatrixXd> svd(jacobian, Eigen::ComputeThinU | Eigen::ComputeThinV);
         if (abs(svd.singularValues()(5)) < 0.0000001)
         {
-            // cout << "trajectory invalid 2" << endl;
+            if (debug_traj)
+            {
+                cout << "trajectory invalid 2" << endl;
+            }
             cout << abs(svd.singularValues()(5)) << endl;
             return false;
         }
@@ -614,39 +623,21 @@ bool Controller::check_trajectory(vector<double *> traj, int step, bool pick_or_
     return true;
 }
 
-double Controller::norm_angle(double angle)
-{
-    if (angle > 0)
-    {
-        return fmod(angle, 2 * M_PI);
-    }
-    else
-    {
-        return 2 * M_PI - fmod(-angle, 2 * M_PI);
-    }
-}
-
 double Controller::calculate_distance(const jointValues &first_vector, const jointValues &second_vector)
 {
-    jointValues first_norm, second_norm;
-    for (int i = 0; i < 6; i++)
-    {
-        first_norm(i) = norm_angle(second_vector(i));
-        second_norm(i) = norm_angle(first_vector(i));
-    }
-    return (first_norm - second_norm).norm();
+    jointValues second_norm = bestNormalization(first_vector, second_vector);
+    return (first_vector - second_norm).norm();
 }
 
 double Controller::calculate_distance_weighted(const jointValues &first_vector, const jointValues &second_vector)
 {
     double distance_val = 0;
     double weight[6] = {1, 1, 1, 10, 10, 1};
+    jointValues second_norm = bestNormalization(first_vector, second_vector);
 
     for (int i = 0; i < 6; i++)
     {
-        double first = norm_angle(second_vector(i));
-        double second = norm_angle(first_vector(i));
-        distance_val += weight[i] * fabs(first - second);
+        distance_val += weight[i] * fabs(first_vector(i) - second_norm(i));
     }
 
     return distance_val;

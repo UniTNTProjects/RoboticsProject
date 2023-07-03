@@ -5,10 +5,6 @@
 using namespace Eigen;
 using namespace std;
 
-// ur5 distance
-const double A[] = {0, -0.425, -0.3922, 0, 0, 0};
-const double D[] = {0.1625, 0, 0, 0.1333, 0.0997, 0.0996};
-
 // Direct Kineamtics of UR5
 void ur5Direct(jointValues &th, coordinates &pe, rotMatrix &re);
 
@@ -19,3 +15,53 @@ Matrix<double, 8, 6> ur5Inverse(coordinates pe, rotMatrix re);
 Matrix<double, 6, 6> ur5Jac(jointValues &Th);
 
 void ur5Trajectory(vector<double *> *Th, jointValues initial_position, jointValues final_position, int steps);
+
+static double norm_angle(double angle)
+{
+    if (angle > 0)
+    {
+
+        return fmod(angle, 2 * M_PI);
+    }
+    else
+    {
+
+        return 2 * M_PI - fmod(-angle, 2 * M_PI);
+    }
+}
+
+static jointValues bestNormalization(const jointValues init, jointValues final)
+{
+
+    jointValues res;
+    for (int i = 0; i < 6; i++)
+    {
+        if (i == 2 || i == 1)
+        {
+            res(i) = final(i);
+        }
+        else
+        {
+
+            int final_factor = final(i) / (2 * M_PI);
+            int init_factor = init(i) / (2 * M_PI);
+
+            final(i) = final(i) - (final_factor - init_factor) * 2 * M_PI;
+
+            double diff = final(i) - init(i);
+            if (diff > M_PI)
+            {
+                res(i) = final(i) - 2 * M_PI;
+            }
+            else if (diff < -M_PI)
+            {
+                res(i) = final(i) + 2 * M_PI;
+            }
+            else
+            {
+                res(i) = final(i);
+            }
+        }
+    }
+    return res;
+}

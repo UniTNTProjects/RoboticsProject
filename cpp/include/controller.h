@@ -12,7 +12,8 @@ typedef Eigen::Matrix<double, 2, 1> GripperStateVector;
 class Controller
 {
 private:
-    const bool test_fast_mode = true;
+    const bool test_fast_mode = false;
+    const bool debug_traj = false;
 
     ros::NodeHandle node;
     ros::Rate loop_rate;
@@ -46,13 +47,14 @@ private:
 
     const double max_z_moving = 0.73;
 
-    jointValues home_position;
-
     jointValues current_joints;
     GripperStateVector current_gripper;
     bool joint_initialized = false;
 
-    coordinates cordDefault0, cordDefault1, cordDefault2, cordDefault3, cordDefault4, cordDefault5, robotReferenceCord;
+    const rotMatrix rotDefault = (rotMatrix() << -1, 0, 0,
+                                  0, -1, 0,
+                                  0, 0, 1)
+                                     .finished();
 
     void joint_state_callback(const sensor_msgs::JointState::ConstPtr &msg);
     void send_state(const jointValues &joint_pos);
@@ -62,7 +64,7 @@ private:
     void init_filter(void);
     double calculate_distance(const jointValues &first_vector, const jointValues &second_vector);
     int *sort_inverse(Eigen::Matrix<double, 8, 6> &inverse_kinematics_res, const jointValues &initial_joints);
-    double norm_angle(double angle);
+
     bool move_with_steps(const jointValues &values, const bool order[6]);
     bool move_inside(int steps, bool pick_or_place, vector<double *> *trajectory);
     bool init_verify_trajectory(vector<double *> *Th, jointValues init_joint, jointValues final_joint, int steps, bool pick_or_place);
@@ -75,6 +77,16 @@ private:
     double calculate_distance_weighted(const jointValues &first_vector, const jointValues &second_vector);
 
 public:
+    const coordinates defaultCordArray[6] = {
+        (coordinates() << 0.35, 0.03, 0.55).finished(),
+        (coordinates() << 0.01, 0.03, 0.55).finished(),
+        (coordinates() << -0.33, 0.03, 0.55).finished(),
+        (coordinates() << -0.33, -0.29, 0.55).finished(),
+        (coordinates() << 0.01, -0.29, 0.55).finished(),
+        (coordinates() << 0.35, -0.29, 0.55).finished(),
+
+    };
+
     Controller(double loop_frequency, bool start_homing);
     jointValues get_joint_state();
     GripperStateVector get_gripper_state();
