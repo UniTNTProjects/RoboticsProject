@@ -19,7 +19,7 @@ void Controller::joint_state_callback(const sensor_msgs::JointState::ConstPtr &m
     // cout << "current_joints " << current_joints << endl;
 }
 
-Controller::Controller(double loop_frequency) : loop_rate(loop_frequency)
+Controller::Controller(double loop_frequency, bool start_homing) : loop_rate(loop_frequency)
 {
     this->loop_frequency = loop_frequency;
     node.getParam("/real_robot", real_robot);
@@ -45,10 +45,14 @@ Controller::Controller(double loop_frequency) : loop_rate(loop_frequency)
         loop_rate.sleep();
     }
 
-    coordinates cord;
-    rotMatrix rotation;
-    ur5Direct(this->home_position, cord, rotation);
-    move_to(cord, rotation, steps, false, true);
+    if (start_homing)
+    {
+
+        coordinates cord;
+        rotMatrix rotation;
+        ur5Direct(this->home_position, cord, rotation);
+        move_to(cord, rotation, steps, false, true);
+    }
 }
 
 coordinates Controller::nearHomingRec(coordinates current_cord, coordinates defaultCord, double &nearhomingdist, coordinates &nearhomingcord)
@@ -485,8 +489,15 @@ int *Controller::sort_inverse(Eigen::Matrix<double, 8, 6> &inverse_kinematics_re
         inverse_i << inverse_kinematics_res(i, 0), inverse_kinematics_res(i, 1), inverse_kinematics_res(i, 2),
             inverse_kinematics_res(i, 3), inverse_kinematics_res(i, 4), inverse_kinematics_res(i, 5);
 
-        double diff = (inverse_i - initial_joints).norm(); // doesnt take into account the angle normalization
-        // double diff = calculate_distance(inverse_i, initial_joints);
+        // double diff = (inverse_i - initial_joints).norm(); // doesnt take into account the angle normalization
+        double diff = calculate_distance_weighted(inverse_i, initial_joints);
+
+        // facing back of the table
+        if (norm_angle(inverse_i(0)) > 3.7 && norm_angle(inverse_i(0)) < 5.7)
+        {
+            diff += 100;
+        }
+        cout << "diff: " << diff << ", i: " << i << endl;
         sorted_inverse.insert(pair<double, int>(diff, i));
     }
 
@@ -518,6 +529,15 @@ bool Controller::check_trajectory(vector<double *> traj, int step, bool pick_or_
             traj[i][3], traj[i][4], traj[i][5];
 
         ur5Direct(joints, cord, rot);
+        /*
+        if (i == step - 1)
+        {
+            cout << "last cord: " << cord.transpose() << endl;
+            cout << "last joint: " << joints.transpose() << endl;
+            cout << "last rotation: " << endl
+                 << rot << endl;
+        }
+        */
         if (!(cord(0) > min_x && cord(0) < max_x && cord(1) > min_y && cord(1) < max_y && cord(2) > min_z && cord(2) < max_z))
         {
             // cout << "coordinates of trajectory does not fit in the workspace:" << cord.transpose() << endl;
@@ -538,18 +558,22 @@ bool Controller::check_trajectory(vector<double *> traj, int step, bool pick_or_
 
         if (pick_or_place && (fabs(traj[0][4] - joints(4)) > M_PI / 2 || fabs(traj[0][5] - joints(5)) > M_PI / 2))
         {
+            /*
             cout << "trying strange rotation for pick or place" << endl;
             cout << "traj[0][4]: " << traj[0][4] << ", traj[0][5]: " << traj[0][5] << endl;
             cout << "joints(4): " << joints(4) << ", joints(5): " << joints(5) << endl;
             cout << fabs(traj[0][4] - joints(4)) << ", " << fabs(traj[0][5] - joints(5)) << endl;
+            */
             return false;
         }
 
         if (pick_or_place && (start_rotation - rot).norm() > 0.1)
         {
+            /*
             cout << "rotations are different" << endl;
             cout << "start_rot: " << start_rotation << endl;
             cout << "rot: " << rot << endl;
+            */
             return false;
         }
 
@@ -561,7 +585,7 @@ bool Controller::check_trajectory(vector<double *> traj, int step, bool pick_or_
         MatrixXd jacobian = ur5Jac(joints);
         // cout << "jacobian: " << jacobian << endl;
 
-        if (joints(1) > -0.2 || joints(1) < -3.14)
+        if (joints(1) > 0 || joints(1) < -3.14)
         {
             // cout << "joints(1) > -0.2" << endl;
             return false;
@@ -586,6 +610,7 @@ bool Controller::check_trajectory(vector<double *> traj, int step, bool pick_or_
         }
     }
     cout << "trajectory valid" << endl;
+
     return true;
 }
 
@@ -612,6 +637,21 @@ double Controller::calculate_distance(const jointValues &first_vector, const joi
     return (first_norm - second_norm).norm();
 }
 
+double Controller::calculate_distance_weighted(const jointValues &first_vector, const jointValues &second_vector)
+{
+    double distance_val = 0;
+    double weight[6] = {1, 1, 1, 10, 10, 1};
+
+    for (int i = 0; i < 6; i++)
+    {
+        double first = norm_angle(second_vector(i));
+        double second = norm_angle(first_vector(i));
+        distance_val += weight[i] * fabs(first - second);
+    }
+
+    return distance_val;
+}
+
 void Controller::move_gripper_to(const int diameter)
 {
 
@@ -627,4 +667,9 @@ void Controller::print_current_pos_rot()
     ur5Direct(joints, cord, rot);
     cout << "cord: " << cord << endl;
     cout << "rot: " << rot << endl;
+}
+
+void Controller::sleep()
+{
+    ros::Duration(1.0).sleep();
 }

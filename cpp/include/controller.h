@@ -12,7 +12,7 @@ typedef Eigen::Matrix<double, 2, 1> GripperStateVector;
 class Controller
 {
 private:
-    const bool test_fast_mode = false;
+    const bool test_fast_mode = true;
 
     ros::NodeHandle node;
     ros::Rate loop_rate;
@@ -31,7 +31,7 @@ private:
     const double acceptable_error = 0.005;
 
     const double sleep_time_after_movement = 0.5;
-    const double sleep_time_after_gripper = 6.0;
+    const double sleep_time_after_gripper = 3.0;
 
     const double max_x = 1;
     const double max_y = 0.4;
@@ -72,15 +72,17 @@ private:
     coordinates advanceNearHomingRec(coordinates current_cord, coordinates defaultCord, coordinates final_cord, double &nearhomingdist, coordinates &nearhomingcord);
     bool trajectory_multiple_positions(vector<vector<double *>> *th_sum, vector<pair<coordinates, rotMatrix>> *positions, int n_positions, int n, jointValues init_joint, vector<bool> order);
     bool up_and_move(const coordinates &position, const rotMatrix &rotation, int steps, jointValues init_joint);
+    double calculate_distance_weighted(const jointValues &first_vector, const jointValues &second_vector);
 
 public:
-    Controller(double loop_frequency);
+    Controller(double loop_frequency, bool start_homing);
     jointValues get_joint_state();
     GripperStateVector get_gripper_state();
     pair<coordinates, rotMatrix> get_position();
     bool move_to(const coordinates &position, const rotMatrix &rotation, int steps, bool pick_or_place, bool homing);
     void move_gripper_to(const int diameter);
     void print_current_pos_rot();
+    void sleep();
 
     ros::ServiceClient get_ins;
 

@@ -38,7 +38,7 @@ private:
     Controller *controller;
     FSMState *currentState;
 
-    int closeGripperDiameter = 30;
+    int closeGripperDiameter = 28;
     int openGripperDiameter = 70;
     double heightPickAndPlace = 0.14;
 

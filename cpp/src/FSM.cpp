@@ -6,7 +6,7 @@ using namespace std;
 FSM::FSM()
 {
     currentState = &Wait::getInstance();
-    controller = new Controller(100.);
+    controller = new Controller(250., true);
     positions = new queue<pair<coordinates, rotMatrix>>();
 
     this->moveGripperTo(openGripperDiameter);
