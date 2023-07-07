@@ -67,23 +67,21 @@ coordinates Controller::nearHomingRec(coordinates current_cord, coordinates defa
     return nearhomingcord;
 }
 
-void Controller::nearHoming(coordinates &cord, rotMatrix &rot)
+coordinates Controller::nearHoming(coordinates cord)
 {
 
     cout << "nearHoming" << endl;
-
-    coordinates current_cord;
-    ur5Direct(current_joints, current_cord, rot);
+    
     double nearhomingdist = -1;
     coordinates nearhomingcord;
     coordinates defaultCordArray[6] = {cordDefault0, cordDefault1, cordDefault2, cordDefault3, cordDefault4, cordDefault5};
     for (coordinates defaultCord : defaultCordArray)
     {
-        nearhomingcord = nearHomingRec(current_cord, defaultCord, nearhomingdist, nearhomingcord);
+        nearhomingcord = nearHomingRec(cord, defaultCord, nearhomingdist, nearhomingcord);
     }
 
     cout << "nearhomingcord: " << nearhomingcord << endl;
-    cord = nearhomingcord;
+    return nearhomingcord;
 }
 
 coordinates Controller::advanceNearHomingRec(coordinates current_cord, coordinates defaultCord, coordinates final_cord, double &nearhomingdist, coordinates &nearhomingcord)
@@ -650,6 +648,112 @@ double Controller::calculate_distance_weighted(const jointValues &first_vector, 
     }
 
     return distance_val;
+}
+
+bool Controller::move_through_homing(coordinates final_cord, rotMatrix rot){
+    coordinates first_home;
+    coordinates last_home;
+
+    coordinates current_cord;
+    ur5Direct(current_joints, current_cord, rot);
+
+    first_home = nearHoming(current_cord);
+    last_home = nearHoming(final_cord);
+
+    coordinates defaultCordArray[6] = {cordDefault0, cordDefault1, cordDefault2, cordDefault3, cordDefault4, cordDefault5};
+    for(int i = 0; i < 6; i++){
+        defaultCordArray[i] << defaultCordArray[i](0) - robotReferenceCord(0), robotReferenceCord(1) - defaultCordArray[i](1), robotReferenceCord(2) - defaultCordArray[i](2);
+    }
+    int first_home_index = -1;
+    int last_home_index = -1;
+    for (int i = 0; i < 6; i++){
+        if (first_home(1) == defaultCordArray[i](1) && first_home(0) == defaultCordArray[i](0)){
+            first_home_index = i;
+        }
+        if (last_home(1) == defaultCordArray[i](1) && last_home(0) == defaultCordArray[i](0)){
+            last_home_index = i;
+        }
+    }
+
+    vector<pair<coordinates, rotMatrix>> positions = vector<pair<coordinates, rotMatrix>>();
+    coordinates current = first_home;
+    int current_index = first_home_index;
+    while (current_index != last_home_index){
+        positions.push_back(make_pair(current, rot));
+        if(current_index <= 2){
+            if(last_home_index <= 2){
+                if(current_index == 0){
+                    current_index++;
+                    current = defaultCordArray[current_index];
+                }else if(current_index == 2){
+                    current_index--;
+                    current = defaultCordArray[current_index];
+                }else{
+                    if(last_home_index == 2){
+                        current_index++;
+                        current = defaultCordArray[current_index];
+                    }else{
+                        current_index--;
+                        current = defaultCordArray[current_index];
+                    }
+                }
+            }else{
+                current_index += 3;
+                current = defaultCordArray[current_index];
+            }
+        }else{
+            if(last_home_index <= 2){
+                current_index -= 3;
+                current = defaultCordArray[current_index];
+            }else{
+                if(current_index == 3){
+                    current_index++;
+                    current = defaultCordArray[current_index];
+                }else if(current_index == 5){
+                    current_index--;
+                    current = defaultCordArray[current_index];
+                }else{
+                    if(last_home_index == 5){
+                        current_index++;
+                        current = defaultCordArray[current_index];
+                    }else{
+                        current_index--;
+                        current = defaultCordArray[current_index];
+                    }
+                }
+            }
+        }
+    }
+    positions.push_back(make_pair(last_home, rot));
+    positions.push_back(make_pair(final_cord, rot));
+
+    vector<vector<double *>> th_sum = vector<vector<double *>>();
+    for (int j = 0; j < positions.size(); j++)
+    {
+        vector<double *> trajectory = vector<double *>();
+        for (int i = 0; i < steps; i++)
+        {
+            trajectory.push_back(new double[6]);
+        }
+        th_sum.push_back(trajectory);
+    }
+    
+    cout << "current_cord" << current_cord.transpose() << endl;
+    cout << "positions.size(): " << positions.size() << endl;
+    for(int i = 0; i < positions.size(); i++){
+        cout << "positions[" << i << "]: " << positions[i].first.transpose() << endl;
+    }
+
+    if (trajectory_multiple_positions(&th_sum, &positions, positions.size(), 0, current_joints, vector<bool>{true, false, true}))
+    {   
+        cout << "move through homing" << endl;
+        for (int i = 0; i < positions.size(); i++){
+            move_inside(steps, false, &(th_sum[i]));
+        }
+        return true;
+    }
+    return false;
+
 }
 
 void Controller::move_gripper_to(const int diameter)

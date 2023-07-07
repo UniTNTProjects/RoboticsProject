@@ -12,7 +12,7 @@ typedef Eigen::Matrix<double, 2, 1> GripperStateVector;
 class Controller
 {
 private:
-    const bool test_fast_mode = true;
+    const bool test_fast_mode = false;
 
     ros::NodeHandle node;
     ros::Rate loop_rate;
@@ -66,7 +66,7 @@ private:
     bool move_with_steps(const jointValues &values, const bool order[6]);
     bool move_inside(int steps, bool pick_or_place, vector<double *> *trajectory);
     bool init_verify_trajectory(vector<double *> *Th, jointValues init_joint, jointValues final_joint, int steps, bool pick_or_place);
-    void nearHoming(coordinates &cord, rotMatrix &rot);
+    coordinates nearHoming(coordinates cord);
     coordinates nearHomingRec(coordinates current_cord, coordinates defaultCord, double &nearhomingdist, coordinates &nearhomingcord);
     void advanceNearHoming(coordinates &cord, rotMatrix &rot, coordinates final_cord);
     coordinates advanceNearHomingRec(coordinates current_cord, coordinates defaultCord, coordinates final_cord, double &nearhomingdist, coordinates &nearhomingcord);
@@ -83,6 +83,7 @@ public:
     void move_gripper_to(const int diameter);
     void print_current_pos_rot();
     void sleep();
+    bool move_through_homing(coordinates final_cord, rotMatrix rot);
 
     ros::ServiceClient get_ins;
 
