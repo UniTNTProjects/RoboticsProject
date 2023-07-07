@@ -8,8 +8,6 @@ using namespace Eigen;
 
 Matrix<double, 6, 6> ur5Jac(jointValues &Th)
 {
-    const double A[] = {0, -0.425, -0.3922, 0, 0, 0};
-    const double D[] = {0.1625, 0, 0, 0.1333, 0.0997, 0.0996};
 
     double A1 = A[0], A2 = A[1], A3 = A[2], A4 = A[3], A5 = A[4], A6 = A[5];
     double D1 = D[0], D2 = D[1], D3 = D[2], D4 = D[3], D5 = D[4], D6 = D[5];

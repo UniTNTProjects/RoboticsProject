@@ -1,13 +1,15 @@
 #include <iostream>
 #include <vector>
 #include <Eigen/Dense>
-#include <kinematics.h>
+#include "kinematics.h"
 
 using namespace Eigen;
 using namespace std;
 
 void ur5Trajectory(vector<double *> *Th, jointValues initial_position, jointValues final_position, int steps)
 {
+    final_position = bestNormalization(initial_position, final_position);
+
     Matrix<double, 6, 4> A;
     for (int i = 0; i < 6; i++)
     {
