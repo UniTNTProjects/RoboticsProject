@@ -631,7 +631,7 @@ double Controller::calculate_distance(const jointValues &first_vector, const joi
 double Controller::calculate_distance_weighted(const jointValues &first_vector, const jointValues &second_vector)
 {
     double distance_val = 0;
-    double weight[6] = {1, 1, 1, 10, 10, 1};
+    double weight[6] = {1, 1, 1, 10, 5, 1};
     jointValues second_norm = bestNormalization(first_vector, second_vector);
 
     for (int i = 0; i < 6; i++)

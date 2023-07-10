@@ -38,6 +38,7 @@ static jointValues bestNormalization(const jointValues init, jointValues final)
     {
         if (i == 2 || i == 1)
         {
+            // no need to normalize this joints, they are not in the range of [-pi,pi] or could cause problems if normalized
             res(i) = final(i);
         }
         else
