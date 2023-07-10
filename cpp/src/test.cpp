@@ -9,7 +9,7 @@ int main(int argc, char **argv)
 {
     ros::init(argc, argv, "test_ur5");
 
-    Controller controller = Controller(1000.);
+    Controller controller = Controller(1000., true);
 
     rotMatrix rotDefault;
     rotDefault << -1, 0, 0,
@@ -19,9 +19,10 @@ int main(int argc, char **argv)
     cordDefault << 0.3, -0.3, 0.5;
 
     coordinates cord;
-    cord << 3, -3, 0.5;
+    cord << 0.02, -0.4, 0.5;
 
-    controller.move_to(cord, rotDefault, 20, false, false);
+    // controller.move_to(cord, rotDefault, 20, false, false);
+    controller.move_through_homing(cord, rotDefault);
 
     // controller.move_to(cordDefault, rotDefault, 5, false, false);
 

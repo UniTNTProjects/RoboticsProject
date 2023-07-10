@@ -234,8 +234,9 @@ jointValues Controller::second_order_filter(const jointValues &input, const doub
 bool Controller::trajectory_multiple_positions(vector<vector<double *>> *th_sum, vector<pair<coordinates, rotMatrix>> *positions, int n_positions, int n, jointValues init_joint, vector<bool> order)
 {
     cout << "n: " << n << endl;
-    if (n == n_positions)
+    if (n == n_positions-1)
     {
+        cout << "trajectory verified" << endl;
         return true;
     }
     coordinates cord = (*positions)[n].first;
@@ -651,70 +652,95 @@ bool Controller::move_through_homing(coordinates final_cord, rotMatrix rot){
     first_home = nearHoming(current_cord);
     last_home = nearHoming(final_cord);
 
-    coordinates defaultCordArray[6] = {cordDefault0, cordDefault1, cordDefault2, cordDefault3, cordDefault4, cordDefault5};
+    coordinates newArray[6];
+
+    newArray[0] = defaultCordArray[0];
+    newArray[1] = defaultCordArray[5];
+    newArray[2] = defaultCordArray[4];
+    newArray[3] = defaultCordArray[3];
+    newArray[4] = defaultCordArray[2];
+    newArray[5] = defaultCordArray[1];
+
     for(int i = 0; i < 6; i++){
-        defaultCordArray[i] << defaultCordArray[i](0) - robotReferenceCord(0), robotReferenceCord(1) - defaultCordArray[i](1), robotReferenceCord(2) - defaultCordArray[i](2);
-    }
+        cout << "newArray[" << i << "]: " << newArray[i].transpose() << endl;
+    }        
+
     int first_home_index = -1;
     int last_home_index = -1;
     for (int i = 0; i < 6; i++){
-        if (first_home(1) == defaultCordArray[i](1) && first_home(0) == defaultCordArray[i](0)){
+        if (first_home(1) == newArray[i](1) && first_home(0) == newArray[i](0)){
             first_home_index = i;
         }
-        if (last_home(1) == defaultCordArray[i](1) && last_home(0) == defaultCordArray[i](0)){
+        if (last_home(1) == newArray[i](1) && last_home(0) == newArray[i](0)){
             last_home_index = i;
         }
     }
 
+    cout << "first_home_index: " << first_home_index << endl;
+    cout << "last_home_index: " << last_home_index << endl;
+
     vector<pair<coordinates, rotMatrix>> positions = vector<pair<coordinates, rotMatrix>>();
     coordinates current = first_home;
     int current_index = first_home_index;
-    while (current_index != last_home_index){
+    while (current_index != last_home_index)
+    {
         positions.push_back(make_pair(current, rot));
-        if(current_index <= 2){
-            if(last_home_index <= 2){
-                if(current_index == 0){
-                    current_index++;
-                    current = defaultCordArray[current_index];
-                }else if(current_index == 2){
-                    current_index--;
-                    current = defaultCordArray[current_index];
-                }else{
-                    if(last_home_index == 2){
-                        current_index++;
-                        current = defaultCordArray[current_index];
-                    }else{
-                        current_index--;
-                        current = defaultCordArray[current_index];
-                    }
-                }
-            }else{
-                current_index += 3;
-                current = defaultCordArray[current_index];
-            }
+        if(current_index < last_home_index){
+            current_index++;
+            current = newArray[current_index];
         }else{
-            if(last_home_index <= 2){
-                current_index -= 3;
-                current = defaultCordArray[current_index];
-            }else{
-                if(current_index == 3){
-                    current_index++;
-                    current = defaultCordArray[current_index];
-                }else if(current_index == 5){
-                    current_index--;
-                    current = defaultCordArray[current_index];
-                }else{
-                    if(last_home_index == 5){
-                        current_index++;
-                        current = defaultCordArray[current_index];
-                    }else{
-                        current_index--;
-                        current = defaultCordArray[current_index];
-                    }
-                }
-            }
+            current_index--;
+            current = newArray[current_index];
         }
     }
+    
+
+    // while (current_index != last_home_index){
+    //     positions.push_back(make_pair(current, rot));
+    //     if(current_index <= 2){
+    //         if(last_home_index <= 2){
+    //             if(current_index == 0){
+    //                 current_index++;
+    //                 current = defaultCordArray[current_index];
+    //             }else if(current_index == 2){
+    //                 current_index--;
+    //                 current = defaultCordArray[current_index];
+    //             }else{
+    //                 if(last_home_index == 2){
+    //                     current_index++;
+    //                     current = defaultCordArray[current_index];
+    //                 }else{
+    //                     current_index--;
+    //                     current = defaultCordArray[current_index];
+    //                 }
+    //             }
+    //         }else{
+    //             current_index += 3;
+    //             current = defaultCordArray[current_index];
+    //         }
+    //     }else{
+    //         if(last_home_index <= 2){
+    //             current_index -= 3;
+    //             current = defaultCordArray[current_index];
+    //         }else{
+    //             if(current_index == 3){
+    //                 current_index++;
+    //                 current = defaultCordArray[current_index];
+    //             }else if(current_index == 5){
+    //                 current_index--;
+    //                 current = defaultCordArray[current_index];
+    //             }else{
+    //                 if(last_home_index == 5){
+    //                     current_index++;
+    //                     current = defaultCordArray[current_index];
+    //                 }else{
+    //                     current_index--;
+    //                     current = defaultCordArray[current_index];
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }
     positions.push_back(make_pair(last_home, rot));
     positions.push_back(make_pair(final_cord, rot));
 
@@ -734,8 +760,13 @@ bool Controller::move_through_homing(coordinates final_cord, rotMatrix rot){
     for(int i = 0; i < positions.size(); i++){
         cout << "positions[" << i << "]: " << positions[i].first.transpose() << endl;
     }
+    
+    vector<bool> order = vector<bool>();
+    for(int i = 0; i < positions.size(); i++){
+        order.push_back(false);
+    }
 
-    if (trajectory_multiple_positions(&th_sum, &positions, positions.size(), 0, current_joints, vector<bool>{true, false, true}))
+    if (trajectory_multiple_positions(&th_sum, &positions, positions.size(), 0, current_joints, order))
     {   
         cout << "move through homing" << endl;
         for (int i = 0; i < positions.size(); i++){

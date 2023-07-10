@@ -13,7 +13,7 @@ class Controller
 {
 private:
     const bool test_fast_mode = false;
-    const bool debug_traj = false;
+    const bool debug_traj = true;
 
     ros::NodeHandle node;
     ros::Rate loop_rate;
