@@ -9,6 +9,8 @@ FSM::FSM()
     controller = new Controller(250., true);
     positions = new queue<pair<coordinates, rotMatrix>>();
 
+    get_ins = node.serviceClient<computer_vision::GetPoints>("computer_vision/Points");
+
     this->moveGripperTo(openGripperDiameter);
     cout << "FSM initialized" << endl;
 }

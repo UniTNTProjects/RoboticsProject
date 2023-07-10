@@ -96,8 +96,6 @@ public:
     void print_current_pos_rot();
     void sleep();
 
-    ros::ServiceClient get_ins;
-
     const int steps = 20;
 };
 
