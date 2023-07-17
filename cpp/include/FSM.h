@@ -4,6 +4,7 @@
 #include <iostream>
 #include "controller.h"
 #include <queue>
+#include <computer_vision/GetPoints.h>
 
 using namespace std;
 
@@ -33,6 +34,9 @@ public:
 
     int counter = 0;
 
+    ros::ServiceClient get_ins;
+    computer_vision::GetPoints srv_points;
+
 private:
     queue<pair<coordinates, rotMatrix>> *positions;
     Controller *controller;
@@ -44,4 +48,6 @@ private:
 
     coordinates defaultCord;
     rotMatrix defaultRot;
+
+    ros::NodeHandle node;
 };

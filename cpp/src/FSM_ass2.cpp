@@ -4,14 +4,13 @@ using namespace std;
 
 void Wait::toggle(FSM *fsm)
 {
-
-    if (fsm->counter++ < 4)
+    if (fsm->isPositionQueueEmpty())
     {
-        fsm->setState(Move::getInstance());
+        fsm->isDone = true;
     }
     else
     {
-        fsm->isDone = true;
+        fsm->setState(Move::getInstance());
     }
 }
 
@@ -20,40 +19,48 @@ void Wait::enter(FSM *fsm)
     // Do something
     cout << "\n/////////////////////////\nEntered Wait State\n/////////////////////////\n"
          << endl;
+
+    fsm->get_ins.call(fsm->srv_points);
+    coordinates blockCord, silCord;
+    blockCord << fsm->srv_points.response.point[0].x, fsm->srv_points.response.point[0].y, fsm->srv_points.response.point[0].z;
+    silCord << fsm->srv_points.response.point[1].x, fsm->srv_points.response.point[1].y, fsm->srv_points.response.point[1].z;
+
+    rotMatrix rot;
+
+    switch (fsm->srv_points.response.angle)
+    {
+    case 0:
+        rot << -1, 0, 0,
+            0, -1, 0,
+            0, 0, 1;
+        break;
+    case 45:
+        rot << -0.707, -0.707, 0,
+            0.707, -0.707, 0,
+            0, 0, 1;
+        break;
+    case 90:
+        rot << 0, -1, 0,
+            1, 0, 0,
+            0, 0, 1;
+        break;
+    }
+
+    cout << "Block coordinates: " << blockCord << endl;
+    cout << "Sil coordinates: " << silCord << endl;
+    cout << "Rot:" << rot << endl;
+
+    if (blockCord(0) == 0 && blockCord(1) == 0 && blockCord(2) == 0)
+    {
+        return;
+    }
+
+    fsm->addPosition(fsm->translateBlockCordToRobotCord(blockCord), rot);
+    fsm->addPosition(fsm->translateBlockCordToRobotCord(silCord), rot);
 }
 
 void Wait::exit(FSM *fsm)
 {
-    if (fsm->counter == 1)
-    {
-        rotMatrix rot;
-        rot << -1, 0, 0,
-            0, -1, 0,
-            0, 0, 1;
-
-        // Do something
-        coordinates cord0, cord1, cord2, cord3, cord4, cord5, cord6, cord7;
-        cord0 << 0.7, 0.55, 0.87;
-        cord1 << 0.3, 0.65, 0.87;
-        cord2 << 0.6, 0.4, 0.87;
-        cord3 << 0.4, 0.45, 0.87;
-        cord4 << 0.85, 0.6, 0.87;
-        cord5 << 0.85, 0.4, 0.87;
-        cord6 << 0.85, 0.2, 0.87;
-        cord7 << 0.85, 0.7, 0.87;
-
-        fsm->addPosition(fsm->translateBlockCordToRobotCord(cord0), rot);
-        fsm->addPosition(fsm->translateBlockCordToRobotCord(cord4), rot);
-
-        fsm->addPosition(fsm->translateBlockCordToRobotCord(cord1), rot);
-        fsm->addPosition(fsm->translateBlockCordToRobotCord(cord5), rot);
-
-        fsm->addPosition(fsm->translateBlockCordToRobotCord(cord2), rot);
-        fsm->addPosition(fsm->translateBlockCordToRobotCord(cord6), rot);
-
-        fsm->addPosition(fsm->translateBlockCordToRobotCord(cord3), rot);
-        fsm->addPosition(fsm->translateBlockCordToRobotCord(cord7), rot);
-    }
     /*
     coordinates a,b;
     a << 0.2, -0.2, 0.6;

@@ -97,8 +97,6 @@ public:
     void sleep();
     bool move_through_homing(coordinates final_cord, rotMatrix rot);
 
-    ros::ServiceClient get_ins;
-
     const int steps = 20;
 };
 
