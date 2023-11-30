@@ -11,6 +11,9 @@ void ur5Direct(jointValues &th, coordinates &pe, rotMatrix &re);
 // Inverse Kineamtics of UR5
 Matrix<double, 8, 6> ur5Inverse(coordinates pe, rotMatrix re);
 
+// Inverse Kineamtics of UR5 - Pinocchio CLIK
+jointValues ur5InversePinocchio(coordinates pe, rotMatrix re);
+
 // Jacobian of UR5
 Matrix<double, 6, 6> ur5Jac(jointValues &Th);
 

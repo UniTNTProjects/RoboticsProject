@@ -1,11 +1,10 @@
 #ifndef CONTROLLER_H
 #define CONTROLLER_H
-
+#include "kinematics.h"
 #include <sensor_msgs/JointState.h>
 #include "ros/ros.h"
 #include <Eigen/Dense>
 #include <realtime_tools/realtime_publisher.h>
-#include "kinematics.h"
 
 typedef Eigen::Matrix<double, 2, 1> GripperStateVector;
 
@@ -92,6 +91,7 @@ public:
     GripperStateVector get_gripper_state();
     pair<coordinates, rotMatrix> get_position();
     bool move_to(const coordinates &position, const rotMatrix &rotation, int steps, bool pick_or_place, bool homing);
+    bool move_to_pinocchio(const coordinates &position, const rotMatrix &rotation, int steps, bool pick_or_place, bool homing);
     void move_gripper_to(const int diameter);
     void print_current_pos_rot();
     void sleep();
