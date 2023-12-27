@@ -8,11 +8,15 @@ using namespace std;
 // Direct Kineamtics of UR5
 void ur5Direct(jointValues &th, coordinates &pe, rotMatrix &re);
 
+Matrix4d computeEndEffectorPose(const coordinates &pe, const rotMatrix &re);
+
+jointValues ur5InverseKinematicsGPT(const coordinates &pe, const rotMatrix &re);
+
 // Inverse Kineamtics of UR5
 Matrix<double, 8, 6> ur5Inverse(coordinates pe, rotMatrix re);
 
 // Inverse Kineamtics of UR5 - Pinocchio CLIK
-jointValues ur5InversePinocchio(coordinates pe, rotMatrix re);
+jointValues ur5InversePinocchio(coordinates pe, rotMatrix re, jointValues current_joints);
 
 // Jacobian of UR5
 Matrix<double, 6, 6> ur5Jac(jointValues &Th);
@@ -34,6 +38,7 @@ static double norm_angle(double angle)
 }
 
 static jointValues bestNormalization(const jointValues init, jointValues final)
+
 {
 
     jointValues res;

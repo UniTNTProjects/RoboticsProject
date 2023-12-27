@@ -11,7 +11,7 @@ typedef Eigen::Matrix<double, 2, 1> GripperStateVector;
 class Controller
 {
 private:
-    const bool test_fast_mode = false;
+    const bool test_fast_mode = true;
     const bool debug_traj = true;
 
     ros::NodeHandle node;
@@ -28,9 +28,9 @@ private:
     ros::Publisher pub_gripper_diameter;
     ros::Subscriber sub_joint_state;
 
-    const double acceptable_error = 0.005;
+    const double acceptable_error = 0.05;
 
-    const double sleep_time_after_movement = 0.5;
+    const double sleep_time_after_movement = 1.5;
     const double sleep_time_after_gripper = 3.0;
 
     const double max_x = 1;
@@ -92,6 +92,7 @@ public:
     pair<coordinates, rotMatrix> get_position();
     bool move_to(const coordinates &position, const rotMatrix &rotation, int steps, bool pick_or_place, bool homing);
     bool move_to_pinocchio(const coordinates &position, const rotMatrix &rotation, int steps, bool pick_or_place, bool homing);
+    bool move_to_gpt(const coordinates &position, const rotMatrix &rotation, int steps, bool pick_or_place, bool homing);
     void move_gripper_to(const int diameter);
     void print_current_pos_rot();
     void sleep();

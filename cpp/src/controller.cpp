@@ -1,6 +1,8 @@
 #include "controller.h"
 #include <std_msgs/Int32.h>
 #include <std_msgs/Float64MultiArray.h>
+#include <iostream>
+#include <algorithm>
 
 using namespace std;
 
@@ -311,32 +313,61 @@ bool Controller::up_and_move(const coordinates &position, const rotMatrix &rotat
 
 bool Controller::move_to_pinocchio(const coordinates &position, const rotMatrix &rotation, int steps, bool pick_or_place, bool homing)
 {
-    cout << "Using CLIK pinocchio (magari se ci premo abbastanza parte)" << endl;
+    // cout << "Using CLIK pinocchio (magari se ci premo abbastanza parte)" << endl;
     cout << "Requested move to " << position.transpose() << endl;
 
     jointValues init_joint = current_joints;
-    jointValues inverse_kinematics_res = ur5InversePinocchio(position, rotation);
-    cout << "inverse_kinematics_res:\n " << inverse_kinematics_res.transpose() << endl;
+    jointValues inverse_kinematics_res = ur5InversePinocchio(position, rotation, current_joints);
 
     // check if the trajectory is valid
     jointValues joint_to_check;
-    joint_to_check = bestNormalization(init_joint, inverse_kinematics_res);
+    // joint_to_check = bestNormalization(init_joint, inverse_kinematics_res);
+    joint_to_check = inverse_kinematics_res;
+
+    // cout << "joint_to_check normalized: " << joint_to_check.transpose() << endl;
     /*
     cout << "joint_to_check: " << joint_to_check << endl;
     cout << "init_joint: " << init_joint << endl;
     cout << "init gripper" << current_gripper << endl;
     */
 
-    vector<double *> trajectory = vector<double *>();
+    vector<double *>
+        trajectory = vector<double *>();
     for (int i = 0; i < steps; i++)
     {
         trajectory.push_back(new double[6]);
     }
 
+    coordinates cord_calc;
+    rotMatrix rotation_calc;
+    ur5Direct(joint_to_check, cord_calc, rotation_calc);
+
+    // cout << "cord_calc: " << cord_calc.transpose() << endl;
+
+    double acceptable_error_cord = 0.01;
+    double acceptable_error_rot = 0.01;
+    // check if cord_calc and rotation_calc are acceptable to position and rotation
+    if (abs(cord_calc(0) - position(0)) < acceptable_error_cord && abs(cord_calc(1) - position(1)) < acceptable_error_cord && abs(cord_calc(2) - position(2)) < acceptable_error_cord)
+    {
+        // cout << "newOrder: " << newOrder.transpose() << endl;
+        cout << "cord ok" << endl;
+        cout << "cord_calc: " << cord_calc.transpose() << endl;
+        // return move_inside(steps, pick_or_place, &trajectory);
+    }
+
+    // check rotation
+    if (abs(rotation_calc(0) - rotDefault(0)) < acceptable_error_rot && abs(rotation_calc(1) - rotDefault(1)) < acceptable_error_rot && abs(rotation_calc(2) - rotDefault(2)) < acceptable_error_rot && abs(rotation_calc(3) - rotDefault(3)) < acceptable_error_rot && abs(rotation_calc(4) - rotDefault(4)) < acceptable_error_rot && abs(rotation_calc(5) - rotDefault(5)) < acceptable_error_rot && abs(rotation_calc(6) - rotDefault(6)) < acceptable_error_rot && abs(rotation_calc(7) - rotDefault(7)) < acceptable_error_rot && abs(rotation_calc(8) - rotDefault(8)) < acceptable_error_rot)
+    {
+        cout << "rotation:" << rotation << endl;
+        cout << "rotation ok" << endl;
+        cout << "cord_calc: " << cord_calc.transpose() << endl;
+        cout << "rotation_calc: " << rotation_calc << endl;
+    }
+
     if (init_verify_trajectory(&trajectory, init_joint, joint_to_check, steps, pick_or_place))
     {
-        cout << "trajectory verified" << endl;
-        cout << "joint_to_check: " << joint_to_check.transpose() << endl;
+        // cout << "trajectory verified" << endl;
+        // cout << "joint_to_check: " << joint_to_check.transpose() << endl;
         return move_inside(steps, pick_or_place, &trajectory);
     }
 
@@ -396,13 +427,77 @@ bool Controller::move_to_pinocchio(const coordinates &position, const rotMatrix 
     return false;
 }
 
+bool Controller::move_to_gpt(const coordinates &position, const rotMatrix &rotation, int steps, bool pick_or_place, bool homing)
+{
+    cout << "Requested move to " << position.transpose() << endl;
+
+    jointValues init_joint = current_joints;
+    jointValues inverse_kinematics_res = ur5InverseKinematicsGPT(position, rotation);
+
+    // check if the trajectory is valid
+    jointValues joint_to_check;
+    // joint_to_check = bestNormalization(init_joint, inverse_kinematics_res);
+    joint_to_check = inverse_kinematics_res;
+
+    // cout << "joint_to_check normalized: " << joint_to_check.transpose() << endl;
+    /*
+    cout << "joint_to_check: " << joint_to_check << endl;
+    cout << "init_joint: " << init_joint << endl;
+    cout << "init gripper" << current_gripper << endl;
+    */
+
+    vector<double *>
+        trajectory = vector<double *>();
+    for (int i = 0; i < steps; i++)
+    {
+        trajectory.push_back(new double[6]);
+    }
+
+    coordinates cord_calc;
+    rotMatrix rotation_calc;
+    ur5Direct(joint_to_check, cord_calc, rotation_calc);
+
+    // cout << "cord_calc: " << cord_calc.transpose() << endl;
+
+    double acceptable_error_cord = 0.01;
+    double acceptable_error_rot = 0.01;
+    // check if cord_calc and rotation_calc are acceptable to position and rotation
+    if (abs(cord_calc(0) - position(0)) < acceptable_error_cord && abs(cord_calc(1) - position(1)) < acceptable_error_cord && abs(cord_calc(2) - position(2)) < acceptable_error_cord)
+    {
+        // cout << "newOrder: " << newOrder.transpose() << endl;
+        cout << "cord ok" << endl;
+        cout << "cord_calc: " << cord_calc.transpose() << endl;
+        // return move_inside(steps, pick_or_place, &trajectory);
+    }
+
+    // check rotation
+    if (abs(rotation_calc(0) - rotDefault(0)) < acceptable_error_rot && abs(rotation_calc(1) - rotDefault(1)) < acceptable_error_rot && abs(rotation_calc(2) - rotDefault(2)) < acceptable_error_rot && abs(rotation_calc(3) - rotDefault(3)) < acceptable_error_rot && abs(rotation_calc(4) - rotDefault(4)) < acceptable_error_rot && abs(rotation_calc(5) - rotDefault(5)) < acceptable_error_rot && abs(rotation_calc(6) - rotDefault(6)) < acceptable_error_rot && abs(rotation_calc(7) - rotDefault(7)) < acceptable_error_rot && abs(rotation_calc(8) - rotDefault(8)) < acceptable_error_rot)
+    {
+        cout << "rotation:" << rotation << endl;
+        cout << "rotation ok" << endl;
+        cout << "cord_calc: " << cord_calc.transpose() << endl;
+        cout << "rotation_calc: " << rotation_calc << endl;
+    }
+
+    if (init_verify_trajectory(&trajectory, init_joint, joint_to_check, steps, pick_or_place))
+    {
+        // cout << "trajectory verified" << endl;
+        // cout << "joint_to_check: " << joint_to_check.transpose() << endl;
+        // return move_inside(steps, pick_or_place, &trajectory);
+    }
+
+    cout << "No valid trajectory found" << endl;
+
+    return false;
+}
+
 bool Controller::move_to(const coordinates &position, const rotMatrix &rotation, int steps, bool pick_or_place, bool homing)
 {
     cout << "Requested move to " << position.transpose() << endl;
 
     jointValues init_joint = current_joints;
     Eigen::Matrix<double, 8, 6> inverse_kinematics_res = ur5Inverse(position, rotation);
-    cout << "inverse_kinematics_res:\n " << inverse_kinematics_res.transpose() << endl;
+    // cout << "inverse_kinematics_res:\n " << inverse_kinematics_res.transpose() << endl;
 
     int *indexes = sort_inverse(inverse_kinematics_res, init_joint);
 
@@ -414,14 +509,18 @@ bool Controller::move_to(const coordinates &position, const rotMatrix &rotation,
         joint_to_check << inverse_kinematics_res(index, 0), inverse_kinematics_res(index, 1), inverse_kinematics_res(index, 2),
             inverse_kinematics_res(index, 3), inverse_kinematics_res(index, 4), inverse_kinematics_res(index, 5);
 
-        joint_to_check << -0.223529, -1.66435, 1.31935, 6.58494, 2.91795, -3.18374;
-
         joint_to_check = bestNormalization(init_joint, joint_to_check);
+        coordinates cord_calc;
+        rotMatrix rotation_calc;
+        ur5Direct(joint_to_check, cord_calc, rotation_calc);
+        // cout << "cord_calc: " << cord_calc.transpose() << endl;
         /*
         cout << "joint_to_check: " << joint_to_check << endl;
         cout << "init_joint: " << init_joint << endl;
         cout << "init gripper" << current_gripper << endl;
         */
+
+        // cout << "joint_to_check normalized: " << joint_to_check.transpose() << endl;
 
         vector<double *> trajectory = vector<double *>();
         for (int i = 0; i < steps; i++)
@@ -439,56 +538,56 @@ bool Controller::move_to(const coordinates &position, const rotMatrix &rotation,
 
     cout << "No valid trajectory found" << endl;
 
-    cout << "Trying move through homing" << endl;
-    if (move_through_homing(position, rotation))
-    {
-        return true;
-    }
-    cout << "Move through homing failed" << endl;
+    // cout << "Trying move through homing" << endl;
+    // if (move_through_homing(position, rotation))
+    // {
+    //     return true;
+    // }
+    // cout << "Move through homing failed" << endl;
 
-    if (!homing)
-    {
-        cout << "Trying homing" << endl;
-        coordinates cord;
-        rotMatrix rotation;
-        // nearHoming(cord, rotation);
-        advanceNearHoming(cord, rotation, position);
-        // ur5Direct(this->home_position, cord, rotation);
-        if (move_to(cord, rotation, steps, false, true))
-        {
-            return move_to(position, rotation, steps, pick_or_place, true);
-        }
-    }
+    // if (!homing)
+    // {
+    //     cout << "Trying homing" << endl;
+    //     coordinates cord;
+    //     rotMatrix rotation;
+    //     // nearHoming(cord, rotation);
+    //     advanceNearHoming(cord, rotation, position);
+    //     // ur5Direct(this->home_position, cord, rotation);
+    //     if (move_to(cord, rotation, steps, false, true))
+    //     {
+    //         return move_to(position, rotation, steps, pick_or_place, true);
+    //     }
+    // }
 
-    if (up_and_move(position, rotation, steps, init_joint))
-    {
-        return true;
-    }
+    // if (up_and_move(position, rotation, steps, init_joint))
+    // {
+    //     return true;
+    // }
 
-    cout << "Trying with 2 steps" << endl;
-    for (int i = 0; i < 8; i++)
-    {
-        int index = indexes[i];
-        jointValues joint_to_check;
-        joint_to_check << inverse_kinematics_res(index, 0), inverse_kinematics_res(index, 1), inverse_kinematics_res(index, 2),
-            inverse_kinematics_res(index, 3), inverse_kinematics_res(index, 4), inverse_kinematics_res(index, 5);
-        bool configurations_of_orders[5][6] = {
-            {false, false, false, true, true, false},
-            {false, false, false, false, true, true},
-            {false, false, false, true, true, true},
-            {true, true, true, false, false, false},
-            {true, true, false, false, false, false}};
-        for (int i = 0; i < 5; i++)
-        {
-            bool *order = configurations_of_orders[i];
+    // cout << "Trying with 2 steps" << endl;
+    // for (int i = 0; i < 8; i++)
+    // {
+    //     int index = indexes[i];
+    //     jointValues joint_to_check;
+    //     joint_to_check << inverse_kinematics_res(index, 0), inverse_kinematics_res(index, 1), inverse_kinematics_res(index, 2),
+    //         inverse_kinematics_res(index, 3), inverse_kinematics_res(index, 4), inverse_kinematics_res(index, 5);
+    //     bool configurations_of_orders[5][6] = {
+    //         {false, false, false, true, true, false},
+    //         {false, false, false, false, true, true},
+    //         {false, false, false, true, true, true},
+    //         {true, true, true, false, false, false},
+    //         {true, true, false, false, false, false}};
+    //     for (int i = 0; i < 5; i++)
+    //     {
+    //         bool *order = configurations_of_orders[i];
 
-            if (move_with_steps(joint_to_check, order))
-            {
-                return true;
-            }
-        }
-    }
-    cout << "Move with 2 steps failed" << endl;
+    //         if (move_with_steps(joint_to_check, order))
+    //         {
+    //             return true;
+    //         }
+    //     }
+    // }
+    // cout << "Move with 2 steps failed" << endl;
 
     return false;
 }
@@ -521,7 +620,7 @@ bool Controller::move_inside(int steps, bool pick_or_place, vector<double *> *tr
 
     if (!use_filter)
     {
-        cout << "\n....\n NOT USING FILTER\n....\n"
+        cout << "__________\n NOT USING FILTER\n__________"
              << endl;
     }
     for (int j = 0; j < steps; j++)
@@ -532,8 +631,11 @@ bool Controller::move_inside(int steps, bool pick_or_place, vector<double *> *tr
         des_not_linear << traj_j[0], traj_j[1], traj_j[2],
             traj_j[3], traj_j[4], traj_j[5];
 
+        des_not_linear = bestNormalization(current_joints, des_not_linear);
+
         // cout << "des_not_linear: " << des_not_linear << endl;
         //  send the trajectory
+        int counter = 0;
 
         while (ros::ok() && this->acceptable_error < calculate_distance(current_joints, des_not_linear))
         {
@@ -551,6 +653,32 @@ bool Controller::move_inside(int steps, bool pick_or_place, vector<double *> *tr
             this->loop_rate.sleep();
 
             ros::spinOnce();
+            counter++;
+            if (counter >= 1000)
+            {
+                cout << "Cant reach after" << counter << " iterations" << endl;
+
+                coordinates cord;
+                rotMatrix rotation;
+                ur5Direct(current_joints, cord, rotation);
+                cout << "current cord: " << cord.transpose() << endl;
+
+                ur5Direct(des_not_linear, cord, rotation);
+                cout << "des_not_linear cord: " << cord.transpose() << endl;
+
+                if (use_filter)
+                {
+                    cout << "current_joints: " << current_joints.transpose() << endl;
+                    cout << "q_des: " << q_des.transpose() << endl;
+                }
+                else
+                {
+                    cout << "current_joints: " << current_joints.transpose() << endl;
+                    cout << "des_not_linear: " << des_not_linear.transpose() << endl;
+                }
+
+                break;
+            }
         }
     }
 
@@ -599,6 +727,7 @@ bool Controller::check_trajectory(vector<double *> traj, int step, bool pick_or_
     coordinates start_cord;
     rotMatrix start_rotation;
     ur5Direct(current_joints, start_cord, start_rotation);
+    /////////NEED TO CHECK START_CORD IS EQUAL TO FIRST TRAY COORDINATE
 
     // cout << "check trajectory" << endl;
     for (int i = 0; i < step; i++)
@@ -615,10 +744,10 @@ bool Controller::check_trajectory(vector<double *> traj, int step, bool pick_or_
 
             if (i == step - 1)
             {
-                cout << "last cord: " << cord.transpose() << endl;
-                cout << "last joint: " << joints.transpose() << endl;
-                cout << "last rotation: " << endl
-                     << rot << endl;
+                // cout << "last cord: " << cord.transpose() << endl;
+                // cout << "last joint: " << joints.transpose() << endl;
+                // cout << "last rotation: " << endl
+                //      << rot << endl;
             }
         }
         if (!(cord(0) > min_x && cord(0) < max_x && cord(1) > min_y && cord(1) < max_y && cord(2) > min_z && cord(2) < max_z))
@@ -660,16 +789,16 @@ bool Controller::check_trajectory(vector<double *> traj, int step, bool pick_or_
             return false;
         }
 
-        // if (pick_or_place && (start_rotation - rot).norm() > 0.1)
-        // {
-        //     if (debug_traj)
-        //     {
-        //         cout << "rotations are different" << endl;
-        //         cout << "start_rot: " << start_rotation << endl;
-        //         cout << "rot: " << rot << endl;
-        //     }
-        //     return false;
-        // }
+        if (pick_or_place && (start_rotation - rot).norm() > 0.1)
+        {
+            if (debug_traj)
+            {
+                cout << "rotations are different" << endl;
+                cout << "start_rot: " << start_rotation << endl;
+                cout << "rot: " << rot << endl;
+            }
+            return false;
+        }
 
         if (joints.norm() == 0)
         {
@@ -688,7 +817,7 @@ bool Controller::check_trajectory(vector<double *> traj, int step, bool pick_or_
             return false;
         }
 
-        if (abs(jacobian.determinant()) < 0.000001)
+        if (abs(jacobian.determinant()) < 0.00000001)
         {
             if (debug_traj)
             {
@@ -710,7 +839,7 @@ bool Controller::check_trajectory(vector<double *> traj, int step, bool pick_or_
             return false;
         }
     }
-    cout << "trajectory valid" << endl;
+    // cout << "trajectory valid" << endl;
 
     return true;
 }

@@ -17,7 +17,7 @@ catkin_package()
 include_directories(include ${catkin_INCLUDE_DIRS} ${EIGEN3_INCLUDE_DIR})
 
 #add_executable(FSM_ass2 src/FSM.cpp src/FSM_ass2.cpp src/controller.cpp src/kinematics/trajectory.cpp src/kinematics/direct.cpp src/kinematics/inverse.cpp src/kinematics/jacobian.cpp)
-add_executable(FSM_ass2 src/test_new_kinematics.cpp src/controller.cpp src/kinematics/trajectory.cpp src/kinematics/direct.cpp src/kinematics/inverse.cpp src/kinematics/jacobian.cpp src/kinematics/inverse_pinocchio.cpp )
+add_executable(FSM_ass2 src/test_new_kinematics.cpp src/controller.cpp src/kinematics/trajectory.cpp src/kinematics/direct.cpp src/kinematics/inverse.cpp src/kinematics/jacobian.cpp src/kinematics/inverse_pinocchio.cpp src/kinematics/inverse_gpt.cpp)
 
 target_link_libraries(FSM_ass2 ${catkin_LIBRARIES})
 target_link_libraries(FSM_ass2 pinocchio::pinocchio)

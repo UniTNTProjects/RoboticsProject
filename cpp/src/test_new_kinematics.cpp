@@ -18,28 +18,49 @@ double sum(vector<double> vec)
 int main(int argc, char **argv)
 {
     ros::init(argc, argv, "test_ur5");
-    Controller controller = Controller(1000., false);
+    Controller controller = Controller(125., true);
 
-    coordinates a;
-    a << 0.5, -0.5, 0.5;
+    coordinates cord, cordCalc;
+    cord << 0.2, 0.2, 0.5; // cord_calc: -0.222603 -0.196894  0.672859
+    cord << -0.2, -0.2, 0.5;
     rotMatrix rotDefault;
     rotDefault << -1, 0, 0,
         0, -1, 0,
         0, 0, 1;
 
-    // 3 nested loops to test the movement of the robot
-    for (int i = 0; i < 3; i++)
-    {
-        for (int j = 0; j < 6; j++)
-        {
+    // array of rotMatrix
+    rotMatrix rotArray[2];
+    rotArray[0] << 1, 0, 0, 0, 0, -1, 0, 1, 0;
+    rotArray[1] << 1, -1, -1, 1, 0, -1, -1, 1, 0;
 
-            for (int k = 0; k < 6; k++)
-            {
-                a(0) = 0.5 - 0.1 * i;
-                a(1) = -0.5 + 0.1 * j;
-                a(2) = 0.5 + 0.1 * k;
-                controller.move_to_pinocchio(a, rotDefault, 20, false, true);
-            }
+    // cord << -0.222603, -0.196894, 0.5; //0.241954 0.181796 0.670908
+    // controller.move_to_pinocchio(cord, rotArray[1], 20, false, true);
+
+    // controller.move_to_pinocchio(cord, rotDefault, 20, false, true);
+
+    // for (int i = 0; i < 5; i++)
+    // {
+    //     cordCalc << cord(0) + 0.1 * i, cord(1), cord(2);
+    //     controller.move_to_pinocchio(cordCalc, rotArray[0], 20, false, true);
+    // }
+
+    // cord << 0.3, -0.2, 0.5;
+
+    // for (int i = 0; i < 5; i++)
+    // {
+    //     cordCalc << cord(0), cord(1) + 0.1 * i, cord(2);
+    //     controller.move_to_pinocchio(cordCalc, rotArray[0], 20, false, true);
+    // }
+
+    // 1.18161 -1.02071 -1.99415 -1.71151 -1.56712 -5.86731
+    // 1.18024 -1.02427 -1.99623 -1.69189  -1.5708 -5.89263
+    cord << -0.20, -0.20, 0.5;
+    for (int i = 0; i < 4; i++)
+    {
+        for (int j = 0; j < 4; j++)
+        {
+            cordCalc << cord(0) + 0.1 * i, cord(1) + 0.1 * j, cord(2);
+            controller.move_to(cordCalc, rotDefault, 20, false, true);
         }
     }
 }
