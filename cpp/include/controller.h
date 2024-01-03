@@ -11,8 +11,8 @@ typedef Eigen::Matrix<double, 2, 1> GripperStateVector;
 class Controller
 {
 private:
-    const bool test_fast_mode = true;
-    const bool debug_traj = true;
+    const bool test_fast_mode = false;
+    const bool debug_traj = false;
 
     ros::NodeHandle node;
     ros::Rate loop_rate;
@@ -58,7 +58,7 @@ private:
     void joint_state_callback(const sensor_msgs::JointState::ConstPtr &msg);
     void send_state(const jointValues &joint_pos);
     void sent_gripper_diameter(const int diameter);
-    bool check_trajectory(vector<double *> traj, int step, bool pick_or_place);
+    bool check_trajectory(vector<double *> traj, int step, bool pick_or_place, int *error_code);
     jointValues second_order_filter(const jointValues &input, const double rate, const double settling_time);
     void init_filter(void);
     double calculate_distance(const jointValues &first_vector, const jointValues &second_vector);
@@ -86,6 +86,8 @@ public:
 
     };
 
+    const jointValues mainJointResetValues = (jointValues() << 0., -1., -2.5, 0., 0., 0.).finished();
+
     Controller(double loop_frequency, bool start_homing);
     jointValues get_joint_state();
     GripperStateVector get_gripper_state();
@@ -93,6 +95,7 @@ public:
     bool move_to(const coordinates &position, const rotMatrix &rotation, int steps, bool pick_or_place, bool homing);
     bool move_to_pinocchio(const coordinates &position, const rotMatrix &rotation, int steps, bool pick_or_place, bool homing);
     bool move_to_gpt(const coordinates &position, const rotMatrix &rotation, int steps, bool pick_or_place, bool homing);
+    bool move_to_joint(jointValues joint_to_reach, int steps, bool pick_or_place, bool homing);
     void move_gripper_to(const int diameter);
     void print_current_pos_rot();
     void sleep();

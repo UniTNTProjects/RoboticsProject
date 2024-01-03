@@ -2,179 +2,307 @@
 #include <computer_vision/GetPoints.h>
 #include <std_msgs/Int32.h>
 #include <std_msgs/Float64MultiArray.h>
+#include <fstream>
 
 using namespace std;
 
+bool trajectory_multiple_positions(vector<vector<double *>> *th_sum, vector<pair<coordinates, rotMatrix>> *positions, int n_positions, int n, jointValues init_joint, vector<bool> order, int steps);
+int *sort_inverse(Eigen::Matrix<double, 8, 6> &inverse_kinematics_res, const jointValues &initial_joints);
+bool init_verify_trajectory(vector<double *> *Th, jointValues init_joint, jointValues final_joint, int steps, bool pick_or_place);
+double calculate_distance_weighted(const jointValues &first_vector, const jointValues &second_vector);
+bool check_trajectory(vector<double *> traj, int step, bool pick_or_place, jointValues init_joints);
+
+const double max_x = 1;
+const double max_y = 0.4;
+const double max_z = 0.8;
+
+const double min_x = -1;
+const double min_y = -1;
+const double min_z = -1;
+
+const double max_y_near_end_table = 0.18;
+const double max_z_near_end_table = 0.58;
+
+const double max_z_moving = 0.73;
+
+const bool debug_traj = true;
+
 int main(int argc, char **argv)
 {
-    /*
-    jointValues a, b, c;
 
-    a << 0.5, -0.5, 4, 3 * M_PI + 0.5, -4 * M_PI - 0.5, 0;
-    b << a(0) + M_PI + 0.5, a(1) + M_PI - 0.5, a(2) + 3 * M_PI + 0.5, a(3) + M_PI + 0.5, a(4) + M_PI + 0.5, a(5) + M_PI + 0.5;
-    c = bestNormalization(a, b);
+    ros::init(argc, argv, "test");
+    const coordinates defaultCordArray[6] = {
+        (coordinates() << 0.35, 0.03, 0.55).finished(),
+        (coordinates() << 0.01, 0.03, 0.55).finished(),
+        (coordinates() << -0.33, 0.03, 0.55).finished(),
+        (coordinates() << -0.33, -0.29, 0.55).finished(),
+        (coordinates() << 0.01, -0.29, 0.55).finished(),
+        (coordinates() << 0.35, -0.29, 0.55).finished(),
 
-    cout << a.transpose() << endl;
-    cout << b.transpose() << endl;
-    cout << c.transpose() << endl;
+    };
 
-    for (int i = 0; i < 6; i++)
+    const rotMatrix rotDefault = (rotMatrix() << -1, 0, 0,
+                                  0, -1, 0,
+                                  0, 0, 1)
+                                     .finished();
+
+    int steps = 20;
+
+    vector<vector<double *>> th_sum = vector<vector<double *>>();
+    for (int j = 0; j < 4; j++)
     {
-        cout << a(i) - c(i) << " ";
-    }
-    cout << endl;
-
-    for (int i = 0; i < 6; i++)
-    {
-        cout << a(i) - b(i) << " ";
-    }
-    cout << endl;
-    */
-
-    Controller controller = Controller(1000., true);
-
-    Controller controller = Controller(1000., false);
-    rotMatrix rotDefault;
-    rotDefault << -1, 0, 0,
-        0, -1, 0,
-        0, 0, 1;
-
-    coordinates cord;
-    cord << 0.02, -0.4, 0.5;
-
-    // controller.move_to(cord, rotDefault, 20, false, false);
-    controller.move_through_homing(cord, rotDefault);
-
-    // controller.move_to(cordDefault, rotDefault, 5, false, false);
-
-    // controller.move_gripper_to(10);
-
-    /* MOVEMENT DEMO */
-
-    /*
-        +x = left
-        +y = backwards
-        +z = down
-    */
-
-    rotMatrix rotation;
-
-    rotation << -1, 0, 0,
-        0, -1, 0,
-        0, 0, 1;
-
-    coordinates cord;
-    cord << -1.5, 1.5, 0.25;
-
-    double acceptable_error_cord = 0.1;
-    double acceptable_error_rot = 0.01;
-    int dim_x = 300;
-    int dim_y = 300;
-    int dim_z = 50;
-    bool pos[dim_x][dim_y][dim_z];
-
-    for (int i = 0; i < dim_x; i++)
-    {
-        for (int j = 0; j < dim_y; j++)
+        vector<double *> trajectory = vector<double *>();
+        for (int i = 0; i < steps; i++)
         {
-            for (int k = 0; k < dim_z; k++)
-            {
-                pos[i][j][k] = false;
-            }
+            trajectory.push_back(new double[6]);
         }
+        th_sum.push_back(trajectory);
     }
-    for (int p = 0; p < dim_z; p++)
+
+    vector<pair<coordinates, rotMatrix>> positions = vector<pair<coordinates, rotMatrix>>();
+
+    positions.push_back(make_pair(defaultCordArray[0], rotDefault));
+    positions.push_back(make_pair(defaultCordArray[5], rotDefault));
+    positions.push_back(make_pair(defaultCordArray[4], rotDefault));
+    positions.push_back(make_pair(defaultCordArray[3], rotDefault));
+
+    coordinates startCord;
+    startCord << 0.40, 0.03, 0.55;
+
+    Eigen::Matrix<double, 8, 6> inverse_kinematics_res = ur5Inverse(startCord, rotDefault);
+
+    int index = 0;
+    jointValues joint_to_check;
+    joint_to_check << inverse_kinematics_res(index, 0), inverse_kinematics_res(index, 1), inverse_kinematics_res(index, 2),
+        inverse_kinematics_res(index, 3), inverse_kinematics_res(index, 4), inverse_kinematics_res(index, 5);
+
+    trajectory_multiple_positions(&th_sum, &positions, positions.size(), 0, joint_to_check, vector<bool>{false, false, false, false}, steps);
+
+    for (int i = 0; i < th_sum.size(); i++)
     {
-        for (int i = 0; i < dim_x; i++)
+        for (int j = 0; j < th_sum[i].size(); j++)
         {
-            for (int j = 0; j < dim_y; j++)
+            cout << "th_sum[" << i << "][" << j << "]: ";
+            for (int k = 0; k < 6; k++)
             {
-                coordinates position;
-                position << cord(0) + 0.01 * i, cord(1) - 0.01 * j, cord(2) + 0.01 * p;
-
-                Eigen::Matrix<double, 8, 6> inverse_kinematics_res = ur5Inverse(position, rotation);
-                // cout << "inverse kinematics matrix:\n"<< inverse_kinematics_res << endl;
-
-                for (int k = 0; k < 8; k++)
-                {
-                    coordinates cord;
-                    rotMatrix rot;
-                    jointValues th;
-                    th << inverse_kinematics_res(k, 0), inverse_kinematics_res(k, 1), inverse_kinematics_res(k, 2), inverse_kinematics_res(k, 3), inverse_kinematics_res(k, 4), inverse_kinematics_res(k, 5);
-                    ur5Direct(th, cord, rot);
-                    /*
-                    cout << "cord:" << cord.transpose() << endl
-                         << endl;
-                    cout << "rot:\n"
-                         << rot << endl;
-                    cout << "----------\n";
-                    */
-                    if (!pos[i][j][p])
-                    {
-                        for (int z = 0; z < 3; z++)
-                        {
-                            if (fabs(cord(z) - position(z)) > acceptable_error_cord)
-                            {
-
-                                break;
-                            }
-                            bool break_flag = false;
-                            for (int l = 0; l < 3; l++)
-                            {
-                                if (fabs(rot.coeff(z, l) - rotation.coeff(z, l)) > acceptable_error_rot)
-                                {
-                                    break_flag = true;
-                                    break;
-                                }
-                            }
-                            if (break_flag)
-                            {
-                                break;
-                            }
-
-                            if (z == 2)
-                            {
-                                pos[i][j][p] = true;
-                            }
-                        }
-                    }
-                }
-
-                cout << pos[i][j][p] << " ";
+                cout << th_sum[i][j][k] << " ";
             }
             cout << endl;
         }
-        cout << cord(2) + 0.01 * p << endl;
+    }
+}
+
+bool trajectory_multiple_positions(vector<vector<double *>> *th_sum, vector<pair<coordinates, rotMatrix>> *positions, int n_positions, int n, jointValues init_joint, vector<bool> order, int steps)
+{
+    cout << "n: " << n << endl;
+    if (n == n_positions)
+    {
+        cout << "trajectory verified" << endl;
+        return true;
+    }
+    coordinates cord = (*positions)[n].first;
+    rotMatrix rotation = (*positions)[n].second;
+
+    Eigen::Matrix<double, 8, 6> inverse_kinematics_res = ur5Inverse(cord, rotation);
+
+    int *indexes = sort_inverse(inverse_kinematics_res, init_joint);
+
+    for (int i = 0; i < 8; i++)
+    {
+        int index = indexes[i];
+        jointValues joint_to_check;
+        joint_to_check << inverse_kinematics_res(index, 0), inverse_kinematics_res(index, 1), inverse_kinematics_res(index, 2),
+            inverse_kinematics_res(index, 3), inverse_kinematics_res(index, 4), inverse_kinematics_res(index, 5);
+
+        joint_to_check = bestNormalization(init_joint, joint_to_check);
+
+        // cout << "joint_to_check: " << joint_to_check.transpose() << endl;
+        if (init_verify_trajectory(&(th_sum->at(n)), init_joint, joint_to_check, steps, order[n]))
+        {
+            // cout << "trajectory verified" << endl;
+
+            if (trajectory_multiple_positions(th_sum, positions, n_positions, n + 1, joint_to_check, order, steps))
+            {
+                return true;
+            }
+        }
     }
 
-    /*
+    return false;
+}
 
+int *sort_inverse(Eigen::Matrix<double, 8, 6> &inverse_kinematics_res, const jointValues &initial_joints)
+{
+    multimap<double, int> sorted_inverse;
 
-    for (int i = 0; i < 1; i++)
+    for (int i = 0; i < 8; i++)
     {
-        for (int j = 0; j < 3; j++)
+        jointValues inverse_i;
+        inverse_i << inverse_kinematics_res(i, 0), inverse_kinematics_res(i, 1), inverse_kinematics_res(i, 2),
+            inverse_kinematics_res(i, 3), inverse_kinematics_res(i, 4), inverse_kinematics_res(i, 5);
+
+        // double diff = (inverse_i - initial_joints).norm(); // doesnt take into account the angle normalization
+        double diff = calculate_distance_weighted(initial_joints, inverse_i);
+
+        // facing back of the table
+        if (norm_angle(inverse_i(0)) > 3.7 && norm_angle(inverse_i(0)) < 5.7)
         {
-            coordinates cord;
-            cord << 0.0 - 0.1 * i, -0.25 + 0.1 * j, 0.5;
-            controller.move_to(cord, rotDefault, 20, false, false);
-            controller.sleep();
-
-            coordinates cord2;
-            cord2 << 0.0 - 0.1 * i, -0.25 + 0.1 * j, 0.7;
-            controller.move_to(cord2, rotDefault, 20, true, false);
-
-            controller.move_to(cord, rotDefault, 20, true, false);
+            diff += 100;
         }
-    }*/
+        // cout << "diff: " << diff << ", i: " << i << endl;
+        sorted_inverse.insert(pair<double, int>(diff, i));
+    }
 
-    /*
-    Requested move to     0 -0.05   0.5
-    inverse_kinematics_res:
-          0          0          0          0          0          0          0          0
-    -3.09869   -2.30499   -3.09869   -2.30499  -0.836604 -0.0429064  -0.836604 -0.0429064
-    2.50418    2.50418    2.50418    2.50418   -2.50418   -2.50418   -2.50418   -2.50418
-    -0.976292     1.3716  -0.976292     1.3716    1.76999    -2.1653    1.76999    -2.1653
-    2.56138   -2.56138    2.56138   -2.56138    2.56138   -2.56138    2.56138   -2.56138
-    -1.5708     1.5708    -1.5708     1.5708    -1.5708     1.5708    -1.5708     1.5708
-    */
+    int *sorted_indexes = new int[8];
+    int i = 0;
+
+    for (std::multimap<double, int>::iterator it = sorted_inverse.begin(); it != sorted_inverse.end(); ++it)
+    {
+        sorted_indexes[i++] = it->second;
+        // cout << "value of sort:" << it->first << ", " << it->second << endl;
+    }
+
+    return sorted_indexes;
+}
+
+bool init_verify_trajectory(vector<double *> *Th, jointValues init_joint, jointValues final_joint, int steps, bool pick_or_place)
+{
+    ur5Trajectory(Th, init_joint, final_joint, steps);
+
+    return check_trajectory(*Th, steps, pick_or_place, init_joint);
+}
+
+double calculate_distance_weighted(const jointValues &first_vector, const jointValues &second_vector)
+{
+    double distance_val = 0;
+    double weight[6] = {1, 1, 1, 10, 5, 1};
+    jointValues second_norm = bestNormalization(first_vector, second_vector);
+
+    for (int i = 0; i < 6; i++)
+    {
+        distance_val += weight[i] * fabs(first_vector(i) - second_norm(i));
+    }
+
+    return distance_val;
+}
+
+bool check_trajectory(vector<double *> traj, int step, bool pick_or_place, jointValues init_joints)
+{
+    coordinates start_cord;
+    rotMatrix start_rotation;
+    ur5Direct(init_joints, start_cord, start_rotation);
+
+    // cout << "check trajectory" << endl;
+    for (int i = 0; i < step; i++)
+    {
+        coordinates cord;
+        rotMatrix rot;
+        jointValues joints;
+        joints << traj[i][0], traj[i][1], traj[i][2],
+            traj[i][3], traj[i][4], traj[i][5];
+
+        ur5Direct(joints, cord, rot);
+        if (debug_traj)
+        {
+
+            if (i == step - 1)
+            {
+                cout << "last cord: " << cord.transpose() << endl;
+                cout << "last joint: " << joints.transpose() << endl;
+                cout << "last rotation: " << endl
+                     << rot << endl;
+            }
+        }
+        if (!(cord(0) > min_x && cord(0) < max_x && cord(1) > min_y && cord(1) < max_y && cord(2) > min_z && cord(2) < max_z))
+        {
+            if (debug_traj)
+            {
+                cout << "coordinates of trajectory does not fit in the workspace:" << cord.transpose() << endl;
+            }
+            return false;
+        }
+
+        if (!pick_or_place && cord(2) > max_z_moving)
+        {
+            if (debug_traj)
+            {
+                cout << "cord z wrong: " << cord.transpose() << endl;
+            }
+            return false;
+        }
+
+        if (!pick_or_place && cord(2) > max_z_near_end_table && cord(1) > max_y_near_end_table)
+        {
+            if (debug_traj)
+            {
+                cout << "cord end table wrong: " << cord.transpose() << endl;
+            }
+            return false;
+        }
+
+        if (pick_or_place && (fabs(traj[0][4] - joints(4)) > M_PI / 2 || fabs(traj[0][5] - joints(5)) > M_PI / 2))
+        {
+            if (debug_traj)
+            {
+                cout << "trying strange rotation for pick or place" << endl;
+                cout << "traj[0][4]: " << traj[0][4] << ", traj[0][5]: " << traj[0][5] << endl;
+                cout << "joints(4): " << joints(4) << ", joints(5): " << joints(5) << endl;
+                cout << fabs(traj[0][4] - joints(4)) << ", " << fabs(traj[0][5] - joints(5)) << endl;
+            }
+            return false;
+        }
+
+        if (pick_or_place && (start_rotation - rot).norm() > 0.1)
+        {
+            if (debug_traj)
+            {
+                cout << "rotations are different" << endl;
+                cout << "start_rot: " << start_rotation << endl;
+                cout << "rot: " << rot << endl;
+            }
+            return false;
+        }
+
+        if (joints.norm() == 0)
+        {
+            continue;
+        }
+
+        MatrixXd jacobian = ur5Jac(joints);
+        // cout << "jacobian: " << jacobian << endl;
+
+        if (joints(1) > 0 || joints(1) < -3.14)
+        {
+            if (debug_traj)
+            {
+                cout << "joints(1) invalid:" << joints(1) << endl;
+            }
+            return false;
+        }
+
+        if (abs(jacobian.determinant()) < 0.000001)
+        {
+            if (debug_traj)
+            {
+                cout << "----------\ntrajectory invalid 1" << endl;
+                cout << "determinant of jacobian is " << abs(jacobian.determinant()) << "\n-------------\n"
+                     << endl;
+            }
+            return false;
+        }
+
+        Eigen::JacobiSVD<Eigen::MatrixXd> svd(jacobian, Eigen::ComputeThinU | Eigen::ComputeThinV);
+        if (abs(svd.singularValues()(5)) < 0.0000001)
+        {
+            if (debug_traj)
+            {
+                cout << "trajectory invalid 2" << endl;
+            }
+            cout << abs(svd.singularValues()(5)) << endl;
+            return false;
+        }
+    }
+    cout << "trajectory valid" << endl;
+
+    return true;
 }
