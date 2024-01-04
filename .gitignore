@@ -27,3 +27,14 @@ c_cpp_properties.json
 .vscode/settings.json
 cpp/launch/simulation.launch
 models/*.sdf
+models/X1-Y4-Z2/X1-Y4-Z2-silhouette.sdf
+*.sdf
+models/X1-Y1-Z2/X1-Y1-Z2-silhouette.sdf
+models/X1-Y1-Z2/X1-Y1-Z2.sdf
+models/X1-Y2-Z2/X1-Y2-Z2-silhouette.sdf
+models/X1-Y2-Z2-CHAMFER/X1-Y2-Z2-CHAMFER-silhouette.sdf
+models/X1-Y2-Z2-TWINFILLET/X1-Y2-Z2-TWINFILLET-silhouette.sdf
+models/X1-Y3-Z2/X1-Y3-Z2-silhouette.sdf
+models/X1-Y3-Z2-FILLET/X1-Y3-Z2-FILLET-silhouette.sdf
+models/X1-Y4-Z1/X1-Y4-Z1-silhouette.sdf
+models/X1-Y4-Z2/X1-Y4-Z2-silhouette.sdf

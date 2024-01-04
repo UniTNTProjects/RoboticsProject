@@ -17,12 +17,12 @@
       </inertial>
       <collision name="collision">
         <geometry>
-          <mesh><uri>/home/squinkis/ros_ws/src/locosim/RoboticsProject/models/X1-Y1-Z2/X1-Y1-Z2-COLOR.stl</uri></mesh>
+          <mesh><uri>/home/emanuele/ros_ws/src/locosim/RoboticsProject/models/X1-Y1-Z2/X1-Y1-Z2-COLOR.stl</uri></mesh>
         </geometry>
       </collision>
       <visual name="visual">
         <geometry>
-          <mesh><uri>/home/squinkis/ros_ws/src/locosim/RoboticsProject/models/X1-Y1-Z2/X1-Y1-Z2-COLOR.stl</uri></mesh>
+          <mesh><uri>/home/emanuele/ros_ws/src/locosim/RoboticsProject/models/X1-Y1-Z2/X1-Y1-Z2-COLOR.stl</uri></mesh>
         </geometry>
       </visual>
     </link>
