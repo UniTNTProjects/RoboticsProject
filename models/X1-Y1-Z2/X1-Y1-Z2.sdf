@@ -21,6 +21,12 @@
         </geometry>
       </collision>
       <visual name="visual">
+        <material> <!-- Wheel material -->
+          <ambient>1 0 0 1</ambient>
+          <diffuse>1 0 0 1</diffuse>
+          <specular>1 0 0 0</specular>
+          <emissive>0.1 0.1 0.1 1</emissive>
+        </material> <!-- End wheel material -->
         <geometry>
           <mesh><uri>/home/squinkis/ros_ws/src/locosim/RoboticsProject/models/X1-Y1-Z2/X1-Y1-Z2-COLOR.stl</uri></mesh>
         </geometry>

@@ -141,7 +141,6 @@ computer_vision::Points getPointCloud(double x, double y)
     computer_vision::Points res = computer_vision::Points();
     if (pc_client.call(srv))
     {
-
         res.x = srv.response.wx;
         res.y = srv.response.wy;
         res.z = srv.response.wz;
@@ -186,6 +185,7 @@ bool getPointsCallback(computer_vision::GetPoints::Request &req, computer_vision
     res.point.push_back(instruction.block);
     res.point.push_back(instruction.sil);
     res.angle = instruction.angle;
+    cout << res << endl;
     return true;
 }
 
@@ -200,7 +200,7 @@ int main(int argc, char **argv)
 
     pc_client = nh.serviceClient<computer_vision::PointCloud>("/ur5/locosim/pointcloud");
     getPoints_server = nh.advertiseService("/computer_vision/Points", getPointsCallback);
-
+    ROS_INFO("Service /computer_vision/Points ready");
     ros::spin();
     return 0;
 }

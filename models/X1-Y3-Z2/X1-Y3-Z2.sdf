@@ -17,12 +17,18 @@
       </inertial>
       <collision name="collision">
         <geometry>
-          <mesh><uri>/home/emanuele/ros_ws/src/locosim/RoboticsProject/models/X1-Y3-Z2/X1-Y3-Z2.stl</uri></mesh>
+          <mesh><uri>/home/squinkis/ros_ws/src/locosim/RoboticsProject/models/X1-Y3-Z2/X1-Y3-Z2.stl</uri></mesh>
         </geometry>
       </collision>
       <visual name="visual">
+        <material> <!-- Wheel material -->
+          <ambient>1 0 1 1</ambient>
+          <diffuse>1 0 1 1</diffuse>
+          <specular>1 0 1 0</specular>
+          <emissive>0.1 0.1 0.1 1</emissive>
+        </material> <!-- End wheel material -->
         <geometry>
-          <mesh><uri>/home/emanuele/ros_ws/src/locosim/RoboticsProject/models/X1-Y3-Z2/X1-Y3-Z2.stl</uri></mesh>
+          <mesh><uri>/home/squinkis/ros_ws/src/locosim/RoboticsProject/models/X1-Y3-Z2/X1-Y3-Z2.stl</uri></mesh>
         </geometry>
       </visual>
     </link>
