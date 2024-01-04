@@ -1,11 +1,10 @@
 #ifndef CONTROLLER_H
 #define CONTROLLER_H
-
+#include "kinematics.h"
 #include <sensor_msgs/JointState.h>
 #include "ros/ros.h"
 #include <Eigen/Dense>
 #include <realtime_tools/realtime_publisher.h>
-#include "kinematics.h"
 
 typedef Eigen::Matrix<double, 2, 1> GripperStateVector;
 
@@ -29,9 +28,9 @@ private:
     ros::Publisher pub_gripper_diameter;
     ros::Subscriber sub_joint_state;
 
-    const double acceptable_error = 0.005;
+    const double acceptable_error = 0.05;
 
-    const double sleep_time_after_movement = 0.5;
+    const double sleep_time_after_movement = 1.5;
     const double sleep_time_after_gripper = 3.0;
 
     const double max_x = 1;
@@ -59,7 +58,7 @@ private:
     void joint_state_callback(const sensor_msgs::JointState::ConstPtr &msg);
     void send_state(const jointValues &joint_pos);
     void sent_gripper_diameter(const int diameter);
-    bool check_trajectory(vector<double *> traj, int step, bool pick_or_place);
+    bool check_trajectory(vector<double *> traj, int step, bool pick_or_place, int *error_code);
     jointValues second_order_filter(const jointValues &input, const double rate, const double settling_time);
     void init_filter(void);
     double calculate_distance(const jointValues &first_vector, const jointValues &second_vector);
@@ -68,7 +67,7 @@ private:
     bool move_with_steps(const jointValues &values, const bool order[6]);
     bool move_inside(int steps, bool pick_or_place, vector<double *> *trajectory);
     bool init_verify_trajectory(vector<double *> *Th, jointValues init_joint, jointValues final_joint, int steps, bool pick_or_place);
-    void nearHoming(coordinates &cord, rotMatrix &rot);
+    coordinates nearHoming(coordinates cord);
     coordinates nearHomingRec(coordinates current_cord, coordinates defaultCord, double &nearhomingdist, coordinates &nearhomingcord);
     void advanceNearHoming(coordinates &cord, rotMatrix &rot, coordinates final_cord);
     coordinates advanceNearHomingRec(coordinates current_cord, coordinates defaultCord, coordinates final_cord, double &nearhomingdist, coordinates &nearhomingcord);
@@ -87,14 +86,20 @@ public:
 
     };
 
+    const jointValues mainJointResetValues = (jointValues() << 0., -1., -2.5, 0., 0., 0.).finished();
+
     Controller(double loop_frequency, bool start_homing);
     jointValues get_joint_state();
     GripperStateVector get_gripper_state();
     pair<coordinates, rotMatrix> get_position();
     bool move_to(const coordinates &position, const rotMatrix &rotation, int steps, bool pick_or_place, bool homing);
+    bool move_to_pinocchio(const coordinates &position, const rotMatrix &rotation, int steps, bool pick_or_place, bool homing);
+    bool move_to_gpt(const coordinates &position, const rotMatrix &rotation, int steps, bool pick_or_place, bool homing);
+    bool move_to_joint(jointValues joint_to_reach, int steps, bool pick_or_place, bool homing);
     void move_gripper_to(const int diameter);
     void print_current_pos_rot();
     void sleep();
+    bool move_through_homing(coordinates final_cord, rotMatrix rot);
 
     const int steps = 20;
 };

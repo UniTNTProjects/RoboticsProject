@@ -31,3 +31,4 @@ computer_vision/data_generation/yaml
 !CMakeLists.txt
 .vscode/settings.json
 computer_vision/**/*.pt
+computer_vision/data_generation/blender_render.log

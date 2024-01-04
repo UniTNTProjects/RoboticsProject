@@ -8,7 +8,6 @@ using namespace std;
 
 void ur5Trajectory(vector<double *> *Th, jointValues initial_position, jointValues final_position, int steps)
 {
-    final_position = bestNormalization(initial_position, final_position);
 
     Matrix<double, 6, 4> A;
     for (int i = 0; i < 6; i++)
@@ -36,16 +35,15 @@ void ur5Trajectory(vector<double *> *Th, jointValues initial_position, jointValu
             Th->at(j)[i] = q;
         }
     }
-    /*
-    cout << "Trajectory size: " << Th->size() << endl;
-    for (int i = 0; i < Th->size(); i++)
-    {
-        cout << "Trajectory " << i << ": ";
-        for (int j = 0; j < 6; j++)
-        {
-            cout << Th->at(i)[j] << " ";
-        }
-        cout << endl;
-    }
-    */
+
+    // cout << "Trajectory size: " << Th->size() << endl;
+    // for (int i = 0; i < Th->size(); i++)
+    // {
+    //     cout << "Trajectory " << i << ": ";
+    //     for (int j = 0; j < 6; j++)
+    //     {
+    //         cout << Th->at(i)[j] << " ";
+    //     }
+    //     cout << endl;
+    // }
 }
