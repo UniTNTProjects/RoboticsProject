@@ -102,6 +102,8 @@ public:
     bool move_through_homing(coordinates final_cord, rotMatrix rot);
 
     const int steps = 20;
+    // testing
+    ros::Publisher permission_pub;
 };
 
 #endif

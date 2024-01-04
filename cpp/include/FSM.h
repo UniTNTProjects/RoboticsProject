@@ -5,7 +5,7 @@
 #include "controller.h"
 #include <queue>
 #include <computer_vision/GetPoints.h>
-
+#include <std_msgs/Bool.h>
 using namespace std;
 
 class FSMState;
@@ -36,6 +36,7 @@ public:
 
     ros::ServiceClient get_ins;
     computer_vision::GetPoints srv_points;
+    void setPermission(bool permission);
 
 private:
     queue<pair<coordinates, rotMatrix>> *positions;

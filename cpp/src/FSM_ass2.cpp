@@ -19,14 +19,19 @@ void Wait::enter(FSM *fsm)
     // Do something
     cout << "\n/////////////////////////\nEntered Wait State\n/////////////////////////\n"
          << endl;
-
+    fsm->setPermission(true);
     fsm->get_ins.call(fsm->srv_points);
     coordinates blockCord, silCord;
+    while (fsm->srv_points.response.point.size() == 0)
+    {
+        fsm->get_ins.call(fsm->srv_points);
+    }
     blockCord << fsm->srv_points.response.point[0].x, fsm->srv_points.response.point[0].y, fsm->srv_points.response.point[0].z;
     silCord << fsm->srv_points.response.point[1].x, fsm->srv_points.response.point[1].y, fsm->srv_points.response.point[1].z;
-
+    cout << "Block coordinates: " << blockCord << endl;
     rotMatrix rot;
 
+    fsm->setPermission(false);
     switch (fsm->srv_points.response.angle)
     {
     case 0:

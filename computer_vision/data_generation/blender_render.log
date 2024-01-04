@@ -1,49 +1,55 @@
-Fra:1 Mem:2856.58M (0.00M, Peak 2856.60M) | Time:00:00.00 | Syncing Camera
-Fra:1 Mem:2856.58M (0.00M, Peak 2856.60M) | Time:00:00.00 | Syncing prova.fspy
-Fra:1 Mem:2856.58M (0.00M, Peak 2856.60M) | Time:00:00.00 | Syncing Empty
-Fra:1 Mem:2856.58M (0.00M, Peak 2856.60M) | Time:00:00.00 | Syncing Luce-1
-Fra:1 Mem:2856.58M (0.00M, Peak 2856.60M) | Time:00:00.00 | Syncing Luce-2
-Fra:1 Mem:2856.58M (0.00M, Peak 2856.60M) | Time:00:00.00 | Syncing X1-Y4-Z2
-Fra:1 Mem:2857.51M (0.00M, Peak 2857.93M) | Time:00:00.01 | Syncing X1-Y2-Z1
-Fra:1 Mem:2857.88M (0.00M, Peak 2858.06M) | Time:00:00.01 | Rendering 1 / 64 samples
-Fra:1 Mem:2856.60M (0.00M, Peak 2858.06M) | Time:00:00.04 | Rendering 26 / 64 samples
-Fra:1 Mem:2856.60M (0.00M, Peak 2858.06M) | Time:00:00.06 | Rendering 51 / 64 samples
-Fra:1 Mem:2856.60M (0.00M, Peak 2858.06M) | Time:00:00.07 | Rendering 64 / 64 samples
-Fra:1 Mem:2836.87M (0.00M, Peak 2858.06M) | Time:00:00.08 | Compositing
-Fra:1 Mem:2836.87M (0.00M, Peak 2858.06M) | Time:00:00.08 | Compositing | Determining resolution
-Fra:1 Mem:2836.87M (0.00M, Peak 2858.06M) | Time:00:00.08 | Compositing | Initializing execution
-Fra:1 Mem:2872.09M (0.00M, Peak 2872.09M) | Time:00:00.09 | Compositing | Tile 2-15
-Fra:1 Mem:2872.09M (0.00M, Peak 2872.09M) | Time:00:00.09 | Compositing | Tile 1-15
-Fra:1 Mem:2872.09M (0.00M, Peak 2872.09M) Fra:1 Mem:2872.09M (0.00M, Peak 2872.09M) | Time:00:00.09 | Compositing | Tile 9-15
-Fra:1 Mem:2872.09M (0.00M, Peak 2872.09M) | Time:00:00.09 | Compositing | Tile 8-15
-Fra:1 Mem:2872.09M (0.00M, Peak 2872.09M) Fra:1 Mem:2872.09M (0.00M, Peak 2872.09M) | Time:00:00.09 | Fra:1 Mem:2872.09M (0.00M, Peak 2872.09M) Fra:1 Mem:2872.09M (0.00M, Peak 2872.09M) Fra:1 Mem:2872.09M (0.00M, Peak 2872.09M) | Time:00:00.09 | Compositing | Tile 4-15
-Fra:1 Mem:2872.09M (0.00M, Peak 2872.09M) | Time:00:00.09 | Fra:1 Mem:2872.09M (0.00M, Peak 2872.09M) | Time:00:00.09 | Compositing | Tile 13-15
-Compositing | Tile 6-15
-| Time:00:00.09 | Compositing | Tile 3-15
-| Time:00:00.09 | Compositing | Tile 5-15
-Fra:1 Mem:2872.09M (0.00M, Peak 2872.09M) | Time:00:00.09 | Compositing | Tile 7-15
-| Time:00:00.09 | Compositing | Tile 10-15
-Compositing | Tile 11-15
-| Time:00:00.09 | Compositing | Tile 12-15
-Fra:1 Mem:2872.09M (0.00M, Peak 2872.09M) | Time:00:00.09 | Compositing | Tile 14-15
-Fra:1 Mem:2872.09M (0.00M, Peak 2872.09M) | Time:00:00.09 | Compositing | Tile 15-15
-Fra:1 Mem:2872.09M (0.00M, Peak 2872.09M) Fra:1 Mem:2872.09M (0.00M, Peak 2872.09M) | Time:00:00.10 | Compositing | Tile 4-15| Time:00:00.10 | Compositing | Tile 1-15
-Fra:1 Mem:2872.09M (0.00M, Peak 2872.09M) | Time:00:00.10 | Compositing | Tile 3-15
+Fra:1 Mem:52.83M (0.00M, Peak 53.11M) | Time:00:00.11 | Syncing Camera
+Fra:1 Mem:52.83M (0.00M, Peak 53.11M) | Time:00:00.11 | Syncing prova.fspy
+Fra:1 Mem:52.83M (0.00M, Peak 53.11M) | Time:00:00.11 | Syncing Empty
+Fra:1 Mem:52.83M (0.00M, Peak 53.11M) | Time:00:00.11 | Syncing Luce-1
+Fra:1 Mem:52.83M (0.00M, Peak 53.11M) | Time:00:00.11 | Syncing Luce-2
+Fra:1 Mem:52.83M (0.00M, Peak 53.11M) | Time:00:00.11 | Syncing X1-Y3-Z2-FILLET
+Fra:1 Mem:53.62M (0.00M, Peak 53.85M) | Time:00:00.11 | Syncing X1-Y2-Z1
+Fra:1 Mem:53.99M (0.00M, Peak 54.17M) | Time:00:00.11 | Rendering 1 / 64 samples
+Fra:1 Mem:53.17M (0.00M, Peak 54.17M) | Time:00:00.14 | Rendering 26 / 64 samples
+Fra:1 Mem:53.17M (0.00M, Peak 54.17M) | Time:00:00.15 | Rendering 51 / 64 samples
+Fra:1 Mem:53.17M (0.00M, Peak 54.17M) | Time:00:00.16 | Rendering 64 / 64 samples
+Fra:1 Mem:33.92M (0.00M, Peak 54.17M) | Time:00:00.17 | Compositing
+Fra:1 Mem:33.92M (0.00M, Peak 54.17M) | Time:00:00.17 | Compositing | Determining resolution
+Fra:1 Mem:33.92M (0.00M, Peak 54.17M) | Time:00:00.17 | Compositing | Initializing execution
+Fra:1 Mem:69.14M (0.00M, Peak 69.14M) | Time:00:00.18 | Compositing | Tile 3-15
+Fra:1 Mem:69.14M (0.00M, Peak 69.14M) Fra:1 Mem:69.14M (0.00M, Peak 69.14M) Fra:1 Mem:69.14M (0.00M, Peak 69.14M) | Time:00:00.18 | Compositing | Tile 1-15
+| Time:00:00.18 | | Time:00:00.18 | Compositing | Tile 7-15Fra:1 Mem:69.14M (0.00M, Peak 69.14M) | Time:00:00.18 | Compositing | Tile 4-15
+Fra:1 Mem:69.14M (0.00M, Peak 69.14M) | Time:00:00.18 | Compositing | Tile 6-15
+Compositing | Tile 5-15
+Fra:1 Mem:69.14M (0.00M, Peak 69.14M) | Time:00:00.18 | Compositing | Tile 2-15
 
-Fra:1 Mem:2872.09M (0.00M, Peak 2872.09M) | Time:00:00.10 | Compositing | Tile 2-15
-Fra:1 Mem:2872.09M (0.00M, Peak 2872.09M) | Time:00:00.10 | Compositing | Tile 5-15
-Fra:1 Mem:2872.09M (0.00M, Peak 2872.09M) | Time:00:00.10 | Compositing | Tile 6-15
-Fra:1 Mem:2872.09M (0.00M, Peak 2872.09M) | Time:00:00.10 | Compositing | Tile 7-15
-Fra:1 Mem:2872.09M (0.00M, Peak 2872.09M) | Time:00:00.10 | Compositing | Tile 8-15
-Fra:1 Mem:2872.09M (0.00M, Peak 2872.09M) | Time:00:00.10 | Fra:1 Mem:2872.09M (0.00M, Peak 2872.09M) | Time:00:00.10 | Compositing | Tile 9-15
-Compositing | Tile 10-15
-Fra:1 Mem:2872.09M (0.00M, Peak 2872.09M) | Time:00:00.10 | Compositing | Tile 11-15
-Fra:1 Mem:2872.09M (0.00M, Peak 2872.09M) | Time:00:00.10 | Compositing | Tile 12-15
-Fra:1 Mem:2872.09M (0.00M, Peak 2872.09M) | Time:00:00.10 | Compositing | Tile 13-15
-Fra:1 Mem:2872.09M (0.00M, Peak 2872.09M) | Time:00:00.10 | Compositing | Tile 14-15
-Fra:1 Mem:2872.09M (0.00M, Peak 2872.09M) | Time:00:00.10 | Compositing | Tile 15-15
-Fra:1 Mem:2872.03M (0.00M, Peak 2872.09M) | Time:00:00.10 | Compositing | De-initializing execution
-Fra:1 Mem:2854.45M (0.00M, Peak 2872.09M) | Time:00:00.11 | Sce: Scene Ve:0 Fa:0 La:0
+Fra:1 Mem:69.14M (0.00M, Peak 69.14M) Fra:1 Mem:69.14M (0.00M, Peak 69.14M) Fra:1 Mem:69.14M (0.00M, Peak 69.14M) | Time:00:00.18 | | Time:00:00.18 | Compositing | Tile 9-15
+| Time:00:00.18 | Compositing | Tile 10-15Compositing | Tile 8-15
+
+Fra:1 Mem:69.14M (0.00M, Peak 69.14M) | Time:00:00.18 | Compositing | Tile 11-15
+Fra:1 Mem:69.14M (0.00M, Peak 69.14M) | Time:00:00.18 | Compositing | Tile 12-15
+Fra:1 Mem:69.14M (0.00M, Peak 69.14M) | Time:00:00.18 | Compositing | Tile 13-15
+Fra:1 Mem:69.14M (0.00M, Peak 69.14M) | Time:00:00.18 | Compositing | Tile 14-15
+Fra:1 Mem:69.14M (0.00M, Peak 69.14M) | Time:00:00.18 | Compositing | Tile 15-15
+Fra:1 Mem:69.14M (0.00M, Peak 69.14M) | Time:00:00.20 | Compositing | Tile 1-15
+Fra:1 Mem:69.14M (0.00M, Peak 69.14M) Fra:1 Mem:69.14M (0.00M, Peak 69.14M) Fra:1 Mem:69.14M (0.00M, Peak 69.14M) | Time:00:00.20 | Compositing | Tile 2-15| Time:00:00.20 | Compositing | Tile 4-15
+
+| Time:00:00.20 | Compositing | Tile 3-15
+Fra:1 Mem:69.14M (0.00M, Peak 69.14M) | Time:00:00.20 | Compositing | Tile 5-15
+Fra:1 Mem:69.14M (0.00M, Peak 69.14M) | Time:00:00.21 | Compositing | Tile 6-15
+Fra:1 Mem:69.14M (0.00M, Peak 69.14M) Fra:1 Mem:69.14M (0.00M, Peak 69.14M) | Time:00:00.21 | Compositing | Tile 8-15
+| Time:00:00.21 | Compositing | Tile 7-15
+Fra:1 Mem:69.14M (0.00M, Peak 69.14M) | Time:00:00.21 | Compositing | Tile 9-15
+Fra:1 Mem:69.14M (0.00M, Peak 69.14M) | Time:00:00.21 | Compositing | Tile 10-15
+Fra:1 Mem:69.14M (0.00M, Peak 69.14M) | Time:00:00.21 | Compositing | Tile 11-15
+Fra:1 Mem:69.14M (0.00M, Peak 69.14M) | Time:00:00.21 | Compositing | Tile 12-15
+Fra:1 Mem:69.14M (0.00M, Peak 69.14M) | Time:00:00.21 | Compositing | Tile 13-15
+Fra:1 Mem:69.14M (0.00M, Peak 69.14M) | Time:00:00.21 | Compositing | Tile 14-15
+Fra:1 Mem:69.14M (0.00M, Peak 69.14M) | Time:00:00.21 | Compositing | Tile 15-15
+Fra:1 Mem:69.08M (0.00M, Peak 69.14M) | Time:00:00.21 | Compositing | De-initializing execution
+Fra:1 Mem:51.50M (0.00M, Peak 69.14M) | Time:00:00.21 | Sce: Scene Ve:0 Fa:0 La:0
+
+Sent an internal break event. Press ^C again to kill Blender
+Saved: './dataset/valid/images/0.png'
+ Time: 00:00.50 (Saving: 00:00.28)
+
+ime:00:00.11 | Sce: Scene Ve:0 Fa:0 La:0
 Saved: './dataset/train/images/1443.png'
  Time: 00:00.24 (Saving: 00:00.13)
 

@@ -682,20 +682,20 @@ class Render:
 
         # Take picture of current visible scene
 
-        logfile = "blender_render.log"
-        open(logfile, "a").close()
-        old = os.dup(sys.stdout.fileno())
-        sys.stdout.flush()
-        os.close(sys.stdout.fileno())
-        fd = os.open(logfile, os.O_WRONLY)
+        # logfile = "blender_render.log"
+        # open(logfile, "a").close()
+        # old = os.dup(sys.stdout.fileno())
+        # sys.stdout.flush()
+        # os.close(sys.stdout.fileno())
+        # fd = os.open(logfile, os.O_WRONLY)
 
         # do the rendering
         bpy.ops.render.render(write_still=True)
 
         # disable output redirection
-        os.close(fd)
-        os.dup(old)
-        os.close(old)
+        # os.close(fd)
+        # os.dup(old)
+        # os.close(old)
 
     def calculate_n_renders(self, rotation_step):
         x = self.x_pos_limits[1] - self.x_pos_limits[0]

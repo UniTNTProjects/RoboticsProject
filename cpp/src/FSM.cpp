@@ -12,6 +12,7 @@ FSM::FSM()
     get_ins = node.serviceClient<computer_vision::GetPoints>("computer_vision/Points");
 
     this->moveGripperTo(openGripperDiameter);
+    this->setPermission(true);
     cout << "FSM initialized" << endl;
 }
 
@@ -76,6 +77,15 @@ void FSM::moveGripperTo(int diameter)
     controller->move_gripper_to(diameter);
 }
 
+void FSM::setPermission(bool permission_to_send)
+{
+    std_msgs::Bool permission;
+    ros::Rate loop_rate(100);
+    permission.data = permission_to_send;
+    cout << "Sending permission" << endl;
+    controller->permission_pub.publish(permission);
+    loop_rate.sleep();
+}
 bool FSM::pickUp()
 {
     pair<coordinates, rotMatrix> currentPos = getNextPosition();

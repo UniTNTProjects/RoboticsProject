@@ -7,6 +7,7 @@ from ultralytics import YOLO
 from ultralytics.utils import ops
 from ultralytics.utils.torch_utils import select_device
 from sensor_msgs.msg import Image
+from std_msgs.msg import Bool
 from cv_bridge import CvBridge, CvBridgeError
 from ultralytics.utils.plotting import Annotator
 from ultralytics.data.augment import LetterBox
@@ -53,15 +54,17 @@ class Detector:
         self.robot_name = robot_name
         self.real_robot = False
         self.bridge = CvBridge()
-        self.weights = base_path + "dataset/runs/detect/train38/weights/last.pt"
+        self.weights = base_path + "dataset/runs/detect/train35/weights/best.pt"
         # self.model = torch.hub.load("ultralytics/yolov5", "custom", path=self.weights)
         self.model = YOLO(self.weights)
         self.image_sub = rospy.Subscriber(
             "/ur5/zed_node/left_raw/image_raw_color", Image, self.callback
         )
-
         self.prediction_pub = rospy.Publisher(
             "/computer_vision/bounding_box", BoundingBoxes, queue_size=10
+        )
+        self.permission_sub = rospy.Subscriber(
+            "/computer_vision/permission", Bool, self.permission_callback
         )
         self.cv_image = None
         self.zed_camera_image_shape = (540, 960)
@@ -73,6 +76,7 @@ class Detector:
             stride=self.model.model.stride,
         )
 
+        self.allowed_to_watch = False
         self.results = None
         self.conf_threshold = 0.5
         self.iou_threshold = 0.4
@@ -110,6 +114,10 @@ class Detector:
         img = zed_Annotator.result()
         cv2.imshow("Result Streched", img)
         cv2.waitKey(3)
+
+    def permission_callback(self, data):
+        pprint(f"[DETECTOR] Permission callback Data: {data.data}")
+        self.allowed_to_watch = data.data
 
     def publish_bounding_boxes(self):
         # Create the message
@@ -177,67 +185,74 @@ class Detector:
     #             return -1
 
     def callback(self, data):
-        print("[YOLO] Entered in Callback")
-        try:
-            self.cv_image = self.bridge.imgmsg_to_cv2(data, "bgr8")
-            self.proc_image, self.cv_image = self.preprocess(self.cv_image)
-        except CvBridgeError as e:
-            print(e)
+        if self.allowed_to_watch:
+            print("[YOLO] Entered in Callback")
+            try:
+                self.cv_image = self.bridge.imgmsg_to_cv2(data, "bgr8")
+                self.proc_image, self.cv_image = self.preprocess(self.cv_image)
+            except CvBridgeError as e:
+                print(e)
 
-        # Detect objects
-        preds = self.model(self.proc_image)
+            # Detect objects
+            preds = self.model(self.proc_image)
 
-        for pred in preds:
-            to_cpu = pred.cpu().numpy()
-            for i, conf in enumerate(to_cpu.boxes.conf):
-                if conf > self.conf_threshold and to_cpu.names[i] in selected_values:
-                    # Append relatives box tensor
-                    self.objects[selected_values[to_cpu.names[i]]].append(
-                        to_cpu.boxes[i]
-                    )
-                    self.silhouette[0] = to_cpu.boxes[i]
-                elif conf > self.conf_threshold and to_cpu.names[i] in silhouettes:
-                    self.silhouette[silhouettes_values[to_cpu.names[i]]] = to_cpu.boxes[
-                        i
-                    ]
-        # fig, ax = plt.subplots(figsize=(16, 12))
-        # ax.imshow(preds.render()[0])
-        # plt.show()
+            for pred in preds:
+                to_cpu = pred.cpu().numpy()
+                for i, conf in enumerate(to_cpu.boxes.conf):
+                    if (
+                        conf > self.conf_threshold
+                        and to_cpu.names[i] in selected_values
+                    ):
+                        # Append relatives box tensor
+                        self.objects[selected_values[to_cpu.names[i]]].append(
+                            to_cpu.boxes[i]
+                        )
+                        self.silhouette[0] = to_cpu.boxes[i]
+                    elif conf > self.conf_threshold and to_cpu.names[i] in silhouettes:
+                        self.silhouette[
+                            silhouettes_values[to_cpu.names[i]]
+                        ] = to_cpu.boxes[i]
+            # fig, ax = plt.subplots(figsize=(16, 12))
+            # ax.imshow(preds.render()[0])
+            # plt.show()
 
-        # Rescale bounding boxes
-        for key, objs in self.objects.items():
-            # Draw bounding boxes
-            for obj in objs:
-                bbox = BoundingBox()
-                if self.real_robot:
-                    new_coords = ops.scale_boxes(
-                        self.cv_image.shape[:2], obj.xyxy, self.proc_image.shape[:2]
-                    )[0]
-                    bbox.xmin = new_coords[0].astype(int)
-                    bbox.ymin = new_coords[1].astype(int)
-                    bbox.xmax = new_coords[2].astype(int)
-                    bbox.ymax = new_coords[3].astype(int)
-                    # bbox.orientation = self.det_orientatiion_pattern_matching(
-                    #     new_coords, obj.cls[0]
-                    # )
-                else:
-                    bbox.xmin = obj.xyxy[0][0].astype(int)
-                    bbox.ymin = obj.xyxy[0][1].astype(int)
-                    bbox.xmax = obj.xyxy[0][2].astype(int)
-                    bbox.ymax = obj.xyxy[0][3].astype(int)
-                    # bbox.orientation = self.det_orientatiion_pattern_matching(
-                    #     obj.xyxy[0], obj.cls[0]
-                    # )
+            # Rescale bounding boxes
+            for key, objs in self.objects.items():
+                # Draw bounding boxes
+                for obj in objs:
+                    bbox = BoundingBox()
+                    if self.real_robot:
+                        new_coords = ops.scale_boxes(
+                            self.cv_image.shape[:2], obj.xyxy, self.proc_image.shape[:2]
+                        )[0]
+                        bbox.xmin = new_coords[0].astype(int)
+                        bbox.ymin = new_coords[1].astype(int)
+                        bbox.xmax = new_coords[2].astype(int)
+                        bbox.ymax = new_coords[3].astype(int)
+                        # bbox.orientation = self.det_orientatiion_pattern_matching(
+                        #     new_coords, obj.cls[0]
+                        # )
+                    else:
+                        bbox.xmin = obj.xyxy[0][0].astype(int)
+                        bbox.ymin = obj.xyxy[0][1].astype(int)
+                        bbox.xmax = obj.xyxy[0][2].astype(int)
+                        bbox.ymax = obj.xyxy[0][3].astype(int)
+                        # bbox.orientation = self.det_orientatiion_pattern_matching(
+                        #     obj.xyxy[0], obj.cls[0]
+                        # )
 
-                # print("After: ", new_coords)
+                    # print("After: ", new_coords)
 
-                bbox.Class = to_cpu.names[obj.cls[0]]
-                bbox.class_n = int(obj.cls[0])
-                bbox.probability = obj.conf
-                self.boxes[key] = bbox
+                    bbox.Class = to_cpu.names[obj.cls[0]]
+                    bbox.class_n = int(obj.cls[0])
+                    bbox.probability = obj.conf
+                    self.boxes[key] = bbox
 
-        self.show_bounding_boxes()
-        # self.publish_bounding_boxes()
+            self.show_bounding_boxes()
+            self.publish_bounding_boxes()
+        else:
+            print("[YOLO] Not allowed to watch")
+            return
 
 
 if __name__ == "__main__":
