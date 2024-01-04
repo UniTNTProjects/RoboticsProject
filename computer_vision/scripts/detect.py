@@ -1,15 +1,17 @@
 import rospy
 import cv2
+import torch
 import numpy as np
 from computer_vision.msg import BoundingBox, BoundingBoxes
 from ultralytics import YOLO
-from ultralytics.yolo.utils import ops
-from ultralytics.yolo.utils.torch_utils import select_device
+from ultralytics.utils import ops
+from ultralytics.utils.torch_utils import select_device
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge, CvBridgeError
-from ultralytics.yolo.utils.plotting import Annotator
-from ultralytics.yolo.data.augment import LetterBox
-from ultralytics.yolo.engine.predictor import BasePredictor
+from ultralytics.utils.plotting import Annotator
+from ultralytics.data.augment import LetterBox
+from ultralytics.engine.predictor import BasePredictor
+from pprint import pprint
 
 names = [
     "X1-Y1-Z2",
@@ -28,6 +30,9 @@ names = [
 silhouettes = [
     "X1-Y1-Z2-SILHOUETTE",
 ]
+base_path = (
+    "/home/squinkis/ros_ws/src/locosim/RoboticsProject/computer_vision/data_generation/"
+)
 
 # Create a dictionary with the selected values using them as values and numbers as keys
 selected_values = {}
@@ -35,19 +40,21 @@ silhouettes_values = {}
 for i, name in enumerate(names):
     selected_values[name] = i
 
+pprint(selected_values)
+
 for i, name in enumerate(silhouettes):
     silhouettes_values[name] = i
 
 
 class Detector:
     def __init__(self, robot_name="ur"):
+        pprint(f"[DETECTOR] Initializing detector")
         # super().__init__(robot_name=robot_name)
         self.robot_name = robot_name
         self.real_robot = False
         self.bridge = CvBridge()
-        self.weights = (
-            "../data_generation/roboflowset/runs/detect/train2/weights/best.pt"
-        )
+        self.weights = base_path + "dataset/runs/detect/train38/weights/last.pt"
+        # self.model = torch.hub.load("ultralytics/yolov5", "custom", path=self.weights)
         self.model = YOLO(self.weights)
         self.image_sub = rospy.Subscriber(
             "/ur5/zed_node/left_raw/image_raw_color", Image, self.callback
@@ -67,7 +74,7 @@ class Detector:
         )
 
         self.results = None
-        self.conf_threshold = 0.8
+        self.conf_threshold = 0.5
         self.iou_threshold = 0.4
         self.show_image = True
         self.boxes = {}  # Dictionary with the bounding boxes
@@ -76,8 +83,6 @@ class Detector:
         self.pattern = {}  # List with the pattern of the objects
         for i in range(len(names)):
             self.objects[i] = []
-
-        self.load_pattern()
 
     def preprocess(self, image):
         # Resize image
@@ -95,7 +100,7 @@ class Detector:
             )
 
     def show_bounding_boxes(self):
-        zed_Annotator = Annotator(self.cv_image, line_width=2)
+        zed_Annotator = Annotator(self.proc_image, line_width=1)
         for key, box in self.boxes.items():
             zed_Annotator.box_label(
                 box=[box.xmin, box.ymin, box.xmax, box.ymax],
@@ -114,59 +119,62 @@ class Detector:
         # for key, box in self.silhouette.items():
         #     msg.silhouttes.append(box)
         self.prediction_pub.publish(msg)
+        # clean boxes
+        self.boxes = {}
 
-    def det_orientatiion_pattern_matching(self, box, class_n):
-        patterns = self.pattern[class_n]
-        image = self.cv_image[
-            box[1].astype(int) : box[3].astype(int),
-            box[0].astype(int) : box[2].astype(int),
-        ]
-        threshold = 0.8
-        for i, pattern in enumerate(patterns):
-            # Rescale pattern to the size of the image
-            pattern = cv2.resize(pattern, (image.shape[1], image.shape[0]))
+    # def det_orientatiion_pattern_matching(self, box, class_n):
+    #     patterns = self.pattern[class_n]
+    #     image = self.cv_image.copy()
+    #     image = image[
+    #         box[1].astype(int) : box[3].astype(int),
+    #         box[0].astype(int) : box[2].astype(int),
+    #     ]
+    #     threshold = 0.8
+    #     for i, pattern in enumerate(patterns):
+    #         # Rescale pattern to the size of the image
+    #         pattern = cv2.resize(pattern, (image.shape[1], image.shape[0]))
 
-            # Make image and pattern gray
-            image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-            pattern = cv2.cvtColor(pattern, cv2.COLOR_BGR2GRAY)
+    #         # Make image and pattern gray
+    #         image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
-            # Apply template Matching
-            res = cv2.matchTemplate(image, pattern, cv2.TM_CCOEFF_NORMED)
-            min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res)
+    #         pattern = cv2.cvtColor(pattern, cv2.COLOR_BGR2GRAY)
 
-            cv2.imshow("Result", res)
-            if res >= threshold and i == 0:
-                cv2.rectangle(
-                    self.cv_image,
-                    (box[0].astype(int), box[1].astype(int)),
-                    (box[2].astype(int), box[3].astype(int)),
-                    (255, 0, 255),
-                    2,
-                )
-                cv2.imshow("Result", self.cv_image)
-                return 0
-            elif res >= threshold and i == 1:
-                cv2.rectangle(
-                    self.cv_image,
-                    (box[0].astype(int), box[1].astype(int)),
-                    (box[2].astype(int), box[3].astype(int)),
-                    (255, 0, 0),
-                    2,
-                )
-                cv2.imshow("Result", self.cv_image)
-                return 90
-            elif res >= threshold and i == 2:
-                cv2.rectangle(
-                    self.cv_image,
-                    (box[0].astype(int), box[1].astype(int)),
-                    (box[2].astype(int), box[3].astype(int)),
-                    (0, 255, 0),
-                    2,
-                )
-                cv2.imshow("Result", self.cv_image)
-                return 45
-            else:
-                return -1
+    #         # Apply template Matching
+    #         res = cv2.matchTemplate(image, pattern, cv2.TM_CCOEFF_NORMED)
+    #         min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(res)
+
+    #         if res >= threshold and i == 0:
+    #             cv2.rectangle(
+    #                 self.cv_image,
+    #                 (box[0].astype(int), box[1].astype(int)),
+    #                 (box[2].astype(int), box[3].astype(int)),
+    #                 (255, 0, 255),
+    #                 2,
+    #             )
+    #             cv2.imshow("Result", self.cv_image)
+    #             return 0
+    #         elif res >= threshold and i == 1:
+    #             cv2.rectangle(
+    #                 self.cv_image,
+    #                 (box[0].astype(int), box[1].astype(int)),
+    #                 (box[2].astype(int), box[3].astype(int)),
+    #                 (255, 0, 0),
+    #                 2,
+    #             )
+    #             cv2.imshow("Result", self.cv_image)
+    #             return 90
+    #         elif res >= threshold and i == 2:
+    #             cv2.rectangle(
+    #                 self.cv_image,
+    #                 (box[0].astype(int), box[1].astype(int)),
+    #                 (box[2].astype(int), box[3].astype(int)),
+    #                 (0, 255, 0),
+    #                 2,
+    #             )
+    #             cv2.imshow("Result", self.cv_image)
+    #             return 45
+    #         else:
+    #             return -1
 
     def callback(self, data):
         print("[YOLO] Entered in Callback")
@@ -177,7 +185,7 @@ class Detector:
             print(e)
 
         # Detect objects
-        preds = self.model.predict(self.cv_image)
+        preds = self.model(self.proc_image)
 
         for pred in preds:
             to_cpu = pred.cpu().numpy()
@@ -192,6 +200,9 @@ class Detector:
                     self.silhouette[silhouettes_values[to_cpu.names[i]]] = to_cpu.boxes[
                         i
                     ]
+        # fig, ax = plt.subplots(figsize=(16, 12))
+        # ax.imshow(preds.render()[0])
+        # plt.show()
 
         # Rescale bounding boxes
         for key, objs in self.objects.items():
@@ -226,7 +237,7 @@ class Detector:
                 self.boxes[key] = bbox
 
         self.show_bounding_boxes()
-        self.publish_bounding_boxes()
+        # self.publish_bounding_boxes()
 
 
 if __name__ == "__main__":

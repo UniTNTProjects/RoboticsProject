@@ -6,11 +6,11 @@ import random
 
 
 # 全局变量进行路径配置
-label_folder = r"./dataset/train/labels/"  # 检测结果存放文件夹labels路径
+label_folder = r"./dataset/prova/nobox/labels/"  # 检测结果存放文件夹labels路径
 
-raw_images_folder = r"./dataset/train/images/"  # 检查图片存放文件夹raw_images路径
+raw_images_folder = r"./dataset/prova/nobox/images/"  # 检查图片存放文件夹raw_images路径
 
-save_images_folder = r"./dataset/valid/images"  # 保存图片文件夹save_image路径
+save_images_folder = r"./dataset/prova/box"  # 保存图片文件夹save_image路径
 
 name_list_path = "./name_list.txt"  # 里面有检测图片名称txt文件路径
 
@@ -75,10 +75,17 @@ def draw_box_on_image(
             float(staff[3]) * width,
             float(staff[4]) * height,
         )
-        x1 = round(x_center - w / 2)
-        y1 = round(y_center - h / 2)
-        x2 = round(x_center + w / 2)
-        y2 = round(y_center + h / 2)
+
+        print("x_center:", x_center, "y_center:", y_center, "w:", w, "h:", h)
+        # x1 = round(x_center - w / 2)
+        # y1 = round(y_center - h / 2)
+        # x2 = round(x_center + w / 2)
+        # y2 = round(y_center + h / 2)
+
+        x1 = int(x_center - w / 2)
+        y1 = int(y_center - h / 2)
+        x2 = int(x_center + w / 2)
+        y2 = int(y_center + h / 2)
 
         # if class_idx == 0:
         #     draw_people_tangle = cv2.rectangle(image, (x1,y1),(x2,y2),(0,0,255),2)   # 画框操作  红框  宽度为1
@@ -94,6 +101,10 @@ def draw_box_on_image(
             label=file["names"][class_idx],
             line_thickness=None,
         )
+
+        # print working directory
+        # build abs path
+        save_file_path = os.path.abspath(save_file_path)
 
         cv2.imwrite(save_file_path, image)
 
@@ -129,7 +140,7 @@ if __name__ == "__main__":  # 只有在文件作为脚本文件直接执行时�
     colors = [[random.randint(0, 255) for _ in range(3)] for _ in range(len(classes))]
 
     image_names = open(name_list_path).read().strip().split()  # 得到图片名字不带后缀
-
+    image_names = sorted(image_names)  # 排序
     box_total = 0
     image_total = 0
     for image_name in image_names:  # 例遍图片名称

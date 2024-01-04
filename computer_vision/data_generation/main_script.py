@@ -4,7 +4,6 @@ import yaml
 import bpy
 import numpy as np
 import math as m
-import random
 import os
 
 
@@ -35,31 +34,46 @@ class Render:
         self.objects = []
         self.class_dict = {}
         self.create_objects()
-
+        self.set_light_position()
         # Render information
         self.camera_d_limits = [
-            0.5,
             1.5,
+            2.5,
         ]  # Define range of heights z in m that the camera is going to pan through
         self.beta_limits = [
-            -180,
-            180,
+            -90,
+            90,
         ]  # Define range of beta angles that the camera is going to pan through
         self.gamma_limits = [
-            -180,
-            180,
+            -90,
+            90,
         ]  # Define range of gamma angles that the camera is going to pan through
 
         # Output information
         # Input your own preferred location for the images and labels
-        self.images_filepath = "./dataset/train/images"
         self.labels_filepath = "./dataset/train/labels"
+        self.images_filepath = "./dataset/train/images"
+        self.train_counter = 0
+
         self.valid_label_filepath = "./dataset/valid/labels"
+        self.valid_images_filepath = "./dataset/valid/images"
+        self.valid_counter = 0
+
+        self.test_label_filepath = "./dataset/test/labels"
+        self.test_images_filepath = "./dataset/test/images"
+        self.test_counter = 0
+
+        # generate random number between 0.0 and 1.0
+        self.choose = np.random.uniform(0.0, 1.0)
 
     def set_camera(self):
         self.axis.rotation_euler = (0, 0, 0)
         self.axis.location = (0, 0, 0)
         self.camera.rotation_euler = (0, 0, 0)
+
+    def set_light_position(self):
+        self.light_1.location = (0, 1, 2)
+        self.light_2.location = (1, 0, 2)
 
     def main_rendering_loop(self, rot_step):
         """
@@ -126,12 +140,37 @@ class Render:
                             render_counter += 1  # Update counter
 
                             # Set Random color
-                            color = (
-                                random.random(),
-                                random.random(),
-                                random.random(),
-                                1.0,
-                            )
+                            color_0 = int(np.random.random() * 100 % 3)
+                            color = ()
+                            if color_0 == 0:
+                                color = (
+                                    0,
+                                    np.random.random() * 100,
+                                    np.random.random() * 100,
+                                    1.0,
+                                )
+                            elif color_0 == 1:
+                                color = (
+                                    np.random.random() * 100,
+                                    0,
+                                    np.random.random() * 100,
+                                    1.0,
+                                )
+                            elif color_0 == 2:
+                                color = (
+                                    np.random.random() * 100,
+                                    np.random.random() * 100,
+                                    0,
+                                    1.0,
+                                )
+                            else:
+                                print("error  " + str(color_0))
+                                color = (
+                                    np.random.random() * 100,
+                                    np.random.random() * 100,
+                                    np.random.random() * 100,
+                                    1.0,
+                                )
                             color_material = bpy.data.materials.new(name="Color")
                             color_material.diffuse_color = color
                             bpy.data.objects[name].active_material = color_material
@@ -155,13 +194,10 @@ class Render:
                             # energy2 = random.randint(
                             #     4, 20
                             # )  # Grab random light intensity
-                            energy2 = 50
+                            energy2 = 25
                             self.light_2.data.energy = energy2  # Update the <bpy.data.objects['Light2']> energy information
 
                             ## Generate render
-                            self.render_blender(
-                                render_counter
-                            )  # Take photo of current scene and ouput the
                             # render_counter.png file
                             # Display demo information - Photo information
                             # print("--> Picture information:")
@@ -173,58 +209,83 @@ class Render:
                             #     ),
                             # )
                             # print("     Rendering samples:", self.samples)
-
-                            # Output Labels
-                            valid_text_file_name = (
-                                self.valid_label_filepath
-                                + "/"
-                                + str(render_counter)
-                                + ".txt"
-                            )
-                            valid_text_file = open(
-                                valid_text_file_name, "w+"
-                            )  # Open .txt file of the label
-                            text_file_name = (
-                                self.labels_filepath
-                                + "/"
-                                + str(render_counter)
-                                + ".txt"
-                            )  # Create label file name
-                            text_file = open(
-                                text_file_name, "w+"
-                            )  # Open .txt file of the label
-                            # Get formatted coordinates of the bounding boxes
-                            # of all the objects in the scene
-                            # Display demo information - Label construction
-                            # print("---> Label Construction")
                             text_coordinates = self.get_all_coordinates(name)
                             splitted_coordinates = text_coordinates.split("\n")[
                                 :-1
                             ]  # Delete last '\n' in coordinates
-                            text_file.write(
-                                "\n".join(splitted_coordinates)
-                            )  # Write the coordinates to the text file and output the render_counter.txt file
-                            valid_text_file.write("\n".join(splitted_coordinates))
-                            valid_text_file.close()  # Close the .txt file corresponding to the label
-                            text_file.close()  # Close the .txt file corresponding to the label
+                            # Output Labels
+                            if self.choose >= 0.0 and self.choose <= 0.6:
+                                self.render_blender(
+                                    render_counter, self.images_filepath
+                                )  # Take photo of current scene and ouput the
+                                # save image for training set
+                                text_file_name = (
+                                    self.labels_filepath
+                                    + "/"
+                                    + str(render_counter)
+                                    + ".txt"
+                                )  # Create label file name
+                                text_file = open(
+                                    text_file_name, "w+"
+                                )  # Open .txt file of the label
+                                text_file.write("\n".join(splitted_coordinates))
+                                text_file.close()  # Close the .txt file corresponding to the label
+                                self.train_counter += 1
+                            elif self.choose <= 0.8:
+                                self.render_blender(
+                                    render_counter, self.valid_images_filepath
+                                )  # Take photo of current scene and ouput the
+                                # save image for validation set
+                                valid_text_file_name = (
+                                    self.valid_label_filepath
+                                    + "/"
+                                    + str(render_counter)
+                                    + ".txt"
+                                )
+                                valid_text_file = open(
+                                    valid_text_file_name, "w+"
+                                )  # Open .txt file of the label
+                                valid_text_file.write("\n".join(splitted_coordinates))
+                                valid_text_file.close()  # Close the .txt file corresponding to the label
+                                self.valid_counter += 1
+                            else:
+                                self.render_blender(
+                                    render_counter, self.test_images_filepath
+                                )  # Take photo of current scene and ouput the
+                                test_text_file_name = (
+                                    self.test_label_filepath
+                                    + "/"
+                                    + str(render_counter)
+                                    + ".txt"
+                                )
+                                test_text_file = open(test_text_file_name, "w+")
+                                test_text_file.write("\n".join(splitted_coordinates))
+                                test_text_file.close()
+                                self.test_counter += 1
 
                             ## Show progress on batch of renders
                             print(
                                 "Progress =",
                                 str(render_counter)
                                 + "/"
-                                + str(n_renders * len(self.obj_names)),
+                                + str(n_renders * len(self.obj_names))
+                                + " - "
+                                + "Training set: "
+                                + str(self.train_counter)
+                                + " - "
+                                + "Validation set:"
+                                + str(self.valid_counter)
+                                + " - "
+                                + "Test set:"
+                                + str(self.test_counter)
+                                + " - "
+                                + "Choose: "
+                                + str(self.choose),
                                 end="\r",
                             )
-                            # report.write(
-                            #     "Progress: "
-                            #     + str(render_counter)
-                            #     + " Rotation: "
-                            #     + str(axis_rotation)
-                            #     + " z_d: "
-                            #     + str(d / 10)
-                            #     + "\n"
-                            # )
+                            self.choose = np.random.uniform(
+                                0.0, 1.0
+                            )  # Randomly choose a number
 
                 # remove objects
                 bpy.ops.object.select_all(action="DESELECT")
@@ -397,21 +458,22 @@ class Render:
 
         return (min_x, min_y), (max_x, max_y)
 
-    def render_blender(self, count_f_name):
+    def render_blender(self, count_f_name, file_path):
         # Define random parameters
-        random.seed(random.randint(1, 1000))
-        self.xpix = random.randint(500, 1000)
-        self.ypix = random.randint(500, 1000)
-        self.percentage = random.randint(90, 100)
-        self.samples = random.randint(25, 50)
+        np.random.seed(np.random.randint(1, 1000))
+        self.xpix = 640
+        self.ypix = 640
+        self.percentage = np.random.randint(90, 100)
+        self.samples = np.random.randint(25, 50)
         # Render images
         image_name = str(count_f_name) + ".png"
+
         self.export_render(
             self.xpix,
             self.ypix,
             self.percentage,
             self.samples,
-            self.images_filepath,
+            file_path,
             image_name,
         )
 
