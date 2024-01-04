@@ -17,6 +17,20 @@ private:
     Wait &operator=(const Wait &other);
 };
 
+class Init : public FSMState
+{
+public:
+    void enter(FSM *fsm);
+    void toggle(FSM *fsm);
+    void exit(FSM *fsm);
+    static FSMState &getInstance();
+
+private:
+    Init() {}
+    Init(const Init &other);
+    Init &operator=(const Init &other);
+};
+
 class Move : public FSMState
 {
 public:

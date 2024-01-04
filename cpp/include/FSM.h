@@ -32,6 +32,8 @@ public:
     bool isError = false;
     bool isDone = false;
 
+    double heightPickAndPlace = 0.14;
+
     int counter = 0;
 
     ros::ServiceClient get_ins;
@@ -44,7 +46,6 @@ private:
 
     int closeGripperDiameter = 28;
     int openGripperDiameter = 70;
-    double heightPickAndPlace = 0.14;
 
     coordinates defaultCord;
     rotMatrix defaultRot;

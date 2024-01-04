@@ -5,7 +5,7 @@ using namespace std;
 
 FSM::FSM()
 {
-    currentState = &Wait::getInstance();
+    currentState = &Init::getInstance();
     controller = new Controller(250., true);
     positions = new queue<pair<coordinates, rotMatrix>>();
 
@@ -42,7 +42,8 @@ coordinates FSM::translateBlockCordToRobotCord(coordinates blockCord)
 {
 
     coordinates robotCord, robotReferenceCord;
-    robotReferenceCord << 0.5, 0.35, 1.46;
+    robotReferenceCord << 0.5, 0.35, 1.5;
+
     robotCord << blockCord(0) - robotReferenceCord(0), robotReferenceCord(1) - blockCord(1), robotReferenceCord(2) - blockCord(2);
 
     return robotCord;
