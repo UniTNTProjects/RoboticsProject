@@ -2,10 +2,37 @@
 
 using namespace std;
 
+void Init::toggle(FSM *fsm)
+{
+    cout << "Init toggle" << endl;
+    fsm->setState(Wait::getInstance());
+}
+
+void Init::enter(FSM *fsm)
+{
+    cout << "\n/////////////////////////\nEntered Init State\n/////////////////////////\n"
+         << endl;
+}
+
+void Init::exit(FSM *fsm)
+{
+
+    cout << "\n/////////////////////////\nExited Init State\n/////////////////////////\n"
+         << endl
+         << endl;
+}
+
+FSMState &Init::getInstance()
+{
+    static Init instance;
+    return instance;
+}
+
 void Wait::toggle(FSM *fsm)
 {
     if (fsm->isPositionQueueEmpty())
     {
+        cout << "Queue is empty" << endl;
         fsm->isDone = true;
     }
     else
@@ -20,12 +47,12 @@ void Wait::enter(FSM *fsm)
     cout << "\n/////////////////////////\nEntered Wait State\n/////////////////////////\n"
          << endl;
     fsm->setPermission(true);
+
+    cout << "Waiting for block" << endl;
+    sleep(5);
+    cout << "Hope the block is arrived" << endl;
     fsm->get_ins.call(fsm->srv_points);
     coordinates blockCord, silCord;
-    while (fsm->srv_points.response.point.size() == 0)
-    {
-        fsm->get_ins.call(fsm->srv_points);
-    }
     blockCord << fsm->srv_points.response.point[0].x, fsm->srv_points.response.point[0].y, fsm->srv_points.response.point[0].z;
     silCord << fsm->srv_points.response.point[1].x, fsm->srv_points.response.point[1].y, fsm->srv_points.response.point[1].z;
     cout << "Block coordinates: " << blockCord << endl;
@@ -59,9 +86,14 @@ void Wait::enter(FSM *fsm)
     {
         return;
     }
+    coordinates blockCordRobot = fsm->translateBlockCordToRobotCord(blockCord);
+    coordinates silCordRobot = fsm->translateBlockCordToRobotCord(silCord);
 
-    fsm->addPosition(fsm->translateBlockCordToRobotCord(blockCord), rot);
-    fsm->addPosition(fsm->translateBlockCordToRobotCord(silCord), rot);
+    blockCordRobot(2) -= fsm->heightPickAndPlace;
+    silCordRobot(2) -= fsm->heightPickAndPlace;
+
+    fsm->addPosition(blockCordRobot, rot);
+    fsm->addPosition(silCordRobot, rot);
 }
 
 void Wait::exit(FSM *fsm)

@@ -28,9 +28,9 @@ private:
     ros::Publisher pub_gripper_diameter;
     ros::Subscriber sub_joint_state;
 
-    const double acceptable_error = 0.05;
+    const double acceptable_error = 0.00005;
 
-    const double sleep_time_after_movement = 1.5;
+    const double sleep_time_after_movement = 0.5;
     const double sleep_time_after_gripper = 3.0;
 
     const double max_x = 1;

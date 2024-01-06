@@ -78,7 +78,7 @@ class Detector:
 
         self.allowed_to_watch = False
         self.results = None
-        self.conf_threshold = 0.5
+        self.conf_threshold = 0.8
         self.iou_threshold = 0.4
         self.show_image = True
         self.boxes = {}  # Dictionary with the bounding boxes
@@ -104,7 +104,7 @@ class Detector:
             )
 
     def show_bounding_boxes(self):
-        zed_Annotator = Annotator(self.proc_image, line_width=1)
+        zed_Annotator = Annotator(self.cv_image, line_width=1)
         for key, box in self.boxes.items():
             zed_Annotator.box_label(
                 box=[box.xmin, box.ymin, box.xmax, box.ymax],
@@ -185,6 +185,7 @@ class Detector:
     #             return -1
 
     def callback(self, data):
+        self.allowed_to_watch = True
         if self.allowed_to_watch:
             print("[YOLO] Entered in Callback")
             try:
@@ -194,7 +195,7 @@ class Detector:
                 print(e)
 
             # Detect objects
-            preds = self.model(self.proc_image)
+            preds = self.model(self.cv_image)
 
             for pred in preds:
                 to_cpu = pred.cpu().numpy()
@@ -203,6 +204,9 @@ class Detector:
                         conf > self.conf_threshold
                         and to_cpu.names[i] in selected_values
                     ):
+                        pprint(
+                            f"[YOLO] Detected {to_cpu.names[i]} with {conf} and {selected_values[to_cpu.names[i]]}"
+                        )
                         # Append relatives box tensor
                         self.objects[selected_values[to_cpu.names[i]]].append(
                             to_cpu.boxes[i]
@@ -248,7 +252,7 @@ class Detector:
                     bbox.probability = obj.conf
                     self.boxes[key] = bbox
 
-            self.show_bounding_boxes()
+            # self.show_bounding_boxes()
             self.publish_bounding_boxes()
         else:
             print("[YOLO] Not allowed to watch")

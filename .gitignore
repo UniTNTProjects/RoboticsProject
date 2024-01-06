@@ -30,5 +30,9 @@ computer_vision/scripts/yolo*
 computer_vision/data_generation/yaml
 !CMakeLists.txt
 .vscode/settings.json
+cpp/launch/simulation.launch
+models
+models/**
+models/**/*
 computer_vision/**/*.pt
 computer_vision/data_generation/blender_render.log

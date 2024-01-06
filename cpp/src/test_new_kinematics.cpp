@@ -18,7 +18,7 @@ double sum(vector<double> vec)
 int main(int argc, char **argv)
 {
     ros::init(argc, argv, "test_ur5");
-    Controller controller = Controller(125., true);
+    Controller controller = Controller(125., false);
 
     coordinates cord, cordCalc;
     cord << 0.2, 0.2, 0.5; // cord_calc: -0.222603 -0.196894  0.672859
@@ -53,16 +53,22 @@ int main(int argc, char **argv)
     // }
 
     // 1.18161 -1.02071 -1.99415 -1.71151 -1.56712 -5.86731
+
     // 1.18024 -1.02427 -1.99623 -1.69189  -1.5708 -5.89263
-    cord << -0.20, -0.20, 0.6;
-    for (int i = 0; i < 4; i++)
-    {
-        for (int j = 0; j < 4; j++)
-        {
-            cordCalc << cord(0) + 0.1 * i, cord(1) + 0.1 * j, cord(2);
-            controller.move_to(cordCalc, rotDefault, 20, false, false);
-        }
-    }
+    coordinates robotRef;
+    robotRef << 0.475, 0.35, 1.5;
+
+    cord << 0.3 - robotRef(0), robotRef(1) - 0.65, 0.45;
+    // for (int i = 0; i < 4; i++)
+    // {
+    //     for (int j = 0; j < 4; j++)
+    //     {
+    //         cordCalc << cord(0) + 0.1 * i, cord(1) + 0.1 * j, cord(2);
+    //         controller.move_to(cordCalc, rotDefault, 20, false, false);
+    //     }
+    // }
+
+    controller.move_to(cord, rotDefault, 20, false, false);
 }
 /*
 

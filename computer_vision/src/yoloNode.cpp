@@ -13,6 +13,7 @@ struct Instruction
 {
     computer_vision::Points block;
     computer_vision::Points sil;
+    string block_type;
     int angle;
 };
 
@@ -46,6 +47,7 @@ bool checkOnSilhouette(computer_vision::BoundingBox block, computer_vision::Boun
     //     return true;
     // }
     // return false;
+
     return false;
 }
 
@@ -158,13 +160,27 @@ Instruction createInstructions()
     if (blocks.size() == 0)
     {
         ROS_INFO("No blocks detected");
-        return Instruction();
+        Instruction instruction;
+        instruction.block = computer_vision::Points();
+        instruction.block.x = 0;
+        instruction.block.y = 0;
+        instruction.block.z = 0;
+
+        instruction.sil = computer_vision::Points();
+        instruction.sil.x = 0;
+        instruction.sil.y = 0;
+        instruction.sil.z = 0;
+
+        instruction.angle = 0;
+        instruction.block_type = "none";
+        return instruction;
     }
     else
     {
         pair<int, computer_vision::BoundingBox> block = blocks.front();
         computer_vision::BoundingBox sil = getSilhouette(block.first);
         Instruction instruction;
+        instruction.block_type = block.second.Class;
         instruction.block = getPointCloud((block.second.xmin + block.second.xmax) / 2, block.second.ymax);
         // instruction.sil = getPointCloud((sil.xmin + sil.xmax) / 2, sil.ymax);
         // ------TESTING------
@@ -185,6 +201,7 @@ bool getPointsCallback(computer_vision::GetPoints::Request &req, computer_vision
     res.point.push_back(instruction.block);
     res.point.push_back(instruction.sil);
     res.angle = instruction.angle;
+    res.type = instruction.block_type;
     cout << res << endl;
     return true;
 }
