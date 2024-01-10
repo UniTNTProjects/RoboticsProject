@@ -714,9 +714,9 @@ bool Controller::check_trajectory(vector<double *> traj, int step, bool pick_or_
         // float distance_joint_1_center = 0.46 * sin(beta);
         // float max_distance_joint_1 = 0.35 / cos(alpha);
 
-        cout << alpha * 180 / M_PI << endl;
-        cout << joints(1) << endl
-             << endl;
+        // cout << alpha * 180 / M_PI << endl;
+        // cout << joints(1) << endl
+        //      << endl;
         if (alpha < (M_PI / 4 + 0.1) && alpha > (-M_PI / 4 + 2 * M_PI - 0.1) && joints(1) > -0.75)
         {
 
