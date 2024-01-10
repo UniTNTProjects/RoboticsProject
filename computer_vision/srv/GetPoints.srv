@@ -1,3 +1,4 @@
 ---
 Points[] point
 int64 angle
+string type

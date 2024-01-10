@@ -1,6 +1,7 @@
 #include "controller.h"
 #include <std_msgs/Int32.h>
 #include <std_msgs/Float64MultiArray.h>
+#include <std_msgs/Bool.h>
 #include <iostream>
 #include <algorithm>
 
@@ -29,6 +30,7 @@ Controller::Controller(double loop_frequency, bool start_homing) : loop_rate(loo
     sub_joint_state = node.subscribe("/ur5/joint_states", 1, &Controller::joint_state_callback, this);
     pub_des_jstate = node.advertise<std_msgs::Float64MultiArray>("/ur5/joint_group_pos_controller/command", 1000);
     pub_gripper_diameter = node.advertise<std_msgs::Int32>("/ur5/gripper_controller/command", 1);
+    permission_pub = node.advertise<std_msgs::Bool>("/computer_vision/permission", 1);
 
     while (!joint_initialized)
     {

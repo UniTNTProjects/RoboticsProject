@@ -29,7 +29,7 @@ private:
     ros::Publisher pub_gripper_diameter;
     ros::Subscriber sub_joint_state;
 
-    const double acceptable_error = 0.005;
+    const double acceptable_error = 0.00005;
 
     const double sleep_time_after_movement = 0.5;
     const double sleep_time_after_gripper = 3.0;
@@ -103,6 +103,8 @@ public:
     bool move_through_homing(coordinates final_cord, rotMatrix rot);
 
     const int steps = 20;
+    // testing
+    ros::Publisher permission_pub;
 };
 
 #endif
