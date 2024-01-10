@@ -13,6 +13,7 @@ class Controller
 private:
     const bool test_fast_mode = false;
     const bool debug_traj = false;
+    const bool error_code_debug = true;
 
     ros::NodeHandle node;
     ros::Rate loop_rate;
@@ -33,18 +34,20 @@ private:
     const double sleep_time_after_movement = 0.5;
     const double sleep_time_after_gripper = 3.0;
 
-    const double max_x = 1;
-    const double max_y = 0.4;
-    const double max_z = 0.8;
+    const double max_x = 1.5;
+    const double max_y = 0.3;
+    const double max_z = 0.63;
 
-    const double min_x = -1;
-    const double min_y = -1;
-    const double min_z = -1;
+    const double min_x = -1.5;
+    const double min_y = -1.5;
+    const double min_z = 0.2;
 
-    const double max_y_near_end_table = 0.18;
-    const double max_z_near_end_table = 0.58;
+    // kspace:0.122663 0.359865 0.426964
 
-    const double max_z_moving = 0.73;
+    const double max_y_near_end_table = 0.15;
+    const double max_z_near_end_table = 0.45;
+
+    const double max_z_moving = 0.61;
 
     jointValues current_joints;
     GripperStateVector current_gripper;
@@ -58,7 +61,7 @@ private:
     void joint_state_callback(const sensor_msgs::JointState::ConstPtr &msg);
     void send_state(const jointValues &joint_pos);
     void sent_gripper_diameter(const int diameter);
-    bool check_trajectory(vector<double *> traj, int step, bool pick_or_place, int *error_code);
+    bool check_trajectory(vector<double *> traj, int step, bool pick_or_place, int *error_code, const coordinates &requested_cord, const rotMatrix &requested_rotation, const jointValues &init_joint);
     jointValues second_order_filter(const jointValues &input, const double rate, const double settling_time);
     void init_filter(void);
     double calculate_distance(const jointValues &first_vector, const jointValues &second_vector);
@@ -66,7 +69,7 @@ private:
 
     bool move_with_steps(const jointValues &values, const bool order[6]);
     bool move_inside(int steps, bool pick_or_place, vector<double *> *trajectory);
-    bool init_verify_trajectory(vector<double *> *Th, jointValues init_joint, jointValues final_joint, int steps, bool pick_or_place);
+    bool init_verify_trajectory(vector<double *> *Th, jointValues init_joint, jointValues final_joint, int steps, bool pick_or_place, const coordinates &requested_cord, const rotMatrix &requested_rotation);
     coordinates nearHoming(coordinates cord);
     coordinates nearHomingRec(coordinates current_cord, coordinates defaultCord, double &nearhomingdist, coordinates &nearhomingcord);
     void advanceNearHoming(coordinates &cord, rotMatrix &rot, coordinates final_cord);
@@ -77,24 +80,22 @@ private:
 
 public:
     const coordinates defaultCordArray[6] = {
-        (coordinates() << 0.35, 0.03, 0.55).finished(),
-        (coordinates() << 0.01, 0.03, 0.55).finished(),
-        (coordinates() << -0.33, 0.03, 0.55).finished(),
-        (coordinates() << -0.33, -0.29, 0.55).finished(),
-        (coordinates() << 0.01, -0.29, 0.55).finished(),
-        (coordinates() << 0.35, -0.29, 0.55).finished(),
+        (coordinates() << 0.35, 0.03, 0.45).finished(),
+        (coordinates() << 0.01, 0.03, 0.45).finished(),
+        (coordinates() << -0.33, 0.03, 0.45).finished(),
+        (coordinates() << -0.33, -0.29, 0.45).finished(),
+        (coordinates() << 0.01, -0.29, 0.45).finished(),
+        (coordinates() << 0.35, -0.29, 0.45).finished(),
 
     };
 
-    const jointValues mainJointResetValues = (jointValues() << 0., -1., -2.5, 0., 0., 0.).finished();
+    const jointValues mainJointResetValues = (jointValues() << 0., -1.57, -2.5, 0., 0., 0.).finished();
 
     Controller(double loop_frequency, bool start_homing);
     jointValues get_joint_state();
     GripperStateVector get_gripper_state();
     pair<coordinates, rotMatrix> get_position();
-    bool move_to(const coordinates &position, const rotMatrix &rotation, int steps, bool pick_or_place, bool homing);
-    bool move_to_pinocchio(const coordinates &position, const rotMatrix &rotation, int steps, bool pick_or_place, bool homing);
-    bool move_to_gpt(const coordinates &position, const rotMatrix &rotation, int steps, bool pick_or_place, bool homing);
+    bool move_to(const coordinates &position, const rotMatrix &rotation, int steps, bool pick_or_place, bool homing, bool up_and_move_flag);
     bool move_to_joint(jointValues joint_to_reach, int steps, bool pick_or_place, bool homing);
     void move_gripper_to(const int diameter);
     void print_current_pos_rot();
