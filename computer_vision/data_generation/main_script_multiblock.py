@@ -21,7 +21,8 @@ def draw_plot(x, y, name):
     plt.rcParams["figure.figsize"] = [12.8, 7.2]
     plt.axis([0, 1, 0, 1])
     plt.title(f"Bounding box - {name}")
-    plt.savefig(f"./dataset/prova/plots/{name} .png")
+    plt.show()
+    # plt.savefig(f"./dataset/prova/plots/{name} .png")
     # plt.savefig(f"./dataset/{name}.png")
 
 
@@ -104,8 +105,9 @@ class Render:
         # Input your own preferred location for the images and labels
         self.labels_filepath = "./dataset/train/labels"
         self.images_filepath = "./dataset/train/images"
-        # self.labels_filepath = "./dataset/prova/nobox/labels"
-        # self.images_filepath = "./dataset/prova/nobox/images"
+
+        self.labels_filepath_prova = "./dataset/prova/nobox/labels"
+        self.images_filepath_prova = "./dataset/prova/nobox/images"
         self.train_counter = 0
 
         self.valid_label_filepath = "./dataset/valid/labels"
@@ -148,10 +150,10 @@ class Render:
         image_node = tree.nodes.new(type="CompositorNodeImage")
         image_node.location = 0, 0
         bpy.ops.image.open(
-            filepath="/home/squinkis/ros_ws/src/locosim/RoboticsProject/computer_vision/data_generation/Blender/BG2.jpg",
+            filepath="/home/squinkis/ros_ws/src/locosim/RoboticsProject/computer_vision/data_generation/Background.png",
             relative_path=True,
         )
-        image_node.image = bpy.data.images["BG2.jpg"]
+        image_node.image = bpy.data.images["Background.png"]
 
         # Render Layers node
         render_layers_node = tree.nodes["Render Layers"]
@@ -180,13 +182,13 @@ class Render:
         # Generate random group of names object with no repetitions
         group = []
         size = np.random.randint(1, 4)
+        np.random.seed(np.random.randint(1, 1000))
         for i in range(0, size):
             name = np.random.choice(self.obj_names)
             while name in group:
                 name = np.random.choice(self.obj_names)
             group.append(name)
-
-        return group
+        self.group = group
 
     def get_rnd_location(self):
         # random location in x and y limits
@@ -199,25 +201,18 @@ class Render:
         # initialize seed
         np.random.seed(np.random.randint(1, 1000))
         # random color
-        color_0 = int(np.random.random() * 100 % 3)
-        color = ()
-        if color_0 == 0:
-            color = (0, np.random.random() * 50, np.random.random() * 50, 1)
-        elif color_0 == 1:
-            color = (np.random.random() * 50, 0, np.random.random() * 50, 1)
-        elif color_0 == 2:
-            color = (np.random.random() * 50, np.random.random() * 100, 0, 1)
-        else:
-            print("error  " + str(color_0))
-            color = (
-                np.random.random() * 100,
-                np.random.random() * 100,
-                np.random.random() * 100,
-                1,
-            )
+        accent = int(np.random.random() * 100 % 3)
+        new_color = (
+            np.random.uniform(0.1, 0.3),
+            np.random.uniform(0.1, 0.3),
+            np.random.uniform(0.1, 0.3),
+            1,
+        )
+        new_color = list(new_color)
+        new_color[accent] = np.random.uniform(0.7, 1)
 
         color_material = bpy.data.materials.new(name="Color")
-        color_material.diffuse_color = color
+        color_material.diffuse_color = new_color
         color_material.use_nodes = True
         color_material.metallic = 0.2
         color_material.roughness = 0.8
@@ -272,121 +267,192 @@ class Render:
         # Check if there is any collision
         for i, obj1 in enumerate(self.group):
             for j, obj2 in enumerate(self.group):
+                objct1 = bpy.data.objects[obj1]
+                objct2 = bpy.data.objects[obj2]
                 if obj1 != obj2:
-                    distance = np.linalg.norm(
-                        bpy.data.objects[obj1].location
-                        - bpy.data.objects[obj2].location
-                    )
-                    if distance < 1:
+                    distance = np.linalg.norm(objct1.location - objct2.location)
+                    if distance < 2:
                         return True
         return False
 
-    def main_rendering_loop(self):
-        """
-        This function represent the main algorithm
-        explained in the Tutorial, it accepts the
-        rotation step as input, and outputs the images
-        and the labels to the above specified locations.
-        """
-        # Calculate the number of images and labels to generate
+    def single_block_render(self):
+        render_single_counter = 0
+        divide = 10
+        z_rot = 2 * np.pi / divide
+        dx = (self.x_pos_limits[1] - self.x_pos_limits[0]) / divide
+        dy = (self.y_pos_limits[1] - self.y_pos_limits[0]) / divide
+        for name, key in self.class_dict.items():
+            pprint(name)
+            bpy.ops.import_mesh.stl(filepath="./models/" + name + ".stl")
+            obj = bpy.data.objects[name]
+            obj.scale = self.default_scale
+            obj.rotation_euler[2] = 0
+            obj.active_material = self.get_rnd_color()
 
-        accept_render = "Y"  # input("Proceed with rendering? (Y/N): ")
-        if (
-            accept_render == "Y"
-        ):  # If the user inputs 'Y' then procede with the data generation
-            # Create .txt file that record the progress of the data generation
-            # report_file_path = self.labels_filepath + "/progress_report.txt"
-            # report = open(report_file_path, "w")
-            # Multiply the limits by 10 to adapt to the for loop
-            # Define a counter to name each .png and .txt
-            # files that are outputted
-            render_counter = 0
-            # Define the step with which the pictures are going to be taken
+            self.group.append(name)
+            bpy.context.view_layer.update()
 
-            while render_counter < 5000:
-                self.group = self.generate_random_group()
-                # pprint("NEW GROUP: ")
-                # pprint(self.group)
-                # pprint("--------------------------------------\n")
+            x = self.x_pos_limits[0]
+            y = self.y_pos_limits[0]
+            while x < self.x_pos_limits[1]:
+                while y < self.y_pos_limits[1]:
+                    obj.location = (x, y, 0.1)
+                    bpy.context.view_layer.update()
+                    text_coordinates = self.get_all_coordinates()
+                    splitted_coordinates = text_coordinates.split("\n")[:-1]
+                    # Output Labels
+                    # self.choose = 2.0
+                    self.to_render = True
+                    if self.to_render:
+                        if self.choose >= 0.0 and self.choose <= 0.6:
+                            self.render_blender(
+                                render_single_counter, self.images_filepath, True
+                            )
+                            text_file_name = (
+                                self.labels_filepath
+                                + "/"
+                                + str(render_single_counter)
+                                + "_singleBlock.txt"
+                            )  # Create label file name
+                            text_file = open(
+                                text_file_name, "w+"
+                            )  # Open .txt file of the label
+                            text_file.write("\n".join(splitted_coordinates))
+                            text_file.close()  # Close the .txt file corresponding to the label
+                            self.train_counter += 1
+                        elif self.choose <= 0.8:
+                            self.render_blender(
+                                render_single_counter, self.valid_images_filepath, True
+                            )
+                            valid_text_file_name = (
+                                self.valid_label_filepath
+                                + "/"
+                                + str(render_single_counter)
+                                + "_singleBlock.txt"
+                            )
+                            valid_text_file = open(
+                                valid_text_file_name, "w+"
+                            )  # Open .txt file of the label
+                            valid_text_file.write("\n".join(splitted_coordinates))
+                            valid_text_file.close()  # Close the .txt file corresponding to the label
+                            self.valid_counter += 1
+                        elif self.choose == 2.0:
+                            self.render_blender(
+                                render_single_counter, self.images_filepath_prova, True
+                            )
+                            images_text_file_name_prova = (
+                                self.labels_filepath_prova
+                                + "/"
+                                + str(render_single_counter)
+                                + "_singleBlock.txt"
+                            )
+                            prova_file = open(images_text_file_name_prova, "w+")
+                            prova_file.write("\n".join(splitted_coordinates))
+                            prova_file.close()
+                            self.train_counter += 1
+                        else:
+                            self.render_blender(
+                                render_single_counter, self.test_images_filepath, True
+                            )
+                            test_text_file_name = (
+                                self.test_label_filepath
+                                + "/"
+                                + str(render_single_counter)
+                                + "_singleBlock.txt"
+                            )
+                            test_text_file = open(test_text_file_name, "w+")
+                            test_text_file.write("\n".join(splitted_coordinates))
+                            test_text_file.close()
+                            self.test_counter += 1
+                        render_single_counter += 1  # Update counter
 
-                # generate random group of objects
-                for name in self.group:
-                    path = "./models/" + name + ".stl"
-                    bpy.ops.import_mesh.stl(filepath=path)
-                    self.objects.append(bpy.data.objects[name])
-                    bpy.data.objects[name].scale = self.default_scale
-                    bpy.data.objects[name].location = self.get_rnd_location()
-                    bpy.data.objects[name].active_material = self.get_rnd_color()
-                    bpy.data.objects[name].rotation_euler[2] = self.get_rnd_z_rotation()
+                    y += dy
+                    obj.rotation_euler[2] += self.get_rnd_z_rotation()
+                    obj.rotation_euler[2] %= 2 * np.pi
+                    obj.active_material = self.get_rnd_color()
+                    bpy.context.view_layer.update()
+                    self.choose = np.random.uniform(
+                        0.0, 1.0
+                    )  # Randomly choose a number
 
-                # pprint("OBJECTS AFTER IMPORT: ")
-                # pprint(bpy.data.objects.keys())
-                # pprint("--------------------------------------\n")
-                # Check for invalid objects
-                for obj in self.objects:
-                    if obj is None:
-                        # pprint("Invalid object: " + obj.name)
-                        bpy.ops.object.select_all(action="DESELECT")
-                        obj_to_delete = bpy.data.objects[obj.name]
-                        bpy.data.objects.remove(obj_to_delete, do_unlink=True)
-                        self.objects.remove(obj)
-                        self.group.remove(obj.name)
-                # pprint("OBJECTS AFTER INVALID: ")
-                # pprint(self.objects)
-                # pprint(self.group)
-                # pprint(bpy.data.objects.keys())
-                # pprint("--------------------------------------\n")
-                # Check if there is any collision
-                time_start = timeit.default_timer()
-                while self.check_overlap_all():
-                    # measure time to avoid long loops
-                    # random_obj = np.random.choice(self.group)
+                y = self.y_pos_limits[0]
+                x += dx
+                bpy.context.view_layer.update()
+
+            bpy.ops.object.select_all(action="DESELECT")
+            bpy.data.objects.remove(obj, do_unlink=True)
+            bpy.context.view_layer.update()
+            self.group = []
+
+    def mulitple_block_render(self):
+        render_counter = 0
+        while render_counter < 3000:
+            self.generate_random_group()
+            # pprint("NEW GROUP: ")
+            # pprint(self.group)
+            # pprint("--------------------------------------\n")
+
+            # generate random group of objects
+            for name in self.group:
+                path = "./models/" + name + ".stl"
+                bpy.ops.import_mesh.stl(filepath=path)
+                obj = bpy.data.objects[name]
+                obj.scale = self.default_scale
+                obj.location = self.get_rnd_location()
+                obj.active_material = self.get_rnd_color()
+                obj.rotation_euler[2] = self.get_rnd_z_rotation()
+
+            bpy.context.view_layer.update()
+            # pprint("OBJECTS AFTER IMPORT: ")
+            # pprint(bpy.data.objects.keys())
+            # pprint("--------------------------------------\n")
+            # Check for invalid objects
+            for name in self.group:
+                obj = bpy.data.objects[name]
+                if obj.name not in bpy.data.objects.keys():
+                    # pprint("Invalid object: " + obj.name)
                     bpy.ops.object.select_all(action="DESELECT")
-                    # self.correct_position(bpy.data.objects[random_obj])
-                    for name in self.group:
-                        bpy.data.objects[name].location = self.get_rnd_location()
+                    obj_to_delete = bpy.data.objects[obj.name]
+                    bpy.data.objects.remove(obj_to_delete, do_unlink=True)
+                    self.objects.remove(obj)
+                    self.group.remove(obj.name)
+            bpy.context.view_layer.update()
+            # pprint("OBJECTS AFTER INVALID: ")
+            # pprint(self.objects)
+            # pprint(self.group)
+            # pprint(bpy.data.objects.keys())
+            # pprint("--------------------------------------\n")
 
-                    elapsed = timeit.default_timer() - time_start
-                    if elapsed > 1:
-                        pprint("TIMEOUT")
-                        break
+            # Check if there is any collision
+            time_start = timeit.default_timer()
+            while self.check_overlap_all():
+                # measure time to avoid long loops
+                # random_obj = np.random.choice(self.group)
+                # self.correct_position(bpy.data.objects[random_obj])
+                for name in self.group:
+                    bpy.ops.object.select_all(action="DESELECT")
+                    obj = bpy.data.objects[name]
+                    obj.location = self.get_rnd_location()
 
-                    # bpy.data.objects[
-                    #     obj1
-                    # ].location = self.get_rnd_location()
-                    # bpy.data.objects[
-                    #     obj2
-                    # ].location = self.get_rnd_location()
+                elapsed = timeit.default_timer() - time_start
+                if elapsed > 2:
+                    pprint("TIMEOUT")
+                    break
 
-                # except Exception as e:
-                # pprint("--------------------------------------")
-                # pprint(self.group)
-                # pprint(self.objects)
-                # pprint(bpy.data.objects.keys())
-                # pprint("--------------------------------------")
+            bpy.context.view_layer.update()
 
-                # self.light_1.data.energy = (
-                # energy1  # Update the <bpy.data.objects['Light']> energy information
-                # )
-                # energy2 = random.randint(
-                #     4, 20
-                # )  # Grab random light intensity
-                # energy1 = 5
-                # energy2 = 750
-                # # self.light_1.data.energy = energy1
-                # self.light_scene.data.energy = energy2
-                # # self.light_2.data.energy = energy2  # Update the <bpy.data.objects['Light2']> energy information
+            # self.choose = 2.0
+            # self.find_bounding_box_all_image(render_counter)
+            for i in range(1, 4):
+                z_rot = np.pi / 4 * i
                 text_coordinates = self.get_all_coordinates()
-                splitted_coordinates = text_coordinates.split("\n")[
-                    :-1
-                ]  # Delete last '\n' in coordinates
-                # Output Labels
-                # self.choose = 0.4
+                splitted_coordinates = text_coordinates.split("\n")[:-1]
+                # self.choose = 0.7
                 # self.to_render = True
                 if self.to_render:
                     if self.choose >= 0.0 and self.choose <= 0.6:
                         self.render_blender(
-                            render_counter, self.images_filepath
+                            render_counter, self.images_filepath, False
                         )  # Take photo of current scene and ouput the
                         # save image for training set
                         text_file_name = (
@@ -400,7 +466,7 @@ class Render:
                         self.train_counter += 1
                     elif self.choose <= 0.8:
                         self.render_blender(
-                            render_counter, self.valid_images_filepath
+                            render_counter, self.valid_images_filepath, False
                         )  # Take photo of current scene and ouput the
                         # save image for validation set
                         valid_text_file_name = (
@@ -415,9 +481,23 @@ class Render:
                         valid_text_file.write("\n".join(splitted_coordinates))
                         valid_text_file.close()  # Close the .txt file corresponding to the label
                         self.valid_counter += 1
+                    elif self.choose == 2.0:
+                        self.render_blender(
+                            render_counter, self.images_filepath_prova, False
+                        )
+                        images_text_file_name_prova = (
+                            self.labels_filepath_prova
+                            + "/"
+                            + str(render_counter)
+                            + ".txt"
+                        )
+                        prova_file = open(images_text_file_name_prova, "w+")
+                        prova_file.write("\n".join(splitted_coordinates))
+                        prova_file.close()
+                        self.train_counter += 1
                     else:
                         self.render_blender(
-                            render_counter, self.test_images_filepath
+                            render_counter, self.test_images_filepath, False
                         )  # Take photo of current scene and ouput the
                         test_text_file_name = (
                             self.test_label_filepath
@@ -430,6 +510,13 @@ class Render:
                         test_text_file.close()
                         self.test_counter += 1
                     render_counter += 1  # Update counte
+
+                    for name in self.group:
+                        bpy.ops.object.select_all(action="DESELECT")
+                        obj = bpy.data.objects[name]
+                        obj.rotation_euler[2] += z_rot
+
+                    bpy.context.view_layer.update()
                 else:
                     pprint("Rendering aborted")
                     self.aborted_counter += 1
@@ -452,21 +539,30 @@ class Render:
                     + str(self.aborted_counter),
                 )
                 self.choose = np.random.uniform(0.0, 1.0)  # Randomly choose a number
+            bpy.ops.object.select_all(action="DESELECT")
 
-                bpy.ops.object.select_all(action="DESELECT")
-                for obj in bpy.data.objects:
-                    if obj.name in self.group:
-                        obj_to_delete = bpy.data.objects[obj.name]
-                        bpy.data.objects.remove(obj_to_delete, do_unlink=True)
-                self.objects = []
-                self.group = []
-                self.to_render = True
+            for obj in bpy.data.objects:
+                if obj.name in self.group:
+                    obj_to_delete = bpy.data.objects[obj.name]
+                    bpy.data.objects.remove(obj_to_delete, do_unlink=True)
+            bpy.context.view_layer.update()
+            self.objects = []
+            self.group = []
+            self.to_render = True
 
-            # report.close()  # Close the .txt file corresponding to the report
+        # report.close()  # Close the .txt file corresponding to the report
 
-        else:  # If the user inputs anything else, then abort the data generation
-            print("Aborted rendering operation")
-            pass
+    def main_rendering_loop(self):
+        """
+        This function represent the main algorithm
+        explained in the Tutorial, it accepts the
+        rotation step as input, and outputs the images
+        and the labels to the above specified locations.
+        """
+        # Calculate the number of images and labels to generate
+
+        self.single_block_render()
+        # self.mulitple_block_render()
 
     def create_objects(
         self,
@@ -490,26 +586,24 @@ class Render:
             ""  # Initialize the variable where we'll store the coordinates
         )
         # objct = bpy.data.objects[name]  # Get the current object
-        for name, objct in bpy.data.objects.items():  # Loop through all of the objects
-            if name in self.group:
-                # print("On object: ", objct)
-                # pprint(objct.location)
-                b_box = self.find_bounding_box(
-                    objct
-                )  # Get current object's coordinates
-                if b_box:  # If find_bounding_box() doesn't return None
-                    # print("         Initial coordinates:", b_box)
-                    text_coordinates = self.format_coordinates(
-                        b_box, self.class_dict[objct.name]
-                    )
-                    # pprint(
-                    #     f"Writing for class {objct.name} index {self.class_dict[objct.name]}"
-                    # )
-                    # print("         YOLO-friendly coordinates:", text_coordinates)
-                    main_text_coordinates = (
-                        main_text_coordinates + text_coordinates
-                    )  # Update main_text_coordinates variables whith each
-                    # line corresponding to each class in the frame of the current image
+        # for name, objct in bpy.data.objects.items():  # Loop through all of the objects
+        #     if name in self.group:
+        for name in self.group:
+            objct = bpy.data.objects[name]
+            b_box = self.find_bounding_box(objct)  # Get current object's coordinates
+            if b_box:  # If find_bounding_box() doesn't return None
+                # print("   Initial coordinates:", b_box)
+                text_coordinates = self.format_coordinates(
+                    b_box, self.class_dict[objct.name]
+                )
+                # pprint(
+                #     f"Writing for class {objct.name} index {self.class_dict[objct.name]}"
+                # )
+                # print("   YOLO-friendly coordinates:", text_coordinates)
+                main_text_coordinates = (
+                    main_text_coordinates + text_coordinates
+                )  # Update main_text_coordinates variables whith each
+                # line corresponding to each class in the frame of the current image
 
         # pprint(main_text_coordinates)
         return main_text_coordinates  # Return all coordinates
@@ -549,11 +643,12 @@ class Render:
                 + str(height)
                 + "\n"
             )
-            if width < 0.015 or height < 0.015:
-                # pprint(txt_coordinates)
-                # pprint(f" °°°°°°°°°°°°°°°°°°°° Object {classe} too small")
-                self.to_render = False
-                txt_coordinates = ""
+            # if width < 0.015 or height < 0.015:
+            #     pprint(txt_coordinates)
+            #     # pprint(f" °°°°°°°°°°°°°°°°°°°° Object {classe} too small")
+            #     self.to_render = False
+            #     txt_coordinates = ""
+
             return txt_coordinates
         # If the current class isn't in view of the camera, then pass
         else:
@@ -608,25 +703,25 @@ class Render:
                 continue
             else:
                 """Perspective division"""
-
                 frame = [(v / (v.z / z)) for v in frame]
 
-                min_x, max_x = frame[1].x, frame[2].x
-                min_y, max_y = frame[0].y, frame[1].y
+            min_x, max_x = frame[1].x, frame[2].x
+            min_y, max_y = frame[0].y, frame[1].y
 
-                x = (co_local.x - min_x) / (max_x - min_x)
-                y = (co_local.y - min_y) / (max_y - min_y)
+            x = (co_local.x - min_x) / (max_x - min_x)
+            y = (co_local.y - min_y) / (max_y - min_y)
 
-                # x, y, z = world_to_camera_view(
-                #     # Coordinates in 0,0 bot-left / 1,1 top-right
-                #     self.scene,
-                #     self.scene.camera,
-                #     mat @ co_local,
-                # )
-                lx.append(x)
-                ly.append(y)
+            # x, y, z = world_to_camera_view(
+            #     # Coordinates in 0,0 bot-left / 1,1 top-right
+            #     self.scene,
+            #     self.scene.camera,
+            #     mat @ co_local,
+            # )
+            lx.append(x)
+            ly.append(y)
 
         # plot the bounding box
+        # draw_plot(lx, ly, obj.name)
 
         """ Image is not in view if all the mesh verts were ignored """
         if not lx or not ly:
@@ -636,11 +731,8 @@ class Render:
         max_x = np.clip(max(lx), 0, 1)
         min_y = np.clip(min(ly), 0, 1)
         max_y = np.clip(max(ly), 0, 1)
-        # min_x = min(lx)
-        # max_x = max(lx)
-        # min_y = min(ly)
-        # max_y = max(ly)
-        # transform coordinates such that 0,0 in top-left / 1,1 bot-right
+
+        # draw_plot([min_x, max_x], [min_y, max_y], obj.name)
 
         """ Image is not in view if both
         bounding points exist on the same side """
@@ -655,19 +747,22 @@ class Render:
 
         return (min_x, min_y), (max_x, max_y)
 
-    def render_blender(self, count_f_name, file_path):
+    def render_blender(self, count_f_name, file_path, single):
         # Define random parameters
         np.random.seed(np.random.randint(1, 1000))
         self.percentage = np.random.randint(90, 100)
         self.samples = np.random.randint(25, 50)
         # Render images
-        image_name = str(count_f_name) + ".png"
+        if single:
+            image_name = str(count_f_name) + "_singleBlock.png"
+        else:
+            image_name = str(count_f_name) + ".png"
 
         self.export_render(
             res_x=1280,
             res_y=720,
             res_per=100,
-            samples=self.samples,
+            samples=50,
             file_path=file_path,
             file_name=image_name,
         )
@@ -682,20 +777,57 @@ class Render:
 
         # Take picture of current visible scene
 
-        # logfile = "blender_render.log"
-        # open(logfile, "a").close()
-        # old = os.dup(sys.stdout.fileno())
-        # sys.stdout.flush()
-        # os.close(sys.stdout.fileno())
-        # fd = os.open(logfile, os.O_WRONLY)
+        logfile = "blender_render.log"
+        open(logfile, "a").close()
+        old = os.dup(sys.stdout.fileno())
+        sys.stdout.flush()
+        os.close(sys.stdout.fileno())
+        fd = os.open(logfile, os.O_WRONLY)
 
         # do the rendering
         bpy.ops.render.render(write_still=True)
 
         # disable output redirection
-        # os.close(fd)
-        # os.dup(old)
-        # os.close(old)
+        os.close(fd)
+        os.dup(old)
+        os.close(old)
+
+        # self.check_bbox_on_render()
+
+    def check_bbox_on_render(self):
+        # Using cv2, open the last image rendered and the last label generated
+        # and add the rectangle to the image
+        import cv2
+
+        image = cv2.imread(
+            self.images_filepath_prova + "/" + str(self.train_counter) + ".png"
+        )
+        label = open(
+            self.labels_filepath_prova + "/" + str(self.train_counter) + ".txt"
+        ).read()
+        label = label.split("\n")[0].split(" ")
+
+        bboxes = []
+        for line in label:
+            pprint(line)
+            bbox = {
+                "x_min": float(label[1]) - float(label[3]) / 2,
+                "y_min": float(label[2]) - float(label[4]) / 2,
+                "x_max": float(label[1]) + float(label[3]) / 2,
+                "y_max": float(label[2]) + float(label[4]) / 2,
+            }
+            start_point = (int(bbox["x_min"] * 1280), int(bbox["y_min"] * 720))
+            end_point = (int(bbox["x_max"] * 1280), int(bbox["y_max"] * 720))
+
+            bboxes.append(bbox)
+
+        for bbox in bboxes:
+            image = cv2.rectangle(
+                image, start_point, end_point, (0, 0, 255), thickness=2
+            )
+        cv2.imshow("Result", image)
+        cv2.waitKey(0)
+        pprint(bbox)
 
     def calculate_n_renders(self, rotation_step):
         x = self.x_pos_limits[1] - self.x_pos_limits[0]
@@ -747,6 +879,7 @@ class Render:
 
         lx = []
         ly = []
+        meshes_toDraw = []
 
         # pprint(f"Object: {obj.name} - Location: {obj.location}")
         for mesh in meshes:
@@ -763,24 +896,29 @@ class Render:
 
                     frame = [(v / (v.z / z)) for v in frame]
 
-                    min_x, max_x = frame[1].x, frame[2].x
-                    min_y, max_y = frame[0].y, frame[1].y
+                min_x, max_x = frame[1].x, frame[2].x
+                min_y, max_y = frame[0].y, frame[1].y
 
-                    x = (co_local.x - min_x) / (max_x - min_x)
-                    y = (co_local.y - min_y) / (max_y - min_y)
+                x = (co_local.x - min_x) / (max_x - min_x)
+                y = (co_local.y - min_y) / (max_y - min_y)
 
-                    # x, y, z = world_to_camera_view(
-                    #     # Coordinates in 0,0 bot-left / 1,1 top-right
-                    #     self.scene,
-                    #     self.scene.camera,
-                    #     mat @ co_local,
-                    # )
-                    # pprint(f"x: {x} - y: {y}")
-                    lx.append(x)
-                    ly.append(y)
+                # x, y, z = world_to_camera_view(
+                #     # Coordinates in 0,0 bot-left / 1,1 top-right
+                #     self.scene,
+                #     self.scene.camera,
+                #     mat @ co_local,
+                # )
+                # pprint(f"x: {x} - y: {y}")
+                lx.append(x)
+                ly.append(y)
 
-        # plot the bounding bo
-        draw_plot(lx, ly, foto)
+            meshes_toDraw.append((lx, ly))
+            lx = []
+            ly = []
+
+            # plot the bounding bo
+            for mesh in meshes_toDraw:
+                draw_plot(mesh[0], mesh[1], "all")
 
 
 # Run data generation

@@ -54,7 +54,7 @@ class Detector:
         self.robot_name = robot_name
         self.real_robot = False
         self.bridge = CvBridge()
-        self.weights = base_path + "dataset/runs/detect/train35/weights/best.pt"
+        self.weights = base_path + "dataset/runs/detect/train46/weights/best.pt"
         # self.model = torch.hub.load("ultralytics/yolov5", "custom", path=self.weights)
         self.model = YOLO(self.weights)
         self.image_sub = rospy.Subscriber(
@@ -78,7 +78,7 @@ class Detector:
 
         self.allowed_to_watch = False
         self.results = None
-        self.conf_threshold = 0.8
+        self.conf_threshold = 0.1
         self.iou_threshold = 0.4
         self.show_image = True
         self.boxes = {}  # Dictionary with the bounding boxes
@@ -184,6 +184,11 @@ class Detector:
     #         else:
     #             return -1
 
+    def save_image(self, image):
+        # rescale to 1280x720
+        image = cv2.resize(image, (1280, 720))
+        cv2.imwrite(f"../data_generation/Background.png", image)
+
     def callback(self, data):
         self.allowed_to_watch = True
         if self.allowed_to_watch:
@@ -194,6 +199,7 @@ class Detector:
             except CvBridgeError as e:
                 print(e)
 
+            self.save_image(self.cv_image)
             # Detect objects
             preds = self.model(self.cv_image)
 
@@ -252,7 +258,7 @@ class Detector:
                     bbox.probability = obj.conf
                     self.boxes[key] = bbox
 
-            # self.show_bounding_boxes()
+            self.show_bounding_boxes()
             self.publish_bounding_boxes()
         else:
             print("[YOLO] Not allowed to watch")

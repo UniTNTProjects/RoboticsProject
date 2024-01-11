@@ -24,6 +24,8 @@ computer_vision/data_generation/LabBlocks/
 computer_vision/data_generation/dataset/**
 computer_vision/data_generation/dataset/*
 computer_vision/data_generation/dataset/runs
+computer_vision/data_generation/dataset/runs/** 
+computer_vision/data_generation/runs/** 
 computer_vision/data_generation/genenv
 computer_vision/data_generation/MacroBlock*
 computer_vision/scripts/yolo*

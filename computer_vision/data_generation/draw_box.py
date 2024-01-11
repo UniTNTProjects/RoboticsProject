@@ -76,7 +76,6 @@ def draw_box_on_image(
             float(staff[4]) * height,
         )
 
-        print("x_center:", x_center, "y_center:", y_center, "w:", w, "h:", h)
         # x1 = round(x_center - w / 2)
         # y1 = round(y_center - h / 2)
         # x2 = round(x_center + w / 2)
