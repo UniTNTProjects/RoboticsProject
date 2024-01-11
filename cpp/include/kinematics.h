@@ -1,12 +1,13 @@
 #include <cmath>
 #include <eigenMatrices.h>
 #include <vector>
+#include <iostream>
 
 using namespace Eigen;
 using namespace std;
 
 // Direct Kineamtics of UR5
-void ur5Direct(jointValues &th, coordinates &pe, rotMatrix &re);
+void ur5Direct(const jointValues &th, coordinates &pe, rotMatrix &re);
 
 Matrix4d computeEndEffectorPose(const coordinates &pe, const rotMatrix &re);
 
@@ -73,6 +74,11 @@ static jointValues bestNormalization(const jointValues init, jointValues final)
         }
     }
 
+    // cout << "bestNormalization: " << res.transpose() << endl;
+    // cout << "init: " << init.transpose() << endl;
+    // cout << "final: " << final.transpose() << endl;
+    // cout << "-------------------" << endl;
+
     return res;
 }
 
@@ -110,6 +116,8 @@ static jointValues fixNormalization(jointValues joints)
     {
         joints(5) += 2 * M_PI;
     }
+
+    // cout << "fixNormalization: " << joints.transpose() << endl;
 
     return joints;
 }

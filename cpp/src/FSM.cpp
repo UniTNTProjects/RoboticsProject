@@ -43,6 +43,7 @@ coordinates FSM::translateBlockCordToRobotCord(coordinates blockCord)
 {
 
     coordinates robotCord, robotReferenceCord;
+    // robotReferenceCord << 0.525, 0.34, 1.5;
     robotReferenceCord << 0.475, 0.35, 1.5;
 
     robotCord << blockCord(0) - robotReferenceCord(0), robotReferenceCord(1) - blockCord(1), robotReferenceCord(2) - blockCord(2);
@@ -65,7 +66,7 @@ bool FSM::isPositionQueueEmpty()
 
 bool FSM::moveTo(coordinates pos, rotMatrix rot, bool pick_or_place)
 {
-    return controller->move_to(pos, rot, this->controller->steps, pick_or_place, false);
+    return controller->move_to(pos, rot, this->controller->steps, pick_or_place, false, false);
 }
 
 coordinates FSM::getCurrentPosition()

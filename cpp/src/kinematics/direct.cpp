@@ -12,7 +12,7 @@ using namespace Eigen;
 
 // alfa = [0, pi/2, 0, 0, pi/2, -pi/2];
 
-void ur5Direct(jointValues &th, coordinates &pe, rotMatrix &re)
+void ur5Direct(const jointValues &th, coordinates &pe, rotMatrix &re)
 {
 
     homoMatrix T10m;
