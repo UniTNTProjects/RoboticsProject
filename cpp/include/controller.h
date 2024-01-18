@@ -54,6 +54,7 @@ private:
     void advanceNearHoming(coordinates &cord, rotMatrix &rot, coordinates final_cord);
     coordinates advanceNearHomingRec(coordinates current_cord, coordinates defaultCord, coordinates final_cord, double &nearhomingdist, coordinates &nearhomingcord);
     bool up_and_move(const coordinates &position, const rotMatrix &rotation, int steps, jointValues init_joint);
+    bool move_to_near_axis(const coordinates &position, const rotMatrix &rotation, int steps, bool pick_or_place, bool homing);
 
 public:
     const coordinates defaultCordArray[6] = {
@@ -72,7 +73,7 @@ public:
     jointValues get_joint_state();
     GripperStateVector get_gripper_state();
     pair<coordinates, rotMatrix> get_position();
-    bool move_to(const coordinates &position, const rotMatrix &rotation, int steps, bool pick_or_place, bool homing, bool up_and_move_flag);
+    bool move_to(const coordinates &position, const rotMatrix &rotation, int steps, bool pick_or_place, bool homing, bool up_and_move_flag, bool move_to_near_axis_flag);
     bool move_to_joint(jointValues joint_to_reach, int steps, bool pick_or_place, bool homing);
     void move_gripper_to(const int diameter);
     void print_current_pos_rot();

@@ -46,9 +46,9 @@ int main(int argc, char **argv)
     {
         cord << cords[i][0], cords[i][1], 0.;
         cord = translateBlockCordToRobotCord(cord);
-        controller.move_to(cord, rotDefault, 20, false, false, false);
+        controller.move_to(cord, rotDefault, 20, false, false, false, false);
         cord(2) = 0.85;
-        controller.move_to(cord, rotDefault, 20, true, false, false);
+        controller.move_to(cord, rotDefault, 20, true, false, false, false);
         // cord(2) = 0.50;
         // controller.move_to(cord, rotDefault, 20, true, false);
     }

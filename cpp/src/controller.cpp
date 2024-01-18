@@ -41,7 +41,7 @@ Controller::Controller(double loop_frequency, bool start_homing) : loop_rate(loo
     if (start_homing)
     {
 
-        move_to(defaultCordArray[0], rotDefault, steps, false, true, false);
+        move_to(defaultCordArray[0], rotDefault, steps, false, true, false, false);
     }
 }
 
@@ -191,14 +191,39 @@ jointValues Controller::second_order_filter(const jointValues &input, const doub
     return filter_2;
 }
 
+bool Controller::move_to_near_axis(const coordinates &position, const rotMatrix &rotation, int steps, bool pick_or_place, bool homing)
+{
+    cout << "Trying move to near axis" << endl;
+    coordinates currentPos = get_position().first;
+    coordinates nearAxis;
+    if (abs(currentPos(1) - position(1)) < abs(currentPos(0) - position(0)))
+    {
+        nearAxis << currentPos(0), position(1), currentPos(2);
+    }
+    else
+    {
+        nearAxis << position(0), currentPos(1), currentPos(2);
+    }
+
+    if (move_to(nearAxis, rotation, steps, false, false, false, true))
+    {
+        if (move_to(position, rotation, steps, pick_or_place, homing, false, true))
+        {
+            return true;
+        }
+    }
+    cout << "Move to near axis failed" << endl;
+    return false;
+}
+
 bool Controller::up_and_move(const coordinates &position, const rotMatrix &rotation, int steps, jointValues init_joint)
 {
     cout << "Trying up and move" << endl;
     coordinates currentPos = get_position().first;
     double new_z = currentPos(2) - 0.25;
-    if (new_z < 0.40)
+    if (new_z < 0.55)
     {
-        new_z = 0.40;
+        new_z = 0.55;
     }
     // if difference in new_z and currentPos(2) is too small, don't move up
     if (abs(new_z - currentPos(2)) < 0.03)
@@ -209,11 +234,11 @@ bool Controller::up_and_move(const coordinates &position, const rotMatrix &rotat
     aboveCurrent << currentPos(0), currentPos(1), new_z;
     aboveNext << position(0), position(1), new_z;
 
-    if (move_to(aboveCurrent, rotation, steps, true, false, true))
+    if (move_to(aboveCurrent, rotation, steps, true, false, true, false))
     {
-        if (move_to(aboveNext, rotation, steps, false, false, true))
+        if (move_to(aboveNext, rotation, steps, false, false, true, false))
         {
-            if (move_to(position, rotation, steps, true, false, true))
+            if (move_to(position, rotation, steps, true, false, true, false))
             {
                 return true;
             }
@@ -257,7 +282,7 @@ bool Controller::up_and_move(const coordinates &position, const rotMatrix &rotat
     return false;
 }
 
-bool Controller::move_to(const coordinates &position, const rotMatrix &rotation, int steps, bool pick_or_place, bool homing, bool up_and_move_flag)
+bool Controller::move_to(const coordinates &position, const rotMatrix &rotation, int steps, bool pick_or_place, bool homing, bool up_and_move_flag, bool move_to_near_axis_flag)
 {
 
     cout << "\n######################\n";
@@ -362,6 +387,14 @@ bool Controller::move_to(const coordinates &position, const rotMatrix &rotation,
     if (debug_traj)
     {
         cout << "No valid trajectory found" << endl;
+    }
+
+    if (!move_to_near_axis_flag)
+    {
+        if (move_to_near_axis(position, rotation, steps, pick_or_place, homing))
+        {
+            return true;
+        }
     }
 
     if (!up_and_move_flag)

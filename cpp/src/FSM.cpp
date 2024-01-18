@@ -66,7 +66,7 @@ bool FSM::isPositionQueueEmpty()
 
 bool FSM::moveTo(coordinates pos, rotMatrix rot, bool pick_or_place)
 {
-    return controller->move_to(pos, rot, this->controller->steps, pick_or_place, false, false);
+    return controller->move_to(pos, rot, this->controller->steps, pick_or_place, false, false, false);
 }
 
 coordinates FSM::getCurrentPosition()
