@@ -47,3 +47,95 @@ void ur5Trajectory(vector<double *> *Th, jointValues initial_position, jointValu
     //     cout << endl;
     // }
 }
+
+bool init_verify_trajectory(vector<double *> *Th, jointValues init_joint, jointValues final_joint, int steps, bool pick_or_place, const coordinates &requested_cord, const rotMatrix &requested_rotation, bool homing)
+{
+    ur5Trajectory(Th, init_joint, final_joint, steps);
+
+    int *error_code = new int;
+    *error_code = 0;
+    bool valid = check_trajectory(*Th, steps, pick_or_place, error_code, requested_cord, requested_rotation, init_joint, homing);
+    if (*error_code != 0)
+    {
+        if (error_code_debug)
+        {
+            cout << "error code: " << *error_code << " ";
+        }
+        // switch (*error_code)
+        // {
+
+        // case 1:
+        //     cout << "crash" << endl;
+
+        //     jointValues des_partial;
+        //     des_partial << current_joints(0), current_joints(1), current_joints(2),
+        //         5., current_joints(4), final_joint(5);
+        //     if (move_to_joint(des_partial, steps, false, true))
+        //     {
+        //         des_partial(4) = 0.;
+        //         if (move_to_joint(des_partial, steps, false, true))
+        //         {
+        //             return init_verify_trajectory(Th, des_partial, final_joint, steps, pick_or_place);
+        //         }
+        //     }
+
+        //     break;
+        // }
+    }
+    else
+    {
+        if (error_code_debug)
+        {
+            cout << "no error" << endl;
+        }
+    }
+
+    return valid;
+}
+
+bool trajectory_multiple_positions(vector<vector<double *>> *th_sum, vector<pair<coordinates, rotMatrix>> *positions, int n_positions, int n, jointValues init_joint, vector<bool> order, int steps)
+{
+
+    if (n == n_positions)
+    {
+        if (debug_traj)
+        {
+            cout << "trajectory verified" << endl;
+        }
+        return true;
+    }
+    if (debug_traj)
+    {
+        cout << "n: " << n << endl;
+    }
+    coordinates cord = (*positions)[n].first;
+    rotMatrix rotation = (*positions)[n].second;
+
+    Eigen::Matrix<double, 8, 6> inverse_kinematics_res = ur5Inverse(cord, rotation);
+
+    int *indexes = sort_inverse(inverse_kinematics_res, init_joint);
+
+    for (int i = 0; i < 8; i++)
+    {
+        int index = indexes[i];
+        jointValues joint_to_check;
+        joint_to_check << inverse_kinematics_res(index, 0), inverse_kinematics_res(index, 1), inverse_kinematics_res(index, 2),
+            inverse_kinematics_res(index, 3), inverse_kinematics_res(index, 4), inverse_kinematics_res(index, 5);
+
+        joint_to_check = bestNormalization(init_joint, joint_to_check);
+
+        // cout << "joint_to_check: " << joint_to_check.transpose() << endl;
+        if (init_verify_trajectory(&(th_sum->at(n)), init_joint, joint_to_check, steps, order[n], cord, rotation, false))
+        {
+            // cout << "trajectory verified" << endl;
+
+            if (trajectory_multiple_positions(th_sum, positions, n_positions, n + 1, joint_to_check, order, steps))
+            {
+                return true;
+            }
+        }
+        cout << endl;
+    }
+
+    return false;
+}

@@ -55,7 +55,6 @@ void Wait::enter(FSM *fsm)
     coordinates blockCord, silCord;
     blockCord << fsm->srv_points.response.point[0].x, fsm->srv_points.response.point[0].y, fsm->srv_points.response.point[0].z;
     silCord << fsm->srv_points.response.point[1].x, fsm->srv_points.response.point[1].y, fsm->srv_points.response.point[1].z;
-    cout << "Block coordinates: " << blockCord << endl;
     rotMatrix rot;
 
     fsm->setPermission(false);
@@ -78,17 +77,24 @@ void Wait::enter(FSM *fsm)
         break;
     }
 
+    if (blockCord(0) == 0 && blockCord(1) == 0 && blockCord(2) == 0)
+    {
+        cout << "No block found" << endl;
+        return;
+    }
+
     cout << "Block coordinates: " << blockCord << endl;
     cout << "Sil coordinates: " << silCord << endl;
     cout << "Rot:" << rot << endl;
 
-    if (blockCord(0) == 0 && blockCord(1) == 0 && blockCord(2) == 0)
-    {
-        return;
-    }
     coordinates blockCordRobot = fsm->translateBlockCordToRobotCord(blockCord);
     coordinates silCordRobot = fsm->translateBlockCordToRobotCord(silCord);
 
+    // fix height
+    blockCordRobot(2) = 0.86;
+    silCordRobot(2) = 0.86;
+
+    // move up before pick
     blockCordRobot(2) -= fsm->heightPickAndPlace;
     silCordRobot(2) -= fsm->heightPickAndPlace;
 

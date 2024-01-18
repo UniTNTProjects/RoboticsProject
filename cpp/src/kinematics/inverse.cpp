@@ -1,6 +1,8 @@
 #include <complex.h>
 #include <cmath>
 #include <iostream>
+#include <algorithm>
+#include <map>
 #include "kinematics.h"
 
 using namespace Eigen;
@@ -19,67 +21,6 @@ Matrix<double, 8, 6> ur5Inverse(coordinates pe, rotMatrix re)
         re(1), re(4), re(7), pe(1),
         re(2), re(5), re(8), pe(2),
         0, 0, 0, 1;
-
-    // funzioni
-    auto T10f = [&](double th1) -> homoMatrix
-    {
-        homoMatrix ret;
-        ret << cos(th1), -sin(th1), 0, 0,
-            sin(th1), cos(th1), 0, 0,
-            0, 0, 1, D[0],
-            0, 0, 0, 1;
-        return ret;
-    };
-
-    auto T21f = [&](double th2) -> homoMatrix
-    {
-        homoMatrix ret;
-        ret << cos(th2), -sin(th2), 0, 0,
-            0, 0, -1, 0,
-            sin(th2), cos(th2), 0, 0,
-            0, 0, 0, 1;
-        return ret;
-    };
-
-    auto T32f = [&](double th3) -> homoMatrix
-    {
-        homoMatrix ret;
-        ret << cos(th3), -sin(th3), 0, A[1],
-            sin(th3), cos(th3), 0, 0,
-            0, 0, 1, D[2],
-            0, 0, 0, 1;
-        return ret;
-    };
-
-    auto T43f = [&](double th4) -> homoMatrix
-    {
-        homoMatrix ret;
-        ret << cos(th4), -sin(th4), 0, A[2],
-            sin(th4), cos(th4), 0, 0,
-            0, 0, 1, D[3],
-            0, 0, 0, 1;
-        return ret;
-    };
-
-    auto T54f = [&](double th5) -> homoMatrix
-    {
-        homoMatrix ret;
-        ret << cos(th5), -sin(th5), 0, 0,
-            0, 0, -1, -D[4],
-            sin(th5), cos(th5), 0, 0,
-            0, 0, 0, 1;
-        return ret;
-    };
-
-    auto T65f = [&](double th6) -> homoMatrix
-    {
-        homoMatrix ret;
-        ret << cos(th6), -sin(th6), 0, 0,
-            0, 0, 1, D[5],
-            -sin(th6), -cos(th6), 0, 0,
-            0, 0, 0, 1;
-        return ret;
-    };
 
     // Finding th1
     Matrix<double, 4, 1> p50;
@@ -217,4 +158,38 @@ Matrix<double, 8, 6> ur5Inverse(coordinates pe, rotMatrix re)
         (th0_1), (th1_7), (th2_7), (th3_7), (th4_3), (th5_3);
 
     return th;
+}
+
+int *sort_inverse(Eigen::Matrix<double, 8, 6> &inverse_kinematics_res, const jointValues &initial_joints)
+{
+    multimap<double, int> sorted_inverse;
+
+    for (int i = 0; i < 8; i++)
+    {
+        jointValues inverse_i;
+        inverse_i << inverse_kinematics_res(i, 0), inverse_kinematics_res(i, 1), inverse_kinematics_res(i, 2),
+            inverse_kinematics_res(i, 3), inverse_kinematics_res(i, 4), inverse_kinematics_res(i, 5);
+
+        // double diff = (inverse_i - initial_joints).norm(); // doesnt take into account the angle normalization
+        double diff = calculate_distance_weighted(initial_joints, inverse_i);
+
+        // // facing back of the table
+        // if (norm_angle(inverse_i(0)) > 3.7 && norm_angle(inverse_i(0)) < 5.7)
+        // {
+        //     diff += 100;
+        // }
+        // cout << "diff: " << diff << ", i: " << i << endl;
+        sorted_inverse.insert(pair<double, int>(diff, i));
+    }
+
+    int *sorted_indexes = new int[8];
+    int i = 0;
+
+    for (std::multimap<double, int>::iterator it = sorted_inverse.begin(); it != sorted_inverse.end(); ++it)
+    {
+        sorted_indexes[i++] = it->second;
+        // cout << "value of sort:" << it->first << ", " << it->second << endl;
+    }
+
+    return sorted_indexes;
 }
