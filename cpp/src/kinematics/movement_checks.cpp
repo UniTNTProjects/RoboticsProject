@@ -28,8 +28,6 @@ bool check_singularity_collision(jointValues joints)
         float y_coord = mat(1, 3);
         float z_coord = mat(2, 3);
 
-        // cout << "joint[" << i << "]= (x: " << x_coord << ", y: " << y_coord << ", z: " << z_coord << ")" << endl;
-
         if (z_coord < min_z or z_coord > max_z or y_coord > max_y)
         {
             if (debug_traj)
@@ -60,27 +58,39 @@ bool check_trajectory(vector<double *> traj, int step, bool pick_or_place, int *
             traj[i][3], traj[i][4], traj[i][5];
 
         ur5Direct(joints, cord, rot);
-        if (debug_traj)
+        if (debug_traj && i == step - 1)
         {
 
-            if (i == step - 1)
-            {
-                cout << "last cord: " << cord.transpose() << endl;
-                cout << "last joint: " << joints.transpose() << endl;
-                cout << "last rotation: " << endl
-                     << rot << endl;
-            }
+            cout << "last cord: " << cord.transpose() << endl;
+            cout << "last joint: " << joints.transpose() << endl;
+            cout << "last rotation: " << endl
+                 << rot << endl
+                 << endl;
         }
 
         if (i == 0)
         {
             if ((cord - start_cord).norm() > 0.1)
             {
+                if (debug_traj)
+                {
+                    cout << "*******" << endl;
+                    cout << "first cord wrong" << endl;
+                    cout << "cord: " << cord.transpose() << endl;
+                    cout << "start_cord: " << start_cord.transpose() << endl;
+                }
                 *error_code = 12;
                 return false;
             }
             if ((rot - start_rotation).norm() > 0.1)
             {
+                if (debug_traj)
+                {
+                    cout << "*******" << endl;
+                    cout << "first rotation wrong" << endl;
+                    cout << "rot: " << rot << endl;
+                    cout << "start_rotation: " << start_rotation << endl;
+                }
                 *error_code = 13;
                 return false;
             }
@@ -90,11 +100,25 @@ bool check_trajectory(vector<double *> traj, int step, bool pick_or_place, int *
         {
             if ((cord - requested_cord).norm() > 0.1)
             {
+                if (debug_traj)
+                {
+                    cout << "*******" << endl;
+                    cout << "last cord wrong" << endl;
+                    cout << "cord: " << cord.transpose() << endl;
+                    cout << "requested_cord: " << requested_cord.transpose() << endl;
+                }
                 *error_code = 14;
                 return false;
             }
             if ((rot - requested_rotation).norm() > 0.1)
             {
+                if (debug_traj)
+                {
+                    cout << "*******" << endl;
+                    cout << "last rotation wrong" << endl;
+                    cout << "rot: " << rot << endl;
+                    cout << "requested_rotation: " << requested_rotation << endl;
+                }
                 *error_code = 15;
                 return false;
             }
@@ -163,12 +187,22 @@ bool check_trajectory(vector<double *> traj, int step, bool pick_or_place, int *
 
         if ((joints(3) < -4 || (joints(3) > 0 && joints(3) < 3)) && ((joints(4) < -2 && joints(4) > -4) || (joints(4) > 2 && joints(4) < 5)))
         {
+            if (debug_traj)
+            {
+                cout << "*******" << endl;
+                cout << "type 1 collision with itself" << endl;
+            }
             *error_code = 1;
             return false;
         }
 
         if (joints(2) > 2.7 || joints(2) < -2.7)
         {
+            if (debug_traj)
+            {
+                cout << "*******" << endl;
+                cout << "type 2 collision with itself" << endl;
+            }
             *error_code = 2;
             return false;
         }
@@ -195,7 +229,7 @@ bool check_trajectory(vector<double *> traj, int step, bool pick_or_place, int *
         {
             if (debug_traj)
             {
-                cout << "-------" << endl;
+                cout << "*******" << endl;
                 cout << "moving too low, z wrong: " << cord.transpose() << endl;
             }
             *error_code = 5;
@@ -206,7 +240,7 @@ bool check_trajectory(vector<double *> traj, int step, bool pick_or_place, int *
         {
             if (debug_traj)
             {
-                cout << "-------" << endl;
+                cout << "*******" << endl;
                 cout << "cord end table wrong: " << cord.transpose() << endl;
             }
             *error_code = 6;
@@ -217,7 +251,7 @@ bool check_trajectory(vector<double *> traj, int step, bool pick_or_place, int *
         {
             if (debug_traj)
             {
-                cout << "-------" << endl;
+                cout << "*******" << endl;
                 cout << "trying strange rotation for pick or place" << endl;
                 cout << "traj[0][4]: " << traj[0][4] << ", traj[0][5]: " << traj[0][5] << endl;
                 cout << "joints(4): " << joints(4) << ", joints(5): " << joints(5) << endl;
@@ -231,7 +265,7 @@ bool check_trajectory(vector<double *> traj, int step, bool pick_or_place, int *
         {
             if (debug_traj)
             {
-                cout << "-------" << endl;
+                cout << "*******" << endl;
                 cout << "rotations are different" << endl;
                 cout << "start_rot: " << start_rotation << endl;
                 cout << "rot: " << rot << endl;
@@ -252,7 +286,7 @@ bool check_trajectory(vector<double *> traj, int step, bool pick_or_place, int *
         {
             if (debug_traj)
             {
-                cout << "-------" << endl;
+                cout << "*******" << endl;
                 cout << "joints(1) invalid:" << joints(1) << endl;
             }
             *error_code = 9;
@@ -263,10 +297,8 @@ bool check_trajectory(vector<double *> traj, int step, bool pick_or_place, int *
         {
             if (debug_traj)
             {
-                cout << "-------" << endl;
-                cout << "----------\ntrajectory invalid 1" << endl;
-                cout << "determinant of jacobian is " << abs(jacobian.determinant()) << "\n-------------\n"
-                     << endl;
+                cout << "*******" << endl;
+                cout << "determinant of jacobian is " << abs(jacobian.determinant()) << endl;
             }
             *error_code = 10;
             return false;
@@ -277,7 +309,7 @@ bool check_trajectory(vector<double *> traj, int step, bool pick_or_place, int *
         {
             if (debug_traj)
             {
-                cout << "-------" << endl;
+                cout << "*******" << endl;
                 cout << "trajectory invalid 2" << endl;
             }
             cout << abs(svd.singularValues()(5)) << endl;
