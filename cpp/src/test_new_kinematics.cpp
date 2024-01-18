@@ -47,7 +47,7 @@ int main(int argc, char **argv)
         cord << cords[i][0], cords[i][1], 0.;
         cord = translateBlockCordToRobotCord(cord);
         controller.move_to(cord, rotDefault, 20, false, false, false);
-        cord(2) = 0.615;
+        cord(2) = 0.85;
         controller.move_to(cord, rotDefault, 20, true, false, false);
         // cord(2) = 0.50;
         // controller.move_to(cord, rotDefault, 20, true, false);
@@ -59,9 +59,9 @@ coordinates translateBlockCordToRobotCord(coordinates blockCord)
 
     coordinates robotCord, robotReferenceCord;
     // robotReferenceCord << 0.525, 0.34, 1.5;
-    robotReferenceCord << 0.475, 0.35, 1.5;
+    robotReferenceCord << 0.5, 0.35, 1.5;
 
-    robotCord << blockCord(0) - robotReferenceCord(0), robotReferenceCord(1) - blockCord(1), 0.50;
+    robotCord << blockCord(0) - robotReferenceCord(0), robotReferenceCord(1) - blockCord(1), 0.72;
     cout << "blockCord: " << blockCord.transpose() << endl;
     cout << "robotCord: " << robotCord.transpose() << endl;
     return robotCord;
