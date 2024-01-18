@@ -6,23 +6,16 @@
 
     <rosparam command="load" file="$(env HOME)/ros_ws/src/locosim/RoboticsProject/cpp/launch/area.yaml" />
 
+
     <node name="lego_0" pkg="gazebo_ros" respawn="false" type="spawn_model" args="-x 0.625   -y 0.24 -z 0.87 -file $(env HOME)/ros_ws/src/locosim/RoboticsProject/models/X1-Y1-Z2/X1-Y1-Z2.sdf -model 0 -sdf" />
     <node name="lego_1" pkg="gazebo_ros" respawn="false" type="spawn_model" args="-x 0.30   -y 0.65 -z 0.87 -file $(env HOME)/ros_ws/src/locosim/RoboticsProject/models/X1-Y1-Z2/X1-Y1-Z2.sdf -model 1 -sdf" />
-    <!-- <node name="lego_2" pkg="gazebo_ros" respawn="false" type="spawn_model" args="-x 0.60   -y 0.6 -z 0.87 -file $(env HOME)/ros_ws/src/locosim/RoboticsProject/models/X1-Y1-Z2/X1-Y1-Z2.sdf -model 2 -sdf" />
-    <node name="lego_3" pkg="gazebo_ros" respawn="false" type="spawn_model" args="-x 0.40   -y 0.45 -z 0.87 -file $(env HOME)/ros_ws/src/locosim/RoboticsProject/models/X1-Y1-Z2/X1-Y1-Z2.sdf -model 3 -sdf" /> -->
-    <!-- <node name="silhouette_0" pkg="gazebo_ros" respawn="false" type="spawn_model" args="-x 0.85  -y 0.6 -z 0.87 -file $(env HOME)/ros_ws/src/locosim/RoboticsProject/models/X1-Y1-Z2/X1-Y1-Z2-silhouette.sdf -model 4 -sdf" /> -->
-    <!-- <node name="silhouette_1" pkg="gazebo_ros" respawn="false" type="spawn_model" args="-x 0.85  -y 0.4 -z 0.87 -file $(env HOME)/ros_ws/src/locosim/RoboticsProject/models/X1-Y1-Z2/X1-Y1-Z2-silhouette.sdf -model 5 -sdf" />
-    <node name="silhouette_2" pkg="gazebo_ros" respawn="false" type="spawn_model" args="-x 0.85  -y 0.2 -z 0.87 -file $(env HOME)/ros_ws/src/locosim/RoboticsProject/models/X1-Y1-Z2/X1-Y1-Z2-silhouette.sdf -model 6 -sdf" /> -->
-    <node name="silhouette_5" pkg="gazebo_ros" respawn="false" type="spawn_model" args="-x 0.85  -y 0.7 -z 0.87 -file $(env HOME)/ros_ws/src/locosim/RoboticsProject/models/X1-Y1-Z2/X1-Y1-Z2-silhouette.sdf -model 7 -sdf" />
-    
-    <node name="lego_1" pkg="gazebo_ros" respawn="false" type="spawn_model" args="-x 0.92   -y 0.67 -z 0.925 -file $(env HOME)/ros_ws/src/locosim/RoboticsProject/models/X1-Y2-Z2-CHAMFER/X1-Y2-Z2-CHAMFER.sdf -model 2 -sdf" />
-    <node name="silhouette_1" pkg="gazebo_ros" respawn="false" type="spawn_model" args="-x 0.92  -y 0.67 -z 0.87 -file $(env HOME)/ros_ws/src/locosim/RoboticsProject/models/X1-Y2-Z2-CHAMFER/X1-Y2-Z2-CHAMFER-silhouette.sdf -model 3 -sdf" />
-    
-    <node name="lego_2" pkg="gazebo_ros" respawn="false" type="spawn_model" args="-x 0.99   -y 0.74 -z 0.925 -file $(env HOME)/ros_ws/src/locosim/RoboticsProject/models/X1-Y2-Z2/X1-Y2-Z2.sdf -model 4 -sdf" />
-    <node name="silhouette_2" pkg="gazebo_ros" respawn="false" type="spawn_model" args="-x 0.99  -y 0.74 -z 0.87 -file $(env HOME)/ros_ws/src/locosim/RoboticsProject/models/X1-Y2-Z2/X1-Y2-Z2-silhouette.sdf -model 5 -sdf" />
-    
-    <node name="lego_3" pkg="gazebo_ros" respawn="false" type="spawn_model" args="-x 0.87   -y 0.62 -z 0.925 -file $(env HOME)/ros_ws/src/locosim/RoboticsProject/models/X1-Y2-Z2-TWINFILLET/X1-Y2-Z2-TWINFILLET.sdf -model 6 -sdf" />
-    <node name="silhouette_3" pkg="gazebo_ros" respawn="false" type="spawn_model" args="-x 0.87  -y 0.62 -z 0.87 -file $(env HOME)/ros_ws/src/locosim/RoboticsProject/models/X1-Y2-Z2-TWINFILLET/X1-Y2-Z2-TWINFILLET-silhouette.sdf -model 7 -sdf" />
+    <node name="lego_2" pkg="gazebo_ros" respawn="false" type="spawn_model" args="-x 0.60   -y 0.6 -z 0.87 -file $(env HOME)/ros_ws/src/locosim/RoboticsProject/models/X1-Y1-Z2/X1-Y1-Z2.sdf -model 2 -sdf" />
+    <node name="lego_3" pkg="gazebo_ros" respawn="false" type="spawn_model" args="-x 0.40   -y 0.45 -z 0.87 -file $(env HOME)/ros_ws/src/locosim/RoboticsProject/models/X1-Y1-Z2/X1-Y1-Z2.sdf -model 3 -sdf" /> 
+    <node name="silhouette_0" pkg="gazebo_ros" respawn="false" type="spawn_model" args="-x 0.85  -y 0.6 -z 0.87 -file $(env HOME)/ros_ws/src/locosim/RoboticsProject/models/X1-Y1-Z2/X1-Y1-Z2-silhouette.sdf -model 4 -sdf" />
+    <node name="silhouette_1" pkg="gazebo_ros" respawn="false" type="spawn_model" args="-x 0.85  -y 0.4 -z 0.87 -file $(env HOME)/ros_ws/src/locosim/RoboticsProject/models/X1-Y1-Z2/X1-Y1-Z2-silhouette.sdf -model 5 -sdf" />
+    <node name="silhouette_2" pkg="gazebo_ros" respawn="false" type="spawn_model" args="-x 0.85  -y 0.2 -z 0.87 -file $(env HOME)/ros_ws/src/locosim/RoboticsProject/models/X1-Y1-Z2/X1-Y1-Z2-silhouette.sdf -model 6 -sdf" />
+    <node name="silhouette_3" pkg="gazebo_ros" respawn="false" type="spawn_model" args="-x 0.85  -y 0.7 -z 0.87 -file $(env HOME)/ros_ws/src/locosim/RoboticsProject/models/X1-Y1-Z2/X1-Y1-Z2-silhouette.sdf -model 7 -sdf" />
+
 <!--     
     <node name="lego_4" pkg="gazebo_ros" respawn="false" type="spawn_model" args="-x 0.96   -y 0.71 -z 0.925 -file $(env HOME)/ros_ws/src/locosim/RoboticsProject/models/X1-Y3-Z2/X1-Y3-Z2.sdf -model 8 -sdf" />
     <node name="silhouette_4" pkg="gazebo_ros" respawn="false" type="spawn_model" args="-x 0.96  -y 0.71 -z 0.87 -file $(env HOME)/ros_ws/src/locosim/RoboticsProject/models/X1-Y3-Z2/X1-Y3-Z2-silhouette.sdf -model 9 -sdf" />

@@ -134,7 +134,6 @@ bool trajectory_multiple_positions(vector<vector<double *>> *th_sum, vector<pair
                 return true;
             }
         }
-        cout << endl;
     }
 
     return false;

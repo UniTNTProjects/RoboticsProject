@@ -195,10 +195,10 @@ bool Controller::up_and_move(const coordinates &position, const rotMatrix &rotat
 {
     cout << "Trying up and move" << endl;
     coordinates currentPos = get_position().first;
-    double new_z = currentPos(2) - 0.25;
-    if (new_z < 0.40)
+    double new_z = currentPos(2) - 0.15;
+    if (new_z < 0.55)
     {
-        new_z = 0.40;
+        new_z = 0.55;
     }
     // if difference in new_z and currentPos(2) is too small, don't move up
     if (abs(new_z - currentPos(2)) < 0.03)
@@ -358,7 +358,6 @@ bool Controller::move_to(const coordinates &position, const rotMatrix &rotation,
             return move_inside(steps, pick_or_place, &trajectory);
         }
     }
-    cout << endl;
     if (debug_traj)
     {
         cout << "No valid trajectory found" << endl;
@@ -415,8 +414,6 @@ bool Controller::move_to_joint(jointValues joint_to_reach, int steps, bool pick_
         }
         return move_inside(steps, pick_or_place, &trajectory);
     }
-
-    cout << endl;
 
     if (debug_traj)
     {

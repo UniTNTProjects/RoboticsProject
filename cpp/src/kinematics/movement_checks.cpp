@@ -206,13 +206,13 @@ bool check_trajectory(vector<double *> traj, int step, bool pick_or_place, int *
             *error_code = 2;
             return false;
         }
-        else if (joints(2) < -2 && ((joints(3) > -6 && joints(3) < -4.5) || (joints(3) > 0.5 && joints(3) < 2)))
-        {
+        // else if (joints(2) < -2 && ((joints(3) > -6 && joints(3) < -4.5) || (joints(3) > 0.5 && joints(3) < 2)))
+        // {
 
-            cout << "error 3 disabled" << endl;
-            //*error_code = 3;
-            // return false;
-        }
+        //     cout << "error 3 disabled" << endl;
+        //     //*error_code = 3;
+        //     // return false;
+        // }
 
         // if (!(cord(0) > min_x && cord(0) < max_x && cord(1) > min_y && cord(1) < max_y && cord(2) > min_z && cord(2) < max_z))
         // {

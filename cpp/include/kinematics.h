@@ -8,7 +8,7 @@ using namespace Eigen;
 using namespace std;
 
 const bool debug_traj = false;
-const bool error_code_debug = true;
+const bool error_code_debug = false;
 
 const double max_x = 1.5;
 const double max_y = 0.3;
