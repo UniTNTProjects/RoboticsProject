@@ -2,6 +2,7 @@
 #include <eigenMatrices.h>
 #include <vector>
 #include <iostream>
+#include <eigen3/Eigen/Dense>
 
 using namespace Eigen;
 using namespace std;
@@ -16,6 +17,7 @@ jointValues ur5InverseKinematicsGPT(const coordinates &pe, const rotMatrix &re);
 // Inverse Kineamtics of UR5
 Matrix<double, 8, 6> ur5Inverse(coordinates pe, rotMatrix re);
 
+Matrix<double, 8, 6> ur5InverseTestJac(coordinates, rotMatrix);
 // Inverse Kineamtics of UR5 - Pinocchio CLIK
 jointValues ur5InversePinocchio(coordinates pe, rotMatrix re, jointValues current_joints);
 
@@ -112,7 +114,7 @@ static jointValues fixNormalization(jointValues joints)
     {
         joints(5) -= 2 * M_PI;
     }
-    else if (joints(0) < -6.14)
+    else if (joints(5) < -6.14)
     {
         joints(5) += 2 * M_PI;
     }

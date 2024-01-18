@@ -95,9 +95,9 @@ Matrix<double, 8, 6> ur5Inverse(coordinates pe, rotMatrix re)
 
     // finding th5
     double th4_0 = real(acos((pe[0] * sin(th0_0) - pe[1] * cos(th0_0) - D[3]) / D[5] * complex_converter));
-    double th4_1 = -real(acos((pe[0] * sin(th0_0) - pe[1] * cos(th0_0) - D[3]) / D[5] * complex_converter));
+    double th4_1 = -th4_0;
     double th4_2 = real(acos((pe[0] * sin(th0_1) - pe[1] * cos(th0_1) - D[3]) / D[5] * complex_converter));
-    double th4_3 = -real(acos((pe[0] * sin(th0_1) - pe[1] * cos(th0_1) - D[3]) / D[5] * complex_converter));
+    double th4_3 = -th4_2;
 
     // related to th11 a th51
     homoMatrix T06 = T60.inverse();

@@ -54,7 +54,7 @@ class Detector:
         self.robot_name = robot_name
         self.real_robot = False
         self.bridge = CvBridge()
-        self.weights = base_path + "dataset/runs/detect/train46/weights/best.pt"
+        self.weights = base_path + "dataset/runs/detect/train47/weights/best.pt"
         # self.model = torch.hub.load("ultralytics/yolov5", "custom", path=self.weights)
         self.model = YOLO(self.weights)
         self.image_sub = rospy.Subscriber(
@@ -78,7 +78,7 @@ class Detector:
 
         self.allowed_to_watch = False
         self.results = None
-        self.conf_threshold = 0.1
+        self.conf_threshold = 0.7
         self.iou_threshold = 0.4
         self.show_image = True
         self.boxes = {}  # Dictionary with the bounding boxes
@@ -128,7 +128,6 @@ class Detector:
         #     msg.silhouttes.append(box)
         self.prediction_pub.publish(msg)
         # clean boxes
-        self.boxes = {}
 
     # def det_orientatiion_pattern_matching(self, box, class_n):
     #     patterns = self.pattern[class_n]
@@ -190,7 +189,6 @@ class Detector:
         cv2.imwrite(f"../data_generation/Background.png", image)
 
     def callback(self, data):
-        self.allowed_to_watch = True
         if self.allowed_to_watch:
             print("[YOLO] Entered in Callback")
             try:
@@ -199,7 +197,7 @@ class Detector:
             except CvBridgeError as e:
                 print(e)
 
-            self.save_image(self.cv_image)
+            # self.save_image(self.cv_image)
             # Detect objects
             preds = self.model(self.cv_image)
 
@@ -210,9 +208,9 @@ class Detector:
                         conf > self.conf_threshold
                         and to_cpu.names[i] in selected_values
                     ):
-                        pprint(
-                            f"[YOLO] Detected {to_cpu.names[i]} with {conf} and {selected_values[to_cpu.names[i]]}"
-                        )
+                        # pprint(
+                        #     f"[YOLO] Detected {to_cpu.names[i]} with {conf} and {selected_values[to_cpu.names[i]]}"
+                        # )
                         # Append relatives box tensor
                         self.objects[selected_values[to_cpu.names[i]]].append(
                             to_cpu.boxes[i]
@@ -260,6 +258,7 @@ class Detector:
 
             self.show_bounding_boxes()
             self.publish_bounding_boxes()
+            self.boxes = {}
         else:
             print("[YOLO] Not allowed to watch")
             return
