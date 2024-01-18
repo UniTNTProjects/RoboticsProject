@@ -38,3 +38,9 @@ models/**
 models/**/*
 computer_vision/**/*.pt
 computer_vision/data_generation/blender_render.log
+computer_vision/data_generation/LastTryGen.py
+computer_vision/data_generation/tav_vers.blend
+computer_vision/data_generation/tav_vers.blend1
+computer_vision/data_generation/dataset/train/labels.cache
+computer_vision/data_generation/dataset/valid/labels.cache
+.vscode/settings.json

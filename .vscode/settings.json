@@ -3,6 +3,8 @@
     "python.analysis.typeCheckingMode": "off",
     "files.associations": {
         "ostream": "cpp",
-        "iomanip": "cpp"
+        "iomanip": "cpp",
+        "complex": "cpp",
+        "vector": "cpp"
     }
 }

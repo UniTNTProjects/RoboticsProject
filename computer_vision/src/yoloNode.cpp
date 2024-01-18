@@ -1,5 +1,6 @@
 #include "robotVision/robotVision.h"
 #include <vector>
+#include <queue>
 #include <map>
 using namespace std;
 
@@ -16,6 +17,7 @@ struct Instruction
     string block_type;
     int angle;
 };
+int call = 0;
 
 int getOrientation(computer_vision::BoundingBox box)
 {
@@ -143,7 +145,7 @@ computer_vision::Points getPointCloud(double x, double y)
     computer_vision::Points res = computer_vision::Points();
     if (pc_client.call(srv))
     {
-        res.x = srv.response.wx;
+        res.x = srv.response.wx + 0.011;
         res.y = srv.response.wy;
         res.z = srv.response.wz;
     }
@@ -182,14 +184,19 @@ Instruction createInstructions()
         Instruction instruction;
         instruction.block_type = block.second.Class;
         instruction.block = getPointCloud((block.second.xmin + block.second.xmax) / 2, block.second.ymax);
+        instruction.angle = getOrientation(block.second);
+        if (instruction.block_type.compare("X1-Y4-Z2") == 0 && instruction.angle == 0)
+        {
+            instruction.block.x += 0.02;
+        }
         // instruction.sil = getPointCloud((sil.xmin + sil.xmax) / 2, sil.ymax);
         // ------TESTING------
         instruction.sil = computer_vision::Points();
         instruction.sil.x = 0.85;
-        instruction.sil.y = 0.70;
-        instruction.sil.z = 0.87;
+        instruction.sil.y = 0.70 - call * 0.1;
+        instruction.sil.z = 0.8;
+        call += 1;
         // ------TESTING------
-        instruction.angle = getOrientation(block.second);
         blocks.erase(blocks.begin());
         return instruction;
     }
