@@ -220,11 +220,7 @@ bool Controller::up_and_move(const coordinates &position, const rotMatrix &rotat
 {
     cout << "Trying up and move" << endl;
     coordinates currentPos = get_position().first;
-<<<<<<< HEAD
-    double new_z = currentPos(2) - 0.25;
-=======
     double new_z = currentPos(2) - 0.15;
->>>>>>> 1272fd251e6815b06a9e7a24218ad00a36af4b2f
     if (new_z < 0.55)
     {
         new_z = 0.55;

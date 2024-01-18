@@ -59,6 +59,11 @@ void FSM::addPosition(coordinates pos, rotMatrix rot)
     cout << "Queue done" << endl;
 }
 
+void FSM::removePosition()
+{
+    positions->pop();
+}
+
 bool FSM::isPositionQueueEmpty()
 {
     return positions->empty();

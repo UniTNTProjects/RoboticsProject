@@ -130,6 +130,8 @@ void Move::toggle(FSM *fsm)
 
     if (fsm->isError)
     {
+        fsm->isError = false;
+        fsm->removePosition();
         fsm->setState(Wait::getInstance());
     }
     else

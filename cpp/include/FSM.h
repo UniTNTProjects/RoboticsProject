@@ -24,6 +24,7 @@ public:
     void moveGripperTo(int diameter);
     bool isPositionQueueEmpty();
     void addPosition(coordinates pos, rotMatrix rot);
+    void removePosition();
     pair<coordinates, rotMatrix> getNextPosition();
     coordinates translateBlockCordToRobotCord(coordinates blockCord);
     coordinates getCurrentPosition();
