@@ -1,5 +1,4 @@
 #include "controller.h"
-#include <computer_vision/GetPoints.h>
 #include <std_msgs/Int32.h>
 #include <std_msgs/Float64MultiArray.h>
 #include <fstream>

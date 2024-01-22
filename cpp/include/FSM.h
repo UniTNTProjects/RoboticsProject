@@ -4,7 +4,7 @@
 #include <iostream>
 #include "controller.h"
 #include <queue>
-#include <computer_vision/GetPoints.h>
+#include <computer_vision/GetInstructions.h>
 #include <std_msgs/Bool.h>
 using namespace std;
 
@@ -38,7 +38,7 @@ public:
     int counter = 0;
 
     ros::ServiceClient get_ins;
-    computer_vision::GetPoints srv_points;
+    computer_vision::GetInstructions srv_points;
     void setPermission(bool permission);
 
 private:

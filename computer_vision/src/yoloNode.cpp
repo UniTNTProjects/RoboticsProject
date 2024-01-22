@@ -4,51 +4,49 @@
 #include <map>
 using namespace std;
 
+vector<pair<int, computer_vision::BoundingBox>> blocks_history;
 vector<pair<int, computer_vision::BoundingBox>> blocks;
 vector<pair<int, computer_vision::BoundingBox>> sil;
 bool block_detected = false;
 bool init_sil = false;
 ros::ServiceClient pc_client;
 ros::ServiceServer getPoints_server;
-struct Instruction
-{
-    computer_vision::Points block;
-    computer_vision::Points sil;
-    string block_type;
-    int angle;
-};
+// struct Instruction
+// {
+//     computer_vision::Points block;
+//     computer_vision::Points sil;
+//     string block_type;
+//     int angle;
+// };
 int call = 0;
 
 int getOrientation(computer_vision::BoundingBox box)
 {
+    int offset = 10;
     int x = box.xmax - box.xmin;
     int y = box.ymax - box.ymin;
-    if (x > y)
-    {
-        return 0;
-    }
-    else if (x < y)
-    {
-        return 90;
-    }
-    else
+    if (abs(x - y) <= offset)
     {
         return 45;
     }
+    else if (x > y)
+    {
+        return 0;
+    }
+    else
+    {
+        return 90;
+    }
 }
 
-bool checkOnSilhouette(computer_vision::BoundingBox block, computer_vision::BoundingBox sil)
+bool checkOnSilhouette(computer_vision::BoundingBox bbox_block)
 {
-    // int offset = 5;
-    // if (
-    //     block.xmin >= sil.xmin - offset &&
-    //     block.xmax <= sil.xmax + offset &&
-    //     block.ymin >= sil.ymin - offset &&
-    //     block.ymax <= sil.ymax + offset)
-    // {
-    //     return true;
-    // }
-    // return false;
+    int offset = 0.2;
+    Vector3d sil = blocks_type[bbox_block.Class];
+    computer_vision::Points block = getPointCloud((bbox_block.xmin + bbox_block.xmax) / 2, bbox_block.ymax);
+
+    if (abs(block.x - sil(0)) <= offset && abs(block.y - sil(1)) <= offset)
+        return true;
 
     return false;
 }
@@ -56,28 +54,15 @@ bool checkOnSilhouette(computer_vision::BoundingBox block, computer_vision::Boun
 bool checkSameBBox(computer_vision::BoundingBox box1, computer_vision::BoundingBox box2)
 {
     if (
-        abs(box1.xmin - box2.xmin) <= 2 &&
-        abs(box1.ymin - box2.ymin) <= 2 &&
-        abs(box1.xmax - box2.xmax) <= 2 &&
-        abs(box1.ymax - box2.ymax) <= 2)
+        abs(box1.xmin - box2.xmin) <= 5 &&
+        abs(box1.ymin - box2.ymin) <= 5 &&
+        abs(box1.xmax - box2.xmax) <= 5 &&
+        abs(box1.ymax - box2.ymax) <= 5)
     {
         return true;
     }
     return false;
 }
-
-computer_vision::BoundingBox getSilhouette(int class_n)
-{
-    for (const auto &box : sil)
-    {
-        if (box.first == class_n)
-        {
-            return box.second;
-        }
-    }
-    return computer_vision::BoundingBox();
-}
-
 void robot2DImageCallback(const computer_vision::BoundingBoxes &msg)
 {
     if (!init_sil)
@@ -94,36 +79,26 @@ void robot2DImageCallback(const computer_vision::BoundingBoxes &msg)
     for (const auto &box : msg.boxes)
     {
         bool to_insert = true;
-        if (blocks.size() == 0)
+        for (int i = 0; i < blocks.size(); i++)
         {
-            to_insert = true;
-        }
-        else
-        {
-            for (int i = 0; i < blocks.size(); i++)
+            if (checkOnSilhouette(box) || checkSameBBox(box, blocks[i].second))
             {
-                if (checkSameBBox(box, blocks[i].second)
-                    //|| checkOnSilhouette(box, sil[box.class_n].second)
-                )
-                {
-                    to_insert = false;
-                    break;
-                }
+                to_insert = false;
+                break;
+            }
+        }
+        for (int i = 0; i < blocks_history.size(); i++)
+        {
+            if (checkOnSilhouette(box) || checkSameBBox(box, blocks_history[i].second))
+            {
+                to_insert = false;
+                break;
             }
         }
         if (to_insert)
         {
-            if (blocks.size() < 10)
-            {
-                blocks.push_back(pair<int, computer_vision::BoundingBox>(box.class_n, box));
-                block_detected = true;
-            }
-            else
-            {
-                blocks.erase(blocks.begin());
-                blocks.push_back(pair<int, computer_vision::BoundingBox>(box.class_n, box));
-                block_detected = true;
-            }
+            blocks.push_back(pair<int, computer_vision::BoundingBox>(box.class_n, box));
+            block_detected = true;
             to_insert = false;
         }
     }
@@ -157,59 +132,36 @@ computer_vision::Points getPointCloud(double x, double y)
     return res;
 }
 
-Instruction createInstructions()
+computer_vision::Instruction createInstructions(pair<int, computer_vision::BoundingBox> block)
 {
-    if (blocks.size() == 0)
-    {
-        ROS_INFO("No blocks detected");
-        Instruction instruction;
-        instruction.block = computer_vision::Points();
-        instruction.block.x = 0;
-        instruction.block.y = 0;
-        instruction.block.z = 0;
-
-        instruction.sil = computer_vision::Points();
-        instruction.sil.x = 0;
-        instruction.sil.y = 0;
-        instruction.sil.z = 0;
-
-        instruction.angle = 0;
-        instruction.block_type = "none";
-        return instruction;
-    }
-    else
-    {
-        pair<int, computer_vision::BoundingBox> block = blocks.front();
-        computer_vision::BoundingBox sil = getSilhouette(block.first);
-        Instruction instruction;
-        instruction.block_type = block.second.Class;
-        instruction.block = getPointCloud((block.second.xmin + block.second.xmax) / 2, block.second.ymax);
-        instruction.angle = getOrientation(block.second);
-        if (instruction.block_type.compare("X1-Y4-Z2") == 0 && instruction.angle == 0)
-        {
-            instruction.block.x += 0.02;
-        }
-        // instruction.sil = getPointCloud((sil.xmin + sil.xmax) / 2, sil.ymax);
-        // ------TESTING------
-        instruction.sil = computer_vision::Points();
-        instruction.sil.x = 0.85;
-        instruction.sil.y = 0.70 - call * 0.1;
-        instruction.sil.z = 0.8;
-        call += 1;
-        // ------TESTING------
-        blocks.erase(blocks.begin());
-        return instruction;
-    }
+    computer_vision::Instruction instruction;
+    instruction.block = getPointCloud((block.second.xmin + block.second.xmax) / 2, block.second.ymax);
+    instruction.block.angle = getOrientation(block.second);
+    // instruction.sil = getPointCloud((sil.xmin + sil.xmax) / 2, sil.ymax);
+    // ------TESTING------
+    instruction.sil = computer_vision::Points();
+    Vector3d block_type = blocks_type[block.second.Class];
+    instruction.sil.x = block_type(0);
+    instruction.sil.y = block_type(1);
+    instruction.sil.z = instruction.block.z;
+    instruction.sil.angle = 0;
+    instruction.type = block.second.Class;
+    // ------TESTING------
+    return instruction;
 }
 
-bool getPointsCallback(computer_vision::GetPoints::Request &req, computer_vision::GetPoints::Response &res)
+bool getInstructionsCallback(computer_vision::GetInstructions::Request &req, computer_vision::GetInstructions::Response &res)
 {
-    Instruction instruction = createInstructions();
-    res.point.push_back(instruction.block);
-    res.point.push_back(instruction.sil);
-    res.angle = instruction.angle;
-    res.type = instruction.block_type;
-    cout << res << endl;
+    for (const auto &block : blocks)
+    {
+        res.instructions.push_back(createInstructions(block));
+    }
+
+    blocks_history = blocks;
+    blocks.clear();
+
+    ROS_INFO("Returning %ld instructions \n", res.instructions.size());
+
     return true;
 }
 
@@ -223,8 +175,8 @@ int main(int argc, char **argv)
     ros::Subscriber detect_sub = nh.subscribe("/computer_vision/bounding_box", 1, robot2DImageCallback);
 
     pc_client = nh.serviceClient<computer_vision::PointCloud>("/ur5/locosim/pointcloud");
-    getPoints_server = nh.advertiseService("/computer_vision/Points", getPointsCallback);
-    ROS_INFO("Service /computer_vision/Points ready");
+    getPoints_server = nh.advertiseService("/computer_vision/Instructions", getInstructionsCallback);
+    ROS_INFO("Service /computer_vision/Instructions ready");
     ros::spin();
     return 0;
 }

@@ -54,7 +54,7 @@ class Detector:
         self.robot_name = robot_name
         self.real_robot = False
         self.bridge = CvBridge()
-        self.weights = base_path + "dataset/runs/detect/train47/weights/best.pt"
+        self.weights = base_path + "dataset/runs/detect/train50/weights/best.pt"
         # self.model = torch.hub.load("ultralytics/yolov5", "custom", path=self.weights)
         self.model = YOLO(self.weights)
         self.image_sub = rospy.Subscriber(
@@ -128,6 +128,7 @@ class Detector:
         #     msg.silhouttes.append(box)
         self.prediction_pub.publish(msg)
         # clean boxes
+        self.boxes = {}
 
     # def det_orientatiion_pattern_matching(self, box, class_n):
     #     patterns = self.pattern[class_n]
@@ -185,10 +186,11 @@ class Detector:
 
     def save_image(self, image):
         # rescale to 1280x720
-        image = cv2.resize(image, (1280, 720))
-        cv2.imwrite(f"../data_generation/Background.png", image)
+        # image = cv2.resize(image, (1280, 720))
+        cv2.imwrite(f"../data_generation/Background2.png", image)
 
     def callback(self, data):
+        # self.allowed_to_watch = True
         if self.allowed_to_watch:
             print("[YOLO] Entered in Callback")
             try:

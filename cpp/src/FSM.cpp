@@ -9,7 +9,7 @@ FSM::FSM()
     controller = new Controller(250., true);
     positions = new queue<pair<coordinates, rotMatrix>>();
 
-    get_ins = node.serviceClient<computer_vision::GetPoints>("computer_vision/Points");
+    get_ins = node.serviceClient<computer_vision::GetInstructions>("computer_vision/Instructions");
 
     this->moveGripperTo(openGripperDiameter);
     this->setPermission(true);

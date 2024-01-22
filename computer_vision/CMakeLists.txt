@@ -50,11 +50,12 @@ add_message_files(
   BoundingBox.msg
   BoundingBoxes.msg
   Points.msg
+  Instruction.msg
 )
 
 add_service_files(
   FILES
-  GetPoints.srv
+  GetInstructions.srv
   PointCloud.srv
 )
 generate_messages(
