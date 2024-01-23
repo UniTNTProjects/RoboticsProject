@@ -7,8 +7,8 @@
 using namespace Eigen;
 using namespace std;
 
-const bool debug_traj = false;
-const bool error_code_debug = false;
+const bool debug_traj = true;
+const bool error_code_debug = true;
 
 const double max_x = 1.5;
 const double max_y = 0.3;
@@ -21,7 +21,7 @@ const double min_z = 0.0;
 // kspace:0.122663 0.359865 0.426964
 
 const double max_y_near_end_table = 0.15;
-const double max_z_near_end_table = 0.45;
+const double max_z_near_end_table = 0.73;
 
 const double max_z_moving = 0.73;
 

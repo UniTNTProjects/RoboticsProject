@@ -55,6 +55,7 @@ private:
     coordinates advanceNearHomingRec(coordinates current_cord, coordinates defaultCord, coordinates final_cord, double &nearhomingdist, coordinates &nearhomingcord);
     bool up_and_move(const coordinates &position, const rotMatrix &rotation, int steps, jointValues init_joint);
     bool move_to_near_axis(const coordinates &position, const rotMatrix &rotation, int steps, bool pick_or_place, bool homing);
+    bool reset_main_joint(const coordinates &position, const rotMatrix &rotation, int steps, bool homing);
 
 public:
     const coordinates defaultCordArray[6] = {

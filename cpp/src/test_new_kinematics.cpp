@@ -40,7 +40,7 @@ int main(int argc, char **argv)
     // controller.move_to(translateBlockCordToRobotCord(cord), rotDefault, 20, false, false);
     // cord << 0.05, 0.75, 0.;
     // controller.move_to(translateBlockCordToRobotCord(cord), rotDefault, 20, false, false);
-    float cords[][2] = {{0.1, 0.3}, {0.3, 0.3}, {0.5, 0.5}, {0.3, 0.25}, {0.2, 0.5}};
+    float cords[][2] = {{0.3, 0.20}, {0.1, 0.3}, {0.3, 0.3}, {0.5, 0.5}, {0.2, 0.5}};
     // for each element in cords
     for (int i = 0; i < 5; i++)
     {

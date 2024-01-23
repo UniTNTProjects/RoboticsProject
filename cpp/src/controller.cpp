@@ -282,6 +282,139 @@ bool Controller::up_and_move(const coordinates &position, const rotMatrix &rotat
     return false;
 }
 
+bool Controller::reset_main_joint(const coordinates &position, const rotMatrix &rotation, int steps, bool homing)
+{
+    jointValues reset_values;
+    reset_values = mainJointResetValues;
+    reset_values(0) = current_joints(0);
+    reset_values(3) = current_joints(3);
+    reset_values(4) = current_joints(4);
+    reset_values(5) = current_joints(5);
+
+    if (current_joints(2) > 0)
+    {
+        reset_values(2) = 2.2;
+    }
+    else
+    {
+        reset_values(2) = -2.2;
+    }
+
+    double angle;
+
+    angle = atan2(position(1), position(0));
+
+    // fancy trignometry to get the angle between the coordinates to reach and the point x=0 y=0
+    if (position(0) > 0)
+    {
+        if (position(1) > 0)
+        {
+            angle += M_PI;
+        }
+        else
+        {
+            angle += M_PI * 3 / 2;
+        }
+    }
+    else
+    {
+        if (position(1) > 0)
+        {
+            angle = angle;
+        }
+        else
+        {
+            angle -= M_PI / 2;
+        }
+    }
+
+    // check if joint 1 in on the right or left of the robot
+    if (current_joints(1) < -M_PI / 2)
+    {
+        angle += M_PI;
+        // cout << "adding 180" << endl;
+    }
+
+    if (debug_traj)
+    {
+        cout << "--------------\nnorm_angle(angle): " << norm_angle(angle) << endl;
+        cout << "norm angle in degrees: " << norm_angle(angle) * 180 / M_PI << endl;
+    }
+    if (norm_angle(angle) > 30 * M_PI / 180 && norm_angle(angle) < M_PI - 30 * M_PI / 180)
+    {
+        if (debug_traj)
+        {
+            cout << "reset near end of table" << endl;
+        }
+        if (current_joints(1) < -M_PI / 2)
+        {
+            reset_values(1) -= 35 * M_PI / 180;
+            reset_values(2) += 0.3;
+        }
+        else
+        {
+            reset_values(1) += 35 * M_PI / 180;
+            reset_values(2) -= 0.3;
+        }
+    }
+
+    if (position(0) < 0)
+    {
+
+        while (angle > current_joints(0))
+        {
+            angle -= 2 * M_PI;
+        }
+
+        while (angle + 2 * M_PI < current_joints(0))
+        {
+            angle += 2 * M_PI;
+        }
+
+        cout << "reset anti clockwise" << endl;
+    }
+    else
+    {
+        while (angle < current_joints(0))
+        {
+            angle += 2 * M_PI;
+        }
+        while (angle - 2 * M_PI > current_joints(0))
+        {
+            angle -= 2 * M_PI;
+        }
+
+        cout << "reset clockwise" << endl;
+    }
+    if (angle < 6.14 && angle > -6.14)
+    {
+        if (debug_traj)
+        {
+            cout << "reset_values part 1: " << reset_values.transpose() << endl;
+        }
+        if (move_to_joint(reset_values, steps, false, true))
+        {
+            reset_values(0) = angle;
+            if (debug_traj)
+            {
+                cout << "reset_values part 2: " << reset_values.transpose() << endl;
+            }
+            if (debug_traj)
+            {
+                coordinates cord_calc;
+                rotMatrix rotation_calc;
+                ur5Direct(reset_values, cord_calc, rotation_calc);
+
+                cout << "cord_calc: " << cord_calc.transpose() << endl;
+            }
+
+            return move_to_joint(reset_values, steps, false, false);
+        }
+    }
+
+    return false;
+}
+
 bool Controller::move_to(const coordinates &position, const rotMatrix &rotation, int steps, bool pick_or_place, bool homing, bool up_and_move_flag, bool move_to_near_axis_flag)
 {
 
@@ -292,49 +425,22 @@ bool Controller::move_to(const coordinates &position, const rotMatrix &rotation,
     // if x have a different signì
     if (position(0) * get_position().first(0) < 0)
     {
-        jointValues reset_values;
-        reset_values = mainJointResetValues;
-        reset_values(3) = current_joints(3);
-        reset_values(4) = current_joints(4);
-        reset_values(5) = current_joints(5);
-
-        if (current_joints(2) > 0)
+        if (debug_traj)
         {
-            reset_values(2) = 2.2;
+            cout << "   reset required" << endl;
         }
-        else
+        if (reset_main_joint(position, rotation, steps, homing))
         {
-            reset_values(2) = -2.2;
-        }
-
-        if (position(0) < 0)
-        {
-
-            reset_values(0) = 3.3;
-            while (reset_values(0) > current_joints(0))
+            if (debug_traj)
             {
-                reset_values(0) -= 2 * M_PI;
-            }
-            if (reset_values(0) > -6.14)
-            {
-                cout << "reset_values:" << reset_values.transpose() << endl;
-                cout << "reset right" << endl;
-                move_to_joint(reset_values, steps, false, false);
+                cout << "   reset done" << endl;
             }
         }
         else
         {
-            reset_values(0) = -0.4;
-            while (reset_values(0) < current_joints(0))
+            if (debug_traj)
             {
-                reset_values(0) += 2 * M_PI;
-            }
-
-            if (reset_values(0) < 6.14)
-            {
-                cout << "reset_values:" << reset_values.transpose() << endl;
-                cout << "reset left" << endl;
-                move_to_joint(reset_values, steps, false, false);
+                cout << "   !!!!!!!\n   reset failed\n  !!!!!!!!" << endl;
             }
         }
     }
