@@ -48,7 +48,7 @@ private:
     void init_filter(void);
 
     bool move_with_steps(const jointValues &values, const bool order[6]);
-    bool move_inside(int steps, bool pick_or_place, vector<double *> *trajectory);
+    bool move_inside(int steps, vector<double *> *trajectory);
     coordinates nearHoming(coordinates cord);
     coordinates nearHomingRec(coordinates current_cord, coordinates defaultCord, double &nearhomingdist, coordinates &nearhomingcord);
     void advanceNearHoming(coordinates &cord, rotMatrix &rot, coordinates final_cord);

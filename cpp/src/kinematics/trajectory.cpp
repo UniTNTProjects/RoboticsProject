@@ -122,7 +122,7 @@ bool trajectory_multiple_positions(vector<vector<double *>> *th_sum, vector<pair
         joint_to_check << inverse_kinematics_res(index, 0), inverse_kinematics_res(index, 1), inverse_kinematics_res(index, 2),
             inverse_kinematics_res(index, 3), inverse_kinematics_res(index, 4), inverse_kinematics_res(index, 5);
 
-        joint_to_check = bestNormalization(init_joint, joint_to_check);
+        joint_to_check = fixNormalization(bestNormalization(init_joint, joint_to_check));
 
         // cout << "joint_to_check: " << joint_to_check.transpose() << endl;
         if (init_verify_trajectory(&(th_sum->at(n)), init_joint, joint_to_check, steps, order[n], cord, rotation, false))
@@ -133,6 +133,41 @@ bool trajectory_multiple_positions(vector<vector<double *>> *th_sum, vector<pair
             {
                 return true;
             }
+        }
+    }
+
+    return false;
+}
+
+bool trajectory_multiple_positions_joints(vector<vector<double *>> *th_sum, vector<jointValues> *joints, int n_positions, int n, jointValues init_joint, vector<bool> order, int steps)
+{
+
+    if (n == n_positions)
+    {
+        if (debug_traj)
+        {
+            cout << "trajectory verified" << endl;
+        }
+        return true;
+    }
+    if (debug_traj)
+    {
+        cout << "n: " << n << endl;
+    }
+    jointValues joint_to_check = (*joints)[n];
+
+    coordinates cord_calc;
+    rotMatrix rotation_calc;
+    ur5Direct(joint_to_check, cord_calc, rotation_calc);
+
+    // cout << "joint_to_check: " << joint_to_check.transpose() << endl;
+    if (init_verify_trajectory(&(th_sum->at(n)), init_joint, joint_to_check, steps, order[n], cord_calc, rotation_calc, false))
+    {
+        // cout << "trajectory verified" << endl;
+
+        if (trajectory_multiple_positions_joints(th_sum, joints, n_positions, n + 1, joint_to_check, order, steps))
+        {
+            return true;
         }
     }
 

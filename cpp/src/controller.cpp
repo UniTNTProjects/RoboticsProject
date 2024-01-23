@@ -193,7 +193,7 @@ jointValues Controller::second_order_filter(const jointValues &input, const doub
 
 bool Controller::move_to_near_axis(const coordinates &position, const rotMatrix &rotation, int steps, bool pick_or_place, bool homing)
 {
-    cout << "Trying move to near axis" << endl;
+    cout << "^^^^^^\nTrying move to near axis" << endl;
     coordinates currentPos = get_position().first;
     coordinates nearAxis;
     if (abs(currentPos(1) - position(1)) < abs(currentPos(0) - position(0)))
@@ -205,20 +205,48 @@ bool Controller::move_to_near_axis(const coordinates &position, const rotMatrix 
         nearAxis << position(0), currentPos(1), currentPos(2);
     }
 
-    if (move_to(nearAxis, rotation, steps, false, false, false, true))
+    vector<pair<coordinates, rotMatrix>> positions = vector<pair<coordinates, rotMatrix>>();
+
+    positions.push_back(make_pair(nearAxis, rotation));
+    positions.push_back(make_pair(position, rotation));
+
+    vector<vector<double *>> th_sum = vector<vector<double *>>();
+    for (int j = 0; j < positions.size(); j++)
     {
-        if (move_to(position, rotation, steps, pick_or_place, homing, false, true))
+        vector<double *> trajectory = vector<double *>();
+        for (int i = 0; i < steps; i++)
+        {
+            trajectory.push_back(new double[6]);
+        }
+        th_sum.push_back(trajectory);
+    }
+
+    jointValues init_joint;
+    init_joint = current_joints;
+
+    if (trajectory_multiple_positions(&th_sum, &positions, positions.size(), 0, init_joint, vector<bool>{false, false}, steps))
+    {
+        vector<double *> th_sum_vector = vector<double *>();
+        for (int i = 0; i < positions.size(); i++)
+        {
+            for (int j = 0; j < steps; j++)
+            {
+                th_sum_vector.push_back(th_sum[i][j]);
+            }
+        }
+        if (move_inside(steps * positions.size(), &th_sum_vector))
         {
             return true;
         }
     }
-    cout << "Move to near axis failed" << endl;
+
+    cout << "\nMove to near axis failed" << endl;
     return false;
 }
 
 bool Controller::up_and_move(const coordinates &position, const rotMatrix &rotation, int steps, jointValues init_joint)
 {
-    cout << "Trying up and move" << endl;
+    cout << "^^^^^^\nTrying up and move" << endl;
     coordinates currentPos = get_position().first;
     double new_z = currentPos(2) - 0.15;
     if (new_z < 0.55)
@@ -236,49 +264,48 @@ bool Controller::up_and_move(const coordinates &position, const rotMatrix &rotat
 
     if (move_to(aboveCurrent, rotation, steps, true, false, true, false))
     {
-        if (move_to(aboveNext, rotation, steps, false, false, true, false))
+        init_joint = current_joints;
+        vector<pair<coordinates, rotMatrix>> positions = vector<pair<coordinates, rotMatrix>>();
+
+        positions.push_back(make_pair(aboveNext, rotation));
+        positions.push_back(make_pair(position, rotation));
+
+        vector<vector<double *>> th_sum = vector<vector<double *>>();
+        for (int j = 0; j < positions.size(); j++)
         {
-            if (move_to(position, rotation, steps, true, false, true, false))
+            vector<double *> trajectory = vector<double *>();
+            for (int i = 0; i < steps; i++)
+            {
+                trajectory.push_back(new double[6]);
+            }
+            th_sum.push_back(trajectory);
+        }
+
+        if (trajectory_multiple_positions(&th_sum, &positions, positions.size(), 0, init_joint, vector<bool>{false, true}, steps))
+        {
+            vector<double *> th_sum_vector = vector<double *>();
+            for (int i = 0; i < positions.size(); i++)
+            {
+                for (int j = 0; j < steps; j++)
+                {
+                    th_sum_vector.push_back(th_sum[i][j]);
+                }
+            }
+
+            // // print trajectory
+            // for (int i = 0; i < th_sum_vector.size(); i++)
+            // {
+            //     cout << "th_sum_vector[" << i << "]: " << th_sum_vector[i][0] << ", " << th_sum_vector[i][1] << ", " << th_sum_vector[i][2] << ", " << th_sum_vector[i][3] << ", " << th_sum_vector[i][4] << ", " << th_sum_vector[i][5] << endl;
+            // }
+
+            if (move_inside(steps * positions.size(), &th_sum_vector))
             {
                 return true;
             }
         }
     }
 
-    // vector<pair<coordinates, rotMatrix>> positions = vector<pair<coordinates, rotMatrix>>();
-    // positions.push_back(make_pair(aboveCurrent, rotation));
-    // positions.push_back(make_pair(aboveNext, rotation));
-    // positions.push_back(make_pair(position, rotation));
-
-    // vector<vector<double *>> th_sum = vector<vector<double *>>();
-    // for (int j = 0; j < 3; j++)
-    // {
-    //     vector<double *> trajectory = vector<double *>();
-    //     for (int i = 0; i < steps; i++)
-    //     {
-    //         trajectory.push_back(new double[6]);
-    //     }
-    //     th_sum.push_back(trajectory);
-    // }
-
-    // if (trajectory_multiple_positions(&th_sum, &positions, 3, 0, init_joint, vector<bool>{true, false, true}))
-    // {
-    //     cout << "#######"
-    //          << "up and move part 1 of 3"
-    //          << "#######" << endl;
-    //     move_inside(steps, true, &(th_sum[0]));
-    //     cout << "#######"
-    //          << "up and move part 2 of 3"
-    //          << "#######" << endl;
-    //     move_inside(steps, false, &(th_sum[1]));
-    //     cout << "#######"
-    //          << "up and move part 3 of 3"
-    //          << "#######" << endl;
-    //     move_inside(steps, true, &(th_sum[2]));
-    //     return true;
-    // }
-
-    cout << "Up and move failed" << endl;
+    cout << "\nUp and move failed" << endl;
     return false;
 }
 
@@ -388,27 +415,56 @@ bool Controller::reset_main_joint(const coordinates &position, const rotMatrix &
     }
     if (angle < 6.14 && angle > -6.14)
     {
+        jointValues reset_values2;
+        reset_values2 = reset_values;
+        reset_values2(0) = angle;
+
         if (debug_traj)
         {
             cout << "reset_values part 1: " << reset_values.transpose() << endl;
+
+            cout << "reset_values part 2: " << reset_values2.transpose() << endl;
+
+            coordinates cord_calc;
+            rotMatrix rotation_calc;
+            ur5Direct(reset_values2, cord_calc, rotation_calc);
+
+            cout << "cord_calc: " << cord_calc.transpose() << endl;
         }
-        if (move_to_joint(reset_values, steps, false, true))
+
+        vector<jointValues> joints = vector<jointValues>();
+
+        joints.push_back(reset_values);
+        joints.push_back(reset_values2);
+
+        vector<vector<double *>> th_sum = vector<vector<double *>>();
+        for (int j = 0; j < joints.size(); j++)
         {
-            reset_values(0) = angle;
-            if (debug_traj)
+            vector<double *> trajectory = vector<double *>();
+            for (int i = 0; i < steps; i++)
             {
-                cout << "reset_values part 2: " << reset_values.transpose() << endl;
+                trajectory.push_back(new double[6]);
             }
-            if (debug_traj)
+            th_sum.push_back(trajectory);
+        }
+
+        jointValues init_joint;
+        init_joint = current_joints;
+
+        if (trajectory_multiple_positions_joints(&th_sum, &joints, joints.size(), 0, init_joint, vector<bool>{false, false}, steps))
+        {
+            vector<double *> th_sum_vector = vector<double *>();
+            for (int i = 0; i < joints.size(); i++)
             {
-                coordinates cord_calc;
-                rotMatrix rotation_calc;
-                ur5Direct(reset_values, cord_calc, rotation_calc);
-
-                cout << "cord_calc: " << cord_calc.transpose() << endl;
+                for (int j = 0; j < steps; j++)
+                {
+                    th_sum_vector.push_back(th_sum[i][j]);
+                }
             }
-
-            return move_to_joint(reset_values, steps, false, false);
+            if (move_inside(steps * joints.size(), &th_sum_vector))
+            {
+                return true;
+            }
         }
     }
 
@@ -425,10 +481,9 @@ bool Controller::move_to(const coordinates &position, const rotMatrix &rotation,
     // if x have a different signì
     if (position(0) * get_position().first(0) < 0)
     {
-        if (debug_traj)
-        {
-            cout << "   reset required" << endl;
-        }
+
+        cout << "   reset required" << endl;
+
         if (reset_main_joint(position, rotation, steps, homing))
         {
             if (debug_traj)
@@ -438,10 +493,8 @@ bool Controller::move_to(const coordinates &position, const rotMatrix &rotation,
         }
         else
         {
-            if (debug_traj)
-            {
-                cout << "   !!!!!!!\n   reset failed\n  !!!!!!!!" << endl;
-            }
+
+            cout << "   !!!!!!!\n   reset failed\n  !!!!!!!!" << endl;
         }
     }
 
@@ -486,20 +539,12 @@ bool Controller::move_to(const coordinates &position, const rotMatrix &rotation,
                 cout << "trajectory verified" << endl;
                 cout << "joint_to_check: " << joint_to_check.transpose() << endl;
             }
-            return move_inside(steps, pick_or_place, &trajectory);
+            return move_inside(steps, &trajectory);
         }
     }
     if (debug_traj)
     {
         cout << "No valid trajectory found" << endl;
-    }
-
-    if (!move_to_near_axis_flag)
-    {
-        if (move_to_near_axis(position, rotation, steps, pick_or_place, homing))
-        {
-            return true;
-        }
     }
 
     if (!up_and_move_flag)
@@ -510,15 +555,23 @@ bool Controller::move_to(const coordinates &position, const rotMatrix &rotation,
         }
     }
 
+    // if (!move_to_near_axis_flag)
+    // {
+    //     if (move_to_near_axis(position, rotation, steps, pick_or_place, homing))
+    //     {
+    //         return true;
+    //     }
+    // }
+
     if (!homing)
     {
 
-        cout << "Trying move through homing" << endl;
+        cout << "^^^^^^\nTrying move through homing" << endl;
         if (move_through_homing(position, rotation))
         {
             return true;
         }
-        cout << "Move through homing failed" << endl;
+        cout << "\nMove through homing failed" << endl;
     }
     cout << "\n°°°°°°°°°°\n"
          << "Move to failed"
@@ -551,7 +604,7 @@ bool Controller::move_to_joint(jointValues joint_to_reach, int steps, bool pick_
         {
             cout << "trajectory verified" << endl;
         }
-        return move_inside(steps, pick_or_place, &trajectory);
+        return move_inside(steps, &trajectory);
     }
 
     if (debug_traj)
@@ -561,8 +614,9 @@ bool Controller::move_to_joint(jointValues joint_to_reach, int steps, bool pick_
     return false;
 }
 
-bool Controller::move_inside(int steps, bool pick_or_place, vector<double *> *trajectory)
+bool Controller::move_inside(int steps, vector<double *> *trajectory)
 {
+    cout << "steps: " << steps << endl;
     coordinates cord;
     rotMatrix rotation;
     jointValues final_joint;
@@ -781,13 +835,17 @@ bool Controller::move_through_homing(coordinates final_cord, rotMatrix rot)
         }
 
         // cout << "move through homing" << endl;
+
+        // convert th_sum from vector<vector<double *>> to vector<double *> in order to do a single move
+        vector<double *> th_sum_vector = vector<double *>();
         for (int i = 0; i < positions.size(); i++)
         {
-            cout << "#######"
-                 << "move through homing part " << (i + 1) << " of " << positions.size() << "#######" << endl;
-            move_inside(steps, false, &(th_sum[i]));
+            for (int j = 0; j < steps; j++)
+            {
+                th_sum_vector.push_back(th_sum[i][j]);
+            }
         }
-        return true;
+        return move_inside(steps * positions.size(), &th_sum_vector);
     }
     return false;
 }

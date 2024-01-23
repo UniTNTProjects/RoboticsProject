@@ -7,7 +7,7 @@
 using namespace Eigen;
 using namespace std;
 
-const bool debug_traj = true;
+const bool debug_traj = false;
 const bool error_code_debug = true;
 
 const double max_x = 1.5;
@@ -44,13 +44,13 @@ int *sort_inverse(Eigen::Matrix<double, 8, 6> &inverse_kinematics_res, const joi
 Matrix<double, 8, 6> ur5InverseTestJac(coordinates, rotMatrix);
 // Inverse Kineamtics of UR5 - Pinocchio CLIK
 jointValues ur5InversePinocchio(coordinates pe, rotMatrix re, jointValues current_joints);
-
 // Jacobian of UR5
 Matrix<double, 6, 6> ur5Jac(jointValues &Th);
 
 void ur5Trajectory(vector<double *> *Th, jointValues initial_position, jointValues final_position, int steps);
 bool init_verify_trajectory(vector<double *> *Th, jointValues init_joint, jointValues final_joint, int steps, bool pick_or_place, const coordinates &requested_cord, const rotMatrix &requested_rotation, bool homing);
 bool trajectory_multiple_positions(vector<vector<double *>> *th_sum, vector<pair<coordinates, rotMatrix>> *positions, int n_positions, int n, jointValues init_joint, vector<bool> order, int steps);
+bool trajectory_multiple_positions_joints(vector<vector<double *>> *th_sum, vector<jointValues> *joints, int n_positions, int n, jointValues init_joint, vector<bool> order, int steps);
 
 static double norm_angle(double angle)
 {
