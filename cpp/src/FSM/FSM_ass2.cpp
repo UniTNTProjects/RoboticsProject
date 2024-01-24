@@ -17,51 +17,6 @@ void Init::enter(FSM *fsm)
 void Init::exit(FSM *fsm)
 {
 
-    fsm->setPermission(true);
-    cout << "Waiting for block" << endl;
-    sleep(5);
-    cout << "Hope the block is arrived" << endl;
-    fsm->get_ins.call(fsm->srv_points);
-    for (int i = 0; i < fsm->srv_points.response.instructions.size(); i++)
-    {
-        coordinates blockCord, silCord;
-        rotMatrix rot;
-        blockCord << fsm->srv_points.response.instructions[i].block.x,
-            fsm->srv_points.response.instructions[i].block.y,
-            fsm->srv_points.response.instructions[i].block.z;
-        switch (fsm->srv_points.response.instructions[i].block.angle)
-        {
-        case 0:
-            rot << -1, 0, 0,
-                0, -1, 0,
-                0, 0, 1;
-            break;
-        case 45:
-            rot << -0.707, -0.707, 0,
-                0.707, -0.707, 0,
-                0, 0, 1;
-            break;
-        case 90:
-            rot << 0, -1, 0,
-                1, 0, 0,
-                0, 0, 1;
-            break;
-        }
-
-        silCord << fsm->srv_points.response.instructions[i].sil.x,
-            fsm->srv_points.response.instructions[i].sil.y,
-            fsm->srv_points.response.instructions[i].sil.z;
-        coordinates blockCordRobot = fsm->translateBlockCordToRobotCord(blockCord);
-        coordinates silCordRobot = fsm->translateBlockCordToRobotCord(silCord);
-        blockCordRobot(2) = 0.86;
-        silCordRobot(2) = 0.86;
-        blockCordRobot(2) -= fsm->heightPickAndPlace;
-        silCordRobot(2) -= fsm->heightPickAndPlace;
-        fsm->addPosition(blockCordRobot, rot);
-        fsm->addPosition(silCordRobot, rot);
-    }
-
-    fsm->setPermission(false);
     cout << "\n/////////////////////////\nExited Init State\n/////////////////////////\n"
          << endl
          << endl;
@@ -77,8 +32,9 @@ void Wait::toggle(FSM *fsm)
 {
     if (fsm->isPositionQueueEmpty())
     {
-        cout << "Queue is empty" << endl;
-        fsm->isDone = true;
+        // cout << "Queue is empty" << endl;
+        // fsm->isDone = true;
+        fsm->setState(Search::getInstance());
     }
     else
     {
@@ -108,8 +64,95 @@ void Wait::exit(FSM *fsm)
     */
 
     cout << "\n/////////////////////////\nExited Wait State\n/////////////////////////\n"
-         << endl
          << endl;
+}
+
+FSMState &Search::getInstance()
+{
+    static Search instance;
+    return instance;
+}
+
+void Search::toggle(FSM *fsm)
+{
+    if (fsm->isPositionQueueEmpty())
+    {
+        fsm->isDone = true;
+        fsm->setState(Wait::getInstance());
+    }
+    else
+    {
+        fsm->setState(Move::getInstance());
+    }
+}
+
+void Search::enter(FSM *fsm)
+{
+    cout << "\n/////////////////////////\nEntered Search State\n/////////////////////////\n"
+         << endl;
+    // Do something
+    fsm->setPermission(true);
+    cout << "Waiting for block" << endl;
+    sleep(5);
+    cout << "Hope the block is arrived" << endl;
+    fsm->get_ins.call(fsm->srv_points);
+    for (int i = 0; i < fsm->srv_points.response.instructions.size(); i++)
+    {
+        coordinates blockCord, silCord;
+        rotMatrix rot;
+        blockCord << fsm->srv_points.response.instructions[i].block.x,
+            fsm->srv_points.response.instructions[i].block.y,
+            fsm->srv_points.response.instructions[i].block.z;
+
+        int angle = fsm->srv_points.response.instructions[i].block.angle;
+        rot << cos(angle), -sin(angle), 0,
+            sin(angle), cos(angle), 0,
+            0, 0, 1;
+        // switch (fsm->srv_points.response.instructions[i].block.angle)
+        // {
+        // case 0:
+        //     rot << -1, 0, 0,
+        //         0, -1, 0,
+        //         0, 0, 1;
+        //     break;
+        // case 45:
+        //     rot << -0.707, -0.707, 0,
+        //         0.707, -0.707, 0,
+        //         0, 0, 1;
+        //     break;
+        // case 90:
+        //     rot << 0, -1, 0,
+        //         1, 0, 0,
+        //         0, 0, 1;
+        //     break;
+        // }
+
+        silCord
+            << fsm->srv_points.response.instructions[i].sil.x,
+            fsm->srv_points.response.instructions[i].sil.y,
+            fsm->srv_points.response.instructions[i].sil.z;
+        coordinates blockCordRobot = fsm->translateBlockCordToRobotCord(blockCord);
+        coordinates silCordRobot = fsm->translateBlockCordToRobotCord(silCord);
+        // blockCordRobot(3) = 0.86;
+        // silCordRobot(2) = 0.86;
+        cout << "Added position to queue" << endl;
+        cout << "Block cord: " << blockCordRobot << endl;
+        cout << "Sil cord: " << silCordRobot << endl;
+        cout << "---------------------" << endl;
+        fsm->addPosition(blockCordRobot, rot);
+        fsm->addPosition(silCordRobot, rot);
+    }
+
+    return;
+}
+
+void Search::exit(FSM *fsm)
+{
+    // Do something
+    cout << "\n/////////////////////////\nExited Search State\n/////////////////////////\n"
+         << endl;
+    fsm->setPermission(false);
+    return;
 }
 
 FSMState &Wait::getInstance()
