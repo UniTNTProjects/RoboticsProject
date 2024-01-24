@@ -7,29 +7,6 @@
 using namespace Eigen;
 using namespace std;
 
-const bool debug_traj = false;
-const bool error_code_debug = true;
-
-const double max_x = 1.5;
-const double max_y = 0.3;
-const double max_z = 0.885;
-
-const double min_x = -1.5;
-const double min_y = -1.5;
-const double min_z = 0.0;
-
-// kspace:0.122663 0.359865 0.426964
-
-const double max_y_near_end_table = 0.15;
-const double max_z_near_end_table = 0.73;
-
-const double max_z_moving = 0.73;
-
-bool check_singularity_collision(jointValues joints);
-bool check_trajectory(vector<double *> traj, int step, bool pick_or_place, int *error_code, const coordinates &requested_cord, const rotMatrix &requested_rotation, const jointValues &init_joint, bool homing);
-double calculate_distance(const jointValues &first_vector, const jointValues &second_vector);
-double calculate_distance_weighted(const jointValues &first_vector, const jointValues &second_vector);
-
 // Direct Kineamtics of UR5
 void ur5Direct(const jointValues &th, coordinates &pe, rotMatrix &re);
 
@@ -46,11 +23,6 @@ Matrix<double, 8, 6> ur5InverseTestJac(coordinates, rotMatrix);
 jointValues ur5InversePinocchio(coordinates pe, rotMatrix re, jointValues current_joints);
 // Jacobian of UR5
 Matrix<double, 6, 6> ur5Jac(jointValues &Th);
-
-void ur5Trajectory(vector<double *> *Th, jointValues initial_position, jointValues final_position, int steps);
-bool init_verify_trajectory(vector<double *> *Th, jointValues init_joint, jointValues final_joint, int steps, bool pick_or_place, const coordinates &requested_cord, const rotMatrix &requested_rotation, bool homing);
-bool trajectory_multiple_positions(vector<vector<double *>> *th_sum, vector<pair<coordinates, rotMatrix>> *positions, int n_positions, int n, jointValues init_joint, vector<bool> order, int steps);
-bool trajectory_multiple_positions_joints(vector<vector<double *>> *th_sum, vector<jointValues> *joints, int n_positions, int n, jointValues init_joint, vector<bool> order, int steps);
 
 static double norm_angle(double angle)
 {
@@ -147,6 +119,26 @@ static jointValues fixNormalization(jointValues joints)
     // cout << "fixNormalization: " << joints.transpose() << endl;
 
     return joints;
+}
+
+static double calculate_distance(const jointValues &first_vector, const jointValues &second_vector)
+{
+    jointValues second_norm = bestNormalization(first_vector, second_vector);
+    return (first_vector - second_norm).norm();
+}
+
+static double calculate_distance_weighted(const jointValues &first_vector, const jointValues &second_vector)
+{
+    double distance_val = 0;
+    double weight[6] = {1, 1, 1, 10, 5, 1};
+    jointValues second_norm = bestNormalization(first_vector, second_vector);
+
+    for (int i = 0; i < 6; i++)
+    {
+        distance_val += weight[i] * fabs(first_vector(i) - second_norm(i));
+    }
+
+    return distance_val;
 }
 
 static homoMatrix T10f(double th1)

@@ -69,9 +69,14 @@ bool FSM::isPositionQueueEmpty()
     return positions->empty();
 }
 
-bool FSM::moveTo(coordinates pos, rotMatrix rot, bool pick_or_place)
+bool FSM::moveTo(coordinates pos, rotMatrix rot, bool pick_or_place, bool homing, bool up_and_move_flag, bool move_to_near_axis_flag)
 {
-    return controller->move_to(pos, rot, this->controller->steps, pick_or_place, false, false, false);
+    return controller->move_to(pos, rot, pick_or_place, homing, up_and_move_flag, move_to_near_axis_flag);
+}
+
+bool FSM::moveToMultiple(vector<pair<coordinates, rotMatrix>> poses_rots, bool *pick_or_place, bool *homing, bool *up_and_move_flag, bool *move_to_near_axis_flag)
+{
+    return controller->move_to_multiple(poses_rots, pick_or_place, homing, up_and_move_flag, move_to_near_axis_flag);
 }
 
 coordinates FSM::getCurrentPosition()
@@ -99,12 +104,12 @@ bool FSM::pickUp()
     positions->pop();
     currentPos.first(2) += heightPickAndPlace;
 
-    if (moveTo(currentPos.first, currentPos.second, true))
+    if (moveTo(currentPos.first, currentPos.second, true, false, false, false))
     {
         moveGripperTo(closeGripperDiameter);
         isGripping = true;
         currentPos.first(2) -= heightPickAndPlace;
-        if (moveTo(currentPos.first, currentPos.second, true))
+        if (moveTo(currentPos.first, currentPos.second, true, false, false, false))
         {
             return true;
         }
@@ -119,12 +124,12 @@ bool FSM::placeDown()
     positions->pop();
     currentPos.first(2) += heightPickAndPlace - (0.01);
 
-    if (moveTo(currentPos.first, currentPos.second, true))
+    if (moveTo(currentPos.first, currentPos.second, true, false, false, false))
     {
         moveGripperTo(openGripperDiameter);
         isGripping = false;
         currentPos.first(2) -= heightPickAndPlace - (0.01);
-        if (moveTo(currentPos.first, currentPos.second, true))
+        if (moveTo(currentPos.first, currentPos.second, true, false, false, false))
         {
             return true;
         }

@@ -15,8 +15,8 @@ catkin_package()
 # # Build talker and listener
 include_directories(include ${catkin_INCLUDE_DIRS} ${EIGEN3_INCLUDE_DIR})
 
-add_executable(FSM_ass2 src/FSM.cpp src/FSM_ass2.cpp src/controller.cpp src/kinematics/trajectory.cpp src/kinematics/direct.cpp src/kinematics/inverse.cpp src/kinematics/jacobian.cpp src/kinematics/movement_checks.cpp)
-add_executable(test src/test_new_kinematics.cpp src/controller.cpp src/kinematics/trajectory.cpp src/kinematics/direct.cpp src/kinematics/inverse.cpp src/kinematics/jacobian.cpp src/kinematics/inverse_pinocchio.cpp src/kinematics/inverse_gpt.cpp src/kinematics/movement_checks.cpp)
+add_executable(FSM_ass2 src/FSM/FSM.cpp src/FSM/FSM_ass2.cpp  src/controller.cpp  src/kinematics/direct.cpp src/kinematics/inverse.cpp src/kinematics/jacobian.cpp   src/trajectories/movement_checks.cpp src/trajectories/motion_plans.cpp src/trajectories/trajectory_init.cpp)
+
 
 target_link_libraries(FSM_ass2 ${catkin_LIBRARIES})
 target_link_libraries(FSM_ass2 pinocchio::pinocchio)
@@ -26,6 +26,9 @@ install(TARGETS FSM_ass2
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
+
+add_executable(test src/test_new_kinematics.cpp src/controller.cpp  src/kinematics/direct.cpp src/kinematics/inverse.cpp src/kinematics/jacobian.cpp  src/trajectories/movement_checks.cpp src/trajectories/motion_plans.cpp src/trajectories/trajectory_init.cpp)
+
 
 target_link_libraries(test ${catkin_LIBRARIES})
 target_link_libraries(test pinocchio::pinocchio)

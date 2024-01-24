@@ -154,7 +154,7 @@ void Move::enter(FSM *fsm)
 
     // Do something
     pair<coordinates, rotMatrix> nextPos = fsm->getNextPosition();
-    if (!(fsm->moveTo(nextPos.first, nextPos.second, false)))
+    if (!(fsm->moveTo(nextPos.first, nextPos.second, false, false, false, false)))
     {
 
         fsm->isError = true;
