@@ -154,7 +154,25 @@ void Move::enter(FSM *fsm)
 
     // Do something
     pair<coordinates, rotMatrix> nextPos = fsm->getNextPosition();
-    if (!(fsm->moveTo(nextPos.first, nextPos.second, false, false, false, false)))
+
+    vector<pair<coordinates, rotMatrix>> poses_rots;
+    poses_rots.push_back(nextPos);
+    coordinates pos = nextPos.first;
+    pos(2) += fsm->heightPickAndPlace;
+
+    if (fsm->isGripping)
+    {
+        pos(2) -= 0.1;
+    }
+
+    poses_rots.push_back(make_pair(pos, nextPos.second));
+
+    bool pick_or_place[2] = {true, false};
+    bool homing[2] = {false, false};
+    bool up_and_move_flag[2] = {false, false};
+    bool move_to_near_axis_flag[2] = {false, false};
+
+    if (!(fsm->moveToMultiple(poses_rots, pick_or_place, homing, up_and_move_flag, move_to_near_axis_flag)))
     {
 
         fsm->isError = true;
@@ -189,12 +207,7 @@ void PickUp::enter(FSM *fsm)
 {
     cout << "\n/////////////////////////\nEntered PickUp State\n/////////////////////////\n"
          << endl;
-    if (!fsm->pickUp())
-    {
-        cout << "\n!!!!!!!!\nError picking up block\n!!!!!!!!!\n"
-             << endl;
-        fsm->isError = true;
-    }
+    fsm->pickUp();
 }
 
 void PickUp::exit(FSM *fsm)
@@ -222,12 +235,7 @@ void PlaceDown::enter(FSM *fsm)
     cout << "\n/////////////////////////\nEntered PlaceDown State\n/////////////////////////\n"
          << endl;
 
-    if (!fsm->placeDown())
-    {
-        cout << "\n!!!!!!!!\nError placing down block\n!!!!!!!!!\n"
-             << endl;
-        fsm->isError = true;
-    }
+    fsm->placeDown();
 }
 
 void PlaceDown::exit(FSM *fsm)
