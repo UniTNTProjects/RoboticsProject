@@ -25,7 +25,7 @@ int main(int argc, char **argv)
     ros::init(argc, argv, "test_ur5");
     Controller controller = Controller(250., true);
 
-    coordinates cord;
+    coordinates cord, cord2;
     cord << 0.2, 0.2, 0.5;
     rotMatrix rotDefault;
     rotDefault << -1, 0, 0,
@@ -46,11 +46,32 @@ int main(int argc, char **argv)
     {
         cord << cords[i][0], cords[i][1], 0.;
         cord = translateBlockCordToRobotCord(cord);
-        controller.move_to(cord, rotDefault, 20, false, false, false, false);
-        cord(2) = 0.85;
-        controller.move_to(cord, rotDefault, 20, true, false, false, false);
+        cord2 = cord;
+        cord2(2) = 0.85;
+        controller.move_to(cord, rotDefault, false, false, false, false);
+        controller.move_to(cord2, rotDefault, true, false, false, false);
+        controller.move_to(cord, rotDefault, true, false, false, false);
         // cord(2) = 0.50;
         // controller.move_to(cord, rotDefault, 20, true, false);
+    }
+
+    for (int i = 0; i < 5; i++)
+    {
+        cord << cords[i][0], cords[i][1], 0.;
+        cord = translateBlockCordToRobotCord(cord);
+        cord2 = cord;
+        cord2(2) = 0.85;
+        vector<pair<coordinates, rotMatrix>> poses_rots;
+        poses_rots.push_back(make_pair(cord, rotDefault));
+        poses_rots.push_back(make_pair(cord2, rotDefault));
+        poses_rots.push_back(make_pair(cord, rotDefault));
+
+        bool pick_or_place[] = {false, true, true};
+        bool homing[] = {false, false, false};
+        bool up_and_move_flag[] = {false, false, false};
+        bool move_to_near_axis_flag[] = {false, false, false};
+
+        controller.move_to_multiple(poses_rots, pick_or_place, homing, up_and_move_flag, move_to_near_axis_flag);
     }
 }
 

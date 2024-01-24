@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <Eigen/Dense>
-#include "kinematics.h"
+#include "motion_trajectory.h"
 
 bool check_singularity_collision(jointValues joints)
 {
@@ -320,24 +320,4 @@ bool check_trajectory(vector<double *> traj, int step, bool pick_or_place, int *
     // cout << "trajectory valid" << endl;
 
     return true;
-}
-
-double calculate_distance(const jointValues &first_vector, const jointValues &second_vector)
-{
-    jointValues second_norm = bestNormalization(first_vector, second_vector);
-    return (first_vector - second_norm).norm();
-}
-
-double calculate_distance_weighted(const jointValues &first_vector, const jointValues &second_vector)
-{
-    double distance_val = 0;
-    double weight[6] = {1, 1, 1, 10, 5, 1};
-    jointValues second_norm = bestNormalization(first_vector, second_vector);
-
-    for (int i = 0; i < 6; i++)
-    {
-        distance_val += weight[i] * fabs(first_vector(i) - second_norm(i));
-    }
-
-    return distance_val;
 }
