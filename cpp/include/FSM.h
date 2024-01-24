@@ -18,9 +18,10 @@ public:
     void toggle();
     void setState(FSMState &newState);
 
-    bool placeDown();
-    bool pickUp();
-    bool moveTo(coordinates pos, rotMatrix rot, bool pick_or_place);
+    void placeDown();
+    void pickUp();
+    bool moveTo(coordinates pos, rotMatrix rot, bool pick_or_place, bool homing, bool up_and_move_flag, bool move_to_near_axis_flag);
+    bool moveToMultiple(vector<pair<coordinates, rotMatrix>> poses_rots, bool *pick_or_place, bool *homing, bool *up_and_move_flag, bool *move_to_near_axis_flag);
     void moveGripperTo(int diameter);
     bool isPositionQueueEmpty();
     void addPosition(coordinates pos, rotMatrix rot);

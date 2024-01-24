@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <Eigen/Dense>
-#include "kinematics.h"
+#include "motion_trajectory.h"
 
 using namespace Eigen;
 using namespace std;
@@ -91,50 +91,4 @@ bool init_verify_trajectory(vector<double *> *Th, jointValues init_joint, jointV
     }
 
     return valid;
-}
-
-bool trajectory_multiple_positions(vector<vector<double *>> *th_sum, vector<pair<coordinates, rotMatrix>> *positions, int n_positions, int n, jointValues init_joint, vector<bool> order, int steps)
-{
-
-    if (n == n_positions)
-    {
-        if (debug_traj)
-        {
-            cout << "trajectory verified" << endl;
-        }
-        return true;
-    }
-    if (debug_traj)
-    {
-        cout << "n: " << n << endl;
-    }
-    coordinates cord = (*positions)[n].first;
-    rotMatrix rotation = (*positions)[n].second;
-
-    Eigen::Matrix<double, 8, 6> inverse_kinematics_res = ur5Inverse(cord, rotation);
-
-    int *indexes = sort_inverse(inverse_kinematics_res, init_joint);
-
-    for (int i = 0; i < 8; i++)
-    {
-        int index = indexes[i];
-        jointValues joint_to_check;
-        joint_to_check << inverse_kinematics_res(index, 0), inverse_kinematics_res(index, 1), inverse_kinematics_res(index, 2),
-            inverse_kinematics_res(index, 3), inverse_kinematics_res(index, 4), inverse_kinematics_res(index, 5);
-
-        joint_to_check = bestNormalization(init_joint, joint_to_check);
-
-        // cout << "joint_to_check: " << joint_to_check.transpose() << endl;
-        if (init_verify_trajectory(&(th_sum->at(n)), init_joint, joint_to_check, steps, order[n], cord, rotation, false))
-        {
-            // cout << "trajectory verified" << endl;
-
-            if (trajectory_multiple_positions(th_sum, positions, n_positions, n + 1, joint_to_check, order, steps))
-            {
-                return true;
-            }
-        }
-    }
-
-    return false;
 }

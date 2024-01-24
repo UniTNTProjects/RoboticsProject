@@ -40,69 +40,8 @@ Controller::Controller(double loop_frequency, bool start_homing) : loop_rate(loo
 
     if (start_homing)
     {
-
-        move_to(defaultCordArray[0], rotDefault, steps, false, true, false, false);
+        move_to(defaultCordArray[0], rotDefault, false, true, false, false);
     }
-}
-
-coordinates Controller::nearHomingRec(coordinates current_cord, coordinates defaultCord, double &nearhomingdist, coordinates &nearhomingcord)
-{
-    // cout << "defaultCord: " << defaultCord.transpose() << endl;
-    double dist = sqrt(pow(current_cord(0) - defaultCord(0), 2) + pow(current_cord(1) - defaultCord(1), 2));
-    if (nearhomingdist == -1 || dist < nearhomingdist)
-    {
-        nearhomingdist = dist;
-        nearhomingcord = defaultCord;
-    }
-    return nearhomingcord;
-}
-
-coordinates Controller::nearHoming(coordinates cord)
-{
-
-    // cout << "nearHoming" << endl;
-
-    double nearhomingdist = -1;
-    coordinates nearhomingcord;
-    for (coordinates defaultCord : defaultCordArray)
-    {
-        nearhomingcord = nearHomingRec(cord, defaultCord, nearhomingdist, nearhomingcord);
-    }
-    if (debug_traj)
-    {
-        cout << "nearhomingcord: " << nearhomingcord.transpose() << endl;
-    }
-    return nearhomingcord;
-}
-
-coordinates Controller::advanceNearHomingRec(coordinates current_cord, coordinates defaultCord, coordinates final_cord, double &nearhomingdist, coordinates &nearhomingcord)
-{
-    double dist = sqrt(pow(current_cord(0) - defaultCord(0), 2) + pow(current_cord(1) - defaultCord(1), 2));
-    double dist2 = sqrt(pow(final_cord(0) - defaultCord(0), 2) + pow(final_cord(1) - defaultCord(1), 2));
-    if (nearhomingdist == -1 || (dist + dist2) < nearhomingdist)
-    {
-        nearhomingdist = dist + dist2;
-        nearhomingcord = defaultCord;
-    }
-    return nearhomingcord;
-}
-
-void Controller::advanceNearHoming(coordinates &cord, rotMatrix &rot, coordinates final_cord)
-{
-
-    // cout << "advanceNearHoming" << endl;
-
-    coordinates current_cord;
-    ur5Direct(current_joints, current_cord, rot);
-    double nearhomingdist = -1;
-    coordinates nearhomingcord;
-    for (coordinates defaultCord : defaultCordArray)
-    {
-        nearhomingcord = advanceNearHomingRec(current_cord, defaultCord, final_cord, nearhomingdist, nearhomingcord);
-    }
-
-    // cout << "nearhomingcord: " << nearhomingcord << endl;
-    cord = nearhomingcord;
 }
 
 void Controller::send_state(const jointValues &joint_pos)
@@ -191,272 +130,10 @@ jointValues Controller::second_order_filter(const jointValues &input, const doub
     return filter_2;
 }
 
-bool Controller::move_to_near_axis(const coordinates &position, const rotMatrix &rotation, int steps, bool pick_or_place, bool homing)
+bool Controller::move_inside(vector<double *> *trajectory)
 {
-    cout << "Trying move to near axis" << endl;
-    coordinates currentPos = get_position().first;
-    coordinates nearAxis;
-    if (abs(currentPos(1) - position(1)) < abs(currentPos(0) - position(0)))
-    {
-        nearAxis << currentPos(0), position(1), currentPos(2);
-    }
-    else
-    {
-        nearAxis << position(0), currentPos(1), currentPos(2);
-    }
-
-    if (move_to(nearAxis, rotation, steps, false, false, false, true))
-    {
-        if (move_to(position, rotation, steps, pick_or_place, homing, false, true))
-        {
-            return true;
-        }
-    }
-    cout << "Move to near axis failed" << endl;
-    return false;
-}
-
-bool Controller::up_and_move(const coordinates &position, const rotMatrix &rotation, int steps, jointValues init_joint)
-{
-    cout << "Trying up and move" << endl;
-    coordinates currentPos = get_position().first;
-    double new_z = currentPos(2) - 0.15;
-    if (new_z < 0.55)
-    {
-        new_z = 0.55;
-    }
-    // if difference in new_z and currentPos(2) is too small, don't move up
-    if (abs(new_z - currentPos(2)) < 0.03)
-    {
-        return false;
-    }
-    coordinates aboveCurrent, aboveNext;
-    aboveCurrent << currentPos(0), currentPos(1), new_z;
-    aboveNext << position(0), position(1), new_z;
-
-    if (move_to(aboveCurrent, rotation, steps, true, false, true, false))
-    {
-        if (move_to(aboveNext, rotation, steps, false, false, true, false))
-        {
-            if (move_to(position, rotation, steps, true, false, true, false))
-            {
-                return true;
-            }
-        }
-    }
-
-    // vector<pair<coordinates, rotMatrix>> positions = vector<pair<coordinates, rotMatrix>>();
-    // positions.push_back(make_pair(aboveCurrent, rotation));
-    // positions.push_back(make_pair(aboveNext, rotation));
-    // positions.push_back(make_pair(position, rotation));
-
-    // vector<vector<double *>> th_sum = vector<vector<double *>>();
-    // for (int j = 0; j < 3; j++)
-    // {
-    //     vector<double *> trajectory = vector<double *>();
-    //     for (int i = 0; i < steps; i++)
-    //     {
-    //         trajectory.push_back(new double[6]);
-    //     }
-    //     th_sum.push_back(trajectory);
-    // }
-
-    // if (trajectory_multiple_positions(&th_sum, &positions, 3, 0, init_joint, vector<bool>{true, false, true}))
-    // {
-    //     cout << "#######"
-    //          << "up and move part 1 of 3"
-    //          << "#######" << endl;
-    //     move_inside(steps, true, &(th_sum[0]));
-    //     cout << "#######"
-    //          << "up and move part 2 of 3"
-    //          << "#######" << endl;
-    //     move_inside(steps, false, &(th_sum[1]));
-    //     cout << "#######"
-    //          << "up and move part 3 of 3"
-    //          << "#######" << endl;
-    //     move_inside(steps, true, &(th_sum[2]));
-    //     return true;
-    // }
-
-    cout << "Up and move failed" << endl;
-    return false;
-}
-
-bool Controller::move_to(const coordinates &position, const rotMatrix &rotation, int steps, bool pick_or_place, bool homing, bool up_and_move_flag, bool move_to_near_axis_flag)
-{
-
-    cout << "\n######################\n";
-    cout << "Requested move to " << position.transpose() << endl;
-    cout << "Current position: " << get_position().first.transpose() << endl;
-    cout << "Current joints: " << current_joints.transpose() << endl;
-    // if x have a different signì
-    if (position(0) * get_position().first(0) < 0)
-    {
-        jointValues reset_values;
-        reset_values = mainJointResetValues;
-        reset_values(3) = current_joints(3);
-        reset_values(4) = current_joints(4);
-        reset_values(5) = current_joints(5);
-
-        if (current_joints(2) > 0)
-        {
-            reset_values(2) = 2.2;
-        }
-        else
-        {
-            reset_values(2) = -2.2;
-        }
-
-        if (position(0) < 0)
-        {
-
-            reset_values(0) = 3.3;
-            while (reset_values(0) > current_joints(0))
-            {
-                reset_values(0) -= 2 * M_PI;
-            }
-            if (reset_values(0) > -6.14)
-            {
-                cout << "reset_values:" << reset_values.transpose() << endl;
-                cout << "reset right" << endl;
-                move_to_joint(reset_values, steps, false, false);
-            }
-        }
-        else
-        {
-            reset_values(0) = -0.4;
-            while (reset_values(0) < current_joints(0))
-            {
-                reset_values(0) += 2 * M_PI;
-            }
-
-            if (reset_values(0) < 6.14)
-            {
-                cout << "reset_values:" << reset_values.transpose() << endl;
-                cout << "reset left" << endl;
-                move_to_joint(reset_values, steps, false, false);
-            }
-        }
-    }
-
-    jointValues init_joint = current_joints;
-
-    Eigen::Matrix<double, 8, 6> inverse_kinematics_res = ur5Inverse(position, rotation);
-    // cout << "inverse_kinematics_res:\n " << inverse_kinematics_res.transpose() << endl;
-
-    int *indexes = sort_inverse(inverse_kinematics_res, init_joint);
-
-    for (int i = 0; i < 8; i++)
-    {
-        // check if the trajectory is valid
-        int index = indexes[i];
-        jointValues joint_to_check;
-        joint_to_check << inverse_kinematics_res(index, 0), inverse_kinematics_res(index, 1), inverse_kinematics_res(index, 2),
-            inverse_kinematics_res(index, 3), inverse_kinematics_res(index, 4), inverse_kinematics_res(index, 5);
-
-        joint_to_check = fixNormalization(bestNormalization(init_joint, joint_to_check));
-        coordinates cord_calc;
-        rotMatrix rotation_calc;
-        ur5Direct(joint_to_check, cord_calc, rotation_calc);
-        // cout << "cord_calc: " << cord_calc.transpose() << endl;
-        /*
-        cout << "joint_to_check: " << joint_to_check << endl;
-        cout << "init_joint: " << init_joint << endl;
-        cout << "init gripper" << current_gripper << endl;
-        */
-
-        // cout << "joint_to_check normalized: " << joint_to_check.transpose() << endl;
-
-        vector<double *> trajectory = vector<double *>();
-        for (int i = 0; i < steps; i++)
-        {
-            trajectory.push_back(new double[6]);
-        }
-
-        if (init_verify_trajectory(&trajectory, init_joint, joint_to_check, steps, pick_or_place, position, rotation, homing))
-        {
-            if (debug_traj)
-            {
-                cout << "trajectory verified" << endl;
-                cout << "joint_to_check: " << joint_to_check.transpose() << endl;
-            }
-            return move_inside(steps, pick_or_place, &trajectory);
-        }
-    }
-    if (debug_traj)
-    {
-        cout << "No valid trajectory found" << endl;
-    }
-
-    if (!move_to_near_axis_flag)
-    {
-        if (move_to_near_axis(position, rotation, steps, pick_or_place, homing))
-        {
-            return true;
-        }
-    }
-
-    if (!up_and_move_flag)
-    {
-        if (up_and_move(position, rotation, steps, init_joint))
-        {
-            return true;
-        }
-    }
-
-    if (!homing)
-    {
-
-        cout << "Trying move through homing" << endl;
-        if (move_through_homing(position, rotation))
-        {
-            return true;
-        }
-        cout << "Move through homing failed" << endl;
-    }
-    cout << "\n°°°°°°°°°°\n"
-         << "Move to failed"
-         << "\n°°°°°°°°°°\n"
-         << endl;
-
-    ros::Duration(2.0).sleep();
-
-    return false;
-}
-
-bool Controller::move_to_joint(jointValues joint_to_reach, int steps, bool pick_or_place, bool homing)
-{
-    jointValues init_joint;
-    init_joint = current_joints;
-
-    coordinates cord_calc;
-    rotMatrix rotation_calc;
-    ur5Direct(joint_to_reach, cord_calc, rotation_calc);
-
-    vector<double *> trajectory = vector<double *>();
-    for (int i = 0; i < steps; i++)
-    {
-        trajectory.push_back(new double[6]);
-    }
-
-    if (init_verify_trajectory(&trajectory, init_joint, joint_to_reach, steps, pick_or_place, cord_calc, rotation_calc, homing))
-    {
-        if (debug_traj)
-        {
-            cout << "trajectory verified" << endl;
-        }
-        return move_inside(steps, pick_or_place, &trajectory);
-    }
-
-    if (debug_traj)
-    {
-        cout << "No valid trajectory found" << endl;
-    }
-    return false;
-}
-
-bool Controller::move_inside(int steps, bool pick_or_place, vector<double *> *trajectory)
-{
+    int steps = trajectory->size();
+    cout << "steps: " << steps << endl;
     coordinates cord;
     rotMatrix rotation;
     jointValues final_joint;
@@ -501,19 +178,7 @@ bool Controller::move_inside(int steps, bool pick_or_place, vector<double *> *tr
             des_normalized = bestNormalization(current_joints, des_not_linear);
             des_optimal = fixNormalization(des_normalized);
 
-            // if (des_normalized(0) > 6.14 || des_normalized(0) < -6.14)
-            // {
-            //     cout << "des_optimal: " << des_optimal.transpose() << endl;
-            //     jointValues des_reset_main_axis;
-            //     des_reset_main_axis << des_optimal(0), mainJointResetValues(1), mainJointResetValues(2),
-            //         current_joints(3), current_joints(4), current_joints(5);
-            //     cout << "##########################" << endl;
-            //     cout << "special move to joints:" << des_reset_main_axis.transpose() << endl;
-            //     move_to_joint(des_reset_main_axis, steps, false, true);
-            // }
-
             jointValues q_des = fixNormalization(bestNormalization(current_joints, second_order_filter(des_optimal, loop_frequency, 0.5)));
-            // cout << "q_des: " << q_des << endl;
             if (use_filter)
             {
                 send_state(q_des);
@@ -526,6 +191,7 @@ bool Controller::move_inside(int steps, bool pick_or_place, vector<double *> *tr
 
             ros::spinOnce();
             counter++;
+
             if (counter >= 1000)
             {
                 cout << "error: " << calculate_distance(current_joints, des_not_linear) << endl;
@@ -562,130 +228,6 @@ bool Controller::move_inside(int steps, bool pick_or_place, vector<double *> *tr
     return true;
 }
 
-bool Controller::move_through_homing(coordinates final_cord, rotMatrix rot)
-{
-    coordinates first_home;
-    coordinates last_home;
-
-    // cout << "final cord" << final_cord.transpose() << endl;
-
-    coordinates current_cord;
-    ur5Direct(current_joints, current_cord, rot);
-
-    first_home = nearHoming(current_cord);
-    last_home = nearHoming(final_cord);
-
-    int homeOrder[] = {0, 5, 4, 3, 2, 1};
-    int arrayDim = sizeof(homeOrder) / sizeof(homeOrder[0]);
-
-    // if (debug_traj)
-    // {
-
-    //     for (int i = 0; i < arrayDim; i++)
-    //     {
-    //         cout << "homeOrder[" << i << "]: " << defaultCordArray[homeOrder[i]].transpose() << endl;
-    //     }
-    // }
-
-    int first_home_index = -1;
-    int last_home_index = -1;
-    for (int i = 0; i < arrayDim; i++)
-    {
-        if (first_home(1) == defaultCordArray[homeOrder[i]](1) && first_home(0) == defaultCordArray[homeOrder[i]](0))
-        {
-            first_home_index = i;
-        }
-        if (last_home(1) == defaultCordArray[homeOrder[i]](1) && last_home(0) == defaultCordArray[homeOrder[i]](0))
-        {
-            last_home_index = i;
-        }
-    }
-    // if (debug_traj)
-    // {
-    //     cout << "first_home_index: " << first_home_index << endl;
-    //     cout << "last_home_index: " << last_home_index << endl;
-    // }
-
-    vector<pair<coordinates, rotMatrix>> positions = vector<pair<coordinates, rotMatrix>>();
-    coordinates current = first_home;
-    int current_index = first_home_index;
-    while (current_index != last_home_index)
-    {
-        positions.push_back(make_pair(current, rot));
-        if (current_index < last_home_index)
-        {
-            current_index++;
-            current = defaultCordArray[homeOrder[current_index]];
-        }
-        else
-        {
-            current_index--;
-            current = defaultCordArray[homeOrder[current_index]];
-        }
-    }
-
-    positions.push_back(make_pair(last_home, rot));
-    positions.push_back(make_pair(final_cord, rot));
-
-    vector<vector<double *>> th_sum = vector<vector<double *>>();
-    for (int j = 0; j < positions.size(); j++)
-    {
-        vector<double *> trajectory = vector<double *>();
-        for (int i = 0; i < steps; i++)
-        {
-            trajectory.push_back(new double[6]);
-        }
-        th_sum.push_back(trajectory);
-    }
-    if (debug_traj)
-    {
-        cout << "current_cord" << current_cord.transpose() << endl;
-        cout << "positions.size(): " << positions.size() << endl;
-        for (int i = 0; i < positions.size(); i++)
-        {
-            cout << "positions[" << i << "]: " << positions[i].first.transpose() << endl;
-        }
-    }
-
-    vector<bool> order = vector<bool>();
-    for (int i = 0; i < positions.size(); i++)
-    {
-        order.push_back(false);
-    }
-
-    if (trajectory_multiple_positions(&th_sum, &positions, positions.size(), 0, current_joints, order, this->steps))
-    {
-        cout << "-------------------------\n"
-             << endl;
-        for (int i = 0; i < positions.size(); i++)
-        {
-
-            for (int j = 0; j < steps; j++)
-            {
-                jointValues joint_to_check;
-                joint_to_check << th_sum[i][j][0], th_sum[i][j][1], th_sum[i][j][2],
-                    th_sum[i][j][3], th_sum[i][j][4], th_sum[i][j][5];
-
-                coordinates cord;
-                rotMatrix rotation;
-                ur5Direct(joint_to_check, cord, rotation);
-
-                // cout << "cord: " << cord.transpose() << endl;
-            }
-        }
-
-        // cout << "move through homing" << endl;
-        for (int i = 0; i < positions.size(); i++)
-        {
-            cout << "#######"
-                 << "move through homing part " << (i + 1) << " of " << positions.size() << "#######" << endl;
-            move_inside(steps, false, &(th_sum[i]));
-        }
-        return true;
-    }
-    return false;
-}
-
 void Controller::move_gripper_to(const int diameter)
 {
 
@@ -707,3 +249,45 @@ void Controller::sleep()
 {
     ros::Duration(1.0).sleep();
 }
+
+bool Controller::move_to(const coordinates &position, const rotMatrix &rotation, bool pick_or_place, bool homing, bool up_and_move_flag, bool move_to_near_axis_flag)
+{
+    cout << "Requested move_to with position: " << position.transpose() << endl;
+
+    vector<double *> trajectory = calc_traj(position, rotation, pick_or_place, homing, up_and_move_flag, move_to_near_axis_flag, current_joints);
+    if (trajectory.size() > 0)
+    {
+        if (move_inside(&trajectory))
+        {
+            return true;
+        }
+    }
+    cout << "\n°°°°°°°°°°\n"
+         << "Move to §§§ Failed\n"
+         << "\n°°°°°°°°°°\n"
+         << endl;
+
+    ros::Duration(10.0).sleep();
+    return false;
+}
+
+bool Controller::move_to_multiple(vector<pair<coordinates, rotMatrix>> poses_rots, bool *pick_or_place, bool *homing, bool *up_and_move_flag, bool *move_to_near_axis_flag)
+{
+    vector<double *> trajectory = calc_traj_multiple(poses_rots, pick_or_place, homing, up_and_move_flag, move_to_near_axis_flag, current_joints);
+    if (trajectory.size() > 0)
+    {
+        if (move_inside(&trajectory))
+        {
+            return true;
+        }
+    }
+    cout << "\n°°°°°°°°°°\n"
+         << "Move to §§§ Failed\n"
+         << "\n°°°°°°°°°°\n"
+         << endl;
+
+    ros::Duration(10.0).sleep();
+    return false;
+}
+
+
