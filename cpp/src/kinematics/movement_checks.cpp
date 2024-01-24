@@ -185,7 +185,7 @@ bool check_trajectory(vector<double *> traj, int step, bool pick_or_place, int *
             return false;
         }
 
-        if ((joints(3) < -4 || (joints(3) > 0 && joints(3) < 3)) && ((joints(4) < -2 && joints(4) > -4) || (joints(4) > 2 && joints(4) < 5)))
+        if ((joints(3) < -3.2 || (joints(3) > 0 && joints(3) < 3.1)) && ((joints(4) < -2 && joints(4) > -4) || (joints(4) > 2 && joints(4) < 5)))
         {
             if (debug_traj)
             {

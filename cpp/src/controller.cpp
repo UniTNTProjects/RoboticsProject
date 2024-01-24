@@ -871,3 +871,17 @@ void Controller::sleep()
 {
     ros::Duration(1.0).sleep();
 }
+
+rotMatrix Controller::get_rotation(double angle)
+{
+    //transform the angle in radians(0-2pi)
+    angle = angle * M_PI / 180;;
+
+    coordinates cord;
+    rotMatrix rot;
+    jointValues joints;
+    joints << -0.00322469, -0.549783, -2.21282, 5.89289, -3.13054, 3.13355;
+    joints(4) = angle;
+    ur5Direct(joints, cord, rot);
+    return rot;
+}

@@ -80,6 +80,7 @@ public:
     void print_current_pos_rot();
     void sleep();
     bool move_through_homing(coordinates final_cord, rotMatrix rot);
+    rotMatrix get_rotation(double angle);
 
     const int steps = 20;
     // testing
