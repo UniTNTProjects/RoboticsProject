@@ -108,6 +108,12 @@ void Search::enter(FSM *fsm)
         rot << cos(angle), -sin(angle), 0,
             sin(angle), cos(angle), 0,
             0, 0, 1;
+
+        // FIX TO DEFAULT ROT, TEST ONLY PURPOSE
+        rot << -1, 0, 0,
+            0, -1, 0,
+            0, 0, 1;
+
         // switch (fsm->srv_points.response.instructions[i].block.angle)
         // {
         // case 0:
@@ -131,13 +137,19 @@ void Search::enter(FSM *fsm)
             << fsm->srv_points.response.instructions[i].sil.x,
             fsm->srv_points.response.instructions[i].sil.y,
             fsm->srv_points.response.instructions[i].sil.z;
+
+        cout << "Block cord (gazebo_ref): " << blockCord << endl;
+        cout << "Sil cord (gazebo_ref): " << silCord << endl;
+
         coordinates blockCordRobot = fsm->translateBlockCordToRobotCord(blockCord);
         coordinates silCordRobot = fsm->translateBlockCordToRobotCord(silCord);
-        // blockCordRobot(3) = 0.86;
-        // silCordRobot(2) = 0.86;
+
+        blockCordRobot(2) = 0.86;
+        silCordRobot(2) = 0.86;
+
         cout << "Added position to queue" << endl;
-        cout << "Block cord: " << blockCordRobot << endl;
-        cout << "Sil cord: " << silCordRobot << endl;
+        cout << "Block cord (robot_ref): " << blockCordRobot << endl;
+        cout << "Sil cord (robot_ref): " << silCordRobot << endl;
         cout << "---------------------" << endl;
         fsm->addPosition(blockCordRobot, rot);
         fsm->addPosition(silCordRobot, rot);
@@ -192,18 +204,19 @@ void Move::enter(FSM *fsm)
     pair<coordinates, rotMatrix> nextPos = fsm->getNextPosition();
 
     vector<pair<coordinates, rotMatrix>> poses_rots;
-    poses_rots.push_back(nextPos);
+
     coordinates pos = nextPos.first;
-    pos(2) += fsm->heightPickAndPlace;
+    pos(2) -= fsm->heightPickAndPlace;
 
     if (fsm->isGripping)
     {
-        pos(2) -= 0.1;
+        pos(2) -= 0.01;
     }
 
     poses_rots.push_back(make_pair(pos, nextPos.second));
+    poses_rots.push_back(nextPos);
 
-    bool pick_or_place[2] = {true, false};
+    bool pick_or_place[2] = {false, true};
     bool homing[2] = {false, false};
     bool up_and_move_flag[2] = {false, false};
     bool move_to_near_axis_flag[2] = {false, false};

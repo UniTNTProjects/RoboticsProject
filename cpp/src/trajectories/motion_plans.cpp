@@ -343,13 +343,18 @@ vector<double *> calc_traj(const coordinates &position, const rotMatrix &rotatio
     rotMatrix startRot;
     ur5Direct(startJoint, startPos, startRot);
 
+    cout << "### Calc traj_direct: " << endl;
     vector<double *> direct_traj = calc_direct_traj(position, rotation, pick_or_place, homing, startJoint);
     if (direct_traj.size() > 0)
     {
+        cout << "### Success\n"
+             << endl;
         return direct_traj;
     }
     else
     {
+        cout << "§§§ Failed\n"
+             << endl;
         if (position(0) * startPos(0) < 0)
         {
             cout << "### Calc reset&move: " << endl;

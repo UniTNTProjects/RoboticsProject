@@ -33,6 +33,7 @@ silhouettes = [
 ]
 base_path = (
     "/home/squinkis/ros_ws/src/locosim/RoboticsProject/computer_vision/data_generation/"
+    # "/home/emanuele/ros_ws/src/locosim/RoboticsProject/computer_vision/data_generation/"
 )
 
 # Create a dictionary with the selected values using them as values and numbers as keys
@@ -55,6 +56,7 @@ class Detector:
         self.real_robot = False
         self.bridge = CvBridge()
         self.weights = base_path + "runs/detect/trainBest/best.pt"
+        # self.weights = base_path + "dataset/runs/detect/trainBest/best.pt"
         # self.model = torch.hub.load("ultralytics/yolov5", "custom", path=self.weights)
         self.model = YOLO(self.weights)
         self.image_sub = rospy.Subscriber(

@@ -19,7 +19,7 @@ const double min_z = 0.0;
 const double max_y_near_end_table = 0.15;
 const double max_z_near_end_table = 0.73;
 
-const double max_z_moving = 0.73;
+const double max_z_moving = 0.79;
 
 const jointValues mainJointResetValues = (jointValues() << 0., -1.57, -2.5, 0., 0., 0.).finished();
 
