@@ -6,6 +6,7 @@
         "iomanip": "cpp",
         "complex": "cpp",
         "vector": "cpp",
-        "cmath": "cpp"
+        "cmath": "cpp",
+        "dense": "cpp"
     }
 }
