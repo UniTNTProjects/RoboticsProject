@@ -3,8 +3,8 @@
 using namespace Eigen;
 using namespace std;
 
-const bool debug_traj = false;
-const bool error_code_debug = false;
+const bool debug_traj = true;
+const bool error_code_debug = true;
 
 const int steps = 20;
 
@@ -34,21 +34,21 @@ const coordinates defaultCordArray[6] = {
 };
 
 bool check_singularity_collision(jointValues joints);
-bool check_trajectory(vector<double *> traj, int step, bool pick_or_place, int *error_code, const coordinates &requested_cord, const rotMatrix &requested_rotation, const jointValues &init_joint, bool homing);
+bool check_trajectory(vector<double *> traj, int step, bool pick_or_place, int *error_code, const coordinates &requested_cord, const rotMatrix &requested_rotation, const jointValues &init_joint, bool homing, bool side_pick);
 
 void ur5Trajectory(vector<double *> *Th, jointValues initial_position, jointValues final_position, int steps);
-bool init_verify_trajectory(vector<double *> *Th, jointValues init_joint, jointValues final_joint, int steps, bool pick_or_place, const coordinates &requested_cord, const rotMatrix &requested_rotation, bool homing);
+bool init_verify_trajectory(vector<double *> *Th, jointValues init_joint, jointValues final_joint, int steps, bool pick_or_place, const coordinates &requested_cord, const rotMatrix &requested_rotation, bool homing, bool side_pick);
 
 vector<double *> up_and_move(const coordinates &position, const rotMatrix &rotation, int steps, jointValues startJoint);
 vector<double *> move_to_near_axis(const coordinates &position, const rotMatrix &rotation, bool pick_or_place, bool homing, jointValues startJoint);
 vector<double *> reset_main_joint(const coordinates &position, const rotMatrix &rotation, int steps, jointValues startPosition);
 vector<double *> up_tray(jointValues startJoint);
-vector<double *> calc_direct_traj_joint(const jointValues endJoint, bool pick_or_place, bool homing, jointValues startPosition);
-vector<double *> calc_direct_traj_multiple_joint(vector<jointValues> endJoints, bool *pick_or_place, bool *homing, jointValues startPosition);
-vector<double *> calc_direct_traj(const coordinates &position, const rotMatrix &rotation, bool pick_or_place, bool homing, jointValues startPosition);
-vector<double *> calc_direct_traj_multiple(vector<pair<coordinates, rotMatrix>> poses_rots, bool *pick_or_place, bool *homing, jointValues startPosition);
-vector<double *> calc_traj(const coordinates &position, const rotMatrix &rotation, bool pick_or_place, bool homing, bool up_and_move_flag, bool move_to_near_axis_flag, jointValues startPosition);
-vector<double *> calc_traj_multiple(vector<pair<coordinates, rotMatrix>> poses_rots, bool *pick_or_place, bool *homing, bool *up_and_move_flag, bool *move_to_near_axis_flag, jointValues startJoint);
+vector<double *> calc_direct_traj_joint(const jointValues endJoint, bool pick_or_place, bool homing, jointValues startPosition, bool side_pick);
+vector<double *> calc_direct_traj_multiple_joint(vector<jointValues> endJoints, bool *pick_or_place, bool *homing, jointValues startPosition, bool side_pick);
+vector<double *> calc_direct_traj(const coordinates &position, const rotMatrix &rotation, bool pick_or_place, bool homing, jointValues startPosition, bool side_pick);
+vector<double *> calc_direct_traj_multiple(vector<pair<coordinates, rotMatrix>> poses_rots, bool *pick_or_place, bool *homing, jointValues startPosition, bool side_pick);
+vector<double *> calc_traj(const coordinates &position, const rotMatrix &rotation, bool pick_or_place, bool homing, bool up_and_move_flag, bool move_to_near_axis_flag, jointValues startPosition, bool side_pick);
+vector<double *> calc_traj_multiple(vector<pair<coordinates, rotMatrix>> poses_rots, bool *pick_or_place, bool *homing, bool *up_and_move_flag, bool *move_to_near_axis_flag, jointValues startJoint, bool side_pick);
 vector<double *> move_through_homing(coordinates final_cord, rotMatrix rot, jointValues startJoint);
 
 coordinates nearHoming(coordinates cord);

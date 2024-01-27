@@ -42,7 +42,7 @@ bool check_singularity_collision(jointValues joints)
     return false;
 }
 
-bool check_trajectory(vector<double *> traj, int step, bool pick_or_place, int *error_code, const coordinates &requested_cord, const rotMatrix &requested_rotation, const jointValues &init_joint, bool homing)
+bool check_trajectory(vector<double *> traj, int step, bool pick_or_place, int *error_code, const coordinates &requested_cord, const rotMatrix &requested_rotation, const jointValues &init_joint, bool homing, bool side_pick)
 {
     coordinates start_cord;
     rotMatrix start_rotation;
@@ -179,6 +179,19 @@ bool check_trajectory(vector<double *> traj, int step, bool pick_or_place, int *
         //     return false;
         // }
 
+        for(int i = 0; i < 6; i++){
+            if (isnan(joints(i)))
+            {
+                if (debug_traj)
+                {
+                    cout << "*******" << endl;
+                    cout << "trajectory invalid 1" << endl;
+                }
+                *error_code = 21;
+                return false;
+            }
+        }
+
         if (check_singularity_collision(joints))
         {
             *error_code = 19;
@@ -225,7 +238,7 @@ bool check_trajectory(vector<double *> traj, int step, bool pick_or_place, int *
         //     return false;
         // }
 
-        if (!pick_or_place && !homing && cord(2) > max_z_moving)
+        if (!side_pick && !pick_or_place && !homing && cord(2) > max_z_moving)
         {
             if (debug_traj)
             {
@@ -282,7 +295,7 @@ bool check_trajectory(vector<double *> traj, int step, bool pick_or_place, int *
         MatrixXd jacobian = ur5Jac(joints);
         // cout << "jacobian: " << jacobian << endl;
 
-        if (joints(1) > 0 || joints(1) < -3.14)
+        if (joints(1) > 0.1 || joints(1) < -3.14)
         {
             if (debug_traj)
             {
