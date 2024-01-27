@@ -33,6 +33,7 @@ silhouettes = [
 ]
 base_path = (
     "/home/squinkis/ros_ws/src/locosim/RoboticsProject/computer_vision/data_generation/"
+    # "/home/emanuele/ros_ws/src/locosim/RoboticsProject/computer_vision/data_generation/"
 )
 
 # Create a dictionary with the selected values using them as values and numbers as keys
@@ -54,7 +55,8 @@ class Detector:
         self.robot_name = robot_name
         self.real_robot = False
         self.bridge = CvBridge()
-        self.weights = base_path + "dataset/runs/detect/train47/weights/best.pt"
+        self.weights = base_path + "runs/detect/trainBest/best.pt"
+        # self.weights = base_path + "dataset/runs/detect/trainBest/best.pt"
         # self.model = torch.hub.load("ultralytics/yolov5", "custom", path=self.weights)
         self.model = YOLO(self.weights)
         self.image_sub = rospy.Subscriber(
@@ -128,6 +130,7 @@ class Detector:
         #     msg.silhouttes.append(box)
         self.prediction_pub.publish(msg)
         # clean boxes
+        self.boxes = {}
 
     # def det_orientatiion_pattern_matching(self, box, class_n):
     #     patterns = self.pattern[class_n]
@@ -185,10 +188,11 @@ class Detector:
 
     def save_image(self, image):
         # rescale to 1280x720
-        image = cv2.resize(image, (1280, 720))
-        cv2.imwrite(f"../data_generation/Background.png", image)
+        # image = cv2.resize(image, (1280, 720))
+        cv2.imwrite(f"../data_generation/Background2.png", image)
 
     def callback(self, data):
+        # self.allowed_to_watch = True
         if self.allowed_to_watch:
             print("[YOLO] Entered in Callback")
             try:
@@ -233,18 +237,18 @@ class Detector:
                         new_coords = ops.scale_boxes(
                             self.cv_image.shape[:2], obj.xyxy, self.proc_image.shape[:2]
                         )[0]
-                        bbox.xmin = new_coords[0].astype(int)
-                        bbox.ymin = new_coords[1].astype(int)
-                        bbox.xmax = new_coords[2].astype(int)
-                        bbox.ymax = new_coords[3].astype(int)
+                        bbox.xmin = new_coords[0].astype(int) + 5
+                        bbox.ymin = new_coords[1].astype(int) + 5
+                        bbox.xmax = new_coords[2].astype(int) - 5
+                        bbox.ymax = new_coords[3].astype(int) - 5
                         # bbox.orientation = self.det_orientatiion_pattern_matching(
                         #     new_coords, obj.cls[0]
                         # )
                     else:
-                        bbox.xmin = obj.xyxy[0][0].astype(int)
-                        bbox.ymin = obj.xyxy[0][1].astype(int)
-                        bbox.xmax = obj.xyxy[0][2].astype(int)
-                        bbox.ymax = obj.xyxy[0][3].astype(int)
+                        bbox.xmin = obj.xyxy[0][0].astype(int) + 5
+                        bbox.ymin = obj.xyxy[0][1].astype(int) + 5
+                        bbox.xmax = obj.xyxy[0][2].astype(int) - 5
+                        bbox.ymax = obj.xyxy[0][3].astype(int) - 5
                         # bbox.orientation = self.det_orientatiion_pattern_matching(
                         #     obj.xyxy[0], obj.cls[0]
                         # )
@@ -256,7 +260,7 @@ class Detector:
                     bbox.probability = obj.conf
                     self.boxes[key] = bbox
 
-            self.show_bounding_boxes()
+            # self.show_bounding_boxes()
             self.publish_bounding_boxes()
             self.boxes = {}
         else:

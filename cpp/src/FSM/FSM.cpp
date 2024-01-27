@@ -9,7 +9,7 @@ FSM::FSM()
     controller = new Controller(250., true);
     positions = new queue<pair<coordinates, rotMatrix>>();
 
-    get_ins = node.serviceClient<computer_vision::GetPoints>("computer_vision/Points");
+    get_ins = node.serviceClient<computer_vision::GetInstructions>("computer_vision/Instructions");
 
     this->moveGripperTo(openGripperDiameter);
     this->setPermission(true);
@@ -98,44 +98,20 @@ void FSM::setPermission(bool permission_to_send)
     controller->permission_pub.publish(permission);
     loop_rate.sleep();
 }
-bool FSM::pickUp()
+
+void FSM::pickUp()
 {
-    pair<coordinates, rotMatrix> currentPos = getNextPosition();
     positions->pop();
-    currentPos.first(2) += heightPickAndPlace;
-
-    if (moveTo(currentPos.first, currentPos.second, true, false, false, false))
-    {
-        moveGripperTo(closeGripperDiameter);
-        isGripping = true;
-        currentPos.first(2) -= heightPickAndPlace;
-        if (moveTo(currentPos.first, currentPos.second, true, false, false, false))
-        {
-            return true;
-        }
-    }
-
-    return false;
+    moveGripperTo(closeGripperDiameter);
+    isGripping = true;
 }
 
-bool FSM::placeDown()
+void FSM::placeDown()
 {
-    pair<coordinates, rotMatrix> currentPos = getNextPosition();
+
     positions->pop();
-    currentPos.first(2) += heightPickAndPlace - (0.01);
-
-    if (moveTo(currentPos.first, currentPos.second, true, false, false, false))
-    {
-        moveGripperTo(openGripperDiameter);
-        isGripping = false;
-        currentPos.first(2) -= heightPickAndPlace - (0.01);
-        if (moveTo(currentPos.first, currentPos.second, true, false, false, false))
-        {
-            return true;
-        }
-    }
-
-    return false;
+    moveGripperTo(openGripperDiameter);
+    isGripping = false;
 }
 
 int main(int argc, char **argv)

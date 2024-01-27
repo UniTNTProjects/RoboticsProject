@@ -5,6 +5,8 @@
         "ostream": "cpp",
         "iomanip": "cpp",
         "complex": "cpp",
-        "vector": "cpp"
+        "vector": "cpp",
+        "cmath": "cpp",
+        "dense": "cpp"
     }
 }

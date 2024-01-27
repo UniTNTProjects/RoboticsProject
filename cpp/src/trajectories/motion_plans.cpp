@@ -152,6 +152,7 @@ vector<double *> reset_main_joint(const coordinates &position, const rotMatrix &
         }
 
         cout << "reset anti clockwise" << endl;
+        cout.flush();
     }
     else
     {
@@ -165,6 +166,7 @@ vector<double *> reset_main_joint(const coordinates &position, const rotMatrix &
         }
 
         cout << "reset clockwise" << endl;
+        cout.flush();
     }
 
     if (angle < 6.14 && angle > -6.14)
@@ -344,10 +346,14 @@ vector<double *> calc_traj(const coordinates &position, const rotMatrix &rotatio
     vector<double *> direct_traj = calc_direct_traj(position, rotation, pick_or_place, homing, startJoint, side_pick);
     if (direct_traj.size() > 0)
     {
+        cout << "### Success\n"
+             << endl;
         return direct_traj;
     }
     else
     {
+        cout << "§§§ Failed\n"
+             << endl;
         if (position(0) * startPos(0) < 0)
         {
             cout << "### Calc reset&move: " << endl;
@@ -608,8 +614,9 @@ coordinates nearHoming(coordinates cord)
 
 rotMatrix get_rotation(double angle)
 {
-    //transform the angle in radians(0-2pi)
-    angle = angle * M_PI / 180;;
+    // transform the angle in radians(0-2pi)
+    angle = angle * M_PI / 180;
+    ;
 
     coordinates cord;
     rotMatrix rot;

@@ -4,51 +4,112 @@
 #include <map>
 using namespace std;
 
+vector<pair<int, computer_vision::BoundingBox>> blocks_history;
 vector<pair<int, computer_vision::BoundingBox>> blocks;
 vector<pair<int, computer_vision::BoundingBox>> sil;
 bool block_detected = false;
 bool init_sil = false;
 ros::ServiceClient pc_client;
 ros::ServiceServer getPoints_server;
-struct Instruction
-{
-    computer_vision::Points block;
-    computer_vision::Points sil;
-    string block_type;
-    int angle;
-};
+// struct Instruction
+// {
+//     computer_vision::Points block;
+//     computer_vision::Points sil;
+//     string block_type;
+//     int angle;
+// };
 int call = 0;
-
+const bool testing = false;
 int getOrientation(computer_vision::BoundingBox box)
 {
+    int offset = 10;
     int x = box.xmax - box.xmin;
     int y = box.ymax - box.ymin;
-    if (x > y)
-    {
-        return 0;
-    }
-    else if (x < y)
-    {
-        return 90;
-    }
-    else
+    if (abs(x - y) <= offset)
     {
         return 45;
     }
+    else if (x > y)
+    {
+        return 0;
+    }
+    else
+    {
+        return 90;
+    }
 }
 
-bool checkOnSilhouette(computer_vision::BoundingBox block, computer_vision::BoundingBox sil)
+int getOrientationPointCloud(computer_vision::BoundingBox box)
 {
-    // int offset = 5;
-    // if (
-    //     block.xmin >= sil.xmin - offset &&
-    //     block.xmax <= sil.xmax + offset &&
-    //     block.ymin >= sil.ymin - offset &&
-    //     block.ymax <= sil.ymax + offset)
+    Vector3d block_point_x = Vector3d::Zero();
+
+    // cout << "Calculating angle for block: " << box.Class << endl;
+
+    double min_x = 1000; // Block corner touching bbox
+    // Check first point of the block touching bbox on x axis
+    // cout << "Getting point cloud on x axis for block: " << box.Class << endl;
+    for (int i = box.xmin; i < box.xmax; i++)
+    {
+        computer_vision::Points block = getPointCloud(i, box.ymax);
+        if (block.z > 0.871 && block.x < min_x)
+        {
+            block_point_x(0) = block.x;
+            block_point_x(1) = block.y;
+            block_point_x(2) = block.z;
+        }
+    }
+
+    // cout << "Getting point cloud on y axis for block: " << box.Class << endl;
+    // Check first point of the block touching bbox on y axis
+    Vector3d block_point_y = Vector3d::Zero();
+    for (int i = box.ymax; i > box.ymin; i--)
+    {
+        computer_vision::Points block = getPointCloud(box.xmax, i);
+        if (block.z > 0.871)
+        {
+            block_point_y(0) = block.x;
+            block_point_y(1) = block.y;
+            block_point_y(2) = block.z;
+
+            break;
+        }
+    }
+
+    // cout << "block_point_x: " << block_point_x << endl;
+    // cout << "block_point_y: " << block_point_y << endl;
+
+    // Get distance x and y distance from 2 points
+    double dist_x = block_point_x(0) - block_point_y(0);
+    double dist_y = block_point_x(1) - block_point_y(1);
+
+    // cout << "dist_x: " << dist_x << endl;
+    // cout << "dist_y: " << dist_y << endl;
+
+    // Get angle
+    double angle = atan2(dist_x, dist_y);
+    // when angle is 0 or 180, check if block is vertical or horizontal
+
+    double offset = 0.1;
+    // if (angle < offset)
     // {
-    //     return true;
+    //     angle = getOrientation(box) * M_PI / 180;
     // }
-    // return false;
+
+    angle = angle * 180 / M_PI;
+    // cout << "angle: " << angle << endl;
+    // cout << "--------------------------" << endl;
+
+    return angle;
+}
+
+bool checkOnSilhouette(computer_vision::BoundingBox bbox_block)
+{
+    int offset = 0.2;
+    Vector3d sil = blocks_type[bbox_block.Class];
+    computer_vision::Points block = getPointCloud((bbox_block.xmin + bbox_block.xmax) / 2, bbox_block.ymax);
+
+    if (abs(block.x - sil(0)) <= offset && abs(block.y - sil(1)) <= offset)
+        return true;
 
     return false;
 }
@@ -56,28 +117,15 @@ bool checkOnSilhouette(computer_vision::BoundingBox block, computer_vision::Boun
 bool checkSameBBox(computer_vision::BoundingBox box1, computer_vision::BoundingBox box2)
 {
     if (
-        abs(box1.xmin - box2.xmin) <= 2 &&
-        abs(box1.ymin - box2.ymin) <= 2 &&
-        abs(box1.xmax - box2.xmax) <= 2 &&
-        abs(box1.ymax - box2.ymax) <= 2)
+        abs(box1.xmin - box2.xmin) <= 5 &&
+        abs(box1.ymin - box2.ymin) <= 5 &&
+        abs(box1.xmax - box2.xmax) <= 5 &&
+        abs(box1.ymax - box2.ymax) <= 5)
     {
         return true;
     }
     return false;
 }
-
-computer_vision::BoundingBox getSilhouette(int class_n)
-{
-    for (const auto &box : sil)
-    {
-        if (box.first == class_n)
-        {
-            return box.second;
-        }
-    }
-    return computer_vision::BoundingBox();
-}
-
 void robot2DImageCallback(const computer_vision::BoundingBoxes &msg)
 {
     if (!init_sil)
@@ -93,37 +141,36 @@ void robot2DImageCallback(const computer_vision::BoundingBoxes &msg)
     }
     for (const auto &box : msg.boxes)
     {
-        bool to_insert = true;
-        if (blocks.size() == 0)
+        if (testing)
         {
-            to_insert = true;
+            int angle = getOrientationPointCloud(box);
+            computer_vision::Points block = getPointCloud(box);
+            cout << "BLOCK: " << box.Class << endl;
+            cout << "Angle: " << angle * M_PI / 180 << endl;
+            cout << "Position: " << block << endl;
         }
-        else
+
+        bool to_insert = true;
+        for (int i = 0; i < blocks.size(); i++)
         {
-            for (int i = 0; i < blocks.size(); i++)
+            if (checkOnSilhouette(box) || checkSameBBox(box, blocks[i].second))
             {
-                if (checkSameBBox(box, blocks[i].second)
-                    //|| checkOnSilhouette(box, sil[box.class_n].second)
-                )
-                {
-                    to_insert = false;
-                    break;
-                }
+                to_insert = false;
+                break;
+            }
+        }
+        for (int i = 0; i < blocks_history.size(); i++)
+        {
+            if (checkOnSilhouette(box) || checkSameBBox(box, blocks_history[i].second))
+            {
+                to_insert = false;
+                break;
             }
         }
         if (to_insert)
         {
-            if (blocks.size() < 10)
-            {
-                blocks.push_back(pair<int, computer_vision::BoundingBox>(box.class_n, box));
-                block_detected = true;
-            }
-            else
-            {
-                blocks.erase(blocks.begin());
-                blocks.push_back(pair<int, computer_vision::BoundingBox>(box.class_n, box));
-                block_detected = true;
-            }
+            blocks.push_back(pair<int, computer_vision::BoundingBox>(box.class_n, box));
+            block_detected = true;
             to_insert = false;
         }
     }
@@ -132,10 +179,10 @@ void robot2DImageCallback(const computer_vision::BoundingBoxes &msg)
 
 computer_vision::Points getPointCloud(double x, double y)
 {
-    if (blocks.empty() || !block_detected)
-    {
-        return computer_vision::Points();
-    }
+    // if (blocks.empty() || !block_detected)
+    // {
+    //     return computer_vision::Points();
+    // }
     // Call service for every type of block
     computer_vision::PointCloud srv;
     srv.request.x = x;
@@ -145,7 +192,7 @@ computer_vision::Points getPointCloud(double x, double y)
     computer_vision::Points res = computer_vision::Points();
     if (pc_client.call(srv))
     {
-        res.x = srv.response.wx + 0.011;
+        res.x = srv.response.wx;
         res.y = srv.response.wy;
         res.z = srv.response.wz;
     }
@@ -157,59 +204,75 @@ computer_vision::Points getPointCloud(double x, double y)
     return res;
 }
 
-Instruction createInstructions()
+computer_vision::Points getPointCloud(computer_vision::BoundingBox box)
 {
-    if (blocks.size() == 0)
-    {
-        ROS_INFO("No blocks detected");
-        Instruction instruction;
-        instruction.block = computer_vision::Points();
-        instruction.block.x = 0;
-        instruction.block.y = 0;
-        instruction.block.z = 0;
+    // get 2 points from the block
+    computer_vision::Points top_left = computer_vision::Points();
+    computer_vision::Points bottom_right = computer_vision::Points();
 
-        instruction.sil = computer_vision::Points();
-        instruction.sil.x = 0;
-        instruction.sil.y = 0;
-        instruction.sil.z = 0;
-
-        instruction.angle = 0;
-        instruction.block_type = "none";
-        return instruction;
-    }
-    else
+    for (int i = box.xmin; i < box.xmax; i++)
     {
-        pair<int, computer_vision::BoundingBox> block = blocks.front();
-        computer_vision::BoundingBox sil = getSilhouette(block.first);
-        Instruction instruction;
-        instruction.block_type = block.second.Class;
-        instruction.block = getPointCloud((block.second.xmin + block.second.xmax) / 2, block.second.ymax);
-        instruction.angle = getOrientation(block.second);
-        if (instruction.block_type.compare("X1-Y4-Z2") == 0 && instruction.angle == 0)
+        computer_vision::Points block = getPointCloud(i, box.ymin);
+        if (block.z > 0.871)
         {
-            instruction.block.x += 0.02;
+            top_left.x = block.x;
+            top_left.y = block.y;
+            top_left.z = block.z;
+            break;
         }
-        // instruction.sil = getPointCloud((sil.xmin + sil.xmax) / 2, sil.ymax);
-        // ------TESTING------
-        instruction.sil = computer_vision::Points();
-        instruction.sil.x = 0.85;
-        instruction.sil.y = 0.70 - call * 0.1;
-        instruction.sil.z = 0.8;
-        call += 1;
-        // ------TESTING------
-        blocks.erase(blocks.begin());
-        return instruction;
     }
+
+    for (int i = box.xmax; i > box.xmin; i--)
+    {
+        computer_vision::Points block = getPointCloud(i, box.ymax);
+        if (block.z > 0.871)
+        {
+            bottom_right.x = block.x;
+            bottom_right.y = block.y;
+            bottom_right.z = block.z;
+            break;
+        }
+    }
+
+    // middle point
+    computer_vision::Points middle = computer_vision::Points();
+    middle.x = (top_left.x + bottom_right.x) / 2;
+    middle.y = (top_left.y + bottom_right.y) / 2;
+    middle.z = (top_left.z + bottom_right.z) / 2;
+
+    return middle;
+}
+computer_vision::Instruction createInstructions(pair<int, computer_vision::BoundingBox> block)
+{
+    computer_vision::Instruction instruction;
+    instruction.block = getPointCloud(block.second);
+    // instruction.block.angle = getOrientationPointCloud(block.second);
+    instruction.block.angle = getOrientation(block.second);
+    // instruction.sil = getPointCloud((sil.xmin + sil.xmax) / 2, sil.ymax);
+    // ------TESTING------
+    instruction.sil = computer_vision::Points();
+    Vector3d block_type = blocks_type[block.second.Class];
+    instruction.sil.x = block_type(0);
+    instruction.sil.y = block_type(1);
+    instruction.sil.z = instruction.block.z;
+    instruction.sil.angle = 0;
+    instruction.type = block.second.Class;
+    // ------TESTING------
+    return instruction;
 }
 
-bool getPointsCallback(computer_vision::GetPoints::Request &req, computer_vision::GetPoints::Response &res)
+bool getInstructionsCallback(computer_vision::GetInstructions::Request &req, computer_vision::GetInstructions::Response &res)
 {
-    Instruction instruction = createInstructions();
-    res.point.push_back(instruction.block);
-    res.point.push_back(instruction.sil);
-    res.angle = instruction.angle;
-    res.type = instruction.block_type;
-    cout << res << endl;
+    for (const auto &block : blocks)
+    {
+        res.instructions.push_back(createInstructions(block));
+    }
+
+    blocks_history = blocks;
+    blocks.clear();
+
+    ROS_INFO("Returning %ld instructions \n", res.instructions.size());
+
     return true;
 }
 
@@ -223,8 +286,8 @@ int main(int argc, char **argv)
     ros::Subscriber detect_sub = nh.subscribe("/computer_vision/bounding_box", 1, robot2DImageCallback);
 
     pc_client = nh.serviceClient<computer_vision::PointCloud>("/ur5/locosim/pointcloud");
-    getPoints_server = nh.advertiseService("/computer_vision/Points", getPointsCallback);
-    ROS_INFO("Service /computer_vision/Points ready");
+    getPoints_server = nh.advertiseService("/computer_vision/Instructions", getInstructionsCallback);
+    ROS_INFO("Service /computer_vision/Instructions ready");
     ros::spin();
     return 0;
 }

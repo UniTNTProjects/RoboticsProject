@@ -3,6 +3,20 @@
 #include "FSM.h"
 #include <iostream>
 
+class Search : public FSMState
+{
+public:
+    void enter(FSM *fsm);
+    void toggle(FSM *fsm);
+    void exit(FSM *fsm);
+    static FSMState &getInstance();
+
+private:
+    Search() {}
+    Search(const Search &other);
+    Search &operator=(const Search &other);
+};
+
 class Wait : public FSMState
 {
 public:

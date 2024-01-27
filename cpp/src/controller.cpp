@@ -292,6 +292,20 @@ bool Controller::move_to_multiple(vector<pair<coordinates, rotMatrix>> poses_rot
 {   
     bool side_pick = false;
     vector<double *> trajectory = calc_traj_multiple(poses_rots, pick_or_place, homing, up_and_move_flag, move_to_near_axis_flag, current_joints, side_pick);
+
+    cout << "Requested move_to_multiple with positions: " << endl;
+    for (int i = 0; i < poses_rots.size(); i++)
+    {
+        cout << poses_rots[i].first.transpose() << endl;
+    }
+
+    // cout << "pick_or_place: " << endl;
+    // for (int i = 0; i < poses_rots.size(); i++)
+    // {
+    //     cout << pick_or_place[i] << endl;
+    // }
+
+    vector<double *> trajectory = calc_traj_multiple(poses_rots, pick_or_place, homing, up_and_move_flag, move_to_near_axis_flag, current_joints);
     if (trajectory.size() > 0)
     {
         if (move_inside(&trajectory))
