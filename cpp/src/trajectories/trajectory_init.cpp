@@ -48,13 +48,13 @@ void ur5Trajectory(vector<double *> *Th, jointValues initial_position, jointValu
     // }
 }
 
-bool init_verify_trajectory(vector<double *> *Th, jointValues init_joint, jointValues final_joint, int steps, bool pick_or_place, const coordinates &requested_cord, const rotMatrix &requested_rotation, bool homing, bool side_pick)
+bool init_verify_trajectory(vector<double *> *Th, jointValues init_joint, jointValues final_joint, int steps, bool pick_or_place, const coordinates &requested_cord, const rotMatrix &requested_rotation, bool homing, bool side_pick, bool isGripping)
 {
     ur5Trajectory(Th, init_joint, final_joint, steps);
 
     int *error_code = new int;
     *error_code = 0;
-    bool valid = check_trajectory(*Th, steps, pick_or_place, error_code, requested_cord, requested_rotation, init_joint, homing, side_pick);
+    bool valid = check_trajectory(*Th, steps, pick_or_place, error_code, requested_cord, requested_rotation, init_joint, homing, side_pick, isGripping);
     if (*error_code != 0)
     {
         if (error_code_debug)

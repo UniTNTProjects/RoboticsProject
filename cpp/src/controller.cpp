@@ -251,12 +251,12 @@ void Controller::sleep()
 }
 
 bool Controller::move_to(const coordinates &position, const rotMatrix &rotation, bool pick_or_place, bool homing, bool up_and_move_flag, bool move_to_near_axis_flag)
-{   
+{
     bool side_pick = false;
     cout << "Requested move_to with position: " << position.transpose() << endl;
     cout << "Requested move_to with rotation: " << rotation << endl;
 
-    vector<double *> trajectory = calc_traj(position, rotation, pick_or_place, homing, up_and_move_flag, move_to_near_axis_flag, current_joints, side_pick);
+    vector<double *> trajectory = calc_traj(position, rotation, pick_or_place, homing, up_and_move_flag, move_to_near_axis_flag, current_joints, side_pick, this->isGripping);
     cout << "Trajectory size: " << trajectory.size() << endl;
     if (trajectory.size() > 0)
     {
@@ -264,15 +264,18 @@ bool Controller::move_to(const coordinates &position, const rotMatrix &rotation,
         {
             return true;
         }
-    }else{
+    }
+    else
+    {
         cout << "\n°°°°°°°°°°\n"
-         << "First Move to §§§ Failed\n"
-         << "Try Side Pick\n"
-         << "\n°°°°°°°°°°\n"
-         << endl;
+             << "First Move to §§§ Failed\n"
+             << "Try Side Pick\n"
+             << "\n°°°°°°°°°°\n"
+             << endl;
         side_pick = true;
-        vector<double *> trajectory_side_pick = calc_traj(position, get_rotation(180), pick_or_place, homing, up_and_move_flag, move_to_near_axis_flag, current_joints, side_pick);
-        if(trajectory_side_pick.size() > 0){
+        vector<double *> trajectory_side_pick = calc_traj(position, get_rotation(180), pick_or_place, homing, up_and_move_flag, move_to_near_axis_flag, current_joints, side_pick, this->isGripping);
+        if (trajectory_side_pick.size() > 0)
+        {
             if (move_inside(&trajectory_side_pick))
             {
                 return true;
@@ -289,9 +292,9 @@ bool Controller::move_to(const coordinates &position, const rotMatrix &rotation,
 }
 
 bool Controller::move_to_multiple(vector<pair<coordinates, rotMatrix>> poses_rots, bool *pick_or_place, bool *homing, bool *up_and_move_flag, bool *move_to_near_axis_flag)
-{   
+{
     bool side_pick = false;
-    vector<double *> trajectory = calc_traj_multiple(poses_rots, pick_or_place, homing, up_and_move_flag, move_to_near_axis_flag, current_joints, side_pick);
+    vector<double *> trajectory = calc_traj_multiple(poses_rots, pick_or_place, homing, up_and_move_flag, move_to_near_axis_flag, current_joints, side_pick, this->isGripping);
 
     cout << "Requested move_to_multiple with positions: " << endl;
     for (int i = 0; i < poses_rots.size(); i++)
@@ -311,15 +314,18 @@ bool Controller::move_to_multiple(vector<pair<coordinates, rotMatrix>> poses_rot
         {
             return true;
         }
-    }else{
+    }
+    else
+    {
         cout << "\n°°°°°°°°°°\n"
-         << "First Move to §§§ Failed\n"
-         << "Try Side Pick\n"
-         << "\n°°°°°°°°°°\n"
-         << endl;
+             << "First Move to §§§ Failed\n"
+             << "Try Side Pick\n"
+             << "\n°°°°°°°°°°\n"
+             << endl;
         side_pick = true;
-        vector<double *> trajectory_side_pick = calc_traj_multiple(poses_rots, pick_or_place, homing, up_and_move_flag, move_to_near_axis_flag, current_joints, side_pick);
-        if(trajectory_side_pick.size() > 0){
+        vector<double *> trajectory_side_pick = calc_traj_multiple(poses_rots, pick_or_place, homing, up_and_move_flag, move_to_near_axis_flag, current_joints, side_pick, this->isGripping);
+        if (trajectory_side_pick.size() > 0)
+        {
             if (move_inside(&trajectory_side_pick))
             {
                 return true;
@@ -333,4 +339,9 @@ bool Controller::move_to_multiple(vector<pair<coordinates, rotMatrix>> poses_rot
 
     ros::Duration(10.0).sleep();
     return false;
+}
+
+void Controller ::setGripping(bool isGripping)
+{
+    this->isGripping = isGripping;
 }

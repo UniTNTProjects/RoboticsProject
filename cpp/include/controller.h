@@ -18,6 +18,7 @@ private:
 
     bool real_robot;
     bool gripper_sim;
+    bool isGripping = false;
 
     jointValues filter_1;
     jointValues filter_2;
@@ -58,7 +59,7 @@ public:
     void move_gripper_to(const int diameter);
     void print_current_pos_rot();
     void sleep();
-    bool move_through_homing(coordinates final_cord, rotMatrix rot);
+    void setGripping(bool isGripping);
 
     // testing
     ros::Publisher permission_pub;

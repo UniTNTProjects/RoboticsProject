@@ -104,6 +104,7 @@ void FSM::pickUp()
     positions->pop();
     moveGripperTo(closeGripperDiameter);
     isGripping = true;
+    controller->setGripping(true);
 }
 
 void FSM::placeDown()
@@ -112,6 +113,7 @@ void FSM::placeDown()
     positions->pop();
     moveGripperTo(openGripperDiameter);
     isGripping = false;
+    controller->setGripping(false);
 }
 
 int main(int argc, char **argv)
