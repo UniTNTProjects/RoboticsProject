@@ -6,7 +6,7 @@
 using namespace Eigen;
 using namespace std;
 
-vector<double *> up_tray(jointValues startJoint, bool isGripping)
+vector<double *> up_tray(jointValues startJoint, bool side_pick, bool isGripping)
 {
     coordinates startCord;
     rotMatrix startRot;
@@ -32,7 +32,7 @@ vector<double *> up_tray(jointValues startJoint, bool isGripping)
     coordinates aboveCurrent;
     aboveCurrent << startCord(0), startCord(1), new_z;
 
-    vector<double *> up_traj = calc_direct_traj(aboveCurrent, startRot, true, false, startJoint, false, false);
+    vector<double *> up_traj = calc_direct_traj(aboveCurrent, startRot, true, false, startJoint, side_pick, false);
     if (up_traj.size() > 0)
     {
         return up_traj;
@@ -43,12 +43,12 @@ vector<double *> up_tray(jointValues startJoint, bool isGripping)
     }
 }
 
-vector<double *> up_and_move(const coordinates &position, const rotMatrix &rotation, int steps, jointValues startJoint, bool isGripping)
+vector<double *> up_and_move(const coordinates &position, const rotMatrix &rotation, int steps, jointValues startJoint, bool side_pick, bool isGripping)
 {
 
     cout << "### Calc up&move: " << endl;
 
-    vector<double *> up_traj = up_tray(startJoint, isGripping);
+    vector<double *> up_traj = up_tray(startJoint, side_pick, isGripping);
     if (up_traj.size() > 0)
     {
         coordinates aboveCurrentpos;
@@ -68,8 +68,9 @@ vector<double *> up_and_move(const coordinates &position, const rotMatrix &rotat
 
         bool pick_or_place[] = {false, true};
         bool homing[] = {false, false};
+        bool side_pick_array[] = {false, side_pick};
 
-        vector<double *> move_and_down_tray = calc_direct_traj_multiple(positions, pick_or_place, homing, aboveCurrentJoint, false, isGripping);
+        vector<double *> move_and_down_tray = calc_direct_traj_multiple(positions, pick_or_place, homing, aboveCurrentJoint, side_pick_array, isGripping);
         if (move_and_down_tray.size() > 0)
         {
             up_traj.insert(up_traj.end(), move_and_down_tray.begin(), move_and_down_tray.end());
@@ -83,7 +84,7 @@ vector<double *> up_and_move(const coordinates &position, const rotMatrix &rotat
     return vector<double *>();
 }
 
-vector<double *> reset_main_joint(const coordinates &position, const rotMatrix &rotation, int steps, jointValues startJoint, bool isGripping)
+vector<double *> reset_main_joint(const coordinates &position, const rotMatrix &rotation, int steps, jointValues startJoint, bool side_pick, bool isGripping)
 {
     jointValues reset_values;
     reset_values = mainJointResetValues;
@@ -201,8 +202,9 @@ vector<double *> reset_main_joint(const coordinates &position, const rotMatrix &
 
         bool pick_or_place[] = {false, false};
         bool homing[] = {true, false};
+        bool side_pick_array[] = {false, side_pick};
 
-        vector<double *> reset_traj = calc_direct_traj_multiple_joint(joints, pick_or_place, homing, startJoint, false, isGripping);
+        vector<double *> reset_traj = calc_direct_traj_multiple_joint(joints, pick_or_place, homing, startJoint, side_pick_array, isGripping);
         if (reset_traj.size() > 0)
         {
             return reset_traj;
@@ -242,7 +244,7 @@ vector<double *> calc_direct_traj_joint(const jointValues endJoint, bool pick_or
     return vector<double *>();
 }
 
-vector<double *> calc_direct_traj_multiple_joint(vector<jointValues> endJoints, bool *pick_or_place, bool *homing, jointValues startJoint, bool side_pick, bool isGripping)
+vector<double *> calc_direct_traj_multiple_joint(vector<jointValues> endJoints, bool *pick_or_place, bool *homing, jointValues startJoint, bool *side_pick, bool isGripping)
 {
     vector<double *> trajectory_tot = vector<double *>();
     for (int i = 0; i < endJoints.size(); i++)
@@ -256,7 +258,7 @@ vector<double *> calc_direct_traj_multiple_joint(vector<jointValues> endJoints, 
         {
             currentJoints = endJoints[i - 1];
         }
-        vector<double *> direct_traj = calc_direct_traj_joint(endJoints[i], pick_or_place[i], homing[i], startJoint, side_pick, isGripping);
+        vector<double *> direct_traj = calc_direct_traj_joint(endJoints[i], pick_or_place[i], homing[i], startJoint, side_pick[i], isGripping);
         if (direct_traj.size() > 0)
         {
             for (int j = 0; j < direct_traj.size(); j++)
@@ -312,7 +314,7 @@ vector<double *> calc_direct_traj(const coordinates &position, const rotMatrix &
     return vector<double *>();
 }
 
-vector<double *> calc_direct_traj_multiple(vector<pair<coordinates, rotMatrix>> poses_rots, bool *pick_or_place, bool *homing, jointValues startJoint, bool side_pick, bool isGripping)
+vector<double *> calc_direct_traj_multiple(vector<pair<coordinates, rotMatrix>> poses_rots, bool *pick_or_place, bool *homing, jointValues startJoint, bool *side_pick, bool isGripping)
 {
     vector<double *> trajectory_tot = vector<double *>();
     for (int i = 0; i < poses_rots.size(); i++)
@@ -327,7 +329,7 @@ vector<double *> calc_direct_traj_multiple(vector<pair<coordinates, rotMatrix>> 
             currentJoints << trajectory_tot[trajectory_tot.size() - 1][0], trajectory_tot[trajectory_tot.size() - 1][1], trajectory_tot[trajectory_tot.size() - 1][2],
                 trajectory_tot[trajectory_tot.size() - 1][3], trajectory_tot[trajectory_tot.size() - 1][4], trajectory_tot[trajectory_tot.size() - 1][5];
         }
-        vector<double *> direct_traj = calc_direct_traj(poses_rots[i].first, poses_rots[i].second, pick_or_place[i], homing[i], currentJoints, side_pick, isGripping);
+        vector<double *> direct_traj = calc_direct_traj(poses_rots[i].first, poses_rots[i].second, pick_or_place[i], homing[i], currentJoints, side_pick[i], isGripping);
         if (direct_traj.size() > 0)
         {
             for (int j = 0; j < direct_traj.size(); j++)
@@ -364,7 +366,7 @@ vector<double *> calc_traj(const coordinates &position, const rotMatrix &rotatio
         {
             cout << "### Calc reset&move: " << endl;
 
-            vector<double *> reset_traj = reset_main_joint(position, rotation, steps, startJoint, isGripping);
+            vector<double *> reset_traj = reset_main_joint(position, rotation, steps, startJoint, side_pick, isGripping);
             if (reset_traj.size() > 0)
             {
                 jointValues reset_joint;
@@ -389,7 +391,7 @@ vector<double *> calc_traj(const coordinates &position, const rotMatrix &rotatio
 
         if (!up_and_move_flag)
         {
-            vector<double *> up_and_move_traj = up_and_move(position, rotation, steps, startJoint, isGripping);
+            vector<double *> up_and_move_traj = up_and_move(position, rotation, steps, startJoint, side_pick, isGripping);
             if (up_and_move_traj.size() > 0)
             {
                 return up_and_move_traj;
@@ -397,7 +399,7 @@ vector<double *> calc_traj(const coordinates &position, const rotMatrix &rotatio
         }
         if (!move_to_near_axis_flag)
         {
-            vector<double *> move_to_near_axis_traj = move_to_near_axis(position, rotation, pick_or_place, homing, startJoint, isGripping);
+            vector<double *> move_to_near_axis_traj = move_to_near_axis(position, rotation, pick_or_place, homing, startJoint, side_pick, isGripping);
             if (move_to_near_axis_traj.size() > 0)
             {
                 return move_to_near_axis_traj;
@@ -405,7 +407,7 @@ vector<double *> calc_traj(const coordinates &position, const rotMatrix &rotatio
         }
         if (!homing)
         {
-            vector<double *> move_through_homing_traj = move_through_homing(position, rotation, startJoint, isGripping);
+            vector<double *> move_through_homing_traj = move_through_homing(position, rotation, startJoint, side_pick, isGripping);
             if (move_through_homing_traj.size() > 0)
             {
                 return move_through_homing_traj;
@@ -416,7 +418,7 @@ vector<double *> calc_traj(const coordinates &position, const rotMatrix &rotatio
     return vector<double *>();
 }
 
-vector<double *> calc_traj_multiple(vector<pair<coordinates, rotMatrix>> poses_rots, bool *pick_or_place, bool *homing, bool *up_and_move_flag, bool *move_to_near_axis_flag, jointValues startJoint, bool side_pick, bool isGripping)
+vector<double *> calc_traj_multiple(vector<pair<coordinates, rotMatrix>> poses_rots, bool *pick_or_place, bool *homing, bool *up_and_move_flag, bool *move_to_near_axis_flag, jointValues startJoint, bool *side_pick, bool isGripping)
 {
     vector<double *> trajectory_tot = vector<double *>();
     for (int i = 0; i < poses_rots.size(); i++)
@@ -431,7 +433,7 @@ vector<double *> calc_traj_multiple(vector<pair<coordinates, rotMatrix>> poses_r
             currentJoints << trajectory_tot[trajectory_tot.size() - 1][0], trajectory_tot[trajectory_tot.size() - 1][1], trajectory_tot[trajectory_tot.size() - 1][2],
                 trajectory_tot[trajectory_tot.size() - 1][3], trajectory_tot[trajectory_tot.size() - 1][4], trajectory_tot[trajectory_tot.size() - 1][5];
         }
-        vector<double *> direct_traj = calc_traj(poses_rots[i].first, poses_rots[i].second, pick_or_place[i], homing[i], up_and_move_flag[i], move_to_near_axis_flag[i], currentJoints, side_pick, isGripping);
+        vector<double *> direct_traj = calc_traj(poses_rots[i].first, poses_rots[i].second, pick_or_place[i], homing[i], up_and_move_flag[i], move_to_near_axis_flag[i], currentJoints, side_pick[i], isGripping);
         if (direct_traj.size() > 0)
         {
             for (int j = 0; j < direct_traj.size(); j++)
@@ -447,7 +449,7 @@ vector<double *> calc_traj_multiple(vector<pair<coordinates, rotMatrix>> poses_r
     return trajectory_tot;
 }
 
-vector<double *> move_through_homing(coordinates final_cord, rotMatrix rot, jointValues startJoint, bool isGripping)
+vector<double *> move_through_homing(coordinates final_cord, rotMatrix rot, jointValues startJoint, bool isGripping, bool side_pick)
 {
     cout << "### Calc move through homing: " << endl;
     coordinates first_home;
@@ -526,14 +528,17 @@ vector<double *> move_through_homing(coordinates final_cord, rotMatrix rot, join
 
     bool *pick_or_place = new bool[positions.size()];
     bool *homing = new bool[positions.size()];
+    bool *side_picks = new bool[positions.size()];
 
     for (int i = 0; i < positions.size(); i++)
     {
         pick_or_place[i] = false;
         homing[i] = false;
+        side_picks[i] = false;
     }
+    side_picks[positions.size()-1] = side_pick;
 
-    vector<double *> move_through_homing_traj = calc_direct_traj_multiple(positions, pick_or_place, homing, startJoint, false, isGripping);
+    vector<double *> move_through_homing_traj = calc_direct_traj_multiple(positions, pick_or_place, homing, startJoint, side_picks, isGripping);
     if (move_through_homing_traj.size() > 0)
     {
         cout << "### Success\n"
@@ -548,7 +553,7 @@ vector<double *> move_through_homing(coordinates final_cord, rotMatrix rot, join
     }
 }
 
-vector<double *> move_to_near_axis(const coordinates &position, const rotMatrix &rotation, bool pick_or_place, bool homing, jointValues startJoint, bool isGripping)
+vector<double *> move_to_near_axis(const coordinates &position, const rotMatrix &rotation, bool pick_or_place, bool homing, jointValues startJoint, bool side_pick, bool isGripping)
 {
     cout << "### Calc move to near axis: " << endl;
     coordinates currentPos;
@@ -572,8 +577,9 @@ vector<double *> move_to_near_axis(const coordinates &position, const rotMatrix 
 
     bool pick_or_place_array[] = {false, pick_or_place};
     bool homing_array[] = {homing, homing};
+    bool side_pick_array[] = {false, side_pick};
 
-    vector<double *> move_to_near_axis_traj = calc_direct_traj_multiple(positions, pick_or_place_array, homing_array, startJoint, false, isGripping);
+    vector<double *> move_to_near_axis_traj = calc_direct_traj_multiple(positions, pick_or_place_array, homing_array, startJoint, side_pick_array, isGripping);
     if (move_to_near_axis_traj.size() > 0)
     {
         cout << "### Success\n"
