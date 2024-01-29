@@ -42,7 +42,7 @@ bool check_singularity_collision(jointValues joints)
     return false;
 }
 
-bool check_trajectory(vector<double *> traj, int step, bool pick_or_place, int *error_code, const coordinates &requested_cord, const rotMatrix &requested_rotation, const jointValues &init_joint, bool homing, bool side_pick)
+bool check_trajectory(vector<double *> traj, int step, bool pick_or_place, int *error_code, const coordinates &requested_cord, const rotMatrix &requested_rotation, const jointValues &init_joint, bool homing, bool side_pick, bool isGripping)
 {
     coordinates start_cord;
     rotMatrix start_rotation;
@@ -124,62 +124,8 @@ bool check_trajectory(vector<double *> traj, int step, bool pick_or_place, int *
             }
         }
 
-        // float beta = norm_angle(fabs(joints(1)));
-        // float distance_joint_1_center = 0.46 * sin(beta);
-        // float max_distance_joint_1 = 0.35 / cos(alpha);
-
-        // cout << alpha * 180 / M_PI << endl;
-        // cout << joints(1) << endl
-        //      << endl;
-
-        // float alpha, beta;
-
-        // if (joints(1) >= 0)
-        // {
-        //     alpha = norm_angle(joints(0) + M_PI / 2);
-        // }
-        // else
-        // {
-        //     alpha = norm_angle(joints(0) + M_PI / 2 + M_PI);
-        // }
-        // if (alpha > (2 * M_PI - M_PI / 4) || alpha < (M_PI / 4))
-        // {
-
-        //     if (alpha > (2 * M_PI - M_PI / 4))
-        //     {
-        //         alpha = fabs(alpha - 2 * M_PI);
-        //     }
-        //     float max_distance_joint_1 = 0.35 / cos(alpha);
-        //     beta = norm_angle(fabs(joints(1) + M_PI / 2));
-        //     if (beta > M_PI / 2)
-        //     {
-        //         beta = M_PI - beta;
-        //     }
-        //     float distance_joint_1_center = 0.46 * sin(beta);
-        //     if (distance_joint_1_center > max_distance_joint_1)
-        //     {
-        //         cout << "alpha deg: " << alpha * 180 / M_PI << endl;
-        //         cout << "beta deg: " << beta * 180 / M_PI << endl;
-        //         cout << "distance_joint_1_center: " << distance_joint_1_center << endl;
-        //         cout << "max_distance_joint_1: " << max_distance_joint_1 << endl;
-        //         // *error_code = 18;
-        //         // return false;
-        //     }
-        // }
-
-        // if (alpha < (M_PI / 4 + 0.1) && alpha > (-M_PI / 4 + 2 * M_PI - 0.1) && joints(1) > -0.75)
-        // {
-
-        //     *error_code = 16;
-        //     return false;
-        // }
-        // else if (alpha < (M_PI * 5 / 4 + 0.1) && alpha > (M_PI * 3 / 4 - 0.1) && joints(1) < 0.75)
-        // {
-        //     *error_code = 17;
-        //     return false;
-        // }
-
-        for(int i = 0; i < 6; i++){
+        for (int i = 0; i < 6; i++)
+        {
             if (isnan(joints(i)))
             {
                 if (debug_traj)
@@ -219,24 +165,6 @@ bool check_trajectory(vector<double *> traj, int step, bool pick_or_place, int *
             *error_code = 2;
             return false;
         }
-        // else if (joints(2) < -2 && ((joints(3) > -6 && joints(3) < -4.5) || (joints(3) > 0.5 && joints(3) < 2)))
-        // {
-
-        //     cout << "error 3 disabled" << endl;
-        //     //*error_code = 3;
-        //     // return false;
-        // }
-
-        // if (!(cord(0) > min_x && cord(0) < max_x && cord(1) > min_y && cord(1) < max_y && cord(2) > min_z && cord(2) < max_z))
-        // {
-        //     if (debug_traj)
-        //     {
-        //         cout << "-------" << endl;
-        //         cout << "coordinates of trajectory does not fit in the workspace:" << cord.transpose() << endl;
-        //     }
-        //     *error_code = 4;
-        //     return false;
-        // }
 
         if (!side_pick && !pick_or_place && !homing && cord(2) > max_z_moving)
         {
@@ -246,6 +174,17 @@ bool check_trajectory(vector<double *> traj, int step, bool pick_or_place, int *
                 cout << "moving too low, z wrong: " << cord.transpose() << endl;
             }
             *error_code = 5;
+            return false;
+        }
+
+        if (!side_pick && !pick_or_place && !homing && isGripping && cord(2) > max_z_moving_gripping)
+        {
+            if (debug_traj)
+            {
+                cout << "*******" << endl;
+                cout << "moving too low while gripping , z wrong: " << cord.transpose() << endl;
+            }
+            *error_code = 22;
             return false;
         }
 
