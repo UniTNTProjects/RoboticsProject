@@ -188,6 +188,17 @@ bool check_trajectory(vector<double *> traj, int step, bool pick_or_place, int *
             return false;
         }
 
+        // if (!pick_or_place && (joints(5) < M_PI_4 || joints(5) > 7 * M_PI_4) && cord(1) > max_y_near_end_table)
+        // {
+        //     if (debug_traj)
+        //     {
+        //         cout << "*******" << endl;
+        //         cout << "moving too low, z wrong: " << cord.transpose() << endl;
+        //     }
+        //     *error_code = 23;
+        //     return false;
+        // }
+
         if (!pick_or_place && cord(2) > max_z_near_end_table && cord(1) > max_y_near_end_table)
         {
             if (debug_traj)
