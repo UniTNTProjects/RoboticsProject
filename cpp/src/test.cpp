@@ -1,5 +1,5 @@
 #include "controller.h"
-#include <computer_vision/GetPoints.h>
+#include <computer_vision/GetInstructions.h>
 #include <std_msgs/Int32.h>
 #include <std_msgs/Float64MultiArray.h>
 #include <fstream>
@@ -28,7 +28,7 @@ using namespace std;
 // const bool debug_traj = true;
 
 int main(int argc, char **argv)
-{   
+{
     const rotMatrix rotDefault = (rotMatrix() << -1, 0, 0,
                                   0, -1, 0,
                                   0, 0, 1)
@@ -59,8 +59,6 @@ int main(int argc, char **argv)
     // cord(2) = 0.6;
     // controller.move_to(cord, get_rotation(270), false, false, false, false);
 
-    
-
     // jointValues current_joint_values;
     // jointValues desired_joint_values;
 
@@ -70,7 +68,7 @@ int main(int argc, char **argv)
     // for(int i = 0; i < 150; i++){
     //     current_joint_values = controller.get_joint_state();
     //     desired_joint_values = current_joint_values;
-    //     desired_joint_values(1) = current_joint_values(1) + 0.1;   
+    //     desired_joint_values(1) = current_joint_values(1) + 0.1;
     //     controller.compute_error(current_joint_values, desired_joint_values);
     //     controller.sleep();
     // }

@@ -42,7 +42,7 @@ int getOrientation(computer_vision::BoundingBox box)
 int getOrientationPointCloud(computer_vision::BoundingBox box)
 {
     Vector3d block_point_x = Vector3d::Zero();
-
+    const int range = 2;
     // cout << "Calculating angle for block: " << box.Class << endl;
 
     double min_x = 1000; // Block corner touching bbox
@@ -50,7 +50,7 @@ int getOrientationPointCloud(computer_vision::BoundingBox box)
     // cout << "Getting point cloud on x axis for block: " << box.Class << endl;
     for (int i = box.xmin; i < box.xmax; i++)
     {
-        computer_vision::Points block = getPointCloud(i, box.ymax);
+        computer_vision::Points block = getPointCloud(i, box.ymax - 2);
         if (block.z > 0.871 && block.x < min_x)
         {
             block_point_x(0) = block.x;
@@ -64,7 +64,7 @@ int getOrientationPointCloud(computer_vision::BoundingBox box)
     Vector3d block_point_y = Vector3d::Zero();
     for (int i = box.ymax; i > box.ymin; i--)
     {
-        computer_vision::Points block = getPointCloud(box.xmax, i);
+        computer_vision::Points block = getPointCloud(box.xmax - 2, i);
         if (block.z > 0.871)
         {
             block_point_y(0) = block.x;
@@ -74,30 +74,80 @@ int getOrientationPointCloud(computer_vision::BoundingBox box)
             break;
         }
     }
-
+    cout << "Block_type: " << box.Class << endl;
     // cout << "block_point_x: " << block_point_x << endl;
     // cout << "block_point_y: " << block_point_y << endl;
 
     // Get distance x and y distance from 2 points
-    double dist_x = block_point_x(0) - block_point_y(0);
+    double dist_x = block_point_y(0) - block_point_x(0);
     double dist_y = block_point_x(1) - block_point_y(1);
-
+    double real_dist = block_point_y(1);
+    double angle = 0.0;
+    bool vertical = false;
     // cout << "dist_x: " << dist_x << endl;
     // cout << "dist_y: " << dist_y << endl;
+    if (dist_y < 0.01) // points too close, check other side
+    {
+        cout << "Points too close, checking other side" << endl;
+        min_x = 1000;
+        for (int i = box.xmax; i > box.xmin; i--)
+        {
+            computer_vision::Points block = getPointCloud(i, box.ymax);
+            if (block.z > 0.871 && block.x < min_x)
+            {
+                block_point_x(0) = block.x;
+                block_point_x(1) = block.y;
+                block_point_x(2) = block.z;
+            }
+        }
 
-    // Get angle
-    double angle = atan2(dist_x, dist_y);
-    // when angle is 0 or 180, check if block is vertical or horizontal
+        for (int i = box.ymax; i > box.ymin; i--)
+        {
+            computer_vision::Points block = getPointCloud(box.xmin, i);
+            if (block.z > 0.871)
+            {
+                block_point_y(0) = block.x;
+                block_point_y(1) = block.y;
+                block_point_y(2) = block.z;
 
-    double offset = 0.1;
-    // if (angle < offset)
-    // {
-    //     angle = getOrientation(box) * M_PI / 180;
-    // }
+                break;
+            }
+        }
+        dist_x = block_point_y(0) - block_point_x(0);
+        dist_y = block_point_y(1) - block_point_x(1);
+        angle = M_PI - atan2(dist_x, dist_y); // angle from -pi to pi
+        real_dist = abs(block_point_y(1) - real_dist);
+        if (dist_y < 0.01 && real_dist < 0.03)
+        {
+            cout << "Real dist: " << real_dist << endl;
+            vertical = true;
+        }
+    }
+    else
+    {
+        angle = atan2(dist_y, dist_x) + M_PI_2; // angle from -pi to pi
+    }
+
+    cout << "Angle pre normalization: " << angle * 180 / M_PI << endl;
+    // Normalize angle to 90 - 270 degrees
+    if (angle < -M_PI_2)
+    {
+        angle = angle + 2 * M_PI;
+    }
+    else if (angle < M_PI_2 && angle > -M_PI_2)
+    {
+        angle = angle + M_PI;
+    }
 
     angle = angle * 180 / M_PI;
-    // cout << "angle: " << angle << endl;
-    // cout << "--------------------------" << endl;
+
+    if (vertical)
+    { // Blocco verticale
+        angle = 90;
+    }
+
+    cout << "angle: " << angle;
+    cout << "--------------------------" << endl;
 
     return angle;
 }
@@ -106,7 +156,7 @@ bool checkOnSilhouette(computer_vision::BoundingBox bbox_block)
 {
     int offset = 0.2;
     Vector3d sil = blocks_type[bbox_block.Class];
-    computer_vision::Points block = getPointCloud((bbox_block.xmin + bbox_block.xmax) / 2, bbox_block.ymax);
+    computer_vision::Points block = getPointCloud(bbox_block);
 
     if (abs(block.x - sil(0)) <= offset && abs(block.y - sil(1)) <= offset)
         return true;
@@ -141,12 +191,12 @@ void robot2DImageCallback(const computer_vision::BoundingBoxes &msg)
     }
     for (const auto &box : msg.boxes)
     {
+        int angle = getOrientationPointCloud(box);
+        computer_vision::Points block = getPointCloud(box);
         if (testing)
         {
-            int angle = getOrientationPointCloud(box);
-            computer_vision::Points block = getPointCloud(box);
             cout << "BLOCK: " << box.Class << endl;
-            cout << "Angle: " << angle * M_PI / 180 << endl;
+            cout << "Angle: " << angle * M_PI / 180 << " Degrees: " << angle << endl;
             cout << "Position: " << block << endl;
         }
 
@@ -246,8 +296,11 @@ computer_vision::Instruction createInstructions(pair<int, computer_vision::Bound
 {
     computer_vision::Instruction instruction;
     instruction.block = getPointCloud(block.second);
-    // instruction.block.angle = getOrientationPointCloud(block.second);
-    instruction.block.angle = getOrientation(block.second);
+    instruction.block.angle = getOrientationPointCloud(block.second);
+    cout << "BLOCK: " << block.second.Class << endl;
+    cout << "Angle: " << instruction.block.angle * M_PI / 180 << " Degrees: " << instruction.block.angle << endl;
+    cout << "Position: " << instruction.block << endl;
+    // instruction.block.angle = getOrientation(block.second);
     // instruction.sil = getPointCloud((sil.xmin + sil.xmax) / 2, sil.ymax);
     // ------TESTING------
     instruction.sil = computer_vision::Points();

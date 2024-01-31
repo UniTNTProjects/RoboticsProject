@@ -100,17 +100,20 @@ void Search::enter(FSM *fsm)
     {
         coordinates blockCord, silCord;
         rotMatrix rot;
+        rotMatrix rot_default;
         blockCord << fsm->srv_points.response.instructions[i].block.x,
             fsm->srv_points.response.instructions[i].block.y,
             fsm->srv_points.response.instructions[i].block.z;
 
         int angle = fsm->srv_points.response.instructions[i].block.angle;
-        rot << cos(angle), -sin(angle), 0,
-            sin(angle), cos(angle), 0,
+        double angle_rad = angle * M_PI / 180.0;
+
+        rot << cos(angle_rad), -sin(angle_rad), 0,
+            sin(angle_rad), cos(angle_rad), 0,
             0, 0, 1;
 
         // FIX TO DEFAULT ROT, TEST ONLY PURPOSE
-        rot << -1, 0, 0,
+        rot_default << -1, 0, 0,
             0, -1, 0,
             0, 0, 1;
 
@@ -138,8 +141,10 @@ void Search::enter(FSM *fsm)
             fsm->srv_points.response.instructions[i].sil.y,
             fsm->srv_points.response.instructions[i].sil.z;
 
-        cout << "Block cord (gazebo_ref): " << blockCord << endl;
-        cout << "Sil cord (gazebo_ref): " << silCord << endl;
+        // cout << "Block cord (gazebo_ref): " << blockCord << endl;
+        // cout << "Sil cord (gazebo_ref): " << silCord << endl;
+        cout << "Block type: " << fsm->srv_points.response.instructions[i].type << endl;
+        cout << "Angle: " << angle_rad * 180 / M_PI << endl;
 
         coordinates blockCordRobot = fsm->translateBlockCordToRobotCord(blockCord);
         coordinates silCordRobot = fsm->translateBlockCordToRobotCord(silCord);
@@ -152,7 +157,7 @@ void Search::enter(FSM *fsm)
         cout << "Sil cord (robot_ref): " << silCordRobot << endl;
         cout << "---------------------" << endl;
         fsm->addPosition(blockCordRobot, rot);
-        fsm->addPosition(silCordRobot, rot);
+        fsm->addPosition(silCordRobot, rot_default);
     }
 
     return;
