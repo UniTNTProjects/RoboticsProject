@@ -19,7 +19,7 @@ ros::ServiceServer getPoints_server;
 //     int angle;
 // };
 int call = 0;
-const bool testing = false;
+const bool testing = true;
 int getOrientation(computer_vision::BoundingBox box)
 {
     int offset = 10;
@@ -56,6 +56,7 @@ int getOrientationPointCloud(computer_vision::BoundingBox box)
             block_point_x(0) = block.x;
             block_point_x(1) = block.y;
             block_point_x(2) = block.z;
+            min_x = block.x;
         }
     }
 
@@ -74,9 +75,12 @@ int getOrientationPointCloud(computer_vision::BoundingBox box)
             break;
         }
     }
-    cout << "Block_type: " << box.Class << endl;
-    // cout << "block_point_x: " << block_point_x << endl;
-    // cout << "block_point_y: " << block_point_y << endl;
+
+    cout << endl
+         << "Block_type: " << box.Class << endl;
+    cout << "From left to right: " << endl;
+    cout << "block_point_x: " << block_point_x << endl;
+    cout << "block_point_y: " << block_point_y << endl;
 
     // Get distance x and y distance from 2 points
     double dist_x = block_point_y(0) - block_point_x(0);
@@ -84,12 +88,14 @@ int getOrientationPointCloud(computer_vision::BoundingBox box)
     double real_dist = block_point_y(1);
     double angle = 0.0;
     bool vertical = false;
-    // cout << "dist_x: " << dist_x << endl;
-    // cout << "dist_y: " << dist_y << endl;
-    if (dist_y < 0.01) // points too close, check other side
+    cout << "dist_x: " << dist_x << endl;
+    cout << "dist_y: " << dist_y << endl;
+    if (dist_y < 0.0175) // points too close, check other side
     {
         cout << "Points too close, checking other side" << endl;
         min_x = 1000;
+        block_point_x = Vector3d::Zero();
+        block_point_y = Vector3d::Zero();
         for (int i = box.xmax; i > box.xmin; i--)
         {
             computer_vision::Points block = getPointCloud(i, box.ymax);
@@ -98,6 +104,7 @@ int getOrientationPointCloud(computer_vision::BoundingBox box)
                 block_point_x(0) = block.x;
                 block_point_x(1) = block.y;
                 block_point_x(2) = block.z;
+                min_x = block.x;
             }
         }
 
@@ -115,8 +122,15 @@ int getOrientationPointCloud(computer_vision::BoundingBox box)
         }
         dist_x = block_point_y(0) - block_point_x(0);
         dist_y = block_point_y(1) - block_point_x(1);
-        angle = M_PI - atan2(dist_x, dist_y); // angle from -pi to pi
+        angle = M_PI_2 - atan2(abs(dist_x), abs(dist_y));
         real_dist = abs(block_point_y(1) - real_dist);
+
+        cout << "From right to left: " << endl;
+        cout << "block_point_x: " << block_point_x << endl;
+        cout << "block_point_y: " << block_point_y << endl;
+
+        cout << "dist_x: " << dist_x << endl;
+        cout << "dist_y: " << dist_y << endl;
         if (dist_y < 0.01 && real_dist < 0.03)
         {
             cout << "Real dist: " << real_dist << endl;
@@ -125,7 +139,7 @@ int getOrientationPointCloud(computer_vision::BoundingBox box)
     }
     else
     {
-        angle = atan2(dist_y, dist_x) + M_PI_2; // angle from -pi to pi
+        angle = atan2(dist_x, dist_y);
     }
 
     cout << "Angle pre normalization: " << angle * 180 / M_PI << endl;
@@ -191,13 +205,12 @@ void robot2DImageCallback(const computer_vision::BoundingBoxes &msg)
     }
     for (const auto &box : msg.boxes)
     {
-        int angle = getOrientationPointCloud(box);
-        computer_vision::Points block = getPointCloud(box);
         if (testing)
         {
-            cout << "BLOCK: " << box.Class << endl;
-            cout << "Angle: " << angle * M_PI / 180 << " Degrees: " << angle << endl;
-            cout << "Position: " << block << endl;
+            int angle = getOrientationPointCloud(box);
+            // cout << "BLOCK: " << box.Class << endl;
+            // cout << "Angle: " << angle * M_PI / 180 << " Degrees: " << angle << endl;
+            // cout << "Position: " << block << endl;
         }
 
         bool to_insert = true;
