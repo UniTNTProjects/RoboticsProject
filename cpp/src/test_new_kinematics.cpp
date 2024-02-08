@@ -47,9 +47,9 @@ int main(int argc, char **argv)
         cord = translateBlockCordToRobotCord(cord);
         cord2 = cord;
         cord2(2) = 0.85;
-        controller.move_to(cord, rotDefault, false, false, false, false);
-        controller.move_to(cord2, rotDefault, true, false, false, false);
-        controller.move_to(cord, rotDefault, true, false, false, false);
+        // controller.move_to(cord, rotDefault, false, false, false, false);
+        // controller.move_to(cord2, rotDefault, true, false, false, false);
+        // controller.move_to(cord, rotDefault, true, false, false, false);
         // cord(2) = 0.50;
         // controller.move_to(cord, rotDefault, 20, true, false);
     }
@@ -70,7 +70,7 @@ int main(int argc, char **argv)
         bool up_and_move_flag[] = {false, false, false};
         bool move_to_near_axis_flag[] = {false, false, false};
 
-        controller.move_to_multiple(poses_rots, pick_or_place, homing, up_and_move_flag, move_to_near_axis_flag);
+        // controller.move_to_multiple(poses_rots, pick_or_place, homing, up_and_move_flag, move_to_near_axis_flag);
     }
 }
 

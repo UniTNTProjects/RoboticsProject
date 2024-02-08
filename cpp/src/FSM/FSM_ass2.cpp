@@ -110,16 +110,16 @@ void Search::enter(FSM *fsm)
         int angle = fsm->srv_points.response.instructions[i].block.angle;
         double angle_rad = angle * M_PI / 180.0;
 
-        Vector3d block_angles = {-M_PI_2, -angle_rad + M_PI, 0};
-        // Vector3d block_angles = {0, 0, -angle_rad};
+        // Vector3d block_angles = {-M_PI_2, -angle_rad + M_PI, 0};
+        Vector3d block_angles = {0, 0, -angle_rad};
         // Quaternion
         Quaterniond q = AngleAxisd(block_angles(0), Vector3d::UnitX()) *
                         AngleAxisd(block_angles(1), Vector3d::UnitY()) *
                         AngleAxisd(block_angles(2), Vector3d::UnitZ());
 
         coordinates side_pos;
-        // side_pos << blockCord(0), blockCord(1), blockCord(2);
-        side_pos << blockCord(0) + sin(angle_rad) * 0.015, blockCord(1) - cos(angle_rad) * 0.015, blockCord(2) + 0.025;
+        side_pos << blockCord(0), blockCord(1), blockCord(2);
+        // side_pos << blockCord(0) + sin(angle_rad) * 0.015, blockCord(1) - cos(angle_rad) * 0.015, blockCord(2) + 0.025;
         // Rotation matrix
         rot = q.normalized().toRotationMatrix();
         // rot << cos(angle_rad), -sin(angle_rad), 0,
@@ -243,11 +243,22 @@ void Move::enter(FSM *fsm)
     bool move_to_near_axis_flag[2] = {false, false};
     bool side_pick_flag[2] = {true, true};
 
-    if (!(fsm->moveToMultiple(poses_rots, pick_or_place, homing, up_and_move_flag, move_to_near_axis_flag, side_pick_flag)))
+    switch (fsm->moveToMultiple(poses_rots, pick_or_place, homing, up_and_move_flag, move_to_near_axis_flag, side_pick_flag))
     {
+    case 0:
         fsm->isError = true;
         cout << "\n!!!!!!!!\nError moving to position: " << nextPos.first << "\n!!!!!!!!!\n"
              << endl;
+        break;
+    case 1:
+        cout << "\n!!!!!!!!\nMoved to position: " << nextPos.first << "\n!!!!!!!!!\n"
+             << endl;
+        break;
+    case 2:
+        cout << "\n!!!!!!!!\nMoved to position with side pick: " << nextPos.first << "\n!!!!!!!!!\n"
+             << endl;
+        fsm->isSidePick = true;
+        break;
     }
 
     return;

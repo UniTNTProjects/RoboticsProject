@@ -69,14 +69,14 @@ bool FSM::isPositionQueueEmpty()
     return positions->empty();
 }
 
-bool FSM::moveTo(coordinates pos, rotMatrix rot, bool pick_or_place, bool homing, bool up_and_move_flag, bool move_to_near_axis_flag)
+bool FSM::moveTo(coordinates pos, rotMatrix rot, bool pick_or_place, bool homing, bool up_and_move_flag, bool move_to_near_axis_flag, bool side_pick_flag)
 {
-    return controller->move_to(pos, rot, pick_or_place, homing, up_and_move_flag, move_to_near_axis_flag);
+    return controller->move_to(pos, rot, pick_or_place, homing, up_and_move_flag, move_to_near_axis_flag, side_pick_flag);
 }
 
-bool FSM::moveToMultiple(vector<pair<coordinates, rotMatrix>> poses_rots, bool *pick_or_place, bool *homing, bool *up_and_move_flag, bool *move_to_near_axis_flag)
+int FSM::moveToMultiple(vector<pair<coordinates, rotMatrix>> poses_rots, bool *pick_or_place, bool *homing, bool *up_and_move_flag, bool *move_to_near_axis_flag, bool *side_picks_flag)
 {
-    return controller->move_to_multiple(poses_rots, pick_or_place, homing, up_and_move_flag, move_to_near_axis_flag);
+    return controller->move_to_multiple(poses_rots, pick_or_place, homing, up_and_move_flag, move_to_near_axis_flag, side_picks_flag);
 }
 
 coordinates FSM::getCurrentPosition()
@@ -104,7 +104,7 @@ void FSM::pickUp()
     positions->pop();
     moveGripperTo(closeGripperDiameter);
     isGripping = true;
-    controller->setGripping(true);
+    controller->setGripping(true, this->isSidePick);
 }
 
 void FSM::placeDown()
@@ -113,7 +113,7 @@ void FSM::placeDown()
     positions->pop();
     moveGripperTo(openGripperDiameter);
     isGripping = false;
-    controller->setGripping(false);
+    controller->setGripping(false, this->isSidePick);
 }
 
 int main(int argc, char **argv)

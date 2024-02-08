@@ -55,8 +55,8 @@ public:
     jointValues get_joint_state();
     GripperStateVector get_gripper_state();
     pair<coordinates, rotMatrix> get_position();
-    bool move_to(const coordinates &position, const rotMatrix &rotation, bool pick_or_place, bool homing, bool up_and_move_flag, bool move_to_near_axis_flag);
-    int move_to_multiple(vector<pair<coordinates, rotMatrix>> , bool *, bool *, bool *, bool *, bool*);
+    bool move_to(const coordinates &position, const rotMatrix &rotation, bool pick_or_place, bool homing, bool up_and_move_flag, bool move_to_near_axis_flag, bool side_pick_flag);
+    int move_to_multiple(vector<pair<coordinates, rotMatrix>>, bool *, bool *, bool *, bool *, bool *);
     void move_gripper_to(const int diameter);
     void print_current_pos_rot();
     void sleep();

@@ -40,7 +40,7 @@ Controller::Controller(double loop_frequency, bool start_homing) : loop_rate(loo
 
     if (start_homing)
     {
-        move_to(defaultCordArray[0], rotDefault, false, true, false, false);
+        move_to(defaultCordArray[0], rotDefault, false, true, false, false, false);
     }
 }
 
@@ -250,13 +250,13 @@ void Controller::sleep()
     ros::Duration(1.0).sleep();
 }
 
-bool Controller::move_to(const coordinates &position, const rotMatrix &rotation, bool pick_or_place, bool homing, bool up_and_move_flag, bool move_to_near_axis_flag)
+bool Controller::move_to(const coordinates &position, const rotMatrix &rotation, bool pick_or_place, bool homing, bool up_and_move_flag, bool move_to_near_axis_flag, bool side_pick_flag)
 {
-    bool side_pick = false;
     cout << "Requested move_to with position: " << position.transpose() << endl;
     cout << "Requested move_to with rotation: " << rotation << endl;
 
-    vector<double *> trajectory = calc_traj(position, rotation, pick_or_place, homing, up_and_move_flag, move_to_near_axis_flag, current_joints, side_pick, this->isGripping);
+    vector<double *> trajectory = calc_traj(position, rotation, pick_or_place, homing, up_and_move_flag, move_to_near_axis_flag, current_joints, side_pick_flag, this->isGripping);
+
     cout << "Trajectory size: " << trajectory.size() << endl;
     if (trajectory.size() > 0)
     {
@@ -292,10 +292,10 @@ bool Controller::move_to(const coordinates &position, const rotMatrix &rotation,
     return false;
 }
 
-int Controller::move_to_multiple(vector<pair<coordinates, rotMatrix>> poses_rots, bool *pick_or_place, bool *homing, bool *up_and_move_flag, bool *move_to_near_axis_flag, bool *side_pick_flag)
+int Controller::move_to_multiple(vector<pair<coordinates, rotMatrix>> poses_rots, bool *pick_or_place, bool *homing, bool *up_and_move_flag, bool *move_to_near_axis_flag, bool *side_picks_flag)
 {
-    bool side_pick = false;
-    vector<double *> trajectory = calc_traj_multiple(poses_rots, pick_or_place, homing, up_and_move_flag, move_to_near_axis_flag, current_joints, side_pick, this->isGripping);
+
+    vector<double *> trajectory = calc_traj_multiple(poses_rots, pick_or_place, homing, up_and_move_flag, move_to_near_axis_flag, current_joints, side_picks_flag, this->isGripping);
 
     cout << "Requested move_to_multiple with positions: " << endl;
     for (int i = 0; i < poses_rots.size(); i++)
@@ -324,41 +324,37 @@ int Controller::move_to_multiple(vector<pair<coordinates, rotMatrix>> poses_rots
              << "\n°°°°°°°°°°\n"
              << endl;
 
-        side_pick = true;
         pair<coordinates, rotMatrix> last_pose = poses_rots[poses_rots.size() - 1];
         Quaterniond q = Quaterniond(last_pose.second);
         // set rotation
-        Vector3d euler = q.normalized().toRotationMatrix().eulerAngles(0, 1, 2);
+        Vector3d euler = q.normalized().toRotationMatrix().eulerAngles(2, 0, 2);
         Vector3d side_pick_euler;
         side_pick_euler << -M_PI_2, -euler(2), 0;
         Quaterniond side_pick_rot = (AngleAxisd(side_pick_euler(0), Vector3d::UnitX()) *
                                      AngleAxisd(side_pick_euler(1), Vector3d::UnitY()) *
                                      AngleAxisd(side_pick_euler(2), Vector3d::UnitZ()));
-        // get new position
-        coordinates side_pick_pos;
-        coordinates block_pos = last_pose.first;
-        side_pick_pos << block_pos(0) + sin(euler(2)) * 0.02, block_pos(1) - cos(euler(2)) * 0.02, block_pos(2) - 0.05;
         // Overwrite last pose
-        pair<coordinates, rotMatrix> side_pick_pose;
-        side_pick_pose = make_pair(side_pick_pos, side_pick_rot.normalized().toRotationMatrix());
-        last_pose = side_pick_pose;
         cout << "side_pick_pose: " << last_pose.first.transpose() << endl;
         cout << "side_pick_pose_rotation: " << last_pose.second << endl;
         cout << "side_pick_euler: " << side_pick_euler << endl;
         for (int i = 0; i < poses_rots.size(); i++)
         {
-            if (side_pick_flag[i])
+            if (side_picks_flag[i])
             {
+                coordinates block_pos = poses_rots[i].first;
+                coordinates side_pick_pos;
+                side_pick_pos << block_pos(0) + sin(euler(2)) * 0.02, block_pos(1) - cos(euler(2)) * 0.02, block_pos(2) - 0.05;
                 poses_rots[i].second = side_pick_rot.normalized().toRotationMatrix();
+                poses_rots[i].first = side_pick_pos;
             }
         }
 
-        vector<double *> trajectory_side_pick = calc_traj_multiple(poses_rots, pick_or_place, homing, up_and_move_flag, move_to_near_axis_flag, current_joints, side_pick_flag, this->isGripping);
+        vector<double *> trajectory_side_pick = calc_traj_multiple(poses_rots, pick_or_place, homing, up_and_move_flag, move_to_near_axis_flag, current_joints, side_picks_flag, this->isGripping);
         if (trajectory_side_pick.size() > 0)
         {
             if (move_inside(&trajectory_side_pick))
             {
-                return 2;
+                return 2; // moving with side pick
             }
         }
     }
