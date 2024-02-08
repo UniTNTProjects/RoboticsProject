@@ -179,7 +179,7 @@ int *sort_inverse(Eigen::Matrix<double, 8, 6> &inverse_kinematics_res, const joi
         //     diff += 100;
         // }
         // cout << "diff: " << diff << ", i: " << i << endl;
-        sorted_inverse.insert(pair<double, int>(diff, i));
+        sorted_inverse.emplace(pair<double, int>(diff, i));
     }
 
     int *sorted_indexes = new int[8];

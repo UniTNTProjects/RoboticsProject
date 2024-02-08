@@ -19,6 +19,7 @@ private:
     bool real_robot;
     bool gripper_sim;
     bool isGripping = false;
+    bool side_pick = false;
 
     jointValues filter_1;
     jointValues filter_2;
@@ -55,11 +56,11 @@ public:
     GripperStateVector get_gripper_state();
     pair<coordinates, rotMatrix> get_position();
     bool move_to(const coordinates &position, const rotMatrix &rotation, bool pick_or_place, bool homing, bool up_and_move_flag, bool move_to_near_axis_flag);
-    bool move_to_multiple(vector<pair<coordinates, rotMatrix>> poses_rots, bool *pick_or_place, bool *homing, bool *up_and_move_flag, bool *move_to_near_axis_flag);
+    int move_to_multiple(vector<pair<coordinates, rotMatrix>> , bool *, bool *, bool *, bool *, bool*);
     void move_gripper_to(const int diameter);
     void print_current_pos_rot();
     void sleep();
-    void setGripping(bool isGripping);
+    void setGripping(bool isGripping, bool side_pick);
 
     // testing
     ros::Publisher permission_pub;

@@ -110,14 +110,21 @@ void Search::enter(FSM *fsm)
         int angle = fsm->srv_points.response.instructions[i].block.angle;
         double angle_rad = angle * M_PI / 180.0;
 
-        Vector3d block_angles = {0, 0, angle_rad};
+        Vector3d block_angles = {-M_PI_2, -angle_rad + M_PI, 0};
+        // Vector3d block_angles = {0, 0, -angle_rad};
         // Quaternion
         Quaterniond q = AngleAxisd(block_angles(0), Vector3d::UnitX()) *
                         AngleAxisd(block_angles(1), Vector3d::UnitY()) *
                         AngleAxisd(block_angles(2), Vector3d::UnitZ());
 
+        coordinates side_pos;
+        // side_pos << blockCord(0), blockCord(1), blockCord(2);
+        side_pos << blockCord(0) + sin(angle_rad) * 0.015, blockCord(1) - cos(angle_rad) * 0.015, blockCord(2) + 0.025;
         // Rotation matrix
-        rot = q.toRotationMatrix();
+        rot = q.normalized().toRotationMatrix();
+        // rot << cos(angle_rad), -sin(angle_rad), 0,
+        //     sin(angle_rad), cos(angle_rad), 0,
+        //     0, 0, 1;
 
         // FIX TO DEFAULT ROT, TEST ONLY PURPOSE
         rot_default
@@ -137,7 +144,7 @@ void Search::enter(FSM *fsm)
         //     rot << -0.707, -0.707, 0,
         //         0.707, -0.707, 0,
         //         0, 0, 1;
-        //     break;
+        // rad
         // case 90:
         //     rot << 0, -1, 0,
         //         1, 0, 0,
@@ -155,10 +162,10 @@ void Search::enter(FSM *fsm)
         cout << "Block type: " << fsm->srv_points.response.instructions[i].type << endl;
         cout << "Angle: " << angle_rad * 180 / M_PI << endl;
 
-        coordinates blockCordRobot = fsm->translateBlockCordToRobotCord(blockCord);
+        coordinates blockCordRobot = fsm->translateBlockCordToRobotCord(side_pos);
         coordinates silCordRobot = fsm->translateBlockCordToRobotCord(silCord);
 
-        blockCordRobot(2) = 0.76;
+        // blockCordRobot(2) = 0.76;
         silCordRobot(2) = 0.76;
 
         cout << "Added position to queue" << endl;
@@ -234,10 +241,10 @@ void Move::enter(FSM *fsm)
     bool homing[2] = {false, false};
     bool up_and_move_flag[2] = {false, false};
     bool move_to_near_axis_flag[2] = {false, false};
+    bool side_pick_flag[2] = {true, true};
 
-    if (!(fsm->moveToMultiple(poses_rots, pick_or_place, homing, up_and_move_flag, move_to_near_axis_flag)))
+    if (!(fsm->moveToMultiple(poses_rots, pick_or_place, homing, up_and_move_flag, move_to_near_axis_flag, side_pick_flag)))
     {
-
         fsm->isError = true;
         cout << "\n!!!!!!!!\nError moving to position: " << nextPos.first << "\n!!!!!!!!!\n"
              << endl;

@@ -273,6 +273,7 @@ bool Controller::move_to(const coordinates &position, const rotMatrix &rotation,
              << "\n°°°°°°°°°°\n"
              << endl;
         side_pick = true;
+
         vector<double *> trajectory_side_pick = calc_traj(position, get_rotation(180), pick_or_place, homing, up_and_move_flag, move_to_near_axis_flag, current_joints, side_pick, this->isGripping);
         if (trajectory_side_pick.size() > 0)
         {
@@ -291,7 +292,7 @@ bool Controller::move_to(const coordinates &position, const rotMatrix &rotation,
     return false;
 }
 
-bool Controller::move_to_multiple(vector<pair<coordinates, rotMatrix>> poses_rots, bool *pick_or_place, bool *homing, bool *up_and_move_flag, bool *move_to_near_axis_flag)
+int Controller::move_to_multiple(vector<pair<coordinates, rotMatrix>> poses_rots, bool *pick_or_place, bool *homing, bool *up_and_move_flag, bool *move_to_near_axis_flag, bool *side_pick_flag)
 {
     bool side_pick = false;
     vector<double *> trajectory = calc_traj_multiple(poses_rots, pick_or_place, homing, up_and_move_flag, move_to_near_axis_flag, current_joints, side_pick, this->isGripping);
@@ -312,7 +313,7 @@ bool Controller::move_to_multiple(vector<pair<coordinates, rotMatrix>> poses_rot
     {
         if (move_inside(&trajectory))
         {
-            return true;
+            return 1;
         }
     }
     else
@@ -322,13 +323,42 @@ bool Controller::move_to_multiple(vector<pair<coordinates, rotMatrix>> poses_rot
              << "Try Side Pick\n"
              << "\n°°°°°°°°°°\n"
              << endl;
+
         side_pick = true;
-        vector<double *> trajectory_side_pick = calc_traj_multiple(poses_rots, pick_or_place, homing, up_and_move_flag, move_to_near_axis_flag, current_joints, side_pick, this->isGripping);
+        pair<coordinates, rotMatrix> last_pose = poses_rots[poses_rots.size() - 1];
+        Quaterniond q = Quaterniond(last_pose.second);
+        // set rotation
+        Vector3d euler = q.normalized().toRotationMatrix().eulerAngles(0, 1, 2);
+        Vector3d side_pick_euler;
+        side_pick_euler << -M_PI_2, -euler(2), 0;
+        Quaterniond side_pick_rot = (AngleAxisd(side_pick_euler(0), Vector3d::UnitX()) *
+                                     AngleAxisd(side_pick_euler(1), Vector3d::UnitY()) *
+                                     AngleAxisd(side_pick_euler(2), Vector3d::UnitZ()));
+        // get new position
+        coordinates side_pick_pos;
+        coordinates block_pos = last_pose.first;
+        side_pick_pos << block_pos(0) + sin(euler(2)) * 0.02, block_pos(1) - cos(euler(2)) * 0.02, block_pos(2) - 0.05;
+        // Overwrite last pose
+        pair<coordinates, rotMatrix> side_pick_pose;
+        side_pick_pose = make_pair(side_pick_pos, side_pick_rot.normalized().toRotationMatrix());
+        last_pose = side_pick_pose;
+        cout << "side_pick_pose: " << last_pose.first.transpose() << endl;
+        cout << "side_pick_pose_rotation: " << last_pose.second << endl;
+        cout << "side_pick_euler: " << side_pick_euler << endl;
+        for (int i = 0; i < poses_rots.size(); i++)
+        {
+            if (side_pick_flag[i])
+            {
+                poses_rots[i].second = side_pick_rot.normalized().toRotationMatrix();
+            }
+        }
+
+        vector<double *> trajectory_side_pick = calc_traj_multiple(poses_rots, pick_or_place, homing, up_and_move_flag, move_to_near_axis_flag, current_joints, side_pick_flag, this->isGripping);
         if (trajectory_side_pick.size() > 0)
         {
             if (move_inside(&trajectory_side_pick))
             {
-                return true;
+                return 2;
             }
         }
     }
@@ -338,10 +368,11 @@ bool Controller::move_to_multiple(vector<pair<coordinates, rotMatrix>> poses_rot
          << endl;
 
     ros::Duration(10.0).sleep();
-    return false;
+    return 0;
 }
 
-void Controller ::setGripping(bool isGripping)
+void Controller ::setGripping(bool isGripping, bool side_pick)
 {
     this->isGripping = isGripping;
+    this->side_pick = side_pick;
 }

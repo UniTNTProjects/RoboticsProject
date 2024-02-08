@@ -19,7 +19,7 @@ ros::ServiceServer getPoints_server;
 //     int angle;
 // };
 int call = 0;
-const bool testing = true;
+const bool testing = false;
 int getOrientation(computer_vision::BoundingBox box)
 {
     int offset = 10;
@@ -90,7 +90,7 @@ int getOrientationPointCloud(computer_vision::BoundingBox box)
     bool vertical = false;
     cout << "dist_x: " << dist_x << endl;
     cout << "dist_y: " << dist_y << endl;
-    if (dist_y < 0.0175) // points too close, check other side
+    if (dist_y < 0.018 || (block_point_y(0) == 0 || block_point_x(0) == 0)) // points too close, check other side
     {
         cout << "Points too close, checking other side" << endl;
         min_x = 1000;
@@ -98,7 +98,7 @@ int getOrientationPointCloud(computer_vision::BoundingBox box)
         block_point_y = Vector3d::Zero();
         for (int i = box.xmax; i > box.xmin; i--)
         {
-            computer_vision::Points block = getPointCloud(i, box.ymax);
+            computer_vision::Points block = getPointCloud(i, box.ymax - 2);
             if (block.z > 0.871 && block.x < min_x)
             {
                 block_point_x(0) = block.x;
@@ -122,7 +122,7 @@ int getOrientationPointCloud(computer_vision::BoundingBox box)
         }
         dist_x = block_point_y(0) - block_point_x(0);
         dist_y = block_point_y(1) - block_point_x(1);
-        angle = M_PI_2 - atan2(abs(dist_x), abs(dist_y));
+        angle = M_PI - atan2((dist_y), (dist_x));
         real_dist = abs(block_point_y(1) - real_dist);
 
         cout << "From right to left: " << endl;
@@ -131,7 +131,7 @@ int getOrientationPointCloud(computer_vision::BoundingBox box)
 
         cout << "dist_x: " << dist_x << endl;
         cout << "dist_y: " << dist_y << endl;
-        if (dist_y < 0.01 && real_dist < 0.03)
+        if (dist_x < 0.01 && real_dist < 0.03 && dist_y > 0.018)
         {
             cout << "Real dist: " << real_dist << endl;
             vertical = true;
@@ -140,20 +140,24 @@ int getOrientationPointCloud(computer_vision::BoundingBox box)
     else
     {
         angle = atan2(dist_x, dist_y);
+        // if (dist_x < 0.01 && dist_y > 0.018)
+        // {
+        //     vertical = true;
+        // }
     }
 
     cout << "Angle pre normalization: " << angle * 180 / M_PI << endl;
-    // Normalize angle to 90 - 270 degrees
-    if (angle < -M_PI_2)
+    // Normalize angle to -180 - 180 degrees
+    if (angle < M_PI_2 && angle >= 0)
     {
-        angle = angle + 2 * M_PI;
+        angle -= M_PI;
     }
-    else if (angle < M_PI_2 && angle > -M_PI_2)
+    else if (angle < 0 && angle > -M_PI_2)
     {
-        angle = angle + M_PI;
+        angle += M_PI;
     }
 
-    angle = angle * 180 / M_PI;
+    angle = round(angle * 180 / M_PI);
 
     if (vertical)
     { // Blocco verticale

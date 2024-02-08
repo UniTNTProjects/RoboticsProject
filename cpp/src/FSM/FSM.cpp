@@ -44,7 +44,7 @@ coordinates FSM::translateBlockCordToRobotCord(coordinates blockCord)
 
     coordinates robotCord, robotReferenceCord;
     // robotReferenceCord << 0.525, 0.34, 1.5;
-    robotReferenceCord << 0.5, 0.35, 1.5;
+    robotReferenceCord << 0.5, 0.35, 1.75;
 
     robotCord << blockCord(0) - robotReferenceCord(0), robotReferenceCord(1) - blockCord(1), robotReferenceCord(2) - blockCord(2);
 
