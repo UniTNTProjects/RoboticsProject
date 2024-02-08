@@ -1,6 +1,8 @@
 #include "ConcreteFSMState.h"
+#include "eigen3/Eigen/Geometry"
 
 using namespace std;
+using namespace Eigen;
 
 void Init::toggle(FSM *fsm)
 {
@@ -108,12 +110,19 @@ void Search::enter(FSM *fsm)
         int angle = fsm->srv_points.response.instructions[i].block.angle;
         double angle_rad = angle * M_PI / 180.0;
 
-        rot << cos(angle_rad), -sin(angle_rad), 0,
-            sin(angle_rad), cos(angle_rad), 0,
-            0, 0, 1;
+        Vector3d block_angles = {0, 0, angle_rad};
+        // Quaternion
+        Quaterniond q = AngleAxisd(block_angles(0), Vector3d::UnitX()) *
+                        AngleAxisd(block_angles(1), Vector3d::UnitY()) *
+                        AngleAxisd(block_angles(2), Vector3d::UnitZ());
+
+        // Rotation matrix
+        rot = q.toRotationMatrix();
 
         // FIX TO DEFAULT ROT, TEST ONLY PURPOSE
-        rot_default << -1, 0, 0,
+        rot_default
+            << -1,
+            0, 0,
             0, -1, 0,
             0, 0, 1;
 
@@ -149,8 +158,8 @@ void Search::enter(FSM *fsm)
         coordinates blockCordRobot = fsm->translateBlockCordToRobotCord(blockCord);
         coordinates silCordRobot = fsm->translateBlockCordToRobotCord(silCord);
 
-        blockCordRobot(2) = 0.86;
-        silCordRobot(2) = 0.86;
+        blockCordRobot(2) = 0.76;
+        silCordRobot(2) = 0.76;
 
         cout << "Added position to queue" << endl;
         cout << "Block cord (robot_ref): " << blockCordRobot << endl;
