@@ -325,25 +325,31 @@ int Controller::move_to_multiple(vector<pair<coordinates, rotMatrix>> poses_rots
              << endl;
 
         pair<coordinates, rotMatrix> last_pose = poses_rots[poses_rots.size() - 1];
+        cout << "last_pose: " << last_pose.first.transpose() << endl;
+        cout << "last_pose_rotation: " << last_pose.second << endl;
         Quaterniond q = Quaterniond(last_pose.second);
         // set rotation
         Vector3d euler = q.normalized().toRotationMatrix().eulerAngles(2, 0, 2);
         Vector3d side_pick_euler;
-        side_pick_euler << -M_PI_2, -euler(2), 0;
-        Quaterniond side_pick_rot = (AngleAxisd(side_pick_euler(0), Vector3d::UnitX()) *
-                                     AngleAxisd(side_pick_euler(1), Vector3d::UnitY()) *
-                                     AngleAxisd(side_pick_euler(2), Vector3d::UnitZ()));
+        side_pick_euler << -M_PI_2, 0, M_PI;
+
+        AngleAxisd toSidePick_Z(M_PI, Vector3d::UnitZ());
+        AngleAxisd toSidePick_Y(-M_PI_2, Vector3d::UnitX());
+
+        Quaterniond side_pick_rot = q * toSidePick_Z * toSidePick_Y;
         // Overwrite last pose
-        cout << "side_pick_pose: " << last_pose.first.transpose() << endl;
-        cout << "side_pick_pose_rotation: " << last_pose.second << endl;
         cout << "side_pick_euler: " << side_pick_euler << endl;
         for (int i = 0; i < poses_rots.size(); i++)
         {
             if (side_picks_flag[i])
             {
+                cout << " --------------- Side pick\n"
+                     << endl
+                     << "BLOCK POS: " << poses_rots[i].first.transpose() << endl;
+
                 coordinates block_pos = poses_rots[i].first;
                 coordinates side_pick_pos;
-                side_pick_pos << block_pos(0) + sin(euler(2)) * 0.02, block_pos(1) - cos(euler(2)) * 0.02, block_pos(2) - 0.05;
+                side_pick_pos << block_pos(0) + sin(euler(2)) * 0.02, block_pos(1) + cos(euler(2)) * 0.02, block_pos(2) - 0.05;
                 poses_rots[i].second = side_pick_rot.normalized().toRotationMatrix();
                 poses_rots[i].first = side_pick_pos;
             }

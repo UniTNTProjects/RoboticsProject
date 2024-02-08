@@ -233,21 +233,19 @@ bool check_trajectory(vector<double *> traj, int step, bool pick_or_place, int *
         if (check_singularity_collision(joints))
         {
             *error_code = 19;
-            // if (side_pick)
-            //     return true;
             return false;
         }
 
-        // if ((joints(3) < -3.2 || (joints(3) > 0 && joints(3) < 3.1)) && ((joints(4) < -2 && joints(4) > -4) || (joints(4) > 2 && joints(4) < 5)))
-        // {
-        //     if (debug_traj)
-        //     {
-        //         cout << "*******" << endl;
-        //         cout << "type 1 collision with itself" << endl;
-        //     }
-        //     *error_code = 1;
-        //     return false;
-        // }
+        if ((joints(3) < -3.2 || (joints(3) > 0 && joints(3) < 3.1)) && ((joints(4) < -2 && joints(4) > -4) || (joints(4) > 2 && joints(4) < 5)))
+        {
+            if (debug_traj)
+            {
+                cout << "*******" << endl;
+                cout << "type 1 collision with itself" << endl;
+            }
+            *error_code = 1;
+            return false;
+        }
 
         if (joints(2) > 2.7 || joints(2) < -2.7)
         {

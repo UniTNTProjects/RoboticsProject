@@ -111,7 +111,7 @@ void Search::enter(FSM *fsm)
         double angle_rad = angle * M_PI / 180.0;
 
         // Vector3d block_angles = {-M_PI_2, -angle_rad + M_PI, 0};
-        Vector3d block_angles = {0, 0, -angle_rad};
+        Vector3d block_angles = {0, 0, angle_rad};
         // Quaternion
         Quaterniond q = AngleAxisd(block_angles(0), Vector3d::UnitX()) *
                         AngleAxisd(block_angles(1), Vector3d::UnitY()) *
@@ -121,10 +121,10 @@ void Search::enter(FSM *fsm)
         side_pos << blockCord(0), blockCord(1), blockCord(2);
         // side_pos << blockCord(0) + sin(angle_rad) * 0.015, blockCord(1) - cos(angle_rad) * 0.015, blockCord(2) + 0.025;
         // Rotation matrix
-        rot = q.normalized().toRotationMatrix();
-        // rot << cos(angle_rad), -sin(angle_rad), 0,
-        //     sin(angle_rad), cos(angle_rad), 0,
-        //     0, 0, 1;
+        // rot = q.normalized().toRotationMatrix();
+        rot << cos(angle_rad), -sin(angle_rad), 0,
+            sin(angle_rad), cos(angle_rad), 0,
+            0, 0, 1;
 
         // FIX TO DEFAULT ROT, TEST ONLY PURPOSE
         rot_default
