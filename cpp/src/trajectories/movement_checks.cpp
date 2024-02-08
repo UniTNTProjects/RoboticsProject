@@ -122,6 +122,39 @@ bool check_trajectory(vector<double *> traj, int step, bool pick_or_place, int *
                 *error_code = 15;
                 return false;
             }
+
+            homoMatrix mat;
+            mat << 1, 0, 0, 0,
+                0, 1, 0, 0,
+                0, 0, 1, 0,
+                0, 0, 0, 1;
+
+            homoMatrix matrixes[6];
+            matrixes[0] = T10f(joints(0));
+            matrixes[1] = T21f(joints(1));
+            matrixes[2] = T32f(joints(2));
+            matrixes[3] = T43f(joints(3));
+            matrixes[4] = T54f(joints(4));
+            matrixes[5] = T65f(joints(5));
+
+            mat = mat * matrixes[0];
+            mat = mat * matrixes[1];
+            mat = mat * matrixes[2];
+            mat = mat * matrixes[3];
+            float z3_coord = mat(2, 3);
+            mat = mat * matrixes[4];
+            mat = mat * matrixes[5];
+            float z5_coord = mat(2, 3);
+
+            if(z3_coord > z5_coord){
+                if (debug_traj)
+                {
+                    cout << "*******" << endl;
+                    cout << "z3_coord: " << z3_coord << ", z5_coord: " << z5_coord << endl;
+                }
+                *error_code = 16;
+                return false;
+            }
         }
 
         for (int i = 0; i < 6; i++)

@@ -628,7 +628,6 @@ rotMatrix get_rotation(double angle)
 {
     // transform the angle in radians(0-2pi)
     angle = angle * M_PI / 180;
-    ;
 
     coordinates cord;
     rotMatrix rot;
