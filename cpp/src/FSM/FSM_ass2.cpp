@@ -243,6 +243,7 @@ void Move::enter(FSM *fsm)
     bool move_to_near_axis_flag[2] = {false, false};
     bool side_pick_flag[2] = {true, true};
 
+    fsm->isSidePick = false;
     switch (fsm->moveToMultiple(poses_rots, pick_or_place, homing, up_and_move_flag, move_to_near_axis_flag, side_pick_flag))
     {
     case 0:

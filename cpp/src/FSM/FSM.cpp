@@ -69,7 +69,7 @@ bool FSM::isPositionQueueEmpty()
     return positions->empty();
 }
 
-bool FSM::moveTo(coordinates pos, rotMatrix rot, bool pick_or_place, bool homing, bool up_and_move_flag, bool move_to_near_axis_flag, bool side_pick_flag)
+int FSM::moveTo(coordinates pos, rotMatrix rot, bool pick_or_place, bool homing, bool up_and_move_flag, bool move_to_near_axis_flag, bool side_pick_flag)
 {
     return controller->move_to(pos, rot, pick_or_place, homing, up_and_move_flag, move_to_near_axis_flag, side_pick_flag);
 }
@@ -113,7 +113,7 @@ void FSM::placeDown()
     positions->pop();
     moveGripperTo(openGripperDiameter);
     isGripping = false;
-    controller->setGripping(false, this->isSidePick);
+    controller->setGripping(false, false);
 }
 
 int main(int argc, char **argv)
