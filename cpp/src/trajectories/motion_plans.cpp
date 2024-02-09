@@ -69,8 +69,10 @@ vector<double *> up_and_move(const coordinates &position, const rotMatrix &rotat
         bool pick_or_place[] = {false, true};
         bool homing[] = {false, false};
         bool side_pick_array[] = {false, side_pick};
+        bool up_and_move_flag[] = {false, false};
+        bool move_to_near_axis_flag[] = {false, false};
 
-        vector<double *> move_and_down_tray = calc_direct_traj_multiple(positions, pick_or_place, homing, aboveCurrentJoint, side_pick_array, isGripping);
+        vector<double *> move_and_down_tray = calc_traj_multiple(positions, pick_or_place, homing, up_and_move_flag, move_to_near_axis_flag, aboveCurrentJoint, side_pick_array, isGripping);
         if (move_and_down_tray.size() > 0)
         {
             up_traj.insert(up_traj.end(), move_and_down_tray.begin(), move_and_down_tray.end());

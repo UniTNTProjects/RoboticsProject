@@ -3,24 +3,27 @@
 using namespace Eigen;
 using namespace std;
 
-const bool debug_traj = false;
-const bool error_code_debug = false;
+const bool debug_traj = true;
+const bool error_code_debug = true;
 
 const int steps = 20;
 
 const double max_x = 1.5;
-const double max_y = 0.25;
+const double max_y = 0.275;
 const double max_z = 0.885;
 
 const double min_x = -1.5;
 const double min_y = -1.5;
 const double min_z = 0.0;
 
-const double max_y_near_end_table = 0.15;
+const double max_y_near_end_table = 0.125;
 const double max_z_near_end_table = 0.73;
 
-const double max_z_moving = 0.82;
-const double max_z_moving_gripping = 0.80;
+const double max_z_moving = 0.79;
+const double max_z_moving_gripping = 0.72;
+
+const double max_z_sidepick = 0.85;
+const double max_z_moving_sidepick = 0.78;
 
 const jointValues mainJointResetValues = (jointValues() << 0., -1.57, -2.5, 0., 0., 0.).finished();
 

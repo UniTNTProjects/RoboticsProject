@@ -32,8 +32,8 @@ silhouettes = [
     "X1-Y1-Z2-SILHOUETTE",
 ]
 base_path = (
-    # "/home/squinkis/ros_ws/src/locosim/RoboticsProject/computer_vision/data_generation/"
-    "/home/emanuele/ros_ws/src/locosim/RoboticsProject/computer_vision/data_generation/"
+    "/home/squinkis/ros_ws/src/locosim/RoboticsProject/computer_vision/data_generation/"
+    # "/home/emanuele/ros_ws/src/locosim/RoboticsProject/computer_vision/data_generation/"
 )
 
 # Create a dictionary with the selected values using them as values and numbers as keys
@@ -221,9 +221,9 @@ class Detector:
                         )
                         self.silhouette[0] = to_cpu.boxes[i]
                     elif conf > self.conf_threshold and to_cpu.names[i] in silhouettes:
-                        self.silhouette[
-                            silhouettes_values[to_cpu.names[i]]
-                        ] = to_cpu.boxes[i]
+                        self.silhouette[silhouettes_values[to_cpu.names[i]]] = (
+                            to_cpu.boxes[i]
+                        )
             # fig, ax = plt.subplots(figsize=(16, 12))
             # ax.imshow(preds.render()[0])
             # plt.show()

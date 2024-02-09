@@ -90,6 +90,20 @@ void Search::toggle(FSM *fsm)
 
 void Search::enter(FSM *fsm)
 {
+    if (fsm->init)
+    {
+
+        coordinates defaultCordArray = {0.35, 0.3, 0.7};
+        rotMatrix rotDefault;
+        rotDefault << -1, 0, 0,
+            0, -1, 0,
+            0, 0, 1;
+        fsm->moveTo(defaultCordArray, rotDefault, false, true, false, false, false);
+    }
+    else
+    {
+        fsm->init = true;
+    }
     cout << "\n/////////////////////////\nEntered Search State\n/////////////////////////\n"
          << endl;
     // Do something

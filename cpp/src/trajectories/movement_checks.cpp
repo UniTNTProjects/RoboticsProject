@@ -28,6 +28,7 @@ bool check_singularity_collision(jointValues joints)
         float y_coord = mat(1, 3);
         float z_coord = mat(2, 3);
 
+        // cout << "joint[" << i << "]= (x: " << x_coord << ", y: " << y_coord << ", z: " << z_coord << ")" << endl;
         if (z_coord < min_z or z_coord > max_z or y_coord > max_y)
         {
             if (debug_traj)
@@ -121,11 +122,11 @@ bool check_trajectory(vector<double *> traj, int step, bool pick_or_place, int *
                  << endl;
         }
 
-        if (check_self_collision(joints))
-        {
-            *error_code = 42;
-            return false;
-        }
+        // if (check_self_collision(joints))
+        // {
+        //     *error_code = 42;
+        //     return false;
+        // }
         if (i == 0)
         {
             if ((cord - start_cord).norm() > 0.1)
@@ -272,12 +273,23 @@ bool check_trajectory(vector<double *> traj, int step, bool pick_or_place, int *
             return false;
         }
 
-        if (!pick_or_place && (joints(5) < M_PI_4 || joints(5) > 7 * M_PI_4) && cord(1) > max_y_near_end_table)
+        if (side_pick && !pick_or_place && !homing && cord(2) > max_z_moving_sidepick)
         {
             if (debug_traj)
             {
                 cout << "*******" << endl;
-                cout << "moving too low, z wrong: " << cord.transpose() << endl;
+                cout << "moving too low sidepicking, z wrong: " << cord.transpose() << endl;
+            }
+            *error_code = 52;
+            return false;
+        }
+
+        if (!pick_or_place && cord(1) > max_y_near_end_table) // Should never happen
+        {
+            if (debug_traj)
+            {
+                cout << "*******" << endl;
+                cout << "Moving too near end table with gripper facing wall" << cord.transpose() << endl;
             }
             *error_code = 23;
             return false;

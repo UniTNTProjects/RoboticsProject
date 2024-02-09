@@ -34,6 +34,7 @@ public:
     bool isSidePick = false;
     bool isError = false;
     bool isDone = false;
+    bool init = false;
 
     double heightPickAndPlace = 0.14;
 

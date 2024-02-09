@@ -7,6 +7,13 @@
 
 using namespace std;
 
+double gaussian_distribution(double x)
+{
+    double mean = 0.0;
+    double std_dev = 1.0;
+    return (1 / (std_dev * sqrt(2 * M_PI))) * exp(-0.5 * pow((x - mean) / std_dev, 2));
+}
+
 void Controller::joint_state_callback(const sensor_msgs::JointState::ConstPtr &msg)
 {
     joint_initialized = true;
@@ -170,6 +177,7 @@ bool Controller::move_inside(vector<double *> *trajectory)
         //  send the trajectory
         int counter = 0;
 
+        double settling_time = 0.1 / gaussian_distribution((double(j) / double(steps)) * 2.0 - 1.0);
         while (ros::ok() && this->acceptable_error < calculate_distance(current_joints, des_not_linear))
         {
             // cout << "error: " << calculate_distance(current_joints, des_not_linear) << endl;
@@ -178,7 +186,7 @@ bool Controller::move_inside(vector<double *> *trajectory)
             des_normalized = bestNormalization(current_joints, des_not_linear);
             des_optimal = fixNormalization(des_normalized);
 
-            jointValues q_des = fixNormalization(bestNormalization(current_joints, second_order_filter(des_optimal, loop_frequency, 0.5)));
+            jointValues q_des = fixNormalization(bestNormalization(current_joints, second_order_filter(des_optimal, loop_frequency, settling_time)));
             if (use_filter)
             {
                 send_state(q_des);
@@ -274,7 +282,7 @@ int Controller::move_to(const coordinates &position, const rotMatrix &rotation, 
             Quaterniond side_pick_rot = q * toSidePick_Z * toSidePick_Y;
 
             coordinates side_pick_pos;
-            side_pick_pos << position(0) + sin(euler(2)) * 0.02, position(1) + cos(euler(2)) * 0.02, position(2) - 0.05;
+            side_pick_pos << position(0) + sin(euler(2)) * 0.01, position(1) + cos(euler(2)) * 0.01, min(position(2), 0.83);
 
             vector<double *> trajectory_side_pick = calc_traj(side_pick_pos, side_pick_rot.normalized().toRotationMatrix(), pick_or_place, homing, up_and_move_flag, move_to_near_axis_flag, current_joints, side_pick_flag, this->isGripping, false);
             if (trajectory_side_pick.size() > 0)
@@ -355,9 +363,10 @@ int Controller::move_to_multiple(vector<pair<coordinates, rotMatrix>> poses_rots
 
                 coordinates block_pos = poses_rots[i].first;
                 coordinates side_pick_pos;
-                side_pick_pos << block_pos(0) + sin(euler(2)) * 0.02, block_pos(1) + cos(euler(2)) * 0.02, block_pos(2) - 0.05;
+                side_pick_pos << block_pos(0) + sin(euler(2)) * 0.02, block_pos(1) + cos(euler(2)) * 0.02, min(block_pos(2), 0.83);
                 poses_rots[i].second = side_pick_rot.normalized().toRotationMatrix();
                 poses_rots[i].first = side_pick_pos;
+                cout << "SIDE PICK POS: " << side_pick_pos.transpose() << endl;
             }
         }
 
