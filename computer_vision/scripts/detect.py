@@ -32,8 +32,8 @@ silhouettes = [
     "X1-Y1-Z2-SILHOUETTE",
 ]
 base_path = (
-    "/home/squinkis/ros_ws/src/locosim/RoboticsProject/computer_vision/data_generation/"
-    # "/home/emanuele/ros_ws/src/locosim/RoboticsProject/computer_vision/data_generation/"
+    # "/home/squinkis/ros_ws/src/locosim/RoboticsProject/computer_vision/data_generation/"
+    "/home/emanuele/ros_ws/src/locosim/RoboticsProject/computer_vision/data_generation/"
 )
 
 # Create a dictionary with the selected values using them as values and numbers as keys

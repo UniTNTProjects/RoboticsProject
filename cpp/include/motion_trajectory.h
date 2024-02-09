@@ -3,8 +3,8 @@
 using namespace Eigen;
 using namespace std;
 
-const bool debug_traj = true;
-const bool error_code_debug = true;
+const bool debug_traj = false;
+const bool error_code_debug = false;
 
 const int steps = 20;
 
@@ -48,7 +48,7 @@ vector<double *> calc_direct_traj_joint(const jointValues endJoint, bool pick_or
 vector<double *> calc_direct_traj_multiple_joint(vector<jointValues> endJoints, bool *pick_or_place, bool *homing, jointValues startPosition, bool *side_pick, bool isGripping);
 vector<double *> calc_direct_traj(const coordinates &position, const rotMatrix &rotation, bool pick_or_place, bool homing, jointValues startPosition, bool side_pick, bool isGripping);
 vector<double *> calc_direct_traj_multiple(vector<pair<coordinates, rotMatrix>> poses_rots, bool *pick_or_place, bool *homing, jointValues startPosition, bool *side_pick, bool isGripping);
-vector<double *> calc_traj(const coordinates &position, const rotMatrix &rotation, bool pick_or_place, bool homing, bool up_and_move_flag, bool move_to_near_axis_flag, jointValues startPosition, bool side_pick, bool isGripping);
+vector<double *> calc_traj(const coordinates &position, const rotMatrix &rotation, bool pick_or_place, bool homing, bool up_and_move_flag, bool move_to_near_axis_flag, jointValues startPosition, bool side_pick, bool isGripping, bool reset_flag);
 vector<double *> calc_traj_multiple(vector<pair<coordinates, rotMatrix>> poses_rots, bool *pick_or_place, bool *homing, bool *up_and_move_flag, bool *move_to_near_axis_flag, jointValues startJoint, bool *side_pick, bool isGripping);
 vector<double *> move_through_homing(coordinates final_cord, rotMatrix rot, jointValues startJoint, bool side_pick, bool isGripping);
 

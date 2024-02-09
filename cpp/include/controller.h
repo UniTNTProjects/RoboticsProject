@@ -58,11 +58,19 @@ public:
     bool move_to(const coordinates &position, const rotMatrix &rotation, bool pick_or_place, bool homing, bool up_and_move_flag, bool move_to_near_axis_flag, bool side_pick_flag);
     int move_to_multiple(vector<pair<coordinates, rotMatrix>>, bool *, bool *, bool *, bool *, bool *);
     void move_gripper_to(const int diameter);
-    void print_current_pos_rot();
-    void sleep();
+
     void setGripping(bool isGripping, bool side_pick);
 
     // testing
+
+    void print_current_pos_rot();
+    void sleep();
+    double *test_traj_multiple_side_pick(vector<pair<coordinates, rotMatrix>> poses_rots, bool *pick_or_place, bool *homing, bool *up_and_move_flag, bool *move_to_near_axis_flag, bool *side_picks_flag, jointValues start_joints, bool isGripping);
+    double *test_traj(coordinates position, rotMatrix rotation, bool pick_or_place, bool homing, bool up_and_move_flag, bool move_to_near_axis_flag, jointValues start_joints, bool isGripping);
+    double *test_traj_multiple(vector<pair<coordinates, rotMatrix>> poses_rots, bool *pick_or_place, bool *homing, bool *up_and_move_flag, bool *move_to_near_axis_flag, bool *side_picks_flag, jointValues start_joints, bool isGripping);
+    double *test_traj_side_pick(coordinates position, rotMatrix rotation, bool pick_or_place, bool homing, bool up_and_move_flag, bool move_to_near_axis_flag, jointValues start_joints, bool isGripping);
+    Controller(double loop_frequency);
+
     ros::Publisher permission_pub;
 };
 

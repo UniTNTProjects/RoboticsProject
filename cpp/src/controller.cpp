@@ -234,28 +234,12 @@ void Controller::move_gripper_to(const int diameter)
     sent_gripper_diameter(diameter);
 }
 
-void Controller::print_current_pos_rot()
-{
-    coordinates cord;
-    rotMatrix rot;
-    jointValues joints;
-    joints = current_joints;
-    ur5Direct(joints, cord, rot);
-    cout << "cord: " << cord << endl;
-    cout << "rot: " << rot << endl;
-}
-
-void Controller::sleep()
-{
-    ros::Duration(1.0).sleep();
-}
-
 bool Controller::move_to(const coordinates &position, const rotMatrix &rotation, bool pick_or_place, bool homing, bool up_and_move_flag, bool move_to_near_axis_flag, bool side_pick_flag)
 {
     cout << "Requested move_to with position: " << position.transpose() << endl;
     cout << "Requested move_to with rotation: " << rotation << endl;
 
-    vector<double *> trajectory = calc_traj(position, rotation, pick_or_place, homing, up_and_move_flag, move_to_near_axis_flag, current_joints, side_pick_flag, this->isGripping);
+    vector<double *> trajectory = calc_traj(position, rotation, pick_or_place, homing, up_and_move_flag, move_to_near_axis_flag, current_joints, side_pick_flag, this->isGripping, false);
 
     cout << "Trajectory size: " << trajectory.size() << endl;
     if (trajectory.size() > 0)
@@ -274,7 +258,7 @@ bool Controller::move_to(const coordinates &position, const rotMatrix &rotation,
              << endl;
         side_pick = true;
 
-        vector<double *> trajectory_side_pick = calc_traj(position, get_rotation(180), pick_or_place, homing, up_and_move_flag, move_to_near_axis_flag, current_joints, side_pick, this->isGripping);
+        vector<double *> trajectory_side_pick = calc_traj(position, get_rotation(180), pick_or_place, homing, up_and_move_flag, move_to_near_axis_flag, current_joints, side_pick, this->isGripping, false);
         if (trajectory_side_pick.size() > 0)
         {
             if (move_inside(&trajectory_side_pick))

@@ -38,3 +38,15 @@ install(TARGETS test
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
+
+add_executable(test_all_poses src/test_all_poses.cpp src/controller.cpp src/controller_tests.cpp  src/kinematics/direct.cpp src/kinematics/inverse.cpp src/kinematics/jacobian.cpp  src/trajectories/movement_checks.cpp src/trajectories/motion_plans.cpp src/trajectories/trajectory_init.cpp)
+
+
+target_link_libraries(test_all_poses ${catkin_LIBRARIES})
+target_link_libraries(test_all_poses pinocchio::pinocchio)
+
+install(TARGETS test_all_poses
+  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
