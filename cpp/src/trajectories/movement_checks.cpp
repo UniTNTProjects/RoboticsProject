@@ -181,38 +181,41 @@ bool check_trajectory(vector<double *> traj, int step, bool pick_or_place, int *
                 return false;
             }
 
-            homoMatrix mat;
-            mat << 1, 0, 0, 0,
-                0, 1, 0, 0,
-                0, 0, 1, 0,
-                0, 0, 0, 1;
-
-            homoMatrix matrixes[6];
-            matrixes[0] = T10f(joints(0));
-            matrixes[1] = T21f(joints(1));
-            matrixes[2] = T32f(joints(2));
-            matrixes[3] = T43f(joints(3));
-            matrixes[4] = T54f(joints(4));
-            matrixes[5] = T65f(joints(5));
-
-            mat = mat * matrixes[0];
-            mat = mat * matrixes[1];
-            mat = mat * matrixes[2];
-            mat = mat * matrixes[3];
-            float z3_coord = mat(2, 3);
-            mat = mat * matrixes[4];
-            mat = mat * matrixes[5];
-            float z5_coord = mat(2, 3);
-
-            if (z3_coord > z5_coord)
+            if (side_pick && pick_or_place)
             {
-                if (debug_traj)
+                homoMatrix mat;
+                mat << 1, 0, 0, 0,
+                    0, 1, 0, 0,
+                    0, 0, 1, 0,
+                    0, 0, 0, 1;
+
+                homoMatrix matrixes[6];
+                matrixes[0] = T10f(joints(0));
+                matrixes[1] = T21f(joints(1));
+                matrixes[2] = T32f(joints(2));
+                matrixes[3] = T43f(joints(3));
+                matrixes[4] = T54f(joints(4));
+                matrixes[5] = T65f(joints(5));
+
+                mat = mat * matrixes[0];
+                mat = mat * matrixes[1];
+                mat = mat * matrixes[2];
+                mat = mat * matrixes[3];
+                float z3_coord = mat(2, 3);
+                mat = mat * matrixes[4];
+                mat = mat * matrixes[5];
+                float z5_coord = mat(2, 3);
+
+                if (z3_coord > z5_coord)
                 {
-                    cout << "*******" << endl;
-                    cout << "z3_coord: " << z3_coord << ", z5_coord: " << z5_coord << endl;
+                    if (debug_traj)
+                    {
+                        cout << "*******" << endl;
+                        cout << "z3_coord: " << z3_coord << ", z5_coord: " << z5_coord << endl;
+                    }
+                    *error_code = 16;
+                    return false;
                 }
-                *error_code = 16;
-                return false;
             }
         }
 
@@ -258,38 +261,38 @@ bool check_trajectory(vector<double *> traj, int step, bool pick_or_place, int *
             return false;
         }
 
-        // if (!side_pick && !pick_or_place && !homing && cord(2) > max_z_moving)
-        // {
-        //     if (debug_traj)
-        //     {
-        //         cout << "*******" << endl;
-        //         cout << "moving too low, z wrong: " << cord.transpose() << endl;
-        //     }
-        //     *error_code = 5;
-        //     return false;
-        // }
+        if (!side_pick && !pick_or_place && !homing && cord(2) > max_z_moving)
+        {
+            if (debug_traj)
+            {
+                cout << "*******" << endl;
+                cout << "moving too low, z wrong: " << cord.transpose() << endl;
+            }
+            *error_code = 5;
+            return false;
+        }
 
-        // if (!pick_or_place && (joints(5) < M_PI_4 || joints(5) > 7 * M_PI_4) && cord(1) > max_y_near_end_table)
-        // {
-        //     if (debug_traj)
-        //     {
-        //         cout << "*******" << endl;
-        //         cout << "moving too low, z wrong: " << cord.transpose() << endl;
-        //     }
-        //     *error_code = 23;
-        //     return false;
-        // }
+        if (!pick_or_place && (joints(5) < M_PI_4 || joints(5) > 7 * M_PI_4) && cord(1) > max_y_near_end_table)
+        {
+            if (debug_traj)
+            {
+                cout << "*******" << endl;
+                cout << "moving too low, z wrong: " << cord.transpose() << endl;
+            }
+            *error_code = 23;
+            return false;
+        }
 
-        // if (!pick_or_place && cord(2) > max_z_near_end_table && cord(1) > max_y_near_end_table)
-        // {
-        //     if (debug_traj)
-        //     {
-        //         cout << "*******" << endl;
-        //         cout << "cord end table wrong: " << cord.transpose() << endl;
-        //     }
-        //     *error_code = 6;
-        //     return false;
-        // }
+        if (!pick_or_place && cord(2) > max_z_near_end_table && cord(1) > max_y_near_end_table)
+        {
+            if (debug_traj)
+            {
+                cout << "*******" << endl;
+                cout << "cord end table wrong: " << cord.transpose() << endl;
+            }
+            *error_code = 6;
+            return false;
+        }
 
         if (pick_or_place && (fabs(traj[0][4] - joints(4)) > M_PI / 2 || fabs(traj[0][5] - joints(5)) > M_PI / 2))
         {
@@ -305,18 +308,31 @@ bool check_trajectory(vector<double *> traj, int step, bool pick_or_place, int *
             return false;
         }
 
-        // if (pick_or_place && (start_rotation - rot).norm() > 0.2)
-        // {
-        //     if (debug_traj)
-        //     {
-        //         cout << "*******" << endl;
-        //         cout << "rotations are different" << endl;
-        //         cout << "start_rot: " << start_rotation << endl;
-        //         cout << "rot: " << rot << endl;
-        //     }
-        //     *error_code = 8;
-        //     return false;
-        // }
+        if (pick_or_place && (abs(start_cord(0) - cord(0))) > 0.2 && (abs(start_cord(1) - cord(1))) > 0.2)
+        {
+            if (debug_traj)
+            {
+                cout << "*******" << endl;
+                cout << "cords x and y are different from start" << endl;
+                cout << "start_cord: " << start_cord.transpose() << endl;
+                cout << "cord: " << cord.transpose() << endl;
+            }
+            *error_code = 30;
+            return false;
+        }
+
+        if (pick_or_place && (start_rotation - rot).norm() > 0.2)
+        {
+            if (debug_traj)
+            {
+                cout << "*******" << endl;
+                cout << "rotations are different" << endl;
+                cout << "start_rot: " << start_rotation << endl;
+                cout << "rot: " << rot << endl;
+            }
+            *error_code = 8;
+            return false;
+        }
 
         if (joints.norm() == 0)
         {

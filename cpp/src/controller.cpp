@@ -276,7 +276,7 @@ int Controller::move_to(const coordinates &position, const rotMatrix &rotation, 
             coordinates side_pick_pos;
             side_pick_pos << position(0) + sin(euler(2)) * 0.02, position(1) + cos(euler(2)) * 0.02, position(2) - 0.05;
 
-            vector<double *> trajectory_side_pick = calc_traj(side_pick_pos, side_pick_rot.normalized().toRotationMatrix(), pick_or_place, homing, up_and_move_flag, move_to_near_axis_flag, current_joints, side_pick_flag, this->isGripping);
+            vector<double *> trajectory_side_pick = calc_traj(side_pick_pos, side_pick_rot.normalized().toRotationMatrix(), pick_or_place, homing, up_and_move_flag, move_to_near_axis_flag, current_joints, side_pick_flag, this->isGripping, false);
             if (trajectory_side_pick.size() > 0)
             {
                 if (move_inside(&trajectory_side_pick))
