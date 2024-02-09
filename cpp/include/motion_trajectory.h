@@ -19,11 +19,12 @@ const double min_z = 0.0;
 const double max_y_near_end_table = 0.125;
 const double max_z_near_end_table = 0.73;
 
-const double max_z_moving = 0.79;
-const double max_z_moving_gripping = 0.72;
+const double max_z_moving = 0.81;
+const double max_z_moving_gripping = 0.78;
 
-const double max_z_sidepick = 0.85;
-const double max_z_moving_sidepick = 0.78;
+const double max_z_sidepick = 0.84;
+const double max_z_moving_sidepick = 0.8;
+const double max_z_moving_gripping_sidepick = 0.77;
 
 const jointValues mainJointResetValues = (jointValues() << 0., -1.57, -2.5, 0., 0., 0.).finished();
 
