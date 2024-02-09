@@ -250,7 +250,7 @@ void Controller::sleep()
     ros::Duration(1.0).sleep();
 }
 
-bool Controller::move_to(const coordinates &position, const rotMatrix &rotation, bool pick_or_place, bool homing, bool up_and_move_flag, bool move_to_near_axis_flag, bool side_pick_flag)
+int Controller::move_to(const coordinates &position, const rotMatrix &rotation, bool pick_or_place, bool homing, bool up_and_move_flag, bool move_to_near_axis_flag, bool side_pick_flag)
 {
     cout << "Requested move_to with position: " << position.transpose() << endl;
     cout << "Requested move_to with rotation: " << rotation << endl;
@@ -262,7 +262,7 @@ bool Controller::move_to(const coordinates &position, const rotMatrix &rotation,
     {
         if (move_inside(&trajectory))
         {
-            return true;
+            return 1;
         }
     }
     else
@@ -272,14 +272,30 @@ bool Controller::move_to(const coordinates &position, const rotMatrix &rotation,
              << "Try Side Pick\n"
              << "\n°°°°°°°°°°\n"
              << endl;
-        side_pick = true;
 
-        vector<double *> trajectory_side_pick = calc_traj(position, get_rotation(180), pick_or_place, homing, up_and_move_flag, move_to_near_axis_flag, current_joints, side_pick, this->isGripping);
-        if (trajectory_side_pick.size() > 0)
+        if (side_pick_flag)
         {
-            if (move_inside(&trajectory_side_pick))
+            Quaterniond q = Quaterniond(rotation);
+            // set rotation
+            Vector3d euler = q.normalized().toRotationMatrix().eulerAngles(2, 0, 2);
+            Vector3d side_pick_euler;
+            side_pick_euler << -M_PI_2, 0, M_PI;
+
+            AngleAxisd toSidePick_Z(M_PI, Vector3d::UnitZ());
+            AngleAxisd toSidePick_Y(-M_PI_2, Vector3d::UnitX());
+
+            Quaterniond side_pick_rot = q * toSidePick_Z * toSidePick_Y;
+
+            coordinates side_pick_pos;
+            side_pick_pos << position(0) + sin(euler(2)) * 0.02, position(1) + cos(euler(2)) * 0.02, position(2) - 0.05;
+
+            vector<double *> trajectory_side_pick = calc_traj(side_pick_pos, side_pick_rot.normalized().toRotationMatrix(), pick_or_place, homing, up_and_move_flag, move_to_near_axis_flag, current_joints, side_pick_flag, this->isGripping);
+            if (trajectory_side_pick.size() > 0)
             {
-                return true;
+                if (move_inside(&trajectory_side_pick))
+                {
+                    return 2;
+                }
             }
         }
     }
@@ -289,7 +305,7 @@ bool Controller::move_to(const coordinates &position, const rotMatrix &rotation,
          << endl;
 
     ros::Duration(10.0).sleep();
-    return false;
+    return 0;
 }
 
 int Controller::move_to_multiple(vector<pair<coordinates, rotMatrix>> poses_rots, bool *pick_or_place, bool *homing, bool *up_and_move_flag, bool *move_to_near_axis_flag, bool *side_picks_flag)
