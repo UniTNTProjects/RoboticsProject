@@ -1,7 +1,7 @@
 import rospy
 import cv2
-import torch
 import numpy as np
+import os
 from computer_vision.msg import BoundingBox, BoundingBoxes
 from ultralytics import YOLO
 from ultralytics.utils import ops
@@ -28,12 +28,11 @@ names = [
     "X2-Y2-Z2-FILLET",
 ]
 
-silhouettes = [
-    "X1-Y1-Z2-SILHOUETTE",
-]
+
 base_path = (
-    "/home/squinkis/ros_ws/src/locosim/RoboticsProject/computer_vision/data_generation/"
-    # "/home/emanuele/ros_ws/src/locosim/RoboticsProject/computer_vision/data_generation/"
+    "{HOME}/ros_ws/src/locosim/RoboticsProject/computer_vision/data_generation/".format(
+        **os.environ
+    )
 )
 
 # Create a dictionary with the selected values using them as values and numbers as keys
@@ -43,9 +42,6 @@ for i, name in enumerate(names):
     selected_values[name] = i
 
 pprint(selected_values)
-
-for i, name in enumerate(silhouettes):
-    silhouettes_values[name] = i
 
 
 class Detector:
@@ -84,7 +80,6 @@ class Detector:
         self.show_image = True
         self.boxes = {}  # Dictionary with the bounding boxes
         self.objects = {}  # List with all the objects detected
-        self.silhouette = {}  # List with all the silhouettes detected
 
         for i in range(len(names)):
             self.objects[i] = []
@@ -149,11 +144,6 @@ class Detector:
                     ):
 
                         self.objects[selected_values[to_cpu.names[i]]].append(
-                            to_cpu.boxes[i]
-                        )
-                        self.silhouette[0] = to_cpu.boxes[i]
-                    elif conf > self.conf_threshold and to_cpu.names[i] in silhouettes:
-                        self.silhouette[silhouettes_values[to_cpu.names[i]]] = (
                             to_cpu.boxes[i]
                         )
 
