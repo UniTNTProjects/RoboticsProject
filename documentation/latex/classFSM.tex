@@ -1,86 +1,72 @@
 \hypertarget{classFSM}{}\doxysection{F\+SM Class Reference}
 \label{classFSM}\index{FSM@{FSM}}
+
+
+{\ttfamily \#include $<$F\+S\+M.\+h$>$}
+
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
 \mbox{\hyperlink{classFSM_a2fccf1c016c43e4fa4ee512311bf9d7d}{F\+SM}} ()
 \begin{DoxyCompactList}\small\item\em Construct a new \mbox{\hyperlink{classFSM_a2fccf1c016c43e4fa4ee512311bf9d7d}{F\+S\+M\+::\+F\+SM}} object. \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{classFSM_a8ee85e8d702784f5ac4927034db9c814}\label{classFSM_a8ee85e8d702784f5ac4927034db9c814}} 
-\mbox{\hyperlink{classFSMState}{F\+S\+M\+State}} $\ast$ {\bfseries get\+Current\+State} () const
+\mbox{\hyperlink{classFSMState}{F\+S\+M\+State}} $\ast$ \mbox{\hyperlink{classFSM_a8ee85e8d702784f5ac4927034db9c814}{get\+Current\+State}} () const
 \item 
-\mbox{\Hypertarget{classFSM_a4ef60f061b56eb6fb87e002074581e8b}\label{classFSM_a4ef60f061b56eb6fb87e002074581e8b}} 
-void {\bfseries toggle} ()
+void \mbox{\hyperlink{classFSM_a4ef60f061b56eb6fb87e002074581e8b}{toggle}} ()
 \item 
 void \mbox{\hyperlink{classFSM_a92b0640430c2e5dacb9afce469acfa7b}{set\+State}} (\mbox{\hyperlink{classFSMState}{F\+S\+M\+State}} \&new\+State)
 \item 
-\mbox{\Hypertarget{classFSM_afb4db89b53dcb1903990d00caaa82058}\label{classFSM_afb4db89b53dcb1903990d00caaa82058}} 
-void {\bfseries place\+Down} ()
+void \mbox{\hyperlink{classFSM_afb4db89b53dcb1903990d00caaa82058}{place\+Down}} ()
 \item 
-\mbox{\Hypertarget{classFSM_a5ecddfb1a352d75838c7781929d8bf80}\label{classFSM_a5ecddfb1a352d75838c7781929d8bf80}} 
-void {\bfseries pick\+Up} ()
+void \mbox{\hyperlink{classFSM_a5ecddfb1a352d75838c7781929d8bf80}{pick\+Up}} ()
 \item 
-int \mbox{\hyperlink{classFSM_aba8746c54f948cc060dba311a71dc904}{move\+To}} (coordinates pos, rot\+Matrix rot, bool pick\+\_\+or\+\_\+place, bool homing, bool up\+\_\+and\+\_\+move\+\_\+flag, bool move\+\_\+to\+\_\+near\+\_\+axis\+\_\+flag, bool)
+int \mbox{\hyperlink{classFSM_aba8746c54f948cc060dba311a71dc904}{move\+To}} (\mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}} pos, \mbox{\hyperlink{eigenMatrices_8h_ac54b83793bde6df4d513f6ab9da32f8e}{rot\+Matrix}} rot, bool pick\+\_\+or\+\_\+place, bool homing, bool up\+\_\+and\+\_\+move\+\_\+flag, bool move\+\_\+to\+\_\+near\+\_\+axis\+\_\+flag, bool)
 \item 
-int \mbox{\hyperlink{classFSM_a60393474f5c060a09a909e1af2ad7dd4}{move\+To\+Multiple}} (vector$<$ pair$<$ coordinates, rot\+Matrix $>$$>$ poses\+\_\+rots, bool $\ast$pick\+\_\+or\+\_\+place, bool $\ast$homing, bool $\ast$up\+\_\+and\+\_\+move\+\_\+flag, bool $\ast$move\+\_\+to\+\_\+near\+\_\+axis\+\_\+flag, bool $\ast$)
+int \mbox{\hyperlink{classFSM_a60393474f5c060a09a909e1af2ad7dd4}{move\+To\+Multiple}} (vector$<$ pair$<$ \mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}}, \mbox{\hyperlink{eigenMatrices_8h_ac54b83793bde6df4d513f6ab9da32f8e}{rot\+Matrix}} $>$$>$ poses\+\_\+rots, bool $\ast$pick\+\_\+or\+\_\+place, bool $\ast$homing, bool $\ast$up\+\_\+and\+\_\+move\+\_\+flag, bool $\ast$move\+\_\+to\+\_\+near\+\_\+axis\+\_\+flag, bool $\ast$)
 \item 
 void \mbox{\hyperlink{classFSM_aa7ebb23e144376fa393f7ecbc31034c1}{move\+Gripper\+To}} (int diameter)
 \item 
 bool \mbox{\hyperlink{classFSM_a98abb0d4221d971d5e1662a487bd89fd}{is\+Position\+Queue\+Empty}} ()
 \item 
-void \mbox{\hyperlink{classFSM_a840a98505906f26c6786a3c31db101b1}{add\+Position}} (coordinates pos, rot\+Matrix rot)
+void \mbox{\hyperlink{classFSM_a840a98505906f26c6786a3c31db101b1}{add\+Position}} (\mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}} pos, \mbox{\hyperlink{eigenMatrices_8h_ac54b83793bde6df4d513f6ab9da32f8e}{rot\+Matrix}} rot)
 \item 
-\mbox{\Hypertarget{classFSM_aa85fdc34b603092aa673f820682f8190}\label{classFSM_aa85fdc34b603092aa673f820682f8190}} 
-void {\bfseries remove\+Position} ()
+void \mbox{\hyperlink{classFSM_aa85fdc34b603092aa673f820682f8190}{remove\+Position}} ()
 \item 
-pair$<$ coordinates, rot\+Matrix $>$ \mbox{\hyperlink{classFSM_a097c06553ea782b59e78db1ca0667bf9}{get\+Next\+Position}} ()
+pair$<$ \mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}}, \mbox{\hyperlink{eigenMatrices_8h_ac54b83793bde6df4d513f6ab9da32f8e}{rot\+Matrix}} $>$ \mbox{\hyperlink{classFSM_a097c06553ea782b59e78db1ca0667bf9}{get\+Next\+Position}} ()
 \item 
-coordinates \mbox{\hyperlink{classFSM_a7418e9d96c58d7d549f775f48bc037f9}{translate\+Block\+Cord\+To\+Robot\+Cord}} (coordinates block\+Cord)
+\mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}} \mbox{\hyperlink{classFSM_a7418e9d96c58d7d549f775f48bc037f9}{translate\+Block\+Cord\+To\+Robot\+Cord}} (\mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}} block\+Cord)
 \item 
-coordinates \mbox{\hyperlink{classFSM_aaba246aafb4b4694d7ee49669b2c0cb5}{get\+Current\+Position}} ()
+\mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}} \mbox{\hyperlink{classFSM_aaba246aafb4b4694d7ee49669b2c0cb5}{get\+Current\+Position}} ()
 \item 
 void \mbox{\hyperlink{classFSM_acbb3f5a0681b37893c69d8cbe8de2c7b}{set\+Permission}} (bool permission)
 \end{DoxyCompactItemize}
 \doxysubsection*{Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\Hypertarget{classFSM_a7de75e115c32a16bf2162940fb665dc4}\label{classFSM_a7de75e115c32a16bf2162940fb665dc4}} 
-double {\bfseries timer\+\_\+rec\+\_\+objct} = 0
+double \mbox{\hyperlink{classFSM_a7de75e115c32a16bf2162940fb665dc4}{timer\+\_\+rec\+\_\+objct}} = 0
 \item 
-\mbox{\Hypertarget{classFSM_ace8af04e8cf31fed7caf206815161bb3}\label{classFSM_ace8af04e8cf31fed7caf206815161bb3}} 
-double {\bfseries start\+\_\+objct\+\_\+pick} = 0
+double \mbox{\hyperlink{classFSM_ace8af04e8cf31fed7caf206815161bb3}{start\+\_\+objct\+\_\+pick}} = 0
 \item 
-\mbox{\Hypertarget{classFSM_ae5617f0e861e629e741624f21e918b7f}\label{classFSM_ae5617f0e861e629e741624f21e918b7f}} 
-double {\bfseries end\+\_\+objct\+\_\+pick} = 0
+double \mbox{\hyperlink{classFSM_ae5617f0e861e629e741624f21e918b7f}{end\+\_\+objct\+\_\+pick}} = 0
 \item 
-\mbox{\Hypertarget{classFSM_ab02910ffecc99e9bf44f84231caa2d25}\label{classFSM_ab02910ffecc99e9bf44f84231caa2d25}} 
-double {\bfseries objct\+\_\+pick\+\_\+time} = 0
+double \mbox{\hyperlink{classFSM_ab02910ffecc99e9bf44f84231caa2d25}{objct\+\_\+pick\+\_\+time}} = 0
 \item 
-\mbox{\Hypertarget{classFSM_a90dc642f36ac3866eab77c7ed3e9c964}\label{classFSM_a90dc642f36ac3866eab77c7ed3e9c964}} 
-bool {\bfseries is\+Gripping} = false
+bool \mbox{\hyperlink{classFSM_a90dc642f36ac3866eab77c7ed3e9c964}{is\+Gripping}} = false
 \item 
-\mbox{\Hypertarget{classFSM_adf0cfca05fccce06eeeb97432ff833ea}\label{classFSM_adf0cfca05fccce06eeeb97432ff833ea}} 
-bool {\bfseries is\+Side\+Pick} = false
+bool \mbox{\hyperlink{classFSM_adf0cfca05fccce06eeeb97432ff833ea}{is\+Side\+Pick}} = false
 \item 
-\mbox{\Hypertarget{classFSM_aa9e4836acfbf78b2a56fd8a86f293a89}\label{classFSM_aa9e4836acfbf78b2a56fd8a86f293a89}} 
-bool {\bfseries is\+Error} = false
+bool \mbox{\hyperlink{classFSM_aa9e4836acfbf78b2a56fd8a86f293a89}{is\+Error}} = false
 \item 
-\mbox{\Hypertarget{classFSM_a75ee283eebc4a5258c5412184622ce9a}\label{classFSM_a75ee283eebc4a5258c5412184622ce9a}} 
-bool {\bfseries is\+Done} = false
+bool \mbox{\hyperlink{classFSM_a75ee283eebc4a5258c5412184622ce9a}{is\+Done}} = false
 \item 
-\mbox{\Hypertarget{classFSM_afe58bda8350a9b6cda41f9a1e53f3ac2}\label{classFSM_afe58bda8350a9b6cda41f9a1e53f3ac2}} 
-bool {\bfseries init} = false
+bool \mbox{\hyperlink{classFSM_afe58bda8350a9b6cda41f9a1e53f3ac2}{init}} = false
 \item 
-\mbox{\Hypertarget{classFSM_a7a6039d8600bf18848fcfa04e79f03c3}\label{classFSM_a7a6039d8600bf18848fcfa04e79f03c3}} 
-double {\bfseries height\+Pick\+And\+Place} = 0.\+14
+double \mbox{\hyperlink{classFSM_a7a6039d8600bf18848fcfa04e79f03c3}{height\+Pick\+And\+Place}} = 0.\+14
 \item 
-\mbox{\Hypertarget{classFSM_aea159c9ce5e94c2fa8b098c86f89fd75}\label{classFSM_aea159c9ce5e94c2fa8b098c86f89fd75}} 
-int {\bfseries counter} = 0
+int \mbox{\hyperlink{classFSM_aea159c9ce5e94c2fa8b098c86f89fd75}{counter}} = 0
 \item 
-\mbox{\Hypertarget{classFSM_a05d97faaef035c5ab329382e1f56276e}\label{classFSM_a05d97faaef035c5ab329382e1f56276e}} 
-ros\+::\+Service\+Client {\bfseries get\+\_\+ins}
+ros\+::\+Service\+Client \mbox{\hyperlink{classFSM_a05d97faaef035c5ab329382e1f56276e}{get\+\_\+ins}}
 \item 
-\mbox{\Hypertarget{classFSM_a23e38b31836a41042b585738310d06f9}\label{classFSM_a23e38b31836a41042b585738310d06f9}} 
-computer\+\_\+vision\+::\+Get\+Instructions {\bfseries srv\+\_\+points}
+computer\+\_\+vision\+::\+Get\+Instructions \mbox{\hyperlink{classFSM_a23e38b31836a41042b585738310d06f9}{srv\+\_\+points}}
 \end{DoxyCompactItemize}
 
 
@@ -102,7 +88,7 @@ Construct a new \mbox{\hyperlink{classFSM_a2fccf1c016c43e4fa4ee512311bf9d7d}{F\+
 \index{FSM@{FSM}!addPosition@{addPosition}}
 \index{addPosition@{addPosition}!FSM@{FSM}}
 \doxysubsubsection{\texorpdfstring{addPosition()}{addPosition()}}
-{\footnotesize\ttfamily void F\+S\+M\+::add\+Position (\begin{DoxyParamCaption}\item[{coordinates}]{pos,  }\item[{rot\+Matrix}]{rot }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily void F\+S\+M\+::add\+Position (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}}}]{pos,  }\item[{\mbox{\hyperlink{eigenMatrices_8h_ac54b83793bde6df4d513f6ab9da32f8e}{rot\+Matrix}}}]{rot }\end{DoxyParamCaption})}
 
 
 \begin{DoxyParams}{Parameters}
@@ -115,16 +101,22 @@ Construct a new \mbox{\hyperlink{classFSM_a2fccf1c016c43e4fa4ee512311bf9d7d}{F\+
 \index{FSM@{FSM}!getCurrentPosition@{getCurrentPosition}}
 \index{getCurrentPosition@{getCurrentPosition}!FSM@{FSM}}
 \doxysubsubsection{\texorpdfstring{getCurrentPosition()}{getCurrentPosition()}}
-{\footnotesize\ttfamily coordinates F\+S\+M\+::get\+Current\+Position (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily \mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}} F\+S\+M\+::get\+Current\+Position (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
 \begin{DoxyReturn}{Returns}
 coordinates 
 \end{DoxyReturn}
+\mbox{\Hypertarget{classFSM_a8ee85e8d702784f5ac4927034db9c814}\label{classFSM_a8ee85e8d702784f5ac4927034db9c814}} 
+\index{FSM@{FSM}!getCurrentState@{getCurrentState}}
+\index{getCurrentState@{getCurrentState}!FSM@{FSM}}
+\doxysubsubsection{\texorpdfstring{getCurrentState()}{getCurrentState()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{classFSMState}{F\+S\+M\+State}}$\ast$ F\+S\+M\+::get\+Current\+State (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
 \mbox{\Hypertarget{classFSM_a097c06553ea782b59e78db1ca0667bf9}\label{classFSM_a097c06553ea782b59e78db1ca0667bf9}} 
 \index{FSM@{FSM}!getNextPosition@{getNextPosition}}
 \index{getNextPosition@{getNextPosition}!FSM@{FSM}}
 \doxysubsubsection{\texorpdfstring{getNextPosition()}{getNextPosition()}}
-{\footnotesize\ttfamily pair$<$ coordinates, rot\+Matrix $>$ F\+S\+M\+::get\+Next\+Position (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily pair$<$ \mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}}, \mbox{\hyperlink{eigenMatrices_8h_ac54b83793bde6df4d513f6ab9da32f8e}{rot\+Matrix}} $>$ F\+S\+M\+::get\+Next\+Position (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
 \begin{DoxyReturn}{Returns}
 pair$<$coordinates, rot\+Matrix$>$ 
@@ -155,7 +147,7 @@ false
 \index{FSM@{FSM}!moveTo@{moveTo}}
 \index{moveTo@{moveTo}!FSM@{FSM}}
 \doxysubsubsection{\texorpdfstring{moveTo()}{moveTo()}}
-{\footnotesize\ttfamily int F\+S\+M\+::move\+To (\begin{DoxyParamCaption}\item[{coordinates}]{pos,  }\item[{rot\+Matrix}]{rot,  }\item[{bool}]{pick\+\_\+or\+\_\+place,  }\item[{bool}]{homing,  }\item[{bool}]{up\+\_\+and\+\_\+move\+\_\+flag,  }\item[{bool}]{move\+\_\+to\+\_\+near\+\_\+axis\+\_\+flag,  }\item[{bool}]{side\+\_\+pick\+\_\+flag }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily int F\+S\+M\+::move\+To (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}}}]{pos,  }\item[{\mbox{\hyperlink{eigenMatrices_8h_ac54b83793bde6df4d513f6ab9da32f8e}{rot\+Matrix}}}]{rot,  }\item[{bool}]{pick\+\_\+or\+\_\+place,  }\item[{bool}]{homing,  }\item[{bool}]{up\+\_\+and\+\_\+move\+\_\+flag,  }\item[{bool}]{move\+\_\+to\+\_\+near\+\_\+axis\+\_\+flag,  }\item[{bool}]{side\+\_\+pick\+\_\+flag }\end{DoxyParamCaption})}
 
 
 \begin{DoxyParams}{Parameters}
@@ -181,7 +173,7 @@ int
 \index{FSM@{FSM}!moveToMultiple@{moveToMultiple}}
 \index{moveToMultiple@{moveToMultiple}!FSM@{FSM}}
 \doxysubsubsection{\texorpdfstring{moveToMultiple()}{moveToMultiple()}}
-{\footnotesize\ttfamily int F\+S\+M\+::move\+To\+Multiple (\begin{DoxyParamCaption}\item[{vector$<$ pair$<$ coordinates, rot\+Matrix $>$$>$}]{poses\+\_\+rots,  }\item[{bool $\ast$}]{pick\+\_\+or\+\_\+place,  }\item[{bool $\ast$}]{homing,  }\item[{bool $\ast$}]{up\+\_\+and\+\_\+move\+\_\+flag,  }\item[{bool $\ast$}]{move\+\_\+to\+\_\+near\+\_\+axis\+\_\+flag,  }\item[{bool $\ast$}]{side\+\_\+picks\+\_\+flag }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily int F\+S\+M\+::move\+To\+Multiple (\begin{DoxyParamCaption}\item[{vector$<$ pair$<$ \mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}}, \mbox{\hyperlink{eigenMatrices_8h_ac54b83793bde6df4d513f6ab9da32f8e}{rot\+Matrix}} $>$$>$}]{poses\+\_\+rots,  }\item[{bool $\ast$}]{pick\+\_\+or\+\_\+place,  }\item[{bool $\ast$}]{homing,  }\item[{bool $\ast$}]{up\+\_\+and\+\_\+move\+\_\+flag,  }\item[{bool $\ast$}]{move\+\_\+to\+\_\+near\+\_\+axis\+\_\+flag,  }\item[{bool $\ast$}]{side\+\_\+picks\+\_\+flag }\end{DoxyParamCaption})}
 
 
 \begin{DoxyParams}{Parameters}
@@ -201,6 +193,24 @@ int
 \begin{DoxyReturn}{Returns}
 int 
 \end{DoxyReturn}
+\mbox{\Hypertarget{classFSM_a5ecddfb1a352d75838c7781929d8bf80}\label{classFSM_a5ecddfb1a352d75838c7781929d8bf80}} 
+\index{FSM@{FSM}!pickUp@{pickUp}}
+\index{pickUp@{pickUp}!FSM@{FSM}}
+\doxysubsubsection{\texorpdfstring{pickUp()}{pickUp()}}
+{\footnotesize\ttfamily void F\+S\+M\+::pick\+Up (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classFSM_afb4db89b53dcb1903990d00caaa82058}\label{classFSM_afb4db89b53dcb1903990d00caaa82058}} 
+\index{FSM@{FSM}!placeDown@{placeDown}}
+\index{placeDown@{placeDown}!FSM@{FSM}}
+\doxysubsubsection{\texorpdfstring{placeDown()}{placeDown()}}
+{\footnotesize\ttfamily void F\+S\+M\+::place\+Down (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classFSM_aa85fdc34b603092aa673f820682f8190}\label{classFSM_aa85fdc34b603092aa673f820682f8190}} 
+\index{FSM@{FSM}!removePosition@{removePosition}}
+\index{removePosition@{removePosition}!FSM@{FSM}}
+\doxysubsubsection{\texorpdfstring{removePosition()}{removePosition()}}
+{\footnotesize\ttfamily void F\+S\+M\+::remove\+Position (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
 \mbox{\Hypertarget{classFSM_acbb3f5a0681b37893c69d8cbe8de2c7b}\label{classFSM_acbb3f5a0681b37893c69d8cbe8de2c7b}} 
 \index{FSM@{FSM}!setPermission@{setPermission}}
 \index{setPermission@{setPermission}!FSM@{FSM}}
@@ -223,11 +233,17 @@ int
 {\em new\+State} & \\
 \hline
 \end{DoxyParams}
+\mbox{\Hypertarget{classFSM_a4ef60f061b56eb6fb87e002074581e8b}\label{classFSM_a4ef60f061b56eb6fb87e002074581e8b}} 
+\index{FSM@{FSM}!toggle@{toggle}}
+\index{toggle@{toggle}!FSM@{FSM}}
+\doxysubsubsection{\texorpdfstring{toggle()}{toggle()}}
+{\footnotesize\ttfamily void F\+S\+M\+::toggle (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
 \mbox{\Hypertarget{classFSM_a7418e9d96c58d7d549f775f48bc037f9}\label{classFSM_a7418e9d96c58d7d549f775f48bc037f9}} 
 \index{FSM@{FSM}!translateBlockCordToRobotCord@{translateBlockCordToRobotCord}}
 \index{translateBlockCordToRobotCord@{translateBlockCordToRobotCord}!FSM@{FSM}}
 \doxysubsubsection{\texorpdfstring{translateBlockCordToRobotCord()}{translateBlockCordToRobotCord()}}
-{\footnotesize\ttfamily coordinates F\+S\+M\+::translate\+Block\+Cord\+To\+Robot\+Cord (\begin{DoxyParamCaption}\item[{coordinates}]{block\+Cord }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily \mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}} F\+S\+M\+::translate\+Block\+Cord\+To\+Robot\+Cord (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}}}]{block\+Cord }\end{DoxyParamCaption})}
 
 
 \begin{DoxyParams}{Parameters}
@@ -239,7 +255,88 @@ coordinates
 \end{DoxyReturn}
 
 
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classFSM_aea159c9ce5e94c2fa8b098c86f89fd75}\label{classFSM_aea159c9ce5e94c2fa8b098c86f89fd75}} 
+\index{FSM@{FSM}!counter@{counter}}
+\index{counter@{counter}!FSM@{FSM}}
+\doxysubsubsection{\texorpdfstring{counter}{counter}}
+{\footnotesize\ttfamily int F\+S\+M\+::counter = 0}
+
+\mbox{\Hypertarget{classFSM_ae5617f0e861e629e741624f21e918b7f}\label{classFSM_ae5617f0e861e629e741624f21e918b7f}} 
+\index{FSM@{FSM}!end\_objct\_pick@{end\_objct\_pick}}
+\index{end\_objct\_pick@{end\_objct\_pick}!FSM@{FSM}}
+\doxysubsubsection{\texorpdfstring{end\_objct\_pick}{end\_objct\_pick}}
+{\footnotesize\ttfamily double F\+S\+M\+::end\+\_\+objct\+\_\+pick = 0}
+
+\mbox{\Hypertarget{classFSM_a05d97faaef035c5ab329382e1f56276e}\label{classFSM_a05d97faaef035c5ab329382e1f56276e}} 
+\index{FSM@{FSM}!get\_ins@{get\_ins}}
+\index{get\_ins@{get\_ins}!FSM@{FSM}}
+\doxysubsubsection{\texorpdfstring{get\_ins}{get\_ins}}
+{\footnotesize\ttfamily ros\+::\+Service\+Client F\+S\+M\+::get\+\_\+ins}
+
+\mbox{\Hypertarget{classFSM_a7a6039d8600bf18848fcfa04e79f03c3}\label{classFSM_a7a6039d8600bf18848fcfa04e79f03c3}} 
+\index{FSM@{FSM}!heightPickAndPlace@{heightPickAndPlace}}
+\index{heightPickAndPlace@{heightPickAndPlace}!FSM@{FSM}}
+\doxysubsubsection{\texorpdfstring{heightPickAndPlace}{heightPickAndPlace}}
+{\footnotesize\ttfamily double F\+S\+M\+::height\+Pick\+And\+Place = 0.\+14}
+
+\mbox{\Hypertarget{classFSM_afe58bda8350a9b6cda41f9a1e53f3ac2}\label{classFSM_afe58bda8350a9b6cda41f9a1e53f3ac2}} 
+\index{FSM@{FSM}!init@{init}}
+\index{init@{init}!FSM@{FSM}}
+\doxysubsubsection{\texorpdfstring{init}{init}}
+{\footnotesize\ttfamily bool F\+S\+M\+::init = false}
+
+\mbox{\Hypertarget{classFSM_a75ee283eebc4a5258c5412184622ce9a}\label{classFSM_a75ee283eebc4a5258c5412184622ce9a}} 
+\index{FSM@{FSM}!isDone@{isDone}}
+\index{isDone@{isDone}!FSM@{FSM}}
+\doxysubsubsection{\texorpdfstring{isDone}{isDone}}
+{\footnotesize\ttfamily bool F\+S\+M\+::is\+Done = false}
+
+\mbox{\Hypertarget{classFSM_aa9e4836acfbf78b2a56fd8a86f293a89}\label{classFSM_aa9e4836acfbf78b2a56fd8a86f293a89}} 
+\index{FSM@{FSM}!isError@{isError}}
+\index{isError@{isError}!FSM@{FSM}}
+\doxysubsubsection{\texorpdfstring{isError}{isError}}
+{\footnotesize\ttfamily bool F\+S\+M\+::is\+Error = false}
+
+\mbox{\Hypertarget{classFSM_a90dc642f36ac3866eab77c7ed3e9c964}\label{classFSM_a90dc642f36ac3866eab77c7ed3e9c964}} 
+\index{FSM@{FSM}!isGripping@{isGripping}}
+\index{isGripping@{isGripping}!FSM@{FSM}}
+\doxysubsubsection{\texorpdfstring{isGripping}{isGripping}}
+{\footnotesize\ttfamily bool F\+S\+M\+::is\+Gripping = false}
+
+\mbox{\Hypertarget{classFSM_adf0cfca05fccce06eeeb97432ff833ea}\label{classFSM_adf0cfca05fccce06eeeb97432ff833ea}} 
+\index{FSM@{FSM}!isSidePick@{isSidePick}}
+\index{isSidePick@{isSidePick}!FSM@{FSM}}
+\doxysubsubsection{\texorpdfstring{isSidePick}{isSidePick}}
+{\footnotesize\ttfamily bool F\+S\+M\+::is\+Side\+Pick = false}
+
+\mbox{\Hypertarget{classFSM_ab02910ffecc99e9bf44f84231caa2d25}\label{classFSM_ab02910ffecc99e9bf44f84231caa2d25}} 
+\index{FSM@{FSM}!objct\_pick\_time@{objct\_pick\_time}}
+\index{objct\_pick\_time@{objct\_pick\_time}!FSM@{FSM}}
+\doxysubsubsection{\texorpdfstring{objct\_pick\_time}{objct\_pick\_time}}
+{\footnotesize\ttfamily double F\+S\+M\+::objct\+\_\+pick\+\_\+time = 0}
+
+\mbox{\Hypertarget{classFSM_a23e38b31836a41042b585738310d06f9}\label{classFSM_a23e38b31836a41042b585738310d06f9}} 
+\index{FSM@{FSM}!srv\_points@{srv\_points}}
+\index{srv\_points@{srv\_points}!FSM@{FSM}}
+\doxysubsubsection{\texorpdfstring{srv\_points}{srv\_points}}
+{\footnotesize\ttfamily computer\+\_\+vision\+::\+Get\+Instructions F\+S\+M\+::srv\+\_\+points}
+
+\mbox{\Hypertarget{classFSM_ace8af04e8cf31fed7caf206815161bb3}\label{classFSM_ace8af04e8cf31fed7caf206815161bb3}} 
+\index{FSM@{FSM}!start\_objct\_pick@{start\_objct\_pick}}
+\index{start\_objct\_pick@{start\_objct\_pick}!FSM@{FSM}}
+\doxysubsubsection{\texorpdfstring{start\_objct\_pick}{start\_objct\_pick}}
+{\footnotesize\ttfamily double F\+S\+M\+::start\+\_\+objct\+\_\+pick = 0}
+
+\mbox{\Hypertarget{classFSM_a7de75e115c32a16bf2162940fb665dc4}\label{classFSM_a7de75e115c32a16bf2162940fb665dc4}} 
+\index{FSM@{FSM}!timer\_rec\_objct@{timer\_rec\_objct}}
+\index{timer\_rec\_objct@{timer\_rec\_objct}!FSM@{FSM}}
+\doxysubsubsection{\texorpdfstring{timer\_rec\_objct}{timer\_rec\_objct}}
+{\footnotesize\ttfamily double F\+S\+M\+::timer\+\_\+rec\+\_\+objct = 0}
+
+
+
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
-cpp/include/F\+S\+M.\+h\item 
-cpp/src/\+F\+S\+M/F\+S\+M.\+cpp\end{DoxyCompactItemize}
+cpp/include/\mbox{\hyperlink{FSM_8h}{F\+S\+M.\+h}}\item 
+cpp/src/\+F\+S\+M/\mbox{\hyperlink{FSM_8cpp}{F\+S\+M.\+cpp}}\end{DoxyCompactItemize}

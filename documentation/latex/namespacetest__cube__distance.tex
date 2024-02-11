@@ -1,0 +1,90 @@
+\hypertarget{namespacetest__cube__distance}{}\doxysection{test\+\_\+cube\+\_\+distance Namespace Reference}
+\label{namespacetest__cube__distance}\index{test\_cube\_distance@{test\_cube\_distance}}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespacetest__cube__distance_af92764a133d80197629ea9f337e69836}{center}} = np.\+array(\mbox{[}1,0,0\mbox{]})
+\item 
+float \mbox{\hyperlink{namespacetest__cube__distance_a0743fe2d1872261378d7e1889c214880}{side}} = 0.\+5
+\item 
+\mbox{\hyperlink{namespacetest__cube__distance_a1101e6d49e346429a0c79f424ace218b}{input\+\_\+point}} = np.\+array(\mbox{[}1.\+5,0.\+2,0.\+5\mbox{]})
+\item 
+\mbox{\hyperlink{namespacetest__cube__distance_a0077afd635f9eae1e578683bdf6a8a90}{A}}
+\item 
+\mbox{\hyperlink{namespacetest__cube__distance_a77e7b0e309aa551ff307fdbb15a74b1c}{x}} = cp.\+Variable(3)
+\item 
+\mbox{\hyperlink{namespacetest__cube__distance_a2ff4b8dd72f762df2441ff3b685988be}{objective}} = cp.\+Minimize(cp.\+norm2(\mbox{\hyperlink{namespacetest__cube__distance_a77e7b0e309aa551ff307fdbb15a74b1c}{x}} -\/ \mbox{\hyperlink{namespacetest__cube__distance_a1101e6d49e346429a0c79f424ace218b}{input\+\_\+point}}))
+\item 
+list \mbox{\hyperlink{namespacetest__cube__distance_a45fc600078278f84513491ebb2eac330}{constraints}} = \mbox{[} \mbox{\hyperlink{namespacetest__cube__distance_a0077afd635f9eae1e578683bdf6a8a90}{A}} @ (\mbox{\hyperlink{namespacetest__cube__distance_a77e7b0e309aa551ff307fdbb15a74b1c}{x}} -\/ \mbox{\hyperlink{namespacetest__cube__distance_af92764a133d80197629ea9f337e69836}{center}}) $<$= \mbox{\hyperlink{namespacetest__cube__distance_a0743fe2d1872261378d7e1889c214880}{side}}/2\mbox{]}
+\item 
+\mbox{\hyperlink{namespacetest__cube__distance_a8372a813026016d7bfcd19590d16d74f}{problem}} = cp.\+Problem(\mbox{\hyperlink{namespacetest__cube__distance_a2ff4b8dd72f762df2441ff3b685988be}{objective}}, \mbox{\hyperlink{namespacetest__cube__distance_a45fc600078278f84513491ebb2eac330}{constraints}})
+\item 
+\mbox{\hyperlink{namespacetest__cube__distance_ab560f8f7707ca015fabcb3e7cb4a254c}{result}} = problem.\+solve()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{namespacetest__cube__distance_a0077afd635f9eae1e578683bdf6a8a90}\label{namespacetest__cube__distance_a0077afd635f9eae1e578683bdf6a8a90}} 
+\index{test\_cube\_distance@{test\_cube\_distance}!A@{A}}
+\index{A@{A}!test\_cube\_distance@{test\_cube\_distance}}
+\doxysubsubsection{\texorpdfstring{A}{A}}
+{\footnotesize\ttfamily test\+\_\+cube\+\_\+distance.\+A}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 =  np.array([[0.0, 0.0, 1.0],}
+\DoxyCodeLine{2              [0.0, 0.0, -\/1.0],}
+\DoxyCodeLine{3              [0.0, 1.0, 0.0],}
+\DoxyCodeLine{4              [0.0, -\/1.0, 0.0],}
+\DoxyCodeLine{5              [1.0, 0.0, 0.0],}
+\DoxyCodeLine{6              [-\/1.0, 0.0, 0.0]])}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacetest__cube__distance_af92764a133d80197629ea9f337e69836}\label{namespacetest__cube__distance_af92764a133d80197629ea9f337e69836}} 
+\index{test\_cube\_distance@{test\_cube\_distance}!center@{center}}
+\index{center@{center}!test\_cube\_distance@{test\_cube\_distance}}
+\doxysubsubsection{\texorpdfstring{center}{center}}
+{\footnotesize\ttfamily test\+\_\+cube\+\_\+distance.\+center = np.\+array(\mbox{[}1,0,0\mbox{]})}
+
+\mbox{\Hypertarget{namespacetest__cube__distance_a45fc600078278f84513491ebb2eac330}\label{namespacetest__cube__distance_a45fc600078278f84513491ebb2eac330}} 
+\index{test\_cube\_distance@{test\_cube\_distance}!constraints@{constraints}}
+\index{constraints@{constraints}!test\_cube\_distance@{test\_cube\_distance}}
+\doxysubsubsection{\texorpdfstring{constraints}{constraints}}
+{\footnotesize\ttfamily list test\+\_\+cube\+\_\+distance.\+constraints = \mbox{[} \mbox{\hyperlink{namespacetest__cube__distance_a0077afd635f9eae1e578683bdf6a8a90}{A}} @ (\mbox{\hyperlink{namespacetest__cube__distance_a77e7b0e309aa551ff307fdbb15a74b1c}{x}} -\/ \mbox{\hyperlink{namespacetest__cube__distance_af92764a133d80197629ea9f337e69836}{center}}) $<$= \mbox{\hyperlink{namespacetest__cube__distance_a0743fe2d1872261378d7e1889c214880}{side}}/2\mbox{]}}
+
+\mbox{\Hypertarget{namespacetest__cube__distance_a1101e6d49e346429a0c79f424ace218b}\label{namespacetest__cube__distance_a1101e6d49e346429a0c79f424ace218b}} 
+\index{test\_cube\_distance@{test\_cube\_distance}!input\_point@{input\_point}}
+\index{input\_point@{input\_point}!test\_cube\_distance@{test\_cube\_distance}}
+\doxysubsubsection{\texorpdfstring{input\_point}{input\_point}}
+{\footnotesize\ttfamily test\+\_\+cube\+\_\+distance.\+input\+\_\+point = np.\+array(\mbox{[}1.\+5,0.\+2,0.\+5\mbox{]})}
+
+\mbox{\Hypertarget{namespacetest__cube__distance_a2ff4b8dd72f762df2441ff3b685988be}\label{namespacetest__cube__distance_a2ff4b8dd72f762df2441ff3b685988be}} 
+\index{test\_cube\_distance@{test\_cube\_distance}!objective@{objective}}
+\index{objective@{objective}!test\_cube\_distance@{test\_cube\_distance}}
+\doxysubsubsection{\texorpdfstring{objective}{objective}}
+{\footnotesize\ttfamily test\+\_\+cube\+\_\+distance.\+objective = cp.\+Minimize(cp.\+norm2(\mbox{\hyperlink{namespacetest__cube__distance_a77e7b0e309aa551ff307fdbb15a74b1c}{x}} -\/ \mbox{\hyperlink{namespacetest__cube__distance_a1101e6d49e346429a0c79f424ace218b}{input\+\_\+point}}))}
+
+\mbox{\Hypertarget{namespacetest__cube__distance_a8372a813026016d7bfcd19590d16d74f}\label{namespacetest__cube__distance_a8372a813026016d7bfcd19590d16d74f}} 
+\index{test\_cube\_distance@{test\_cube\_distance}!problem@{problem}}
+\index{problem@{problem}!test\_cube\_distance@{test\_cube\_distance}}
+\doxysubsubsection{\texorpdfstring{problem}{problem}}
+{\footnotesize\ttfamily test\+\_\+cube\+\_\+distance.\+problem = cp.\+Problem(\mbox{\hyperlink{namespacetest__cube__distance_a2ff4b8dd72f762df2441ff3b685988be}{objective}}, \mbox{\hyperlink{namespacetest__cube__distance_a45fc600078278f84513491ebb2eac330}{constraints}})}
+
+\mbox{\Hypertarget{namespacetest__cube__distance_ab560f8f7707ca015fabcb3e7cb4a254c}\label{namespacetest__cube__distance_ab560f8f7707ca015fabcb3e7cb4a254c}} 
+\index{test\_cube\_distance@{test\_cube\_distance}!result@{result}}
+\index{result@{result}!test\_cube\_distance@{test\_cube\_distance}}
+\doxysubsubsection{\texorpdfstring{result}{result}}
+{\footnotesize\ttfamily test\+\_\+cube\+\_\+distance.\+result = problem.\+solve()}
+
+\mbox{\Hypertarget{namespacetest__cube__distance_a0743fe2d1872261378d7e1889c214880}\label{namespacetest__cube__distance_a0743fe2d1872261378d7e1889c214880}} 
+\index{test\_cube\_distance@{test\_cube\_distance}!side@{side}}
+\index{side@{side}!test\_cube\_distance@{test\_cube\_distance}}
+\doxysubsubsection{\texorpdfstring{side}{side}}
+{\footnotesize\ttfamily float test\+\_\+cube\+\_\+distance.\+side = 0.\+5}
+
+\mbox{\Hypertarget{namespacetest__cube__distance_a77e7b0e309aa551ff307fdbb15a74b1c}\label{namespacetest__cube__distance_a77e7b0e309aa551ff307fdbb15a74b1c}} 
+\index{test\_cube\_distance@{test\_cube\_distance}!x@{x}}
+\index{x@{x}!test\_cube\_distance@{test\_cube\_distance}}
+\doxysubsubsection{\texorpdfstring{x}{x}}
+{\footnotesize\ttfamily test\+\_\+cube\+\_\+distance.\+x = cp.\+Variable(3)}
+

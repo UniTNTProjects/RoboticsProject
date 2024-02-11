@@ -1,0 +1,111 @@
+\hypertarget{namespacetest__cylinder__distance}{}\doxysection{test\+\_\+cylinder\+\_\+distance Namespace Reference}
+\label{namespacetest__cylinder__distance}\index{test\_cylinder\_distance@{test\_cylinder\_distance}}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{namespacetest__cylinder__distance_ad6e91fd9c7cd56429c994602cd7f32af}{height}} = 2
+\item 
+\mbox{\hyperlink{namespacetest__cylinder__distance_a3294e4a3d1603125d421e5e4963d3571}{center}} = np.\+array(\mbox{[}1,0,0\mbox{]})
+\item 
+int \mbox{\hyperlink{namespacetest__cylinder__distance_a1f77d70de550352f9b04e85accd26471}{radius}} = 2;
+\item 
+\mbox{\hyperlink{namespacetest__cylinder__distance_a9c2bb03c8f08884fd5f6ae66bdc33f56}{input\+\_\+point}} = np.\+array(\mbox{[}2,0,2.\+5\mbox{]})
+\item 
+\mbox{\hyperlink{namespacetest__cylinder__distance_a7b17f3eeb08a50a22d913e71050e4e4e}{base\+\_\+n}} = np.\+array(\mbox{[}\mbox{[}0\mbox{]},\mbox{[}0\mbox{]} ,\mbox{[}1\mbox{]}\mbox{]})
+\item 
+\mbox{\hyperlink{namespacetest__cylinder__distance_a3b584cec7338e1900e74731b9ee70317}{base\+\_\+tg}} = np.\+eye(3) -\/ base\+\_\+n.\+dot(base\+\_\+n.\+T)
+\item 
+int \mbox{\hyperlink{namespacetest__cylinder__distance_aa503e81d4078fd6272650798c002acef}{d}} = \mbox{\hyperlink{namespacetest__cylinder__distance_ad6e91fd9c7cd56429c994602cd7f32af}{height}} /2
+\item 
+\mbox{\hyperlink{namespacetest__cylinder__distance_a230a38e8f8fcf1913817e9c0baf1b012}{x}} = cp.\+Variable(3)
+\item 
+\mbox{\hyperlink{namespacetest__cylinder__distance_a9f5ac85a1baba4dec66b9b59f66444ed}{objective}} = cp.\+Minimize(cp.\+norm2(\mbox{\hyperlink{namespacetest__cylinder__distance_a230a38e8f8fcf1913817e9c0baf1b012}{x}} -\/ \mbox{\hyperlink{namespacetest__cylinder__distance_a9c2bb03c8f08884fd5f6ae66bdc33f56}{input\+\_\+point}}))
+\item 
+list \mbox{\hyperlink{namespacetest__cylinder__distance_adfd32adacb8565a5880681a05f5be72c}{constraints}}
+\item 
+\mbox{\hyperlink{namespacetest__cylinder__distance_a21a443fd0a0a263b63c6b0a8d78ad677}{problem}} = cp.\+Problem(\mbox{\hyperlink{namespacetest__cylinder__distance_a9f5ac85a1baba4dec66b9b59f66444ed}{objective}}, \mbox{\hyperlink{namespacetest__cylinder__distance_adfd32adacb8565a5880681a05f5be72c}{constraints}})
+\item 
+\mbox{\hyperlink{namespacetest__cylinder__distance_afcf264438a2ef6d80cb72234a4d83731}{result}} = problem.\+solve()
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{namespacetest__cylinder__distance_a7b17f3eeb08a50a22d913e71050e4e4e}\label{namespacetest__cylinder__distance_a7b17f3eeb08a50a22d913e71050e4e4e}} 
+\index{test\_cylinder\_distance@{test\_cylinder\_distance}!base\_n@{base\_n}}
+\index{base\_n@{base\_n}!test\_cylinder\_distance@{test\_cylinder\_distance}}
+\doxysubsubsection{\texorpdfstring{base\_n}{base\_n}}
+{\footnotesize\ttfamily test\+\_\+cylinder\+\_\+distance.\+base\+\_\+n = np.\+array(\mbox{[}\mbox{[}0\mbox{]},\mbox{[}0\mbox{]} ,\mbox{[}1\mbox{]}\mbox{]})}
+
+\mbox{\Hypertarget{namespacetest__cylinder__distance_a3b584cec7338e1900e74731b9ee70317}\label{namespacetest__cylinder__distance_a3b584cec7338e1900e74731b9ee70317}} 
+\index{test\_cylinder\_distance@{test\_cylinder\_distance}!base\_tg@{base\_tg}}
+\index{base\_tg@{base\_tg}!test\_cylinder\_distance@{test\_cylinder\_distance}}
+\doxysubsubsection{\texorpdfstring{base\_tg}{base\_tg}}
+{\footnotesize\ttfamily test\+\_\+cylinder\+\_\+distance.\+base\+\_\+tg = np.\+eye(3) -\/ base\+\_\+n.\+dot(base\+\_\+n.\+T)}
+
+\mbox{\Hypertarget{namespacetest__cylinder__distance_a3294e4a3d1603125d421e5e4963d3571}\label{namespacetest__cylinder__distance_a3294e4a3d1603125d421e5e4963d3571}} 
+\index{test\_cylinder\_distance@{test\_cylinder\_distance}!center@{center}}
+\index{center@{center}!test\_cylinder\_distance@{test\_cylinder\_distance}}
+\doxysubsubsection{\texorpdfstring{center}{center}}
+{\footnotesize\ttfamily test\+\_\+cylinder\+\_\+distance.\+center = np.\+array(\mbox{[}1,0,0\mbox{]})}
+
+\mbox{\Hypertarget{namespacetest__cylinder__distance_adfd32adacb8565a5880681a05f5be72c}\label{namespacetest__cylinder__distance_adfd32adacb8565a5880681a05f5be72c}} 
+\index{test\_cylinder\_distance@{test\_cylinder\_distance}!constraints@{constraints}}
+\index{constraints@{constraints}!test\_cylinder\_distance@{test\_cylinder\_distance}}
+\doxysubsubsection{\texorpdfstring{constraints}{constraints}}
+{\footnotesize\ttfamily list test\+\_\+cylinder\+\_\+distance.\+constraints}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 =  [ base\_n.T @ (x -\/ center) <= d,}
+\DoxyCodeLine{2                 -\/base\_n.T @ (x -\/ center) <= d,}
+\DoxyCodeLine{3                 cp.norm2(base\_tg.T @  (x -\/center)) <= radius]}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacetest__cylinder__distance_aa503e81d4078fd6272650798c002acef}\label{namespacetest__cylinder__distance_aa503e81d4078fd6272650798c002acef}} 
+\index{test\_cylinder\_distance@{test\_cylinder\_distance}!d@{d}}
+\index{d@{d}!test\_cylinder\_distance@{test\_cylinder\_distance}}
+\doxysubsubsection{\texorpdfstring{d}{d}}
+{\footnotesize\ttfamily int test\+\_\+cylinder\+\_\+distance.\+d = \mbox{\hyperlink{namespacetest__cylinder__distance_ad6e91fd9c7cd56429c994602cd7f32af}{height}} /2}
+
+\mbox{\Hypertarget{namespacetest__cylinder__distance_ad6e91fd9c7cd56429c994602cd7f32af}\label{namespacetest__cylinder__distance_ad6e91fd9c7cd56429c994602cd7f32af}} 
+\index{test\_cylinder\_distance@{test\_cylinder\_distance}!height@{height}}
+\index{height@{height}!test\_cylinder\_distance@{test\_cylinder\_distance}}
+\doxysubsubsection{\texorpdfstring{height}{height}}
+{\footnotesize\ttfamily int test\+\_\+cylinder\+\_\+distance.\+height = 2}
+
+\mbox{\Hypertarget{namespacetest__cylinder__distance_a9c2bb03c8f08884fd5f6ae66bdc33f56}\label{namespacetest__cylinder__distance_a9c2bb03c8f08884fd5f6ae66bdc33f56}} 
+\index{test\_cylinder\_distance@{test\_cylinder\_distance}!input\_point@{input\_point}}
+\index{input\_point@{input\_point}!test\_cylinder\_distance@{test\_cylinder\_distance}}
+\doxysubsubsection{\texorpdfstring{input\_point}{input\_point}}
+{\footnotesize\ttfamily test\+\_\+cylinder\+\_\+distance.\+input\+\_\+point = np.\+array(\mbox{[}2,0,2.\+5\mbox{]})}
+
+\mbox{\Hypertarget{namespacetest__cylinder__distance_a9f5ac85a1baba4dec66b9b59f66444ed}\label{namespacetest__cylinder__distance_a9f5ac85a1baba4dec66b9b59f66444ed}} 
+\index{test\_cylinder\_distance@{test\_cylinder\_distance}!objective@{objective}}
+\index{objective@{objective}!test\_cylinder\_distance@{test\_cylinder\_distance}}
+\doxysubsubsection{\texorpdfstring{objective}{objective}}
+{\footnotesize\ttfamily test\+\_\+cylinder\+\_\+distance.\+objective = cp.\+Minimize(cp.\+norm2(\mbox{\hyperlink{namespacetest__cylinder__distance_a230a38e8f8fcf1913817e9c0baf1b012}{x}} -\/ \mbox{\hyperlink{namespacetest__cylinder__distance_a9c2bb03c8f08884fd5f6ae66bdc33f56}{input\+\_\+point}}))}
+
+\mbox{\Hypertarget{namespacetest__cylinder__distance_a21a443fd0a0a263b63c6b0a8d78ad677}\label{namespacetest__cylinder__distance_a21a443fd0a0a263b63c6b0a8d78ad677}} 
+\index{test\_cylinder\_distance@{test\_cylinder\_distance}!problem@{problem}}
+\index{problem@{problem}!test\_cylinder\_distance@{test\_cylinder\_distance}}
+\doxysubsubsection{\texorpdfstring{problem}{problem}}
+{\footnotesize\ttfamily test\+\_\+cylinder\+\_\+distance.\+problem = cp.\+Problem(\mbox{\hyperlink{namespacetest__cylinder__distance_a9f5ac85a1baba4dec66b9b59f66444ed}{objective}}, \mbox{\hyperlink{namespacetest__cylinder__distance_adfd32adacb8565a5880681a05f5be72c}{constraints}})}
+
+\mbox{\Hypertarget{namespacetest__cylinder__distance_a1f77d70de550352f9b04e85accd26471}\label{namespacetest__cylinder__distance_a1f77d70de550352f9b04e85accd26471}} 
+\index{test\_cylinder\_distance@{test\_cylinder\_distance}!radius@{radius}}
+\index{radius@{radius}!test\_cylinder\_distance@{test\_cylinder\_distance}}
+\doxysubsubsection{\texorpdfstring{radius}{radius}}
+{\footnotesize\ttfamily int test\+\_\+cylinder\+\_\+distance.\+radius = 2;}
+
+\mbox{\Hypertarget{namespacetest__cylinder__distance_afcf264438a2ef6d80cb72234a4d83731}\label{namespacetest__cylinder__distance_afcf264438a2ef6d80cb72234a4d83731}} 
+\index{test\_cylinder\_distance@{test\_cylinder\_distance}!result@{result}}
+\index{result@{result}!test\_cylinder\_distance@{test\_cylinder\_distance}}
+\doxysubsubsection{\texorpdfstring{result}{result}}
+{\footnotesize\ttfamily test\+\_\+cylinder\+\_\+distance.\+result = problem.\+solve()}
+
+\mbox{\Hypertarget{namespacetest__cylinder__distance_a230a38e8f8fcf1913817e9c0baf1b012}\label{namespacetest__cylinder__distance_a230a38e8f8fcf1913817e9c0baf1b012}} 
+\index{test\_cylinder\_distance@{test\_cylinder\_distance}!x@{x}}
+\index{x@{x}!test\_cylinder\_distance@{test\_cylinder\_distance}}
+\doxysubsubsection{\texorpdfstring{x}{x}}
+{\footnotesize\ttfamily test\+\_\+cylinder\+\_\+distance.\+x = cp.\+Variable(3)}
+

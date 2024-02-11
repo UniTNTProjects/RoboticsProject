@@ -1,0 +1,227 @@
+\hypertarget{namespaceinverse__kinematics_1_1inv__kinematics__quadruped}{}\doxysection{inverse\+\_\+kinematics.\+inv\+\_\+kinematics\+\_\+quadruped Namespace Reference}
+\label{namespaceinverse__kinematics_1_1inv__kinematics__quadruped}\index{inverse\_kinematics.inv\_kinematics\_quadruped@{inverse\_kinematics.inv\_kinematics\_quadruped}}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classinverse__kinematics_1_1inv__kinematics__quadruped_1_1InverseKinematics}{Inverse\+Kinematics}}
+\item 
+class \mbox{\hyperlink{classinverse__kinematics_1_1inv__kinematics__quadruped_1_1InverseKinematicsOptimization}{Inverse\+Kinematics\+Optimization}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+string \mbox{\hyperlink{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_ac5704f4e5cf799459e65169838c1b45e}{H\+I\+P\+\_\+\+UP}} = \textquotesingle{}Hip\+Up\textquotesingle{}
+\item 
+string \mbox{\hyperlink{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_a87a776b612ed7e6154a240c29c5a6b23}{H\+I\+P\+\_\+\+D\+O\+WN}} = \textquotesingle{}Hip\+Down\textquotesingle{}
+\item 
+string \mbox{\hyperlink{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_a9c07757d2bb747100d605e999232e454}{K\+N\+E\+E\+\_\+\+I\+N\+W\+A\+RD}} = \textquotesingle{}Knee\+Inward\textquotesingle{}
+\item 
+string \mbox{\hyperlink{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_aff06060fea39c38dbc8f819f2697abe6}{K\+N\+E\+E\+\_\+\+O\+U\+T\+W\+A\+RD}} = \textquotesingle{}Knee\+Outward\textquotesingle{}
+\item 
+string \mbox{\hyperlink{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_ac8b4b3ef9bafaaa3551ace6c5641c7e8}{robot\+\_\+name}} = \textquotesingle{}go1\textquotesingle{}
+\item 
+\mbox{\hyperlink{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_a376c9be323a1240709197428ac342a19}{qj}}
+\item 
+list \mbox{\hyperlink{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_a7076dc86e56deb191b3b128846a3eb60}{hip}} = \mbox{[}\mbox{\hyperlink{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_a87a776b612ed7e6154a240c29c5a6b23}{H\+I\+P\+\_\+\+D\+O\+WN}}\mbox{]} $\ast$ 4
+\item 
+list \mbox{\hyperlink{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_a429db55e6d1a83dccb333438c3710248}{knee}} = \mbox{[}\mbox{\hyperlink{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_a9c07757d2bb747100d605e999232e454}{K\+N\+E\+E\+\_\+\+I\+N\+W\+A\+RD}}\mbox{]} $\ast$ 2 + \mbox{[}\mbox{\hyperlink{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_aff06060fea39c38dbc8f819f2697abe6}{K\+N\+E\+E\+\_\+\+O\+U\+T\+W\+A\+RD}}\mbox{]} $\ast$ 2
+\item 
+\mbox{\hyperlink{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_ae7116199cf0ace40a607df7a917e9591}{robot}} = get\+Robot\+Model(\mbox{\hyperlink{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_ac8b4b3ef9bafaaa3551ace6c5641c7e8}{robot\+\_\+name}}, generate\+\_\+urdf=True)
+\item 
+\mbox{\hyperlink{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_afee61be9a9a0e00df2aeafcaf8046bd9}{q}} = pin.\+neutral(robot.\+model)
+\item 
+\mbox{\hyperlink{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_ab7231b0e39808780db97dc89bc2339c7}{IK}} = \mbox{\hyperlink{classinverse__kinematics_1_1inv__kinematics__quadruped_1_1InverseKinematics}{Inverse\+Kinematics}}(\mbox{\hyperlink{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_ae7116199cf0ace40a607df7a917e9591}{robot}})
+\item 
+\mbox{\hyperlink{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_ace16c2a9367ed76165109ed3ab3ff081}{I\+K\+Opt}} = \mbox{\hyperlink{classinverse__kinematics_1_1inv__kinematics__quadruped_1_1InverseKinematicsOptimization}{Inverse\+Kinematics\+Optimization}}(\mbox{\hyperlink{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_ae7116199cf0ace40a607df7a917e9591}{robot}})
+\item 
+\mbox{\hyperlink{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_a91b51d70689fe2a03dffbf50815b0cea}{RK}} = robot\+Kinematics(\mbox{\hyperlink{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_ae7116199cf0ace40a607df7a917e9591}{robot}}, \mbox{[}\textquotesingle{}lf\+\_\+foot\textquotesingle{}, \textquotesingle{}rf\+\_\+foot\textquotesingle{},\textquotesingle{}lh\+\_\+foot\textquotesingle{}, \textquotesingle{}rh\+\_\+foot\textquotesingle{}\mbox{]})
+\item 
+list \mbox{\hyperlink{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_a3b65c39676e5c72e0a35bc26f784a39b}{legs}} = \mbox{[}\textquotesingle{}lf\textquotesingle{}, \textquotesingle{}rf\textquotesingle{},\textquotesingle{}lh\textquotesingle{}, \textquotesingle{}rh\textquotesingle{}\mbox{]}
+\item 
+list \mbox{\hyperlink{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_a6730485958423626cb66b68bbe90a981}{feet\+\_\+id}} = \mbox{[}robot.\+model.\+get\+Frame\+Id(leg + \textquotesingle{}\+\_\+foot\textquotesingle{}) for leg in \mbox{\hyperlink{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_a3b65c39676e5c72e0a35bc26f784a39b}{legs}}\mbox{]}
+\item 
+list \mbox{\hyperlink{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_a76be5b72506ac0e614f3db263b70abc3}{feet\+\_\+pos}} = \mbox{[}robot.\+data.\+o\+Mf\mbox{[}foot\mbox{]}.translation.\+copy() for foot in \mbox{\hyperlink{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_a6730485958423626cb66b68bbe90a981}{feet\+\_\+id}}\mbox{]}
+\item 
+\mbox{\hyperlink{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_a39b8fe16655d6caa94ab52577e46d724}{start}} = time.\+time()
+\begin{DoxyCompactList}\small\item\em T\+E\+ST 1\+: gives the feet positions, find qj \#. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_a084ae976d996a502bb950f119f896487}{sol}}
+\item 
+\mbox{\hyperlink{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_a159ded4b0357ed3bc6368c3171f13d59}{is\+Feasible}}
+\item 
+\mbox{\hyperlink{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_a1ab85d4705b98321bbecbeb45bd239fd}{T}} = time.\+time() -\/ \mbox{\hyperlink{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_a39b8fe16655d6caa94ab52577e46d724}{start}}
+\item 
+\mbox{\hyperlink{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_a5c4163e4696c1f15d0b77729f002d016}{sol\+Opt}} = I\+K\+Opt.\+solve(\mbox{\hyperlink{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_a76be5b72506ac0e614f3db263b70abc3}{feet\+\_\+pos}}\mbox{[}i\mbox{]}, robot.\+model.\+frames\mbox{[}foot\mbox{]}.\mbox{\hyperlink{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_a297c582e6254c5c0a40380c991425d9e}{name}}, q0=np.\+array(\mbox{[}0.\+0, 0.\+7, -\/1.\+4\mbox{]}))
+\item 
+\mbox{\hyperlink{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_a3e870dcdcbf68e6c5a17c719e00d08a1}{sol\+Mic}}
+\item 
+\mbox{\hyperlink{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_a4c432aeafed2d3ed814d40ccbe6c44b2}{I\+Ksuccess}}
+\item 
+\mbox{\hyperlink{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_a297c582e6254c5c0a40380c991425d9e}{name}}
+\item 
+\mbox{\hyperlink{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_a5629cda049f9b760253e3fc6eb65aa91}{q0\+\_\+leg}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_a6730485958423626cb66b68bbe90a981}\label{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_a6730485958423626cb66b68bbe90a981}} 
+\index{inverse\_kinematics.inv\_kinematics\_quadruped@{inverse\_kinematics.inv\_kinematics\_quadruped}!feet\_id@{feet\_id}}
+\index{feet\_id@{feet\_id}!inverse\_kinematics.inv\_kinematics\_quadruped@{inverse\_kinematics.inv\_kinematics\_quadruped}}
+\doxysubsubsection{\texorpdfstring{feet\_id}{feet\_id}}
+{\footnotesize\ttfamily list inverse\+\_\+kinematics.\+inv\+\_\+kinematics\+\_\+quadruped.\+feet\+\_\+id = \mbox{[}robot.\+model.\+get\+Frame\+Id(leg + \textquotesingle{}\+\_\+foot\textquotesingle{}) for leg in \mbox{\hyperlink{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_a3b65c39676e5c72e0a35bc26f784a39b}{legs}}\mbox{]}}
+
+\mbox{\Hypertarget{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_a76be5b72506ac0e614f3db263b70abc3}\label{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_a76be5b72506ac0e614f3db263b70abc3}} 
+\index{inverse\_kinematics.inv\_kinematics\_quadruped@{inverse\_kinematics.inv\_kinematics\_quadruped}!feet\_pos@{feet\_pos}}
+\index{feet\_pos@{feet\_pos}!inverse\_kinematics.inv\_kinematics\_quadruped@{inverse\_kinematics.inv\_kinematics\_quadruped}}
+\doxysubsubsection{\texorpdfstring{feet\_pos}{feet\_pos}}
+{\footnotesize\ttfamily list inverse\+\_\+kinematics.\+inv\+\_\+kinematics\+\_\+quadruped.\+feet\+\_\+pos = \mbox{[}robot.\+data.\+o\+Mf\mbox{[}foot\mbox{]}.translation.\+copy() for foot in \mbox{\hyperlink{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_a6730485958423626cb66b68bbe90a981}{feet\+\_\+id}}\mbox{]}}
+
+\mbox{\Hypertarget{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_a7076dc86e56deb191b3b128846a3eb60}\label{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_a7076dc86e56deb191b3b128846a3eb60}} 
+\index{inverse\_kinematics.inv\_kinematics\_quadruped@{inverse\_kinematics.inv\_kinematics\_quadruped}!hip@{hip}}
+\index{hip@{hip}!inverse\_kinematics.inv\_kinematics\_quadruped@{inverse\_kinematics.inv\_kinematics\_quadruped}}
+\doxysubsubsection{\texorpdfstring{hip}{hip}}
+{\footnotesize\ttfamily list inverse\+\_\+kinematics.\+inv\+\_\+kinematics\+\_\+quadruped.\+hip = \mbox{[}\mbox{\hyperlink{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_a87a776b612ed7e6154a240c29c5a6b23}{H\+I\+P\+\_\+\+D\+O\+WN}}\mbox{]} $\ast$ 4}
+
+\mbox{\Hypertarget{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_a87a776b612ed7e6154a240c29c5a6b23}\label{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_a87a776b612ed7e6154a240c29c5a6b23}} 
+\index{inverse\_kinematics.inv\_kinematics\_quadruped@{inverse\_kinematics.inv\_kinematics\_quadruped}!HIP\_DOWN@{HIP\_DOWN}}
+\index{HIP\_DOWN@{HIP\_DOWN}!inverse\_kinematics.inv\_kinematics\_quadruped@{inverse\_kinematics.inv\_kinematics\_quadruped}}
+\doxysubsubsection{\texorpdfstring{HIP\_DOWN}{HIP\_DOWN}}
+{\footnotesize\ttfamily string inverse\+\_\+kinematics.\+inv\+\_\+kinematics\+\_\+quadruped.\+H\+I\+P\+\_\+\+D\+O\+WN = \textquotesingle{}Hip\+Down\textquotesingle{}}
+
+\mbox{\Hypertarget{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_ac5704f4e5cf799459e65169838c1b45e}\label{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_ac5704f4e5cf799459e65169838c1b45e}} 
+\index{inverse\_kinematics.inv\_kinematics\_quadruped@{inverse\_kinematics.inv\_kinematics\_quadruped}!HIP\_UP@{HIP\_UP}}
+\index{HIP\_UP@{HIP\_UP}!inverse\_kinematics.inv\_kinematics\_quadruped@{inverse\_kinematics.inv\_kinematics\_quadruped}}
+\doxysubsubsection{\texorpdfstring{HIP\_UP}{HIP\_UP}}
+{\footnotesize\ttfamily string inverse\+\_\+kinematics.\+inv\+\_\+kinematics\+\_\+quadruped.\+H\+I\+P\+\_\+\+UP = \textquotesingle{}Hip\+Up\textquotesingle{}}
+
+\mbox{\Hypertarget{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_ab7231b0e39808780db97dc89bc2339c7}\label{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_ab7231b0e39808780db97dc89bc2339c7}} 
+\index{inverse\_kinematics.inv\_kinematics\_quadruped@{inverse\_kinematics.inv\_kinematics\_quadruped}!IK@{IK}}
+\index{IK@{IK}!inverse\_kinematics.inv\_kinematics\_quadruped@{inverse\_kinematics.inv\_kinematics\_quadruped}}
+\doxysubsubsection{\texorpdfstring{IK}{IK}}
+{\footnotesize\ttfamily inverse\+\_\+kinematics.\+inv\+\_\+kinematics\+\_\+quadruped.\+IK = \mbox{\hyperlink{classinverse__kinematics_1_1inv__kinematics__quadruped_1_1InverseKinematics}{Inverse\+Kinematics}}(\mbox{\hyperlink{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_ae7116199cf0ace40a607df7a917e9591}{robot}})}
+
+\mbox{\Hypertarget{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_ace16c2a9367ed76165109ed3ab3ff081}\label{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_ace16c2a9367ed76165109ed3ab3ff081}} 
+\index{inverse\_kinematics.inv\_kinematics\_quadruped@{inverse\_kinematics.inv\_kinematics\_quadruped}!IKOpt@{IKOpt}}
+\index{IKOpt@{IKOpt}!inverse\_kinematics.inv\_kinematics\_quadruped@{inverse\_kinematics.inv\_kinematics\_quadruped}}
+\doxysubsubsection{\texorpdfstring{IKOpt}{IKOpt}}
+{\footnotesize\ttfamily inverse\+\_\+kinematics.\+inv\+\_\+kinematics\+\_\+quadruped.\+I\+K\+Opt = \mbox{\hyperlink{classinverse__kinematics_1_1inv__kinematics__quadruped_1_1InverseKinematicsOptimization}{Inverse\+Kinematics\+Optimization}}(\mbox{\hyperlink{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_ae7116199cf0ace40a607df7a917e9591}{robot}})}
+
+\mbox{\Hypertarget{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_a4c432aeafed2d3ed814d40ccbe6c44b2}\label{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_a4c432aeafed2d3ed814d40ccbe6c44b2}} 
+\index{inverse\_kinematics.inv\_kinematics\_quadruped@{inverse\_kinematics.inv\_kinematics\_quadruped}!IKsuccess@{IKsuccess}}
+\index{IKsuccess@{IKsuccess}!inverse\_kinematics.inv\_kinematics\_quadruped@{inverse\_kinematics.inv\_kinematics\_quadruped}}
+\doxysubsubsection{\texorpdfstring{IKsuccess}{IKsuccess}}
+{\footnotesize\ttfamily inverse\+\_\+kinematics.\+inv\+\_\+kinematics\+\_\+quadruped.\+I\+Ksuccess}
+
+\mbox{\Hypertarget{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_a159ded4b0357ed3bc6368c3171f13d59}\label{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_a159ded4b0357ed3bc6368c3171f13d59}} 
+\index{inverse\_kinematics.inv\_kinematics\_quadruped@{inverse\_kinematics.inv\_kinematics\_quadruped}!isFeasible@{isFeasible}}
+\index{isFeasible@{isFeasible}!inverse\_kinematics.inv\_kinematics\_quadruped@{inverse\_kinematics.inv\_kinematics\_quadruped}}
+\doxysubsubsection{\texorpdfstring{isFeasible}{isFeasible}}
+{\footnotesize\ttfamily inverse\+\_\+kinematics.\+inv\+\_\+kinematics\+\_\+quadruped.\+is\+Feasible}
+
+\mbox{\Hypertarget{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_a429db55e6d1a83dccb333438c3710248}\label{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_a429db55e6d1a83dccb333438c3710248}} 
+\index{inverse\_kinematics.inv\_kinematics\_quadruped@{inverse\_kinematics.inv\_kinematics\_quadruped}!knee@{knee}}
+\index{knee@{knee}!inverse\_kinematics.inv\_kinematics\_quadruped@{inverse\_kinematics.inv\_kinematics\_quadruped}}
+\doxysubsubsection{\texorpdfstring{knee}{knee}}
+{\footnotesize\ttfamily list inverse\+\_\+kinematics.\+inv\+\_\+kinematics\+\_\+quadruped.\+knee = \mbox{[}\mbox{\hyperlink{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_a9c07757d2bb747100d605e999232e454}{K\+N\+E\+E\+\_\+\+I\+N\+W\+A\+RD}}\mbox{]} $\ast$ 2 + \mbox{[}\mbox{\hyperlink{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_aff06060fea39c38dbc8f819f2697abe6}{K\+N\+E\+E\+\_\+\+O\+U\+T\+W\+A\+RD}}\mbox{]} $\ast$ 2}
+
+\mbox{\Hypertarget{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_a9c07757d2bb747100d605e999232e454}\label{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_a9c07757d2bb747100d605e999232e454}} 
+\index{inverse\_kinematics.inv\_kinematics\_quadruped@{inverse\_kinematics.inv\_kinematics\_quadruped}!KNEE\_INWARD@{KNEE\_INWARD}}
+\index{KNEE\_INWARD@{KNEE\_INWARD}!inverse\_kinematics.inv\_kinematics\_quadruped@{inverse\_kinematics.inv\_kinematics\_quadruped}}
+\doxysubsubsection{\texorpdfstring{KNEE\_INWARD}{KNEE\_INWARD}}
+{\footnotesize\ttfamily string inverse\+\_\+kinematics.\+inv\+\_\+kinematics\+\_\+quadruped.\+K\+N\+E\+E\+\_\+\+I\+N\+W\+A\+RD = \textquotesingle{}Knee\+Inward\textquotesingle{}}
+
+\mbox{\Hypertarget{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_aff06060fea39c38dbc8f819f2697abe6}\label{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_aff06060fea39c38dbc8f819f2697abe6}} 
+\index{inverse\_kinematics.inv\_kinematics\_quadruped@{inverse\_kinematics.inv\_kinematics\_quadruped}!KNEE\_OUTWARD@{KNEE\_OUTWARD}}
+\index{KNEE\_OUTWARD@{KNEE\_OUTWARD}!inverse\_kinematics.inv\_kinematics\_quadruped@{inverse\_kinematics.inv\_kinematics\_quadruped}}
+\doxysubsubsection{\texorpdfstring{KNEE\_OUTWARD}{KNEE\_OUTWARD}}
+{\footnotesize\ttfamily string inverse\+\_\+kinematics.\+inv\+\_\+kinematics\+\_\+quadruped.\+K\+N\+E\+E\+\_\+\+O\+U\+T\+W\+A\+RD = \textquotesingle{}Knee\+Outward\textquotesingle{}}
+
+\mbox{\Hypertarget{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_a3b65c39676e5c72e0a35bc26f784a39b}\label{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_a3b65c39676e5c72e0a35bc26f784a39b}} 
+\index{inverse\_kinematics.inv\_kinematics\_quadruped@{inverse\_kinematics.inv\_kinematics\_quadruped}!legs@{legs}}
+\index{legs@{legs}!inverse\_kinematics.inv\_kinematics\_quadruped@{inverse\_kinematics.inv\_kinematics\_quadruped}}
+\doxysubsubsection{\texorpdfstring{legs}{legs}}
+{\footnotesize\ttfamily list inverse\+\_\+kinematics.\+inv\+\_\+kinematics\+\_\+quadruped.\+legs = \mbox{[}\textquotesingle{}lf\textquotesingle{}, \textquotesingle{}rf\textquotesingle{},\textquotesingle{}lh\textquotesingle{}, \textquotesingle{}rh\textquotesingle{}\mbox{]}}
+
+\mbox{\Hypertarget{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_a297c582e6254c5c0a40380c991425d9e}\label{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_a297c582e6254c5c0a40380c991425d9e}} 
+\index{inverse\_kinematics.inv\_kinematics\_quadruped@{inverse\_kinematics.inv\_kinematics\_quadruped}!name@{name}}
+\index{name@{name}!inverse\_kinematics.inv\_kinematics\_quadruped@{inverse\_kinematics.inv\_kinematics\_quadruped}}
+\doxysubsubsection{\texorpdfstring{name}{name}}
+{\footnotesize\ttfamily inverse\+\_\+kinematics.\+inv\+\_\+kinematics\+\_\+quadruped.\+name}
+
+\mbox{\Hypertarget{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_afee61be9a9a0e00df2aeafcaf8046bd9}\label{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_afee61be9a9a0e00df2aeafcaf8046bd9}} 
+\index{inverse\_kinematics.inv\_kinematics\_quadruped@{inverse\_kinematics.inv\_kinematics\_quadruped}!q@{q}}
+\index{q@{q}!inverse\_kinematics.inv\_kinematics\_quadruped@{inverse\_kinematics.inv\_kinematics\_quadruped}}
+\doxysubsubsection{\texorpdfstring{q}{q}}
+{\footnotesize\ttfamily inverse\+\_\+kinematics.\+inv\+\_\+kinematics\+\_\+quadruped.\+q = pin.\+neutral(robot.\+model)}
+
+\mbox{\Hypertarget{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_a5629cda049f9b760253e3fc6eb65aa91}\label{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_a5629cda049f9b760253e3fc6eb65aa91}} 
+\index{inverse\_kinematics.inv\_kinematics\_quadruped@{inverse\_kinematics.inv\_kinematics\_quadruped}!q0\_leg@{q0\_leg}}
+\index{q0\_leg@{q0\_leg}!inverse\_kinematics.inv\_kinematics\_quadruped@{inverse\_kinematics.inv\_kinematics\_quadruped}}
+\doxysubsubsection{\texorpdfstring{q0\_leg}{q0\_leg}}
+{\footnotesize\ttfamily inverse\+\_\+kinematics.\+inv\+\_\+kinematics\+\_\+quadruped.\+q0\+\_\+leg}
+
+\mbox{\Hypertarget{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_a376c9be323a1240709197428ac342a19}\label{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_a376c9be323a1240709197428ac342a19}} 
+\index{inverse\_kinematics.inv\_kinematics\_quadruped@{inverse\_kinematics.inv\_kinematics\_quadruped}!qj@{qj}}
+\index{qj@{qj}!inverse\_kinematics.inv\_kinematics\_quadruped@{inverse\_kinematics.inv\_kinematics\_quadruped}}
+\doxysubsubsection{\texorpdfstring{qj}{qj}}
+{\footnotesize\ttfamily inverse\+\_\+kinematics.\+inv\+\_\+kinematics\+\_\+quadruped.\+qj}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 =  np.array([0.2, 0.78, -\/1.7,}
+\DoxyCodeLine{2                    0.2, 0.78, -\/1.7,}
+\DoxyCodeLine{3                    -\/0.2, 0.78, -\/1.7,}
+\DoxyCodeLine{4                    -\/0.2, 0.78, -\/1.7])}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_a91b51d70689fe2a03dffbf50815b0cea}\label{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_a91b51d70689fe2a03dffbf50815b0cea}} 
+\index{inverse\_kinematics.inv\_kinematics\_quadruped@{inverse\_kinematics.inv\_kinematics\_quadruped}!RK@{RK}}
+\index{RK@{RK}!inverse\_kinematics.inv\_kinematics\_quadruped@{inverse\_kinematics.inv\_kinematics\_quadruped}}
+\doxysubsubsection{\texorpdfstring{RK}{RK}}
+{\footnotesize\ttfamily inverse\+\_\+kinematics.\+inv\+\_\+kinematics\+\_\+quadruped.\+RK = robot\+Kinematics(\mbox{\hyperlink{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_ae7116199cf0ace40a607df7a917e9591}{robot}}, \mbox{[}\textquotesingle{}lf\+\_\+foot\textquotesingle{}, \textquotesingle{}rf\+\_\+foot\textquotesingle{},\textquotesingle{}lh\+\_\+foot\textquotesingle{}, \textquotesingle{}rh\+\_\+foot\textquotesingle{}\mbox{]})}
+
+\mbox{\Hypertarget{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_ae7116199cf0ace40a607df7a917e9591}\label{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_ae7116199cf0ace40a607df7a917e9591}} 
+\index{inverse\_kinematics.inv\_kinematics\_quadruped@{inverse\_kinematics.inv\_kinematics\_quadruped}!robot@{robot}}
+\index{robot@{robot}!inverse\_kinematics.inv\_kinematics\_quadruped@{inverse\_kinematics.inv\_kinematics\_quadruped}}
+\doxysubsubsection{\texorpdfstring{robot}{robot}}
+{\footnotesize\ttfamily inverse\+\_\+kinematics.\+inv\+\_\+kinematics\+\_\+quadruped.\+robot = get\+Robot\+Model(\mbox{\hyperlink{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_ac8b4b3ef9bafaaa3551ace6c5641c7e8}{robot\+\_\+name}}, generate\+\_\+urdf=True)}
+
+\mbox{\Hypertarget{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_ac8b4b3ef9bafaaa3551ace6c5641c7e8}\label{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_ac8b4b3ef9bafaaa3551ace6c5641c7e8}} 
+\index{inverse\_kinematics.inv\_kinematics\_quadruped@{inverse\_kinematics.inv\_kinematics\_quadruped}!robot\_name@{robot\_name}}
+\index{robot\_name@{robot\_name}!inverse\_kinematics.inv\_kinematics\_quadruped@{inverse\_kinematics.inv\_kinematics\_quadruped}}
+\doxysubsubsection{\texorpdfstring{robot\_name}{robot\_name}}
+{\footnotesize\ttfamily string inverse\+\_\+kinematics.\+inv\+\_\+kinematics\+\_\+quadruped.\+robot\+\_\+name = \textquotesingle{}go1\textquotesingle{}}
+
+\mbox{\Hypertarget{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_a084ae976d996a502bb950f119f896487}\label{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_a084ae976d996a502bb950f119f896487}} 
+\index{inverse\_kinematics.inv\_kinematics\_quadruped@{inverse\_kinematics.inv\_kinematics\_quadruped}!sol@{sol}}
+\index{sol@{sol}!inverse\_kinematics.inv\_kinematics\_quadruped@{inverse\_kinematics.inv\_kinematics\_quadruped}}
+\doxysubsubsection{\texorpdfstring{sol}{sol}}
+{\footnotesize\ttfamily inverse\+\_\+kinematics.\+inv\+\_\+kinematics\+\_\+quadruped.\+sol}
+
+\mbox{\Hypertarget{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_a3e870dcdcbf68e6c5a17c719e00d08a1}\label{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_a3e870dcdcbf68e6c5a17c719e00d08a1}} 
+\index{inverse\_kinematics.inv\_kinematics\_quadruped@{inverse\_kinematics.inv\_kinematics\_quadruped}!solMic@{solMic}}
+\index{solMic@{solMic}!inverse\_kinematics.inv\_kinematics\_quadruped@{inverse\_kinematics.inv\_kinematics\_quadruped}}
+\doxysubsubsection{\texorpdfstring{solMic}{solMic}}
+{\footnotesize\ttfamily inverse\+\_\+kinematics.\+inv\+\_\+kinematics\+\_\+quadruped.\+sol\+Mic}
+
+\mbox{\Hypertarget{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_a5c4163e4696c1f15d0b77729f002d016}\label{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_a5c4163e4696c1f15d0b77729f002d016}} 
+\index{inverse\_kinematics.inv\_kinematics\_quadruped@{inverse\_kinematics.inv\_kinematics\_quadruped}!solOpt@{solOpt}}
+\index{solOpt@{solOpt}!inverse\_kinematics.inv\_kinematics\_quadruped@{inverse\_kinematics.inv\_kinematics\_quadruped}}
+\doxysubsubsection{\texorpdfstring{solOpt}{solOpt}}
+{\footnotesize\ttfamily inverse\+\_\+kinematics.\+inv\+\_\+kinematics\+\_\+quadruped.\+sol\+Opt = I\+K\+Opt.\+solve(\mbox{\hyperlink{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_a76be5b72506ac0e614f3db263b70abc3}{feet\+\_\+pos}}\mbox{[}i\mbox{]}, robot.\+model.\+frames\mbox{[}foot\mbox{]}.\mbox{\hyperlink{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_a297c582e6254c5c0a40380c991425d9e}{name}}, q0=np.\+array(\mbox{[}0.\+0, 0.\+7, -\/1.\+4\mbox{]}))}
+
+\mbox{\Hypertarget{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_a39b8fe16655d6caa94ab52577e46d724}\label{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_a39b8fe16655d6caa94ab52577e46d724}} 
+\index{inverse\_kinematics.inv\_kinematics\_quadruped@{inverse\_kinematics.inv\_kinematics\_quadruped}!start@{start}}
+\index{start@{start}!inverse\_kinematics.inv\_kinematics\_quadruped@{inverse\_kinematics.inv\_kinematics\_quadruped}}
+\doxysubsubsection{\texorpdfstring{start}{start}}
+{\footnotesize\ttfamily inverse\+\_\+kinematics.\+inv\+\_\+kinematics\+\_\+quadruped.\+start = time.\+time()}
+
+
+
+T\+E\+ST 1\+: gives the feet positions, find qj \#. 
+
+I know the general configuration In most of the cases, I really know it \mbox{\Hypertarget{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_a1ab85d4705b98321bbecbeb45bd239fd}\label{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_a1ab85d4705b98321bbecbeb45bd239fd}} 
+\index{inverse\_kinematics.inv\_kinematics\_quadruped@{inverse\_kinematics.inv\_kinematics\_quadruped}!T@{T}}
+\index{T@{T}!inverse\_kinematics.inv\_kinematics\_quadruped@{inverse\_kinematics.inv\_kinematics\_quadruped}}
+\doxysubsubsection{\texorpdfstring{T}{T}}
+{\footnotesize\ttfamily inverse\+\_\+kinematics.\+inv\+\_\+kinematics\+\_\+quadruped.\+T = time.\+time() -\/ \mbox{\hyperlink{namespaceinverse__kinematics_1_1inv__kinematics__quadruped_a39b8fe16655d6caa94ab52577e46d724}{start}}}
+

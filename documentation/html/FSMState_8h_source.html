@@ -69,8 +69,8 @@ $(function() {
 <div class="title">FSMState.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
-<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &quot;FSM.h&quot;</span></div>
+<a href="FSMState_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#pragma once</span></div>
+<div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="FSM_8h.html">FSM.h</a>&quot;</span></div>
 <div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160; </div>
 <div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="comment">// Forward declaration to resolve circular dependency/include</span></div>
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">class </span><a class="code" href="classFSM.html">FSM</a>;</div>
@@ -78,13 +78,18 @@ $(function() {
 <div class="line"><a name="l00007"></a><span class="lineno"><a class="line" href="classFSMState.html">    7</a></span>&#160;<span class="keyword">class </span><a class="code" href="classFSMState.html">FSMState</a></div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;{</div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="keyword">public</span>:</div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> enter(<a class="code" href="classFSM.html">FSM</a> *fsm) = 0;</div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> toggle(<a class="code" href="classFSM.html">FSM</a> *fsm) = 0;</div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> exit(<a class="code" href="classFSM.html">FSM</a> *fsm) = 0;</div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;    <span class="keyword">virtual</span> ~<a class="code" href="classFSMState.html">FSMState</a>() {}</div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classFSMState.html#a612b1cfc6f365bd993d0a3a0027a5c6e">enter</a>(<a class="code" href="classFSM.html">FSM</a> *fsm) = 0;</div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classFSMState.html#a6471748e6bc52e263cec4f5994687e28">toggle</a>(<a class="code" href="classFSM.html">FSM</a> *fsm) = 0;</div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;    <span class="keyword">virtual</span> <span class="keywordtype">void</span> <a class="code" href="classFSMState.html#a4113e969a6d0af12361bab1787bd9e82">exit</a>(<a class="code" href="classFSM.html">FSM</a> *fsm) = 0;</div>
+<div class="line"><a name="l00013"></a><span class="lineno"><a class="line" href="classFSMState.html#a28aedc4aeea51a4e1c2a200da9041bf5">   13</a></span>&#160;    <span class="keyword">virtual</span> <a class="code" href="classFSMState.html#a28aedc4aeea51a4e1c2a200da9041bf5">~FSMState</a>() {}</div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;};</div>
 </div><!-- fragment --></div><!-- contents -->
+<div class="ttc" id="aclassFSMState_html_a28aedc4aeea51a4e1c2a200da9041bf5"><div class="ttname"><a href="classFSMState.html#a28aedc4aeea51a4e1c2a200da9041bf5">FSMState::~FSMState</a></div><div class="ttdeci">virtual ~FSMState()</div><div class="ttdef"><b>Definition:</b> FSMState.h:13</div></div>
+<div class="ttc" id="aclassFSMState_html_a6471748e6bc52e263cec4f5994687e28"><div class="ttname"><a href="classFSMState.html#a6471748e6bc52e263cec4f5994687e28">FSMState::toggle</a></div><div class="ttdeci">virtual void toggle(FSM *fsm)=0</div></div>
+<div class="ttc" id="aFSM_8h_html"><div class="ttname"><a href="FSM_8h.html">FSM.h</a></div></div>
 <div class="ttc" id="aclassFSMState_html"><div class="ttname"><a href="classFSMState.html">FSMState</a></div><div class="ttdef"><b>Definition:</b> FSMState.h:7</div></div>
+<div class="ttc" id="aclassFSMState_html_a612b1cfc6f365bd993d0a3a0027a5c6e"><div class="ttname"><a href="classFSMState.html#a612b1cfc6f365bd993d0a3a0027a5c6e">FSMState::enter</a></div><div class="ttdeci">virtual void enter(FSM *fsm)=0</div></div>
+<div class="ttc" id="aclassFSMState_html_a4113e969a6d0af12361bab1787bd9e82"><div class="ttname"><a href="classFSMState.html#a4113e969a6d0af12361bab1787bd9e82">FSMState::exit</a></div><div class="ttdeci">virtual void exit(FSM *fsm)=0</div></div>
 <div class="ttc" id="aclassFSM_html"><div class="ttname"><a href="classFSM.html">FSM</a></div><div class="ttdef"><b>Definition:</b> FSM.h:13</div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

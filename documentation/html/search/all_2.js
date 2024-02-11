@@ -1,7 +1,27 @@
 var searchData=
 [
-  ['choose_4',['choose',['../classmain__script_1_1Render.html#a69171c00480dcf8d668c1e2d9f773e67',1,'main_script.Render.choose()'],['../classmain__script__copy_1_1Render.html#a71913d511ad535d70655d7fa51a3c95b',1,'main_script_copy.Render.choose()'],['../classmain__script__multiblock_1_1Render.html#a900a846bdd9910875d8361cc38b6b3a6',1,'main_script_multiblock.Render.choose()']]],
-  ['computeallterms_5',['computeAllTerms',['../classutils_1_1custom__robot__wrapper_1_1RobotWrapper.html#a535c12116c8b45950e6d1a385210332b',1,'utils::custom_robot_wrapper::RobotWrapper']]],
-  ['controller_6',['Controller',['../classController.html',1,'Controller'],['../classController.html#a67ab54a3108b37566f29ec822580a493',1,'Controller::Controller()']]],
-  ['controllermanager_7',['ControllerManager',['../classcontroller__manager_1_1ControllerManager.html',1,'controller_manager']]]
+  ['b_32',['b',['../namespaceutils_1_1testOptimTools.html#ad60a4237725a3b92bce59d10da3cdd54',1,'utils.testOptimTools.b()'],['../namespaceutils_1_1testUtils.html#a5802e4f35981aef209ba8cb86297c379',1,'utils.testUtils.b()']]],
+  ['base_5fcontroller_5ffixed_33',['base_controller_fixed',['../namespacebase__controller__fixed.html',1,'']]],
+  ['base_5fcontroller_5ffixed_2epy_34',['base_controller_fixed.py',['../base__controller__fixed_8py.html',1,'']]],
+  ['base_5fin_5fworld_35',['base_in_world',['../classleg__odometry_1_1leg__odometry_1_1LegOdometry.html#a535b8d45f354d4f94cc436236376bbb3',1,'leg_odometry::leg_odometry::LegOdometry']]],
+  ['base_5fn_36',['base_n',['../namespacetest__cylinder__distance.html#a7b17f3eeb08a50a22d913e71050e4e4e',1,'test_cylinder_distance']]],
+  ['base_5foffset_37',['base_offset',['../classbase__controller__fixed_1_1BaseControllerFixed.html#a503b7c1f5d03837cd059b573133bdbf3',1,'base_controller_fixed::BaseControllerFixed']]],
+  ['base_5fpath_38',['base_path',['../namespacedetect.html#a8fdcb65fbf97a74801543462cca09b60',1,'detect']]],
+  ['base_5ftg_39',['base_tg',['../namespacetest__cylinder__distance.html#a3b584cec7338e1900e74731b9ee70317',1,'test_cylinder_distance']]],
+  ['basecontrollerfixed_40',['BaseControllerFixed',['../classbase__controller__fixed_1_1BaseControllerFixed.html',1,'base_controller_fixed']]],
+  ['baselintwistimuw_41',['baseLinTwistImuW',['../classimu__utils_1_1IMU__utils.html#a3dbdc062410774d1c5dbbaaae9599d1f',1,'imu_utils::IMU_utils']]],
+  ['beta_5flimits_42',['beta_limits',['../classmain__script_1_1Render.html#aa712946ff7311a6d53970ffc3779414a',1,'main_script::Render']]],
+  ['block_5fdetected_43',['block_detected',['../yoloNode_8cpp.html#a3c28c4e237ad840be0600089817bd0e7',1,'yoloNode.cpp']]],
+  ['blockprint_44',['blockPrint',['../namespacemain__script.html#a3adfe79a6b6358c94a5789f20f5ad2a3',1,'main_script.blockPrint()'],['../namespacemain__script__copy.html#a82ecb26c3acf25fec568fb279c2e28a2',1,'main_script_copy.blockPrint()'],['../namespacemain__script__multiblock.html#a05336876ae20042478d8026d13ec017d',1,'main_script_multiblock.blockPrint()']]],
+  ['blocks_45',['blocks',['../yoloNode_8cpp.html#aebe9095c35b0b0163ebebd7ba1f3e17f',1,'yoloNode.cpp']]],
+  ['blocks_5fhistory_46',['blocks_history',['../yoloNode_8cpp.html#a37f0df13eaffd0258555b2c4cf7728ec',1,'yoloNode.cpp']]],
+  ['blocks_5flenght_47',['blocks_lenght',['../robotVision_8h.html#a82edba3bdb63e087e6abbb9dc1b58a16',1,'robotVision.h']]],
+  ['blocks_5ftype_48',['blocks_type',['../robotVision_8h.html#a9abe6dbf2bc900160f124a80ee4e15e0',1,'robotVision.h']]],
+  ['bounds_49',['bounds',['../classinverse__kinematics_1_1inv__kinematics__quadruped_1_1InverseKinematicsOptimization.html#a836d43442be374d20292d168245c8882',1,'inverse_kinematics::inv_kinematics_quadruped::InverseKinematicsOptimization']]],
+  ['box_5fnum_50',['box_num',['../namespacedraw__box.html#aa3d0225ae2e5e4e203f510f4a81e7053',1,'draw_box']]],
+  ['box_5ftotal_51',['box_total',['../namespacedraw__box.html#a520725dbff7bcb7f7d1945de7b796754',1,'draw_box']]],
+  ['boxes_52',['boxes',['../classdetect_1_1Detector.html#a7f7566deb20af002909db5401208a6d8',1,'detect::Detector']]],
+  ['bridge_53',['bridge',['../classdetect_1_1Detector.html#a5dceaf7a1dc42aa572e2a649e37bf6d4',1,'detect::Detector']]],
+  ['broadcaster_54',['broadcaster',['../classur5__generic_1_1Ur5Generic.html#a04fd3138353311023a3427bc62fe37c0',1,'ur5_generic::Ur5Generic']]],
+  ['buildfromurdf_55',['BuildFromURDF',['../classutils_1_1custom__robot__wrapper_1_1RobotWrapper.html#afddd13cf6f04951641312268c2013e8c',1,'utils::custom_robot_wrapper::RobotWrapper']]]
 ];

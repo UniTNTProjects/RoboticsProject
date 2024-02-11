@@ -1,0 +1,668 @@
+\hypertarget{motion__trajectory_8h}{}\doxysection{cpp/include/motion\+\_\+trajectory.h File Reference}
+\label{motion__trajectory_8h}\index{cpp/include/motion\_trajectory.h@{cpp/include/motion\_trajectory.h}}
+{\ttfamily \#include \char`\"{}kinematics.\+h\char`\"{}}\newline
+Include dependency graph for motion\+\_\+trajectory.\+h\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{motion__trajectory_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{motion__trajectory_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{motion__trajectory_8h_a672e9f2c98af012fc17d93a17506b6cb}{check\+\_\+singularity\+\_\+collision}} (\mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}} joints)
+\item 
+bool \mbox{\hyperlink{motion__trajectory_8h_a43290356874060289c4c0f92d910f9eb}{check\+\_\+trajectory}} (vector$<$ double $\ast$ $>$ traj, int step, bool pick\+\_\+or\+\_\+place, int $\ast$error\+\_\+code, const \mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}} \&requested\+\_\+cord, const \mbox{\hyperlink{eigenMatrices_8h_ac54b83793bde6df4d513f6ab9da32f8e}{rot\+Matrix}} \&requested\+\_\+rotation, const \mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}} \&init\+\_\+joint, bool homing, bool side\+\_\+pick, bool is\+Gripping)
+\begin{DoxyCompactList}\small\item\em Checks if the trajectory is valid. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{motion__trajectory_8h_ae872611744da7b91a1d4a8c8ad278723}{ur5\+Trajectory}} (vector$<$ double $\ast$ $>$ $\ast$Th, \mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}} initial\+\_\+position, \mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}} final\+\_\+position, int \mbox{\hyperlink{motion__trajectory_8h_ada5c987e854a34d90b0438379925ffad}{steps}})
+\begin{DoxyCompactList}\small\item\em Function\+: ur5\+Trajectory. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{motion__trajectory_8h_aaad4fb8c630e861a462bfe34ed4ca173}{init\+\_\+verify\+\_\+trajectory}} (vector$<$ double $\ast$ $>$ $\ast$Th, \mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}} init\+\_\+joint, \mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}} final\+\_\+joint, int \mbox{\hyperlink{motion__trajectory_8h_ada5c987e854a34d90b0438379925ffad}{steps}}, bool pick\+\_\+or\+\_\+place, const \mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}} \&requested\+\_\+cord, const \mbox{\hyperlink{eigenMatrices_8h_ac54b83793bde6df4d513f6ab9da32f8e}{rot\+Matrix}} \&requested\+\_\+rotation, bool homing, bool side\+\_\+pick, bool is\+Gripping)
+\begin{DoxyCompactList}\small\item\em Function\+: check\+\_\+trajectory. \end{DoxyCompactList}\item 
+vector$<$ double $\ast$ $>$ \mbox{\hyperlink{motion__trajectory_8h_adf5a187054562390d580b4952841bb00}{up\+\_\+and\+\_\+move}} (const \mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}} \&position, const \mbox{\hyperlink{eigenMatrices_8h_ac54b83793bde6df4d513f6ab9da32f8e}{rot\+Matrix}} \&rotation, int \mbox{\hyperlink{motion__trajectory_8h_ada5c987e854a34d90b0438379925ffad}{steps}}, \mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}} start\+Joint, bool side\+\_\+pick, bool is\+Gripping)
+\begin{DoxyCompactList}\small\item\em Function to calculate up and move trajectory. \end{DoxyCompactList}\item 
+vector$<$ double $\ast$ $>$ \mbox{\hyperlink{motion__trajectory_8h_abe3f1355f9f2a9d76681ee30f0ff1fef}{move\+\_\+to\+\_\+near\+\_\+axis}} (const \mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}} \&position, const \mbox{\hyperlink{eigenMatrices_8h_ac54b83793bde6df4d513f6ab9da32f8e}{rot\+Matrix}} \&rotation, bool pick\+\_\+or\+\_\+place, bool homing, \mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}} start\+Joint, bool side\+\_\+pick, bool is\+Gripping)
+\begin{DoxyCompactList}\small\item\em Calculate trajectory to move to near axis. \end{DoxyCompactList}\item 
+vector$<$ double $\ast$ $>$ \mbox{\hyperlink{motion__trajectory_8h_a7b2189952ceeb1696917ed88779c49ee}{reset\+\_\+main\+\_\+joint}} (const \mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}} \&position, const \mbox{\hyperlink{eigenMatrices_8h_ac54b83793bde6df4d513f6ab9da32f8e}{rot\+Matrix}} \&rotation, int \mbox{\hyperlink{motion__trajectory_8h_ada5c987e854a34d90b0438379925ffad}{steps}}, \mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}} start\+Position, bool is\+Gripping)
+\item 
+vector$<$ double $\ast$ $>$ \mbox{\hyperlink{motion__trajectory_8h_a42584a92f7e046677f7dd5a5ee51a5ca}{up\+\_\+tray}} (\mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}} start\+Joint, bool side\+\_\+pick, bool is\+Gripping)
+\begin{DoxyCompactList}\small\item\em Calculate trajectory to move U\+R5 arm up. \end{DoxyCompactList}\item 
+vector$<$ double $\ast$ $>$ \mbox{\hyperlink{motion__trajectory_8h_ab239b3f168113e696c99636e7b5f9358}{calc\+\_\+direct\+\_\+traj\+\_\+joint}} (const \mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}} end\+Joint, bool pick\+\_\+or\+\_\+place, bool homing, \mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}} start\+Position, bool side\+\_\+pick, bool is\+Gripping)
+\begin{DoxyCompactList}\small\item\em Calculate direct trajectory for one position. \end{DoxyCompactList}\item 
+vector$<$ double $\ast$ $>$ \mbox{\hyperlink{motion__trajectory_8h_a591a132ce9b852607412a3372eca89cf}{calc\+\_\+direct\+\_\+traj\+\_\+multiple\+\_\+joint}} (vector$<$ \mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}} $>$ end\+Joints, bool $\ast$pick\+\_\+or\+\_\+place, bool $\ast$homing, \mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}} start\+Position, bool $\ast$side\+\_\+pick, bool is\+Gripping)
+\begin{DoxyCompactList}\small\item\em Calculate direct trajectory for multiple joints. \end{DoxyCompactList}\item 
+vector$<$ double $\ast$ $>$ \mbox{\hyperlink{motion__trajectory_8h_ae49eaad80f65a1aec563f864d00d63ec}{calc\+\_\+direct\+\_\+traj}} (const \mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}} \&position, const \mbox{\hyperlink{eigenMatrices_8h_ac54b83793bde6df4d513f6ab9da32f8e}{rot\+Matrix}} \&rotation, bool pick\+\_\+or\+\_\+place, bool homing, \mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}} start\+Position, bool side\+\_\+pick, bool is\+Gripping)
+\begin{DoxyCompactList}\small\item\em Calculate direct trajectory for one position. \end{DoxyCompactList}\item 
+vector$<$ double $\ast$ $>$ \mbox{\hyperlink{motion__trajectory_8h_a8db9066b740351be4fab0aa87b4bd68f}{calc\+\_\+direct\+\_\+traj\+\_\+multiple}} (vector$<$ pair$<$ \mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}}, \mbox{\hyperlink{eigenMatrices_8h_ac54b83793bde6df4d513f6ab9da32f8e}{rot\+Matrix}} $>$$>$ poses\+\_\+rots, bool $\ast$pick\+\_\+or\+\_\+place, bool $\ast$homing, \mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}} start\+Position, bool $\ast$side\+\_\+pick, bool is\+Gripping)
+\begin{DoxyCompactList}\small\item\em Calculate direct trajectory for multiple positions. \end{DoxyCompactList}\item 
+vector$<$ double $\ast$ $>$ \mbox{\hyperlink{motion__trajectory_8h_ae267b9aba5360fbdc69694bcb2d61705}{calc\+\_\+traj}} (const \mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}} \&position, const \mbox{\hyperlink{eigenMatrices_8h_ac54b83793bde6df4d513f6ab9da32f8e}{rot\+Matrix}} \&rotation, bool pick\+\_\+or\+\_\+place, bool homing, bool up\+\_\+and\+\_\+move\+\_\+flag, bool move\+\_\+to\+\_\+near\+\_\+axis\+\_\+flag, \mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}} start\+Position, bool side\+\_\+pick, bool is\+Gripping, bool reset\+\_\+flag)
+\begin{DoxyCompactList}\small\item\em Calculate trajectory to move to a single position. \end{DoxyCompactList}\item 
+vector$<$ double $\ast$ $>$ \mbox{\hyperlink{motion__trajectory_8h_a8ff904b381df89be60905cf9c483469f}{calc\+\_\+traj\+\_\+multiple}} (vector$<$ pair$<$ \mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}}, \mbox{\hyperlink{eigenMatrices_8h_ac54b83793bde6df4d513f6ab9da32f8e}{rot\+Matrix}} $>$$>$ poses\+\_\+rots, bool $\ast$pick\+\_\+or\+\_\+place, bool $\ast$homing, bool $\ast$up\+\_\+and\+\_\+move\+\_\+flag, bool $\ast$move\+\_\+to\+\_\+near\+\_\+axis\+\_\+flag, \mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}} start\+Joint, bool $\ast$side\+\_\+pick, bool is\+Gripping)
+\begin{DoxyCompactList}\small\item\em Calculate trajectory for multiple positions. \end{DoxyCompactList}\item 
+vector$<$ double $\ast$ $>$ \mbox{\hyperlink{motion__trajectory_8h_a0cc577bcd70c067b84ee198d00e67537}{move\+\_\+through\+\_\+homing}} (\mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}} final\+\_\+cord, \mbox{\hyperlink{eigenMatrices_8h_ac54b83793bde6df4d513f6ab9da32f8e}{rot\+Matrix}} rot, \mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}} start\+Joint, bool side\+\_\+pick, bool is\+Gripping)
+\begin{DoxyCompactList}\small\item\em Calculate trajectory to move through homing. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}} \mbox{\hyperlink{motion__trajectory_8h_a6eb3802f1aa8dbd5949d5b7855bf3d89}{near\+Homing}} (\mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}} cord)
+\begin{DoxyCompactList}\small\item\em Calculate the nearest homing position. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}} \mbox{\hyperlink{motion__trajectory_8h_a5226ca2cc020a7e71519c3444775d623}{near\+Homing\+Rec}} (\mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}} current\+\_\+cord, \mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}} default\+Cord, double \&nearhomingdist, \mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}} \&nearhomingcord)
+\begin{DoxyCompactList}\small\item\em Calculate trajectory to move to near homing. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{eigenMatrices_8h_ac54b83793bde6df4d513f6ab9da32f8e}{rot\+Matrix}} \mbox{\hyperlink{motion__trajectory_8h_a3323b4296b29732bfcd781902a410204}{get\+\_\+rotation}} (double angle)
+\begin{DoxyCompactList}\small\item\em Get the rotation matrix for side pick. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const bool \mbox{\hyperlink{motion__trajectory_8h_a574737fd6c6514fb8c4a5ef445e6c6b3}{debug\+\_\+traj}} = false
+\item 
+const bool \mbox{\hyperlink{motion__trajectory_8h_ad217cadce9aea2b00ff19badd97093f9}{error\+\_\+code\+\_\+debug}} = true
+\item 
+const int \mbox{\hyperlink{motion__trajectory_8h_ada5c987e854a34d90b0438379925ffad}{steps}} = 20
+\item 
+const double \mbox{\hyperlink{motion__trajectory_8h_abeb549d0ddc65a8253666e9dc278c486}{max\+\_\+x}} = 1.\+5
+\item 
+const double \mbox{\hyperlink{motion__trajectory_8h_a89ffc5d48aee9d082f48f4dda834001a}{max\+\_\+y}} = 0.\+25
+\item 
+const double \mbox{\hyperlink{motion__trajectory_8h_a03912236cb6cc1df6329b781d5031121}{max\+\_\+z}} = 0.\+885
+\item 
+const double \mbox{\hyperlink{motion__trajectory_8h_ae90ce6fb732f4a9fd6301b8e574a351b}{min\+\_\+x}} = -\/1.\+5
+\item 
+const double \mbox{\hyperlink{motion__trajectory_8h_a2054a4df4c2e65af3d9b8cee9df76941}{min\+\_\+y}} = -\/1.\+5
+\item 
+const double \mbox{\hyperlink{motion__trajectory_8h_a34c6e1f335dc7b00e557b015a59be5c9}{min\+\_\+z}} = 0.\+0
+\item 
+const double \mbox{\hyperlink{motion__trajectory_8h_ad10f61dfe5be052a81e7a3ff6308de38}{max\+\_\+y\+\_\+near\+\_\+end\+\_\+table}} = 0.\+125
+\item 
+const double \mbox{\hyperlink{motion__trajectory_8h_a0f0d5c2b730c18855e759be97b4d4aee}{max\+\_\+z\+\_\+near\+\_\+end\+\_\+table}} = 0.\+73
+\item 
+const double \mbox{\hyperlink{motion__trajectory_8h_a7b0f4483b29aab3404f979b3aa55bce6}{max\+\_\+z\+\_\+moving}} = 0.\+82
+\item 
+const double \mbox{\hyperlink{motion__trajectory_8h_a8aeb31565f9dd288a25edcfae357d62d}{max\+\_\+z\+\_\+moving\+\_\+gripping}} = 0.\+78
+\item 
+const double \mbox{\hyperlink{motion__trajectory_8h_aa6763d0a15bdefe8722a63f83690b083}{max\+\_\+z\+\_\+sidepick}} = 0.\+885
+\item 
+const double \mbox{\hyperlink{motion__trajectory_8h_aec616344a495f6cbe1a23a05f6aa1da8}{max\+\_\+z\+\_\+moving\+\_\+sidepick}} = 0.\+8
+\item 
+const double \mbox{\hyperlink{motion__trajectory_8h_a0e60c0147b7b8591f15c68cb54f50bca}{max\+\_\+z\+\_\+moving\+\_\+gripping\+\_\+sidepick}} = 0.\+77
+\item 
+const \mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}} \mbox{\hyperlink{motion__trajectory_8h_a967130f84d6d0d217541cd4e7fa6d18a}{main\+Joint\+Reset\+Values}} = (\mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}}() $<$$<$ 0., -\/1.\+57, -\/2.\+5, 0., 0., 0.).finished()
+\item 
+const \mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}} \mbox{\hyperlink{motion__trajectory_8h_a4183197cee66d5c35bb365ff0f2cb1d5}{default\+Cord\+Array}} \mbox{[}6\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{motion__trajectory_8h_ae49eaad80f65a1aec563f864d00d63ec}\label{motion__trajectory_8h_ae49eaad80f65a1aec563f864d00d63ec}} 
+\index{motion\_trajectory.h@{motion\_trajectory.h}!calc\_direct\_traj@{calc\_direct\_traj}}
+\index{calc\_direct\_traj@{calc\_direct\_traj}!motion\_trajectory.h@{motion\_trajectory.h}}
+\doxysubsubsection{\texorpdfstring{calc\_direct\_traj()}{calc\_direct\_traj()}}
+{\footnotesize\ttfamily vector$<$double $\ast$$>$ calc\+\_\+direct\+\_\+traj (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}} \&}]{position,  }\item[{const \mbox{\hyperlink{eigenMatrices_8h_ac54b83793bde6df4d513f6ab9da32f8e}{rot\+Matrix}} \&}]{rotation,  }\item[{bool}]{pick\+\_\+or\+\_\+place,  }\item[{bool}]{homing,  }\item[{\mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}}}]{start\+Joint,  }\item[{bool}]{side\+\_\+pick,  }\item[{bool}]{is\+Gripping }\end{DoxyParamCaption})}
+
+
+
+Calculate direct trajectory for one position. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em position} & Coordinates of the target position \\
+\hline
+{\em rotation} & Rotation matrix of the target position \\
+\hline
+{\em pick\+\_\+or\+\_\+place} & Pick or place flag \\
+\hline
+{\em homing} & Homing flag \\
+\hline
+{\em start\+Joint} & Start joint configuration \\
+\hline
+{\em side\+\_\+pick} & Side pick flag \\
+\hline
+{\em is\+Gripping} & Gripping flag \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Trajectory as a vector of double pointers 
+\end{DoxyReturn}
+\mbox{\Hypertarget{motion__trajectory_8h_ab239b3f168113e696c99636e7b5f9358}\label{motion__trajectory_8h_ab239b3f168113e696c99636e7b5f9358}} 
+\index{motion\_trajectory.h@{motion\_trajectory.h}!calc\_direct\_traj\_joint@{calc\_direct\_traj\_joint}}
+\index{calc\_direct\_traj\_joint@{calc\_direct\_traj\_joint}!motion\_trajectory.h@{motion\_trajectory.h}}
+\doxysubsubsection{\texorpdfstring{calc\_direct\_traj\_joint()}{calc\_direct\_traj\_joint()}}
+{\footnotesize\ttfamily vector$<$double $\ast$$>$ calc\+\_\+direct\+\_\+traj\+\_\+joint (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}}}]{end\+Joint,  }\item[{bool}]{pick\+\_\+or\+\_\+place,  }\item[{bool}]{homing,  }\item[{\mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}}}]{start\+Joint,  }\item[{bool}]{side\+\_\+pick,  }\item[{bool}]{is\+Gripping }\end{DoxyParamCaption})}
+
+
+
+Calculate direct trajectory for one position. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em end\+Joint} & End joint configuration \\
+\hline
+{\em pick\+\_\+or\+\_\+place} & Pick or place flag \\
+\hline
+{\em homing} & Homing flag \\
+\hline
+{\em start\+Joint} & Start joint configuration \\
+\hline
+{\em side\+\_\+pick} & Side pick flag \\
+\hline
+{\em is\+Gripping} & Gripping flag \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Trajectory as a vector of double pointers 
+\end{DoxyReturn}
+\mbox{\Hypertarget{motion__trajectory_8h_a8db9066b740351be4fab0aa87b4bd68f}\label{motion__trajectory_8h_a8db9066b740351be4fab0aa87b4bd68f}} 
+\index{motion\_trajectory.h@{motion\_trajectory.h}!calc\_direct\_traj\_multiple@{calc\_direct\_traj\_multiple}}
+\index{calc\_direct\_traj\_multiple@{calc\_direct\_traj\_multiple}!motion\_trajectory.h@{motion\_trajectory.h}}
+\doxysubsubsection{\texorpdfstring{calc\_direct\_traj\_multiple()}{calc\_direct\_traj\_multiple()}}
+{\footnotesize\ttfamily vector$<$double $\ast$$>$ calc\+\_\+direct\+\_\+traj\+\_\+multiple (\begin{DoxyParamCaption}\item[{vector$<$ pair$<$ \mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}}, \mbox{\hyperlink{eigenMatrices_8h_ac54b83793bde6df4d513f6ab9da32f8e}{rot\+Matrix}} $>$$>$}]{poses\+\_\+rots,  }\item[{bool $\ast$}]{pick\+\_\+or\+\_\+place,  }\item[{bool $\ast$}]{homing,  }\item[{\mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}}}]{start\+Joint,  }\item[{bool $\ast$}]{side\+\_\+pick,  }\item[{bool}]{is\+Gripping }\end{DoxyParamCaption})}
+
+
+
+Calculate direct trajectory for multiple positions. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em poses\+\_\+rots} & Vector of pairs of coordinates and rotation matrices \\
+\hline
+{\em pick\+\_\+or\+\_\+place} & Pick or place flags \\
+\hline
+{\em homing} & Homing flags \\
+\hline
+{\em start\+Joint} & Start joint configuration \\
+\hline
+{\em side\+\_\+pick} & Side pick flags \\
+\hline
+{\em is\+Gripping} & Gripping flag \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Trajectory as a vector of double pointers 
+\end{DoxyReturn}
+\mbox{\Hypertarget{motion__trajectory_8h_a591a132ce9b852607412a3372eca89cf}\label{motion__trajectory_8h_a591a132ce9b852607412a3372eca89cf}} 
+\index{motion\_trajectory.h@{motion\_trajectory.h}!calc\_direct\_traj\_multiple\_joint@{calc\_direct\_traj\_multiple\_joint}}
+\index{calc\_direct\_traj\_multiple\_joint@{calc\_direct\_traj\_multiple\_joint}!motion\_trajectory.h@{motion\_trajectory.h}}
+\doxysubsubsection{\texorpdfstring{calc\_direct\_traj\_multiple\_joint()}{calc\_direct\_traj\_multiple\_joint()}}
+{\footnotesize\ttfamily vector$<$double $\ast$$>$ calc\+\_\+direct\+\_\+traj\+\_\+multiple\+\_\+joint (\begin{DoxyParamCaption}\item[{vector$<$ \mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}} $>$}]{end\+Joints,  }\item[{bool $\ast$}]{pick\+\_\+or\+\_\+place,  }\item[{bool $\ast$}]{homing,  }\item[{\mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}}}]{start\+Joint,  }\item[{bool $\ast$}]{side\+\_\+pick,  }\item[{bool}]{is\+Gripping }\end{DoxyParamCaption})}
+
+
+
+Calculate direct trajectory for multiple joints. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em end\+Joints} & End joint configurations \\
+\hline
+{\em pick\+\_\+or\+\_\+place} & Pick or place flags \\
+\hline
+{\em homing} & Homing flags \\
+\hline
+{\em start\+Joint} & Start joint configuration \\
+\hline
+{\em side\+\_\+pick} & Side pick flags \\
+\hline
+{\em is\+Gripping} & Gripping flag \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Trajectory as a vector of double pointers 
+\end{DoxyReturn}
+\mbox{\Hypertarget{motion__trajectory_8h_ae267b9aba5360fbdc69694bcb2d61705}\label{motion__trajectory_8h_ae267b9aba5360fbdc69694bcb2d61705}} 
+\index{motion\_trajectory.h@{motion\_trajectory.h}!calc\_traj@{calc\_traj}}
+\index{calc\_traj@{calc\_traj}!motion\_trajectory.h@{motion\_trajectory.h}}
+\doxysubsubsection{\texorpdfstring{calc\_traj()}{calc\_traj()}}
+{\footnotesize\ttfamily vector$<$double $\ast$$>$ calc\+\_\+traj (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}} \&}]{position,  }\item[{const \mbox{\hyperlink{eigenMatrices_8h_ac54b83793bde6df4d513f6ab9da32f8e}{rot\+Matrix}} \&}]{rotation,  }\item[{bool}]{pick\+\_\+or\+\_\+place,  }\item[{bool}]{homing,  }\item[{bool}]{up\+\_\+and\+\_\+move\+\_\+flag,  }\item[{bool}]{move\+\_\+to\+\_\+near\+\_\+axis\+\_\+flag,  }\item[{\mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}}}]{start\+Joint,  }\item[{bool}]{side\+\_\+pick,  }\item[{bool}]{is\+Gripping,  }\item[{bool}]{reset\+\_\+flag }\end{DoxyParamCaption})}
+
+
+
+Calculate trajectory to move to a single position. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em final\+\_\+cord} & Final coordinates \\
+\hline
+{\em rot} & Final rotation matrix \\
+\hline
+{\em start\+Joint} & Start joint configuration \\
+\hline
+{\em side\+\_\+pick} & Side pick flag \\
+\hline
+{\em is\+Gripping} & Gripping flag \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Trajectory as a vector of double pointers 
+\end{DoxyReturn}
+\mbox{\Hypertarget{motion__trajectory_8h_a8ff904b381df89be60905cf9c483469f}\label{motion__trajectory_8h_a8ff904b381df89be60905cf9c483469f}} 
+\index{motion\_trajectory.h@{motion\_trajectory.h}!calc\_traj\_multiple@{calc\_traj\_multiple}}
+\index{calc\_traj\_multiple@{calc\_traj\_multiple}!motion\_trajectory.h@{motion\_trajectory.h}}
+\doxysubsubsection{\texorpdfstring{calc\_traj\_multiple()}{calc\_traj\_multiple()}}
+{\footnotesize\ttfamily vector$<$double $\ast$$>$ calc\+\_\+traj\+\_\+multiple (\begin{DoxyParamCaption}\item[{vector$<$ pair$<$ \mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}}, \mbox{\hyperlink{eigenMatrices_8h_ac54b83793bde6df4d513f6ab9da32f8e}{rot\+Matrix}} $>$$>$}]{poses\+\_\+rots,  }\item[{bool $\ast$}]{pick\+\_\+or\+\_\+place,  }\item[{bool $\ast$}]{homing,  }\item[{bool $\ast$}]{up\+\_\+and\+\_\+move\+\_\+flag,  }\item[{bool $\ast$}]{move\+\_\+to\+\_\+near\+\_\+axis\+\_\+flag,  }\item[{\mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}}}]{start\+Joint,  }\item[{bool $\ast$}]{side\+\_\+pick,  }\item[{bool}]{is\+Gripping }\end{DoxyParamCaption})}
+
+
+
+Calculate trajectory for multiple positions. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em poses\+\_\+rots} & Vector of pairs of coordinates and rotation matrices \\
+\hline
+{\em pick\+\_\+or\+\_\+place} & Pick or place flags \\
+\hline
+{\em homing} & Homing flags \\
+\hline
+{\em start\+Joint} & Start joint configuration \\
+\hline
+{\em side\+\_\+pick} & Side pick flags \\
+\hline
+{\em is\+Gripping} & Gripping flag \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Trajectory as a vector of double pointers 
+\end{DoxyReturn}
+\mbox{\Hypertarget{motion__trajectory_8h_a672e9f2c98af012fc17d93a17506b6cb}\label{motion__trajectory_8h_a672e9f2c98af012fc17d93a17506b6cb}} 
+\index{motion\_trajectory.h@{motion\_trajectory.h}!check\_singularity\_collision@{check\_singularity\_collision}}
+\index{check\_singularity\_collision@{check\_singularity\_collision}!motion\_trajectory.h@{motion\_trajectory.h}}
+\doxysubsubsection{\texorpdfstring{check\_singularity\_collision()}{check\_singularity\_collision()}}
+{\footnotesize\ttfamily bool check\+\_\+singularity\+\_\+collision (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}}}]{joints }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{motion__trajectory_8h_a43290356874060289c4c0f92d910f9eb}\label{motion__trajectory_8h_a43290356874060289c4c0f92d910f9eb}} 
+\index{motion\_trajectory.h@{motion\_trajectory.h}!check\_trajectory@{check\_trajectory}}
+\index{check\_trajectory@{check\_trajectory}!motion\_trajectory.h@{motion\_trajectory.h}}
+\doxysubsubsection{\texorpdfstring{check\_trajectory()}{check\_trajectory()}}
+{\footnotesize\ttfamily bool check\+\_\+trajectory (\begin{DoxyParamCaption}\item[{vector$<$ double $\ast$ $>$}]{traj,  }\item[{int}]{step,  }\item[{bool}]{pick\+\_\+or\+\_\+place,  }\item[{int $\ast$}]{error\+\_\+code,  }\item[{const \mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}} \&}]{requested\+\_\+cord,  }\item[{const \mbox{\hyperlink{eigenMatrices_8h_ac54b83793bde6df4d513f6ab9da32f8e}{rot\+Matrix}} \&}]{requested\+\_\+rotation,  }\item[{const \mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}} \&}]{init\+\_\+joint,  }\item[{bool}]{homing,  }\item[{bool}]{side\+\_\+pick,  }\item[{bool}]{is\+Gripping }\end{DoxyParamCaption})}
+
+
+
+Checks if the trajectory is valid. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em traj} & Trajectory. \\
+\hline
+{\em step} & Number of steps. \\
+\hline
+{\em pick\+\_\+or\+\_\+place} & True if pick, false if place. \\
+\hline
+{\em error\+\_\+code} & Error code. \\
+\hline
+{\em requested\+\_\+cord} & Requested coordinates. \\
+\hline
+{\em requested\+\_\+rotation} & Requested rotation. \\
+\hline
+{\em init\+\_\+joint} & Initial joint values. \\
+\hline
+{\em homing} & True if homing, false otherwise. \\
+\hline
+{\em side\+\_\+pick} & True if side pick, false otherwise. \\
+\hline
+{\em is\+Gripping} & True if gripping, false otherwise. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true If trajectory is valid. 
+
+false Otherwise. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{motion__trajectory_8h_a3323b4296b29732bfcd781902a410204}\label{motion__trajectory_8h_a3323b4296b29732bfcd781902a410204}} 
+\index{motion\_trajectory.h@{motion\_trajectory.h}!get\_rotation@{get\_rotation}}
+\index{get\_rotation@{get\_rotation}!motion\_trajectory.h@{motion\_trajectory.h}}
+\doxysubsubsection{\texorpdfstring{get\_rotation()}{get\_rotation()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{eigenMatrices_8h_ac54b83793bde6df4d513f6ab9da32f8e}{rot\+Matrix}} get\+\_\+rotation (\begin{DoxyParamCaption}\item[{double}]{angle }\end{DoxyParamCaption})}
+
+
+
+Get the rotation matrix for side pick. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em angle} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+rot\+Matrix 
+\end{DoxyReturn}
+\mbox{\Hypertarget{motion__trajectory_8h_aaad4fb8c630e861a462bfe34ed4ca173}\label{motion__trajectory_8h_aaad4fb8c630e861a462bfe34ed4ca173}} 
+\index{motion\_trajectory.h@{motion\_trajectory.h}!init\_verify\_trajectory@{init\_verify\_trajectory}}
+\index{init\_verify\_trajectory@{init\_verify\_trajectory}!motion\_trajectory.h@{motion\_trajectory.h}}
+\doxysubsubsection{\texorpdfstring{init\_verify\_trajectory()}{init\_verify\_trajectory()}}
+{\footnotesize\ttfamily bool init\+\_\+verify\+\_\+trajectory (\begin{DoxyParamCaption}\item[{vector$<$ double $\ast$ $>$ $\ast$}]{Th,  }\item[{\mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}}}]{init\+\_\+joint,  }\item[{\mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}}}]{final\+\_\+joint,  }\item[{int}]{steps,  }\item[{bool}]{pick\+\_\+or\+\_\+place,  }\item[{const \mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}} \&}]{requested\+\_\+cord,  }\item[{const \mbox{\hyperlink{eigenMatrices_8h_ac54b83793bde6df4d513f6ab9da32f8e}{rot\+Matrix}} \&}]{requested\+\_\+rotation,  }\item[{bool}]{homing,  }\item[{bool}]{side\+\_\+pick,  }\item[{bool}]{is\+Gripping }\end{DoxyParamCaption})}
+
+
+
+Function\+: check\+\_\+trajectory. 
+
+Check if the trajectory is valid
+
+
+\begin{DoxyParams}{Parameters}
+{\em Th} & Trajectory \\
+\hline
+{\em steps} & Number of steps \\
+\hline
+{\em pick\+\_\+or\+\_\+place} & Pick or place \\
+\hline
+{\em error\+\_\+code} & Error code \\
+\hline
+{\em requested\+\_\+cord} & Requested coordinates \\
+\hline
+{\em requested\+\_\+rotation} & Requested rotation \\
+\hline
+{\em init\+\_\+joint} & Initial joint values \\
+\hline
+{\em homing} & Homing \\
+\hline
+{\em side\+\_\+pick} & Side pick \\
+\hline
+{\em is\+Gripping} & Is gripping\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool True if the trajectory is valid 
+\end{DoxyReturn}
+\mbox{\Hypertarget{motion__trajectory_8h_a0cc577bcd70c067b84ee198d00e67537}\label{motion__trajectory_8h_a0cc577bcd70c067b84ee198d00e67537}} 
+\index{motion\_trajectory.h@{motion\_trajectory.h}!move\_through\_homing@{move\_through\_homing}}
+\index{move\_through\_homing@{move\_through\_homing}!motion\_trajectory.h@{motion\_trajectory.h}}
+\doxysubsubsection{\texorpdfstring{move\_through\_homing()}{move\_through\_homing()}}
+{\footnotesize\ttfamily vector$<$double $\ast$$>$ move\+\_\+through\+\_\+homing (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}}}]{final\+\_\+cord,  }\item[{\mbox{\hyperlink{eigenMatrices_8h_ac54b83793bde6df4d513f6ab9da32f8e}{rot\+Matrix}}}]{rot,  }\item[{\mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}}}]{start\+Joint,  }\item[{bool}]{is\+Gripping,  }\item[{bool}]{side\+\_\+pick }\end{DoxyParamCaption})}
+
+
+
+Calculate trajectory to move through homing. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em final\+\_\+cord} & Final coordinates \\
+\hline
+{\em rot} & Final rotation matrix \\
+\hline
+{\em start\+Joint} & Start joint configuration \\
+\hline
+{\em side\+\_\+pick} & Side pick flag \\
+\hline
+{\em is\+Gripping} & Gripping flag \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Trajectory as a vector of double pointers 
+\end{DoxyReturn}
+\mbox{\Hypertarget{motion__trajectory_8h_abe3f1355f9f2a9d76681ee30f0ff1fef}\label{motion__trajectory_8h_abe3f1355f9f2a9d76681ee30f0ff1fef}} 
+\index{motion\_trajectory.h@{motion\_trajectory.h}!move\_to\_near\_axis@{move\_to\_near\_axis}}
+\index{move\_to\_near\_axis@{move\_to\_near\_axis}!motion\_trajectory.h@{motion\_trajectory.h}}
+\doxysubsubsection{\texorpdfstring{move\_to\_near\_axis()}{move\_to\_near\_axis()}}
+{\footnotesize\ttfamily vector$<$double $\ast$$>$ move\+\_\+to\+\_\+near\+\_\+axis (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}} \&}]{position,  }\item[{const \mbox{\hyperlink{eigenMatrices_8h_ac54b83793bde6df4d513f6ab9da32f8e}{rot\+Matrix}} \&}]{rotation,  }\item[{bool}]{pick\+\_\+or\+\_\+place,  }\item[{bool}]{homing,  }\item[{\mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}}}]{start\+Joint,  }\item[{bool}]{side\+\_\+pick,  }\item[{bool}]{is\+Gripping }\end{DoxyParamCaption})}
+
+
+
+Calculate trajectory to move to near axis. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em position} & Coordinates of the target position \\
+\hline
+{\em rotation} & Rotation matrix of the target position \\
+\hline
+{\em pick\+\_\+or\+\_\+place} & Pick or place flag \\
+\hline
+{\em homing} & Homing flag \\
+\hline
+{\em start\+Joint} & Start joint configuration \\
+\hline
+{\em side\+\_\+pick} & Side pick flag \\
+\hline
+{\em is\+Gripping} & Gripping flag \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Trajectory as a vector of double pointers 
+\end{DoxyReturn}
+\mbox{\Hypertarget{motion__trajectory_8h_a6eb3802f1aa8dbd5949d5b7855bf3d89}\label{motion__trajectory_8h_a6eb3802f1aa8dbd5949d5b7855bf3d89}} 
+\index{motion\_trajectory.h@{motion\_trajectory.h}!nearHoming@{nearHoming}}
+\index{nearHoming@{nearHoming}!motion\_trajectory.h@{motion\_trajectory.h}}
+\doxysubsubsection{\texorpdfstring{nearHoming()}{nearHoming()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}} near\+Homing (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}}}]{cord }\end{DoxyParamCaption})}
+
+
+
+Calculate the nearest homing position. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em cord} & Current coordinates \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Coordinates of the nearest homing position 
+\end{DoxyReturn}
+\mbox{\Hypertarget{motion__trajectory_8h_a5226ca2cc020a7e71519c3444775d623}\label{motion__trajectory_8h_a5226ca2cc020a7e71519c3444775d623}} 
+\index{motion\_trajectory.h@{motion\_trajectory.h}!nearHomingRec@{nearHomingRec}}
+\index{nearHomingRec@{nearHomingRec}!motion\_trajectory.h@{motion\_trajectory.h}}
+\doxysubsubsection{\texorpdfstring{nearHomingRec()}{nearHomingRec()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}} near\+Homing\+Rec (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}}}]{current\+\_\+cord,  }\item[{\mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}}}]{default\+Cord,  }\item[{double \&}]{nearhomingdist,  }\item[{\mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}} \&}]{nearhomingcord }\end{DoxyParamCaption})}
+
+
+
+Calculate trajectory to move to near homing. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em current\+\_\+cord} & Current coordinates \\
+\hline
+{\em default\+Cord} & Default coordinates \\
+\hline
+{\em nearhomingdist} & Distance to the nearest homing position \\
+\hline
+{\em nearhomingcord} & Coordinates of the nearest homing position \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Coordinates of the nearest homing position 
+\end{DoxyReturn}
+\mbox{\Hypertarget{motion__trajectory_8h_a7b2189952ceeb1696917ed88779c49ee}\label{motion__trajectory_8h_a7b2189952ceeb1696917ed88779c49ee}} 
+\index{motion\_trajectory.h@{motion\_trajectory.h}!reset\_main\_joint@{reset\_main\_joint}}
+\index{reset\_main\_joint@{reset\_main\_joint}!motion\_trajectory.h@{motion\_trajectory.h}}
+\doxysubsubsection{\texorpdfstring{reset\_main\_joint()}{reset\_main\_joint()}}
+{\footnotesize\ttfamily vector$<$double $\ast$$>$ reset\+\_\+main\+\_\+joint (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}} \&}]{position,  }\item[{const \mbox{\hyperlink{eigenMatrices_8h_ac54b83793bde6df4d513f6ab9da32f8e}{rot\+Matrix}} \&}]{rotation,  }\item[{int}]{steps,  }\item[{\mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}}}]{start\+Position,  }\item[{bool}]{is\+Gripping }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{motion__trajectory_8h_adf5a187054562390d580b4952841bb00}\label{motion__trajectory_8h_adf5a187054562390d580b4952841bb00}} 
+\index{motion\_trajectory.h@{motion\_trajectory.h}!up\_and\_move@{up\_and\_move}}
+\index{up\_and\_move@{up\_and\_move}!motion\_trajectory.h@{motion\_trajectory.h}}
+\doxysubsubsection{\texorpdfstring{up\_and\_move()}{up\_and\_move()}}
+{\footnotesize\ttfamily vector$<$double $\ast$$>$ up\+\_\+and\+\_\+move (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}} \&}]{position,  }\item[{const \mbox{\hyperlink{eigenMatrices_8h_ac54b83793bde6df4d513f6ab9da32f8e}{rot\+Matrix}} \&}]{rotation,  }\item[{int}]{steps,  }\item[{\mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}}}]{start\+Joint,  }\item[{bool}]{side\+\_\+pick,  }\item[{bool}]{is\+Gripping }\end{DoxyParamCaption})}
+
+
+
+Function to calculate up and move trajectory. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em position} & Coordinates of the target position \\
+\hline
+{\em rotation} & Rotation matrix of the target position \\
+\hline
+{\em steps} & Number of steps to move \\
+\hline
+{\em start\+Joint} & Initial joint values \\
+\hline
+{\em side\+\_\+pick} & Flag to indicate side pick \\
+\hline
+{\em is\+Gripping} & Flag to indicate if gripping\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Vector of double pointers for up and move trajectory 
+\end{DoxyReturn}
+\mbox{\Hypertarget{motion__trajectory_8h_a42584a92f7e046677f7dd5a5ee51a5ca}\label{motion__trajectory_8h_a42584a92f7e046677f7dd5a5ee51a5ca}} 
+\index{motion\_trajectory.h@{motion\_trajectory.h}!up\_tray@{up\_tray}}
+\index{up\_tray@{up\_tray}!motion\_trajectory.h@{motion\_trajectory.h}}
+\doxysubsubsection{\texorpdfstring{up\_tray()}{up\_tray()}}
+{\footnotesize\ttfamily vector$<$double $\ast$$>$ up\+\_\+tray (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}}}]{start\+Joint,  }\item[{bool}]{side\+\_\+pick,  }\item[{bool}]{is\+Gripping }\end{DoxyParamCaption})}
+
+
+
+Calculate trajectory to move U\+R5 arm up. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em startJ} & Starting joint values \\
+\hline
+{\em side\+\_\+pick} & Whether to pick from the left or right side \\
+\hline
+{\em is\+Gripping} & Whether the gripper is holding an object \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+vector$<$double$\ast$$>$ Trajectory as vector of joint values 
+\end{DoxyReturn}
+\mbox{\Hypertarget{motion__trajectory_8h_ae872611744da7b91a1d4a8c8ad278723}\label{motion__trajectory_8h_ae872611744da7b91a1d4a8c8ad278723}} 
+\index{motion\_trajectory.h@{motion\_trajectory.h}!ur5Trajectory@{ur5Trajectory}}
+\index{ur5Trajectory@{ur5Trajectory}!motion\_trajectory.h@{motion\_trajectory.h}}
+\doxysubsubsection{\texorpdfstring{ur5Trajectory()}{ur5Trajectory()}}
+{\footnotesize\ttfamily void ur5\+Trajectory (\begin{DoxyParamCaption}\item[{vector$<$ double $\ast$ $>$ $\ast$}]{Th,  }\item[{\mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}}}]{initial\+\_\+position,  }\item[{\mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}}}]{final\+\_\+position,  }\item[{int}]{steps }\end{DoxyParamCaption})}
+
+
+
+Function\+: ur5\+Trajectory. 
+
+Generates U\+R5 robot trajectory
+
+
+\begin{DoxyParams}{Parameters}
+{\em Th} & Output trajectory \\
+\hline
+{\em initial\+\_\+position} & Initial joint values \\
+\hline
+{\em final\+\_\+position} & Final joint values \\
+\hline
+{\em steps} & Number of steps \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{motion__trajectory_8h_a574737fd6c6514fb8c4a5ef445e6c6b3}\label{motion__trajectory_8h_a574737fd6c6514fb8c4a5ef445e6c6b3}} 
+\index{motion\_trajectory.h@{motion\_trajectory.h}!debug\_traj@{debug\_traj}}
+\index{debug\_traj@{debug\_traj}!motion\_trajectory.h@{motion\_trajectory.h}}
+\doxysubsubsection{\texorpdfstring{debug\_traj}{debug\_traj}}
+{\footnotesize\ttfamily const bool debug\+\_\+traj = false}
+
+\mbox{\Hypertarget{motion__trajectory_8h_a4183197cee66d5c35bb365ff0f2cb1d5}\label{motion__trajectory_8h_a4183197cee66d5c35bb365ff0f2cb1d5}} 
+\index{motion\_trajectory.h@{motion\_trajectory.h}!defaultCordArray@{defaultCordArray}}
+\index{defaultCordArray@{defaultCordArray}!motion\_trajectory.h@{motion\_trajectory.h}}
+\doxysubsubsection{\texorpdfstring{defaultCordArray}{defaultCordArray}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}} default\+Cord\+Array\mbox{[}6\mbox{]}}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{= \{}
+\DoxyCodeLine{    (\mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}}() << 0.35, 0.03, 0.7).finished(),}
+\DoxyCodeLine{    (\mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}}() << 0.01, 0.03, 0.7).finished(),}
+\DoxyCodeLine{    (\mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}}() << -\/0.33, 0.03, 0.7).finished(),}
+\DoxyCodeLine{    (\mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}}() << -\/0.33, -\/0.29, 0.7).finished(),}
+\DoxyCodeLine{    (\mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}}() << 0.01, -\/0.29, 0.7).finished(),}
+\DoxyCodeLine{    (\mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}}() << 0.35, -\/0.29, 0.7).finished(),}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{motion__trajectory_8h_ad217cadce9aea2b00ff19badd97093f9}\label{motion__trajectory_8h_ad217cadce9aea2b00ff19badd97093f9}} 
+\index{motion\_trajectory.h@{motion\_trajectory.h}!error\_code\_debug@{error\_code\_debug}}
+\index{error\_code\_debug@{error\_code\_debug}!motion\_trajectory.h@{motion\_trajectory.h}}
+\doxysubsubsection{\texorpdfstring{error\_code\_debug}{error\_code\_debug}}
+{\footnotesize\ttfamily const bool error\+\_\+code\+\_\+debug = true}
+
+\mbox{\Hypertarget{motion__trajectory_8h_a967130f84d6d0d217541cd4e7fa6d18a}\label{motion__trajectory_8h_a967130f84d6d0d217541cd4e7fa6d18a}} 
+\index{motion\_trajectory.h@{motion\_trajectory.h}!mainJointResetValues@{mainJointResetValues}}
+\index{mainJointResetValues@{mainJointResetValues}!motion\_trajectory.h@{motion\_trajectory.h}}
+\doxysubsubsection{\texorpdfstring{mainJointResetValues}{mainJointResetValues}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}} main\+Joint\+Reset\+Values = (\mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}}() $<$$<$ 0., -\/1.\+57, -\/2.\+5, 0., 0., 0.).finished()}
+
+\mbox{\Hypertarget{motion__trajectory_8h_abeb549d0ddc65a8253666e9dc278c486}\label{motion__trajectory_8h_abeb549d0ddc65a8253666e9dc278c486}} 
+\index{motion\_trajectory.h@{motion\_trajectory.h}!max\_x@{max\_x}}
+\index{max\_x@{max\_x}!motion\_trajectory.h@{motion\_trajectory.h}}
+\doxysubsubsection{\texorpdfstring{max\_x}{max\_x}}
+{\footnotesize\ttfamily const double max\+\_\+x = 1.\+5}
+
+\mbox{\Hypertarget{motion__trajectory_8h_a89ffc5d48aee9d082f48f4dda834001a}\label{motion__trajectory_8h_a89ffc5d48aee9d082f48f4dda834001a}} 
+\index{motion\_trajectory.h@{motion\_trajectory.h}!max\_y@{max\_y}}
+\index{max\_y@{max\_y}!motion\_trajectory.h@{motion\_trajectory.h}}
+\doxysubsubsection{\texorpdfstring{max\_y}{max\_y}}
+{\footnotesize\ttfamily const double max\+\_\+y = 0.\+25}
+
+\mbox{\Hypertarget{motion__trajectory_8h_ad10f61dfe5be052a81e7a3ff6308de38}\label{motion__trajectory_8h_ad10f61dfe5be052a81e7a3ff6308de38}} 
+\index{motion\_trajectory.h@{motion\_trajectory.h}!max\_y\_near\_end\_table@{max\_y\_near\_end\_table}}
+\index{max\_y\_near\_end\_table@{max\_y\_near\_end\_table}!motion\_trajectory.h@{motion\_trajectory.h}}
+\doxysubsubsection{\texorpdfstring{max\_y\_near\_end\_table}{max\_y\_near\_end\_table}}
+{\footnotesize\ttfamily const double max\+\_\+y\+\_\+near\+\_\+end\+\_\+table = 0.\+125}
+
+\mbox{\Hypertarget{motion__trajectory_8h_a03912236cb6cc1df6329b781d5031121}\label{motion__trajectory_8h_a03912236cb6cc1df6329b781d5031121}} 
+\index{motion\_trajectory.h@{motion\_trajectory.h}!max\_z@{max\_z}}
+\index{max\_z@{max\_z}!motion\_trajectory.h@{motion\_trajectory.h}}
+\doxysubsubsection{\texorpdfstring{max\_z}{max\_z}}
+{\footnotesize\ttfamily const double max\+\_\+z = 0.\+885}
+
+\mbox{\Hypertarget{motion__trajectory_8h_a7b0f4483b29aab3404f979b3aa55bce6}\label{motion__trajectory_8h_a7b0f4483b29aab3404f979b3aa55bce6}} 
+\index{motion\_trajectory.h@{motion\_trajectory.h}!max\_z\_moving@{max\_z\_moving}}
+\index{max\_z\_moving@{max\_z\_moving}!motion\_trajectory.h@{motion\_trajectory.h}}
+\doxysubsubsection{\texorpdfstring{max\_z\_moving}{max\_z\_moving}}
+{\footnotesize\ttfamily const double max\+\_\+z\+\_\+moving = 0.\+82}
+
+\mbox{\Hypertarget{motion__trajectory_8h_a8aeb31565f9dd288a25edcfae357d62d}\label{motion__trajectory_8h_a8aeb31565f9dd288a25edcfae357d62d}} 
+\index{motion\_trajectory.h@{motion\_trajectory.h}!max\_z\_moving\_gripping@{max\_z\_moving\_gripping}}
+\index{max\_z\_moving\_gripping@{max\_z\_moving\_gripping}!motion\_trajectory.h@{motion\_trajectory.h}}
+\doxysubsubsection{\texorpdfstring{max\_z\_moving\_gripping}{max\_z\_moving\_gripping}}
+{\footnotesize\ttfamily const double max\+\_\+z\+\_\+moving\+\_\+gripping = 0.\+78}
+
+\mbox{\Hypertarget{motion__trajectory_8h_a0e60c0147b7b8591f15c68cb54f50bca}\label{motion__trajectory_8h_a0e60c0147b7b8591f15c68cb54f50bca}} 
+\index{motion\_trajectory.h@{motion\_trajectory.h}!max\_z\_moving\_gripping\_sidepick@{max\_z\_moving\_gripping\_sidepick}}
+\index{max\_z\_moving\_gripping\_sidepick@{max\_z\_moving\_gripping\_sidepick}!motion\_trajectory.h@{motion\_trajectory.h}}
+\doxysubsubsection{\texorpdfstring{max\_z\_moving\_gripping\_sidepick}{max\_z\_moving\_gripping\_sidepick}}
+{\footnotesize\ttfamily const double max\+\_\+z\+\_\+moving\+\_\+gripping\+\_\+sidepick = 0.\+77}
+
+\mbox{\Hypertarget{motion__trajectory_8h_aec616344a495f6cbe1a23a05f6aa1da8}\label{motion__trajectory_8h_aec616344a495f6cbe1a23a05f6aa1da8}} 
+\index{motion\_trajectory.h@{motion\_trajectory.h}!max\_z\_moving\_sidepick@{max\_z\_moving\_sidepick}}
+\index{max\_z\_moving\_sidepick@{max\_z\_moving\_sidepick}!motion\_trajectory.h@{motion\_trajectory.h}}
+\doxysubsubsection{\texorpdfstring{max\_z\_moving\_sidepick}{max\_z\_moving\_sidepick}}
+{\footnotesize\ttfamily const double max\+\_\+z\+\_\+moving\+\_\+sidepick = 0.\+8}
+
+\mbox{\Hypertarget{motion__trajectory_8h_a0f0d5c2b730c18855e759be97b4d4aee}\label{motion__trajectory_8h_a0f0d5c2b730c18855e759be97b4d4aee}} 
+\index{motion\_trajectory.h@{motion\_trajectory.h}!max\_z\_near\_end\_table@{max\_z\_near\_end\_table}}
+\index{max\_z\_near\_end\_table@{max\_z\_near\_end\_table}!motion\_trajectory.h@{motion\_trajectory.h}}
+\doxysubsubsection{\texorpdfstring{max\_z\_near\_end\_table}{max\_z\_near\_end\_table}}
+{\footnotesize\ttfamily const double max\+\_\+z\+\_\+near\+\_\+end\+\_\+table = 0.\+73}
+
+\mbox{\Hypertarget{motion__trajectory_8h_aa6763d0a15bdefe8722a63f83690b083}\label{motion__trajectory_8h_aa6763d0a15bdefe8722a63f83690b083}} 
+\index{motion\_trajectory.h@{motion\_trajectory.h}!max\_z\_sidepick@{max\_z\_sidepick}}
+\index{max\_z\_sidepick@{max\_z\_sidepick}!motion\_trajectory.h@{motion\_trajectory.h}}
+\doxysubsubsection{\texorpdfstring{max\_z\_sidepick}{max\_z\_sidepick}}
+{\footnotesize\ttfamily const double max\+\_\+z\+\_\+sidepick = 0.\+885}
+
+\mbox{\Hypertarget{motion__trajectory_8h_ae90ce6fb732f4a9fd6301b8e574a351b}\label{motion__trajectory_8h_ae90ce6fb732f4a9fd6301b8e574a351b}} 
+\index{motion\_trajectory.h@{motion\_trajectory.h}!min\_x@{min\_x}}
+\index{min\_x@{min\_x}!motion\_trajectory.h@{motion\_trajectory.h}}
+\doxysubsubsection{\texorpdfstring{min\_x}{min\_x}}
+{\footnotesize\ttfamily const double min\+\_\+x = -\/1.\+5}
+
+\mbox{\Hypertarget{motion__trajectory_8h_a2054a4df4c2e65af3d9b8cee9df76941}\label{motion__trajectory_8h_a2054a4df4c2e65af3d9b8cee9df76941}} 
+\index{motion\_trajectory.h@{motion\_trajectory.h}!min\_y@{min\_y}}
+\index{min\_y@{min\_y}!motion\_trajectory.h@{motion\_trajectory.h}}
+\doxysubsubsection{\texorpdfstring{min\_y}{min\_y}}
+{\footnotesize\ttfamily const double min\+\_\+y = -\/1.\+5}
+
+\mbox{\Hypertarget{motion__trajectory_8h_a34c6e1f335dc7b00e557b015a59be5c9}\label{motion__trajectory_8h_a34c6e1f335dc7b00e557b015a59be5c9}} 
+\index{motion\_trajectory.h@{motion\_trajectory.h}!min\_z@{min\_z}}
+\index{min\_z@{min\_z}!motion\_trajectory.h@{motion\_trajectory.h}}
+\doxysubsubsection{\texorpdfstring{min\_z}{min\_z}}
+{\footnotesize\ttfamily const double min\+\_\+z = 0.\+0}
+
+\mbox{\Hypertarget{motion__trajectory_8h_ada5c987e854a34d90b0438379925ffad}\label{motion__trajectory_8h_ada5c987e854a34d90b0438379925ffad}} 
+\index{motion\_trajectory.h@{motion\_trajectory.h}!steps@{steps}}
+\index{steps@{steps}!motion\_trajectory.h@{motion\_trajectory.h}}
+\doxysubsubsection{\texorpdfstring{steps}{steps}}
+{\footnotesize\ttfamily const int steps = 20}
+

@@ -1,0 +1,56 @@
+\hypertarget{test__ik__fixed_8py}{}\doxysection{components/inverse\+\_\+kinematics/test\+\_\+ik\+\_\+fixed.py File Reference}
+\label{test__ik__fixed_8py}\index{components/inverse\_kinematics/test\_ik\_fixed.py@{components/inverse\_kinematics/test\_ik\_fixed.py}}
+\doxysubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \mbox{\hyperlink{namespaceinverse__kinematics_1_1test__ik__fixed}{inverse\+\_\+kinematics.\+test\+\_\+ik\+\_\+fixed}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespaceinverse__kinematics_1_1test__ik__fixed_a2ed3b71bf1fdc8ffc07a5cef8cee7f2c}{inverse\+\_\+kinematics.\+test\+\_\+ik\+\_\+fixed.\+threshold}}
+\item 
+\mbox{\hyperlink{namespaceinverse__kinematics_1_1test__ik__fixed_ac80222acce5cc6d733b63d3ca5b0132a}{inverse\+\_\+kinematics.\+test\+\_\+ik\+\_\+fixed.\+inf}}
+\item 
+\mbox{\hyperlink{namespaceinverse__kinematics_1_1test__ik__fixed_ad378ee5650c87698be3ee7f403a27397}{inverse\+\_\+kinematics.\+test\+\_\+ik\+\_\+fixed.\+precision}}
+\item 
+\mbox{\hyperlink{namespaceinverse__kinematics_1_1test__ik__fixed_a1024b875f51f3713a41c76c6964ca354}{inverse\+\_\+kinematics.\+test\+\_\+ik\+\_\+fixed.\+linewidth}}
+\item 
+\mbox{\hyperlink{namespaceinverse__kinematics_1_1test__ik__fixed_a7c9898c190c5aef03b6c035e988c91fc}{inverse\+\_\+kinematics.\+test\+\_\+ik\+\_\+fixed.\+suppress}}
+\item 
+\mbox{\hyperlink{namespaceinverse__kinematics_1_1test__ik__fixed_a1a81287270f38c3fe80a42e9a019d999}{inverse\+\_\+kinematics.\+test\+\_\+ik\+\_\+fixed.\+q\+\_\+guess}} = np.\+array(\mbox{[}0.\+55, -\/0.\+7, 1.\+0, -\/1.\+57, -\/1.\+57, 0.\+5\mbox{]})
+\item 
+string \mbox{\hyperlink{namespaceinverse__kinematics_1_1test__ik__fixed_aa6cdbdafdfb3aedcf14b312a3042ad74}{inverse\+\_\+kinematics.\+test\+\_\+ik\+\_\+fixed.\+robot\+\_\+name}} = \char`\"{}ur5\char`\"{}
+\item 
+string \mbox{\hyperlink{namespaceinverse__kinematics_1_1test__ik__fixed_a6cf56ca78c5727cdd57bfb0e8f2dc2ee}{inverse\+\_\+kinematics.\+test\+\_\+ik\+\_\+fixed.\+xacro\+\_\+path}} = rospkg.\+Ros\+Pack().get\+\_\+path(\textquotesingle{}ur\+\_\+description\textquotesingle{}) + \textquotesingle{}/urdf/ur5.\+urdf.\+xacro\textquotesingle{}
+\item 
+\mbox{\hyperlink{namespaceinverse__kinematics_1_1test__ik__fixed_a8386bc6a5b9acd766a20d3389200a3b6}{inverse\+\_\+kinematics.\+test\+\_\+ik\+\_\+fixed.\+robot}} = get\+Robot\+Model(robot\+\_\+name, generate\+\_\+urdf=True, xacro\+\_\+path=xacro\+\_\+path)
+\item 
+string \mbox{\hyperlink{namespaceinverse__kinematics_1_1test__ik__fixed_a10b6b74808a3265b9e5d77d391a492fd}{inverse\+\_\+kinematics.\+test\+\_\+ik\+\_\+fixed.\+ee\+\_\+frame}} = \textquotesingle{}tool0\textquotesingle{}
+\item 
+bool \mbox{\hyperlink{namespaceinverse__kinematics_1_1test__ik__fixed_a44ca6821d95f3dc3754b796e21d0b397}{inverse\+\_\+kinematics.\+test\+\_\+ik\+\_\+fixed.\+use\+\_\+postural\+\_\+task}} = True
+\item 
+\mbox{\hyperlink{namespaceinverse__kinematics_1_1test__ik__fixed_a66346a8c8241c607de1eb6e8b7d46dd7}{inverse\+\_\+kinematics.\+test\+\_\+ik\+\_\+fixed.\+ee\+\_\+pos\+\_\+des}} = np.\+array(\mbox{[}-\/0.\+52636, 0.\+48073, -\/0.\+491 \mbox{]})
+\begin{DoxyCompactList}\small\item\em I\+M\+P\+O\+R\+T\+A\+NT these value is reasonable only for ur\+\_\+description urdf ! not for the one in example robot data! they have base frames rotated! \end{DoxyCompactList}\item 
+\mbox{\hyperlink{namespaceinverse__kinematics_1_1test__ik__fixed_a4a591b824b35677602c0b3040df85170}{inverse\+\_\+kinematics.\+test\+\_\+ik\+\_\+fixed.\+kin}} = robot\+Kinematics(robot, ee\+\_\+frame)
+\item 
+\mbox{\hyperlink{namespaceinverse__kinematics_1_1test__ik__fixed_aed2c21fc110b3284e40def388b6d1de1}{inverse\+\_\+kinematics.\+test\+\_\+ik\+\_\+fixed.\+start\+\_\+time}} = time.\+time()
+\item 
+\mbox{\hyperlink{namespaceinverse__kinematics_1_1test__ik__fixed_a685169e0e49ed5504508f16f4058253a}{inverse\+\_\+kinematics.\+test\+\_\+ik\+\_\+fixed.\+q\+\_\+postural}} = np.\+array(\mbox{[}0.\+8, -\/0.\+8, 0.\+8, -\/0.\+8, -\/0.\+8, 0.\+8\mbox{]})
+\item 
+\mbox{\hyperlink{namespaceinverse__kinematics_1_1test__ik__fixed_a58e754d66461b1892fe6d15cddd94fab}{inverse\+\_\+kinematics.\+test\+\_\+ik\+\_\+fixed.\+q}}
+\item 
+\mbox{\hyperlink{namespaceinverse__kinematics_1_1test__ik__fixed_adc5a63c7b38e6cc47a46e237a69a5fc5}{inverse\+\_\+kinematics.\+test\+\_\+ik\+\_\+fixed.\+ik\+\_\+success}}
+\item 
+\mbox{\hyperlink{namespaceinverse__kinematics_1_1test__ik__fixed_adb28ae322baabc752b2fca11f133956f}{inverse\+\_\+kinematics.\+test\+\_\+ik\+\_\+fixed.\+out\+\_\+of\+\_\+workspace}}
+\item 
+\mbox{\hyperlink{namespaceinverse__kinematics_1_1test__ik__fixed_a61c21902f9b1f4aac64c38211973fa97}{inverse\+\_\+kinematics.\+test\+\_\+ik\+\_\+fixed.\+verbose}}
+\item 
+\mbox{\hyperlink{namespaceinverse__kinematics_1_1test__ik__fixed_ad3a8e41ff7e7bbb82ec2e2f6d670aeec}{inverse\+\_\+kinematics.\+test\+\_\+ik\+\_\+fixed.\+use\+\_\+error\+\_\+as\+\_\+termination\+\_\+criteria}}
+\item 
+\mbox{\hyperlink{namespaceinverse__kinematics_1_1test__ik__fixed_a121bedb597820f4ce5eabd2dceaf446b}{inverse\+\_\+kinematics.\+test\+\_\+ik\+\_\+fixed.\+postural\+\_\+task}}
+\item 
+\mbox{\hyperlink{namespaceinverse__kinematics_1_1test__ik__fixed_ae905d3cb58bf0f79170a640aee6dff0d}{inverse\+\_\+kinematics.\+test\+\_\+ik\+\_\+fixed.\+w\+\_\+postural}}
+\item 
+\mbox{\hyperlink{namespaceinverse__kinematics_1_1test__ik__fixed_ab578693de91d813b6b695615b67f158c}{inverse\+\_\+kinematics.\+test\+\_\+ik\+\_\+fixed.\+qtest}} = np.\+array(\mbox{[} 0.\+32509, -\/0.\+9816, 0.\+58257, -\/0.\+90407, -\/0.\+79274, 0.\+8 \mbox{]})
+\end{DoxyCompactItemize}

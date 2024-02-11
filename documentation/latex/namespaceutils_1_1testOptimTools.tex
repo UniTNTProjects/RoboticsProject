@@ -1,0 +1,112 @@
+\hypertarget{namespaceutils_1_1testOptimTools}{}\doxysection{utils.\+test\+Optim\+Tools Namespace Reference}
+\label{namespaceutils_1_1testOptimTools}\index{utils.testOptimTools@{utils.testOptimTools}}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespaceutils_1_1testOptimTools_ad9e663c60c1c11a77bb3d3f3d0349105}{precision}}
+\item 
+\mbox{\hyperlink{namespaceutils_1_1testOptimTools_a786da6fdcd68c56d04d1b7174e91d29b}{linewidth}}
+\item 
+\mbox{\hyperlink{namespaceutils_1_1testOptimTools_ab3bc9d7529510bc635ab757be119ad89}{suppress}}
+\item 
+\mbox{\hyperlink{namespaceutils_1_1testOptimTools_a528d61517d66fb8cad889aa1c0cb868f}{threshold}}
+\item 
+\mbox{\hyperlink{namespaceutils_1_1testOptimTools_a29c7949001d59298f6500528a32056a5}{dont\+\_\+write\+\_\+bytecode}}
+\item 
+\mbox{\hyperlink{namespaceutils_1_1testOptimTools_afd49a7362351601cf001e8051975fdd8}{M}} = np.\+array(\mbox{[}\mbox{[}1., 2., 0.\mbox{]}, \mbox{[}-\/8., 3., 2.\mbox{]}, \mbox{[}0., 1., 1.\mbox{]}\mbox{]})
+\item 
+\mbox{\hyperlink{namespaceutils_1_1testOptimTools_ad60a4237725a3b92bce59d10da3cdd54}{b}} = np.\+array(\mbox{[}3., 2., 3.\mbox{]})
+\item 
+\mbox{\hyperlink{namespaceutils_1_1testOptimTools_a4006af6a163ba85c9291072f55c97db7}{G}} = np.\+dot(M.\+T, \mbox{\hyperlink{namespaceutils_1_1testOptimTools_afd49a7362351601cf001e8051975fdd8}{M}})
+\item 
+\mbox{\hyperlink{namespaceutils_1_1testOptimTools_ae07c7f063a60123b443c57e985bacba3}{g}} = -\/np.\+dot(b.\+T, \mbox{\hyperlink{namespaceutils_1_1testOptimTools_afd49a7362351601cf001e8051975fdd8}{M}})
+\item 
+\mbox{\hyperlink{namespaceutils_1_1testOptimTools_ac67833faacc73d9f512e38eebcbdc597}{C}} = np.\+array(\mbox{[}\mbox{[}1., 2., 1.\mbox{]}, \mbox{[}2., 0., 1.\mbox{]}, \mbox{[}-\/1., 2., -\/1.\mbox{]}\mbox{]})
+\item 
+\mbox{\hyperlink{namespaceutils_1_1testOptimTools_a6cdf4e23c3f68586c9c42da2f5dd1579}{d}} = np.\+array(\mbox{[}3., 2., -\/2.\mbox{]}).reshape((3,))
+\item 
+\mbox{\hyperlink{namespaceutils_1_1testOptimTools_a5e1155da942fe89c47b4850ec1cc63eb}{result}} = quadprog\+\_\+solve\+\_\+qp(\mbox{\hyperlink{namespaceutils_1_1testOptimTools_a4006af6a163ba85c9291072f55c97db7}{G}}, \mbox{\hyperlink{namespaceutils_1_1testOptimTools_ae07c7f063a60123b443c57e985bacba3}{g}}, \mbox{\hyperlink{namespaceutils_1_1testOptimTools_ac67833faacc73d9f512e38eebcbdc597}{C}}, \mbox{\hyperlink{namespaceutils_1_1testOptimTools_a6cdf4e23c3f68586c9c42da2f5dd1579}{d}})
+\item 
+\mbox{\hyperlink{namespaceutils_1_1testOptimTools_a18b2e6af8ad0d89e6a938a9630361859}{A}} = np.\+matrix(\mbox{[}\mbox{[}0.\+5, 1., 2.\mbox{]}\mbox{]})
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{namespaceutils_1_1testOptimTools_a18b2e6af8ad0d89e6a938a9630361859}\label{namespaceutils_1_1testOptimTools_a18b2e6af8ad0d89e6a938a9630361859}} 
+\index{utils.testOptimTools@{utils.testOptimTools}!A@{A}}
+\index{A@{A}!utils.testOptimTools@{utils.testOptimTools}}
+\doxysubsubsection{\texorpdfstring{A}{A}}
+{\footnotesize\ttfamily utils.\+test\+Optim\+Tools.\+A = np.\+matrix(\mbox{[}\mbox{[}0.\+5, 1., 2.\mbox{]}\mbox{]})}
+
+\mbox{\Hypertarget{namespaceutils_1_1testOptimTools_ad60a4237725a3b92bce59d10da3cdd54}\label{namespaceutils_1_1testOptimTools_ad60a4237725a3b92bce59d10da3cdd54}} 
+\index{utils.testOptimTools@{utils.testOptimTools}!b@{b}}
+\index{b@{b}!utils.testOptimTools@{utils.testOptimTools}}
+\doxysubsubsection{\texorpdfstring{b}{b}}
+{\footnotesize\ttfamily utils.\+test\+Optim\+Tools.\+b = np.\+array(\mbox{[}3., 2., 3.\mbox{]})}
+
+\mbox{\Hypertarget{namespaceutils_1_1testOptimTools_ac67833faacc73d9f512e38eebcbdc597}\label{namespaceutils_1_1testOptimTools_ac67833faacc73d9f512e38eebcbdc597}} 
+\index{utils.testOptimTools@{utils.testOptimTools}!C@{C}}
+\index{C@{C}!utils.testOptimTools@{utils.testOptimTools}}
+\doxysubsubsection{\texorpdfstring{C}{C}}
+{\footnotesize\ttfamily utils.\+test\+Optim\+Tools.\+C = np.\+array(\mbox{[}\mbox{[}1., 2., 1.\mbox{]}, \mbox{[}2., 0., 1.\mbox{]}, \mbox{[}-\/1., 2., -\/1.\mbox{]}\mbox{]})}
+
+\mbox{\Hypertarget{namespaceutils_1_1testOptimTools_a6cdf4e23c3f68586c9c42da2f5dd1579}\label{namespaceutils_1_1testOptimTools_a6cdf4e23c3f68586c9c42da2f5dd1579}} 
+\index{utils.testOptimTools@{utils.testOptimTools}!d@{d}}
+\index{d@{d}!utils.testOptimTools@{utils.testOptimTools}}
+\doxysubsubsection{\texorpdfstring{d}{d}}
+{\footnotesize\ttfamily utils.\+test\+Optim\+Tools.\+d = np.\+array(\mbox{[}3., 2., -\/2.\mbox{]}).reshape((3,))}
+
+\mbox{\Hypertarget{namespaceutils_1_1testOptimTools_a29c7949001d59298f6500528a32056a5}\label{namespaceutils_1_1testOptimTools_a29c7949001d59298f6500528a32056a5}} 
+\index{utils.testOptimTools@{utils.testOptimTools}!dont\_write\_bytecode@{dont\_write\_bytecode}}
+\index{dont\_write\_bytecode@{dont\_write\_bytecode}!utils.testOptimTools@{utils.testOptimTools}}
+\doxysubsubsection{\texorpdfstring{dont\_write\_bytecode}{dont\_write\_bytecode}}
+{\footnotesize\ttfamily utils.\+test\+Optim\+Tools.\+dont\+\_\+write\+\_\+bytecode}
+
+\mbox{\Hypertarget{namespaceutils_1_1testOptimTools_a4006af6a163ba85c9291072f55c97db7}\label{namespaceutils_1_1testOptimTools_a4006af6a163ba85c9291072f55c97db7}} 
+\index{utils.testOptimTools@{utils.testOptimTools}!G@{G}}
+\index{G@{G}!utils.testOptimTools@{utils.testOptimTools}}
+\doxysubsubsection{\texorpdfstring{G}{G}}
+{\footnotesize\ttfamily int utils.\+test\+Optim\+Tools.\+G = np.\+dot(M.\+T, \mbox{\hyperlink{namespaceutils_1_1testOptimTools_afd49a7362351601cf001e8051975fdd8}{M}})}
+
+\mbox{\Hypertarget{namespaceutils_1_1testOptimTools_ae07c7f063a60123b443c57e985bacba3}\label{namespaceutils_1_1testOptimTools_ae07c7f063a60123b443c57e985bacba3}} 
+\index{utils.testOptimTools@{utils.testOptimTools}!g@{g}}
+\index{g@{g}!utils.testOptimTools@{utils.testOptimTools}}
+\doxysubsubsection{\texorpdfstring{g}{g}}
+{\footnotesize\ttfamily utils.\+test\+Optim\+Tools.\+g = -\/np.\+dot(b.\+T, \mbox{\hyperlink{namespaceutils_1_1testOptimTools_afd49a7362351601cf001e8051975fdd8}{M}})}
+
+\mbox{\Hypertarget{namespaceutils_1_1testOptimTools_a786da6fdcd68c56d04d1b7174e91d29b}\label{namespaceutils_1_1testOptimTools_a786da6fdcd68c56d04d1b7174e91d29b}} 
+\index{utils.testOptimTools@{utils.testOptimTools}!linewidth@{linewidth}}
+\index{linewidth@{linewidth}!utils.testOptimTools@{utils.testOptimTools}}
+\doxysubsubsection{\texorpdfstring{linewidth}{linewidth}}
+{\footnotesize\ttfamily utils.\+test\+Optim\+Tools.\+linewidth}
+
+\mbox{\Hypertarget{namespaceutils_1_1testOptimTools_afd49a7362351601cf001e8051975fdd8}\label{namespaceutils_1_1testOptimTools_afd49a7362351601cf001e8051975fdd8}} 
+\index{utils.testOptimTools@{utils.testOptimTools}!M@{M}}
+\index{M@{M}!utils.testOptimTools@{utils.testOptimTools}}
+\doxysubsubsection{\texorpdfstring{M}{M}}
+{\footnotesize\ttfamily utils.\+test\+Optim\+Tools.\+M = np.\+array(\mbox{[}\mbox{[}1., 2., 0.\mbox{]}, \mbox{[}-\/8., 3., 2.\mbox{]}, \mbox{[}0., 1., 1.\mbox{]}\mbox{]})}
+
+\mbox{\Hypertarget{namespaceutils_1_1testOptimTools_ad9e663c60c1c11a77bb3d3f3d0349105}\label{namespaceutils_1_1testOptimTools_ad9e663c60c1c11a77bb3d3f3d0349105}} 
+\index{utils.testOptimTools@{utils.testOptimTools}!precision@{precision}}
+\index{precision@{precision}!utils.testOptimTools@{utils.testOptimTools}}
+\doxysubsubsection{\texorpdfstring{precision}{precision}}
+{\footnotesize\ttfamily utils.\+test\+Optim\+Tools.\+precision}
+
+\mbox{\Hypertarget{namespaceutils_1_1testOptimTools_a5e1155da942fe89c47b4850ec1cc63eb}\label{namespaceutils_1_1testOptimTools_a5e1155da942fe89c47b4850ec1cc63eb}} 
+\index{utils.testOptimTools@{utils.testOptimTools}!result@{result}}
+\index{result@{result}!utils.testOptimTools@{utils.testOptimTools}}
+\doxysubsubsection{\texorpdfstring{result}{result}}
+{\footnotesize\ttfamily utils.\+test\+Optim\+Tools.\+result = quadprog\+\_\+solve\+\_\+qp(\mbox{\hyperlink{namespaceutils_1_1testOptimTools_a4006af6a163ba85c9291072f55c97db7}{G}}, \mbox{\hyperlink{namespaceutils_1_1testOptimTools_ae07c7f063a60123b443c57e985bacba3}{g}}, \mbox{\hyperlink{namespaceutils_1_1testOptimTools_ac67833faacc73d9f512e38eebcbdc597}{C}}, \mbox{\hyperlink{namespaceutils_1_1testOptimTools_a6cdf4e23c3f68586c9c42da2f5dd1579}{d}})}
+
+\mbox{\Hypertarget{namespaceutils_1_1testOptimTools_ab3bc9d7529510bc635ab757be119ad89}\label{namespaceutils_1_1testOptimTools_ab3bc9d7529510bc635ab757be119ad89}} 
+\index{utils.testOptimTools@{utils.testOptimTools}!suppress@{suppress}}
+\index{suppress@{suppress}!utils.testOptimTools@{utils.testOptimTools}}
+\doxysubsubsection{\texorpdfstring{suppress}{suppress}}
+{\footnotesize\ttfamily utils.\+test\+Optim\+Tools.\+suppress}
+
+\mbox{\Hypertarget{namespaceutils_1_1testOptimTools_a528d61517d66fb8cad889aa1c0cb868f}\label{namespaceutils_1_1testOptimTools_a528d61517d66fb8cad889aa1c0cb868f}} 
+\index{utils.testOptimTools@{utils.testOptimTools}!threshold@{threshold}}
+\index{threshold@{threshold}!utils.testOptimTools@{utils.testOptimTools}}
+\doxysubsubsection{\texorpdfstring{threshold}{threshold}}
+{\footnotesize\ttfamily utils.\+test\+Optim\+Tools.\+threshold}
+

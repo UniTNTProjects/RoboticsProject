@@ -1,0 +1,88 @@
+\hypertarget{namespaceutils_1_1kin__dyn__utils}{}\doxysection{utils.\+kin\+\_\+dyn\+\_\+utils Namespace Reference}
+\label{namespaceutils_1_1kin__dyn__utils}\index{utils.kin\_dyn\_utils@{utils.kin\_dyn\_utils}}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \mbox{\hyperlink{namespaceutils_1_1kin__dyn__utils_a79f16c0edddca4070781629974623aee}{set\+Robot\+Parameters}} ()
+\item 
+def \mbox{\hyperlink{namespaceutils_1_1kin__dyn__utils_a36c6d6e989a53232d87420c59a97f455}{direct\+Kinematics}} (q)
+\item 
+def \mbox{\hyperlink{namespaceutils_1_1kin__dyn__utils_a62b5690a9e7e93a1a16c87c26f236f4e}{compute\+End\+Effector\+Jacobian}} (q)
+\item 
+def \mbox{\hyperlink{namespaceutils_1_1kin__dyn__utils_a15964e1feafacced66b76b8a2413b005}{geometric2analytic\+Jacobian}} (J, T\+\_\+0e)
+\item 
+def \mbox{\hyperlink{namespaceutils_1_1kin__dyn__utils_ae3ee369b84ec7b0f0914c33b6f3ed7bd}{numerical\+Inverse\+Kinematics}} (p\+\_\+d, q0, line\+\_\+search=False, wrap=False)
+\item 
+def \mbox{\hyperlink{namespaceutils_1_1kin__dyn__utils_a39c2eaf0993feb805c46acfa383fdfbc}{fifth\+Order\+Polynomial\+Trajectory}} (tf, start\+\_\+pos, end\+\_\+pos, start\+\_\+vel=0, end\+\_\+vel=0, start\+\_\+acc=0, end\+\_\+acc=0)
+\item 
+def \mbox{\hyperlink{namespaceutils_1_1kin__dyn__utils_a7c8b543363028221c082475140c6a103}{R\+N\+EA}} (g0, q, qd, qdd, Fee=np.\+zeros(3), Mee=np.\+zeros(3))
+\item 
+def \mbox{\hyperlink{namespaceutils_1_1kin__dyn__utils_aa8d2305c2f0a8f0febd643556d1452bb}{getg}} (q, robot)
+\item 
+def \mbox{\hyperlink{namespaceutils_1_1kin__dyn__utils_a00248ca5c06f95bd3095cb5bfeff2c80}{getM}} (q, robot)
+\item 
+def \mbox{\hyperlink{namespaceutils_1_1kin__dyn__utils_a1a465ca9cfe6febd1047a9742c2a7ba9}{getC}} (q, qd, robot)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{namespaceutils_1_1kin__dyn__utils_a62b5690a9e7e93a1a16c87c26f236f4e}\label{namespaceutils_1_1kin__dyn__utils_a62b5690a9e7e93a1a16c87c26f236f4e}} 
+\index{utils.kin\_dyn\_utils@{utils.kin\_dyn\_utils}!computeEndEffectorJacobian@{computeEndEffectorJacobian}}
+\index{computeEndEffectorJacobian@{computeEndEffectorJacobian}!utils.kin\_dyn\_utils@{utils.kin\_dyn\_utils}}
+\doxysubsubsection{\texorpdfstring{computeEndEffectorJacobian()}{computeEndEffectorJacobian()}}
+{\footnotesize\ttfamily def utils.\+kin\+\_\+dyn\+\_\+utils.\+compute\+End\+Effector\+Jacobian (\begin{DoxyParamCaption}\item[{}]{q }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespaceutils_1_1kin__dyn__utils_a36c6d6e989a53232d87420c59a97f455}\label{namespaceutils_1_1kin__dyn__utils_a36c6d6e989a53232d87420c59a97f455}} 
+\index{utils.kin\_dyn\_utils@{utils.kin\_dyn\_utils}!directKinematics@{directKinematics}}
+\index{directKinematics@{directKinematics}!utils.kin\_dyn\_utils@{utils.kin\_dyn\_utils}}
+\doxysubsubsection{\texorpdfstring{directKinematics()}{directKinematics()}}
+{\footnotesize\ttfamily def utils.\+kin\+\_\+dyn\+\_\+utils.\+direct\+Kinematics (\begin{DoxyParamCaption}\item[{}]{q }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespaceutils_1_1kin__dyn__utils_a39c2eaf0993feb805c46acfa383fdfbc}\label{namespaceutils_1_1kin__dyn__utils_a39c2eaf0993feb805c46acfa383fdfbc}} 
+\index{utils.kin\_dyn\_utils@{utils.kin\_dyn\_utils}!fifthOrderPolynomialTrajectory@{fifthOrderPolynomialTrajectory}}
+\index{fifthOrderPolynomialTrajectory@{fifthOrderPolynomialTrajectory}!utils.kin\_dyn\_utils@{utils.kin\_dyn\_utils}}
+\doxysubsubsection{\texorpdfstring{fifthOrderPolynomialTrajectory()}{fifthOrderPolynomialTrajectory()}}
+{\footnotesize\ttfamily def utils.\+kin\+\_\+dyn\+\_\+utils.\+fifth\+Order\+Polynomial\+Trajectory (\begin{DoxyParamCaption}\item[{}]{tf,  }\item[{}]{start\+\_\+pos,  }\item[{}]{end\+\_\+pos,  }\item[{}]{start\+\_\+vel = {\ttfamily 0},  }\item[{}]{end\+\_\+vel = {\ttfamily 0},  }\item[{}]{start\+\_\+acc = {\ttfamily 0},  }\item[{}]{end\+\_\+acc = {\ttfamily 0} }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespaceutils_1_1kin__dyn__utils_a15964e1feafacced66b76b8a2413b005}\label{namespaceutils_1_1kin__dyn__utils_a15964e1feafacced66b76b8a2413b005}} 
+\index{utils.kin\_dyn\_utils@{utils.kin\_dyn\_utils}!geometric2analyticJacobian@{geometric2analyticJacobian}}
+\index{geometric2analyticJacobian@{geometric2analyticJacobian}!utils.kin\_dyn\_utils@{utils.kin\_dyn\_utils}}
+\doxysubsubsection{\texorpdfstring{geometric2analyticJacobian()}{geometric2analyticJacobian()}}
+{\footnotesize\ttfamily def utils.\+kin\+\_\+dyn\+\_\+utils.\+geometric2analytic\+Jacobian (\begin{DoxyParamCaption}\item[{}]{J,  }\item[{}]{T\+\_\+0e }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespaceutils_1_1kin__dyn__utils_a1a465ca9cfe6febd1047a9742c2a7ba9}\label{namespaceutils_1_1kin__dyn__utils_a1a465ca9cfe6febd1047a9742c2a7ba9}} 
+\index{utils.kin\_dyn\_utils@{utils.kin\_dyn\_utils}!getC@{getC}}
+\index{getC@{getC}!utils.kin\_dyn\_utils@{utils.kin\_dyn\_utils}}
+\doxysubsubsection{\texorpdfstring{getC()}{getC()}}
+{\footnotesize\ttfamily def utils.\+kin\+\_\+dyn\+\_\+utils.\+getC (\begin{DoxyParamCaption}\item[{}]{q,  }\item[{}]{qd,  }\item[{}]{robot }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespaceutils_1_1kin__dyn__utils_aa8d2305c2f0a8f0febd643556d1452bb}\label{namespaceutils_1_1kin__dyn__utils_aa8d2305c2f0a8f0febd643556d1452bb}} 
+\index{utils.kin\_dyn\_utils@{utils.kin\_dyn\_utils}!getg@{getg}}
+\index{getg@{getg}!utils.kin\_dyn\_utils@{utils.kin\_dyn\_utils}}
+\doxysubsubsection{\texorpdfstring{getg()}{getg()}}
+{\footnotesize\ttfamily def utils.\+kin\+\_\+dyn\+\_\+utils.\+getg (\begin{DoxyParamCaption}\item[{}]{q,  }\item[{}]{robot }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespaceutils_1_1kin__dyn__utils_a00248ca5c06f95bd3095cb5bfeff2c80}\label{namespaceutils_1_1kin__dyn__utils_a00248ca5c06f95bd3095cb5bfeff2c80}} 
+\index{utils.kin\_dyn\_utils@{utils.kin\_dyn\_utils}!getM@{getM}}
+\index{getM@{getM}!utils.kin\_dyn\_utils@{utils.kin\_dyn\_utils}}
+\doxysubsubsection{\texorpdfstring{getM()}{getM()}}
+{\footnotesize\ttfamily def utils.\+kin\+\_\+dyn\+\_\+utils.\+getM (\begin{DoxyParamCaption}\item[{}]{q,  }\item[{}]{robot }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespaceutils_1_1kin__dyn__utils_ae3ee369b84ec7b0f0914c33b6f3ed7bd}\label{namespaceutils_1_1kin__dyn__utils_ae3ee369b84ec7b0f0914c33b6f3ed7bd}} 
+\index{utils.kin\_dyn\_utils@{utils.kin\_dyn\_utils}!numericalInverseKinematics@{numericalInverseKinematics}}
+\index{numericalInverseKinematics@{numericalInverseKinematics}!utils.kin\_dyn\_utils@{utils.kin\_dyn\_utils}}
+\doxysubsubsection{\texorpdfstring{numericalInverseKinematics()}{numericalInverseKinematics()}}
+{\footnotesize\ttfamily def utils.\+kin\+\_\+dyn\+\_\+utils.\+numerical\+Inverse\+Kinematics (\begin{DoxyParamCaption}\item[{}]{p\+\_\+d,  }\item[{}]{q0,  }\item[{}]{line\+\_\+search = {\ttfamily False},  }\item[{}]{wrap = {\ttfamily False} }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespaceutils_1_1kin__dyn__utils_a7c8b543363028221c082475140c6a103}\label{namespaceutils_1_1kin__dyn__utils_a7c8b543363028221c082475140c6a103}} 
+\index{utils.kin\_dyn\_utils@{utils.kin\_dyn\_utils}!RNEA@{RNEA}}
+\index{RNEA@{RNEA}!utils.kin\_dyn\_utils@{utils.kin\_dyn\_utils}}
+\doxysubsubsection{\texorpdfstring{RNEA()}{RNEA()}}
+{\footnotesize\ttfamily def utils.\+kin\+\_\+dyn\+\_\+utils.\+R\+N\+EA (\begin{DoxyParamCaption}\item[{}]{g0,  }\item[{}]{q,  }\item[{}]{qd,  }\item[{}]{qdd,  }\item[{}]{Fee = {\ttfamily np.zeros(3)},  }\item[{}]{Mee = {\ttfamily np.zeros(3)} }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespaceutils_1_1kin__dyn__utils_a79f16c0edddca4070781629974623aee}\label{namespaceutils_1_1kin__dyn__utils_a79f16c0edddca4070781629974623aee}} 
+\index{utils.kin\_dyn\_utils@{utils.kin\_dyn\_utils}!setRobotParameters@{setRobotParameters}}
+\index{setRobotParameters@{setRobotParameters}!utils.kin\_dyn\_utils@{utils.kin\_dyn\_utils}}
+\doxysubsubsection{\texorpdfstring{setRobotParameters()}{setRobotParameters()}}
+{\footnotesize\ttfamily def utils.\+kin\+\_\+dyn\+\_\+utils.\+set\+Robot\+Parameters (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+

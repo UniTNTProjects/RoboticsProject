@@ -1,0 +1,85 @@
+\hypertarget{trajectory__init_8cpp}{}\doxysection{cpp/src/trajectories/trajectory\+\_\+init.cpp File Reference}
+\label{trajectory__init_8cpp}\index{cpp/src/trajectories/trajectory\_init.cpp@{cpp/src/trajectories/trajectory\_init.cpp}}
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$vector$>$}\newline
+{\ttfamily \#include $<$Eigen/\+Dense$>$}\newline
+{\ttfamily \#include \char`\"{}motion\+\_\+trajectory.\+h\char`\"{}}\newline
+Include dependency graph for trajectory\+\_\+init.\+cpp\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{trajectory__init_8cpp__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{trajectory__init_8cpp_ae872611744da7b91a1d4a8c8ad278723}{ur5\+Trajectory}} (vector$<$ double $\ast$ $>$ $\ast$Th, \mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}} initial\+\_\+position, \mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}} final\+\_\+position, int \mbox{\hyperlink{motion__trajectory_8h_ada5c987e854a34d90b0438379925ffad}{steps}})
+\begin{DoxyCompactList}\small\item\em Function\+: ur5\+Trajectory. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{trajectory__init_8cpp_aaad4fb8c630e861a462bfe34ed4ca173}{init\+\_\+verify\+\_\+trajectory}} (vector$<$ double $\ast$ $>$ $\ast$Th, \mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}} init\+\_\+joint, \mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}} final\+\_\+joint, int \mbox{\hyperlink{motion__trajectory_8h_ada5c987e854a34d90b0438379925ffad}{steps}}, bool pick\+\_\+or\+\_\+place, const \mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}} \&requested\+\_\+cord, const \mbox{\hyperlink{eigenMatrices_8h_ac54b83793bde6df4d513f6ab9da32f8e}{rot\+Matrix}} \&requested\+\_\+rotation, bool homing, bool side\+\_\+pick, bool is\+Gripping)
+\begin{DoxyCompactList}\small\item\em Function\+: check\+\_\+trajectory. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{trajectory__init_8cpp_aaad4fb8c630e861a462bfe34ed4ca173}\label{trajectory__init_8cpp_aaad4fb8c630e861a462bfe34ed4ca173}} 
+\index{trajectory\_init.cpp@{trajectory\_init.cpp}!init\_verify\_trajectory@{init\_verify\_trajectory}}
+\index{init\_verify\_trajectory@{init\_verify\_trajectory}!trajectory\_init.cpp@{trajectory\_init.cpp}}
+\doxysubsubsection{\texorpdfstring{init\_verify\_trajectory()}{init\_verify\_trajectory()}}
+{\footnotesize\ttfamily bool init\+\_\+verify\+\_\+trajectory (\begin{DoxyParamCaption}\item[{vector$<$ double $\ast$ $>$ $\ast$}]{Th,  }\item[{\mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}}}]{init\+\_\+joint,  }\item[{\mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}}}]{final\+\_\+joint,  }\item[{int}]{steps,  }\item[{bool}]{pick\+\_\+or\+\_\+place,  }\item[{const \mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}} \&}]{requested\+\_\+cord,  }\item[{const \mbox{\hyperlink{eigenMatrices_8h_ac54b83793bde6df4d513f6ab9da32f8e}{rot\+Matrix}} \&}]{requested\+\_\+rotation,  }\item[{bool}]{homing,  }\item[{bool}]{side\+\_\+pick,  }\item[{bool}]{is\+Gripping }\end{DoxyParamCaption})}
+
+
+
+Function\+: check\+\_\+trajectory. 
+
+Check if the trajectory is valid
+
+
+\begin{DoxyParams}{Parameters}
+{\em Th} & Trajectory \\
+\hline
+{\em steps} & Number of steps \\
+\hline
+{\em pick\+\_\+or\+\_\+place} & Pick or place \\
+\hline
+{\em error\+\_\+code} & Error code \\
+\hline
+{\em requested\+\_\+cord} & Requested coordinates \\
+\hline
+{\em requested\+\_\+rotation} & Requested rotation \\
+\hline
+{\em init\+\_\+joint} & Initial joint values \\
+\hline
+{\em homing} & Homing \\
+\hline
+{\em side\+\_\+pick} & Side pick \\
+\hline
+{\em is\+Gripping} & Is gripping\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool True if the trajectory is valid 
+\end{DoxyReturn}
+\mbox{\Hypertarget{trajectory__init_8cpp_ae872611744da7b91a1d4a8c8ad278723}\label{trajectory__init_8cpp_ae872611744da7b91a1d4a8c8ad278723}} 
+\index{trajectory\_init.cpp@{trajectory\_init.cpp}!ur5Trajectory@{ur5Trajectory}}
+\index{ur5Trajectory@{ur5Trajectory}!trajectory\_init.cpp@{trajectory\_init.cpp}}
+\doxysubsubsection{\texorpdfstring{ur5Trajectory()}{ur5Trajectory()}}
+{\footnotesize\ttfamily void ur5\+Trajectory (\begin{DoxyParamCaption}\item[{vector$<$ double $\ast$ $>$ $\ast$}]{Th,  }\item[{\mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}}}]{initial\+\_\+position,  }\item[{\mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}}}]{final\+\_\+position,  }\item[{int}]{steps }\end{DoxyParamCaption})}
+
+
+
+Function\+: ur5\+Trajectory. 
+
+Generates U\+R5 robot trajectory
+
+
+\begin{DoxyParams}{Parameters}
+{\em Th} & Output trajectory \\
+\hline
+{\em initial\+\_\+position} & Initial joint values \\
+\hline
+{\em final\+\_\+position} & Final joint values \\
+\hline
+{\em steps} & Number of steps \\
+\hline
+\end{DoxyParams}

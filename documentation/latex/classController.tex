@@ -1,50 +1,46 @@
 \hypertarget{classController}{}\doxysection{Controller Class Reference}
 \label{classController}\index{Controller@{Controller}}
+
+
+{\ttfamily \#include $<$controller.\+h$>$}
+
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
 \mbox{\hyperlink{classController_a67ab54a3108b37566f29ec822580a493}{Controller}} (double loop\+\_\+frequency, bool start\+\_\+homing)
 \begin{DoxyCompactList}\small\item\em Constructor for \mbox{\hyperlink{classController}{Controller}} class. \end{DoxyCompactList}\item 
-joint\+Values \mbox{\hyperlink{classController_a59778447cdb09dc07e8acd8925f9a87a}{get\+\_\+joint\+\_\+state}} ()
+\mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}} \mbox{\hyperlink{classController_a59778447cdb09dc07e8acd8925f9a87a}{get\+\_\+joint\+\_\+state}} ()
 \begin{DoxyCompactList}\small\item\em Get the current joint state. \end{DoxyCompactList}\item 
-Gripper\+State\+Vector \mbox{\hyperlink{classController_ad638f2f1d7dca9ddf01515f5d34eb1db}{get\+\_\+gripper\+\_\+state}} ()
+\mbox{\hyperlink{controller_8h_ad0bbb2dfef70ac4d002dbb4759ec0ecf}{Gripper\+State\+Vector}} \mbox{\hyperlink{classController_ad638f2f1d7dca9ddf01515f5d34eb1db}{get\+\_\+gripper\+\_\+state}} ()
 \begin{DoxyCompactList}\small\item\em Get the current gripper state. \end{DoxyCompactList}\item 
-pair$<$ coordinates, rot\+Matrix $>$ \mbox{\hyperlink{classController_a8c16aa018b36d0f2c5e37c612d534caf}{get\+\_\+position}} ()
+pair$<$ \mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}}, \mbox{\hyperlink{eigenMatrices_8h_ac54b83793bde6df4d513f6ab9da32f8e}{rot\+Matrix}} $>$ \mbox{\hyperlink{classController_a8c16aa018b36d0f2c5e37c612d534caf}{get\+\_\+position}} ()
 \begin{DoxyCompactList}\small\item\em Get the current position and rotation of the end effector. \end{DoxyCompactList}\item 
-int \mbox{\hyperlink{classController_ab4cdcd8cdfdce9038667b6b5e1fa775c}{move\+\_\+to}} (const coordinates \&position, const rot\+Matrix \&rotation, bool pick\+\_\+or\+\_\+place, bool homing, bool up\+\_\+and\+\_\+move\+\_\+flag, bool move\+\_\+to\+\_\+near\+\_\+axis\+\_\+flag, bool side\+\_\+pick\+\_\+flag)
+int \mbox{\hyperlink{classController_ab4cdcd8cdfdce9038667b6b5e1fa775c}{move\+\_\+to}} (const \mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}} \&position, const \mbox{\hyperlink{eigenMatrices_8h_ac54b83793bde6df4d513f6ab9da32f8e}{rot\+Matrix}} \&rotation, bool pick\+\_\+or\+\_\+place, bool homing, bool up\+\_\+and\+\_\+move\+\_\+flag, bool move\+\_\+to\+\_\+near\+\_\+axis\+\_\+flag, bool side\+\_\+pick\+\_\+flag)
 \begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classMove}{Move}} the robot to a specific position. \end{DoxyCompactList}\item 
-int \mbox{\hyperlink{classController_ab0453313f591caf8cf55663a98d233bb}{move\+\_\+to\+\_\+multiple}} (vector$<$ pair$<$ coordinates, rot\+Matrix $>$$>$, bool $\ast$, bool $\ast$, bool $\ast$, bool $\ast$, bool $\ast$)
+int \mbox{\hyperlink{classController_ab0453313f591caf8cf55663a98d233bb}{move\+\_\+to\+\_\+multiple}} (vector$<$ pair$<$ \mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}}, \mbox{\hyperlink{eigenMatrices_8h_ac54b83793bde6df4d513f6ab9da32f8e}{rot\+Matrix}} $>$$>$, bool $\ast$, bool $\ast$, bool $\ast$, bool $\ast$, bool $\ast$)
 \begin{DoxyCompactList}\small\item\em \mbox{\hyperlink{classMove}{Move}} the robot to multiple positions. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{classController_a77c3718aa180220cb90a2e0c88c4eef7}{move\+\_\+gripper\+\_\+to}} (const int diameter)
 \begin{DoxyCompactList}\small\item\em Set the diameter of the gripper. \end{DoxyCompactList}\item 
 void \mbox{\hyperlink{classController_ab85a5f3c73a950c39a2f9182862443ce}{set\+Gripping}} (bool is\+Gripping, bool side\+\_\+pick)
 \begin{DoxyCompactList}\small\item\em Set the gripping flag. \end{DoxyCompactList}\item 
-\mbox{\Hypertarget{classController_a5e4624ef7093cd5f406058b925d8f5ab}\label{classController_a5e4624ef7093cd5f406058b925d8f5ab}} 
-void {\bfseries print\+\_\+current\+\_\+pos\+\_\+rot} ()
+void \mbox{\hyperlink{classController_a5e4624ef7093cd5f406058b925d8f5ab}{print\+\_\+current\+\_\+pos\+\_\+rot}} ()
 \item 
-\mbox{\Hypertarget{classController_a0a830d20fe7ad7b1af5ea97c79c08829}\label{classController_a0a830d20fe7ad7b1af5ea97c79c08829}} 
-void {\bfseries sleep} ()
+void \mbox{\hyperlink{classController_a0a830d20fe7ad7b1af5ea97c79c08829}{sleep}} ()
 \item 
-\mbox{\Hypertarget{classController_a0c99f7fdc9d19ad6f37fb6e794e54dc9}\label{classController_a0c99f7fdc9d19ad6f37fb6e794e54dc9}} 
-double $\ast$ {\bfseries test\+\_\+traj\+\_\+multiple\+\_\+side\+\_\+pick} (vector$<$ pair$<$ coordinates, rot\+Matrix $>$$>$ poses\+\_\+rots, bool $\ast$pick\+\_\+or\+\_\+place, bool $\ast$homing, bool $\ast$up\+\_\+and\+\_\+move\+\_\+flag, bool $\ast$move\+\_\+to\+\_\+near\+\_\+axis\+\_\+flag, bool $\ast$side\+\_\+picks\+\_\+flag, joint\+Values start\+\_\+joints, bool is\+Gripping)
+double $\ast$ \mbox{\hyperlink{classController_a0c99f7fdc9d19ad6f37fb6e794e54dc9}{test\+\_\+traj\+\_\+multiple\+\_\+side\+\_\+pick}} (vector$<$ pair$<$ \mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}}, \mbox{\hyperlink{eigenMatrices_8h_ac54b83793bde6df4d513f6ab9da32f8e}{rot\+Matrix}} $>$$>$ poses\+\_\+rots, bool $\ast$pick\+\_\+or\+\_\+place, bool $\ast$homing, bool $\ast$up\+\_\+and\+\_\+move\+\_\+flag, bool $\ast$move\+\_\+to\+\_\+near\+\_\+axis\+\_\+flag, bool $\ast$side\+\_\+picks\+\_\+flag, \mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}} start\+\_\+joints, bool is\+Gripping)
 \item 
-\mbox{\Hypertarget{classController_a61395574c5b5df3a362302e3de5f7268}\label{classController_a61395574c5b5df3a362302e3de5f7268}} 
-double $\ast$ {\bfseries test\+\_\+traj} (coordinates position, rot\+Matrix rotation, bool pick\+\_\+or\+\_\+place, bool homing, bool up\+\_\+and\+\_\+move\+\_\+flag, bool move\+\_\+to\+\_\+near\+\_\+axis\+\_\+flag, joint\+Values start\+\_\+joints, bool is\+Gripping)
+double $\ast$ \mbox{\hyperlink{classController_a61395574c5b5df3a362302e3de5f7268}{test\+\_\+traj}} (\mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}} position, \mbox{\hyperlink{eigenMatrices_8h_ac54b83793bde6df4d513f6ab9da32f8e}{rot\+Matrix}} rotation, bool pick\+\_\+or\+\_\+place, bool homing, bool up\+\_\+and\+\_\+move\+\_\+flag, bool move\+\_\+to\+\_\+near\+\_\+axis\+\_\+flag, \mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}} start\+\_\+joints, bool is\+Gripping)
 \item 
-\mbox{\Hypertarget{classController_a150bd423bb850a92cc17e869b24938be}\label{classController_a150bd423bb850a92cc17e869b24938be}} 
-double $\ast$ {\bfseries test\+\_\+traj\+\_\+multiple} (vector$<$ pair$<$ coordinates, rot\+Matrix $>$$>$ poses\+\_\+rots, bool $\ast$pick\+\_\+or\+\_\+place, bool $\ast$homing, bool $\ast$up\+\_\+and\+\_\+move\+\_\+flag, bool $\ast$move\+\_\+to\+\_\+near\+\_\+axis\+\_\+flag, bool $\ast$side\+\_\+picks\+\_\+flag, joint\+Values start\+\_\+joints, bool is\+Gripping)
+double $\ast$ \mbox{\hyperlink{classController_a150bd423bb850a92cc17e869b24938be}{test\+\_\+traj\+\_\+multiple}} (vector$<$ pair$<$ \mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}}, \mbox{\hyperlink{eigenMatrices_8h_ac54b83793bde6df4d513f6ab9da32f8e}{rot\+Matrix}} $>$$>$ poses\+\_\+rots, bool $\ast$pick\+\_\+or\+\_\+place, bool $\ast$homing, bool $\ast$up\+\_\+and\+\_\+move\+\_\+flag, bool $\ast$move\+\_\+to\+\_\+near\+\_\+axis\+\_\+flag, bool $\ast$side\+\_\+picks\+\_\+flag, \mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}} start\+\_\+joints, bool is\+Gripping)
 \item 
-\mbox{\Hypertarget{classController_aa9d8d12a16b9844a4681eb4e43651e8e}\label{classController_aa9d8d12a16b9844a4681eb4e43651e8e}} 
-double $\ast$ {\bfseries test\+\_\+traj\+\_\+side\+\_\+pick} (coordinates position, rot\+Matrix rotation, bool pick\+\_\+or\+\_\+place, bool homing, bool up\+\_\+and\+\_\+move\+\_\+flag, bool move\+\_\+to\+\_\+near\+\_\+axis\+\_\+flag, joint\+Values start\+\_\+joints, bool is\+Gripping)
+double $\ast$ \mbox{\hyperlink{classController_aa9d8d12a16b9844a4681eb4e43651e8e}{test\+\_\+traj\+\_\+side\+\_\+pick}} (\mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}} position, \mbox{\hyperlink{eigenMatrices_8h_ac54b83793bde6df4d513f6ab9da32f8e}{rot\+Matrix}} rotation, bool pick\+\_\+or\+\_\+place, bool homing, bool up\+\_\+and\+\_\+move\+\_\+flag, bool move\+\_\+to\+\_\+near\+\_\+axis\+\_\+flag, \mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}} start\+\_\+joints, bool is\+Gripping)
 \item 
-\mbox{\Hypertarget{classController_ad60a07d08c4445bfd56a600e8840b8fe}\label{classController_ad60a07d08c4445bfd56a600e8840b8fe}} 
-{\bfseries Controller} (double loop\+\_\+frequency)
+\mbox{\hyperlink{classController_ad60a07d08c4445bfd56a600e8840b8fe}{Controller}} (double loop\+\_\+frequency)
 \end{DoxyCompactItemize}
 \doxysubsection*{Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\Hypertarget{classController_aad24c1ab575cde1771cdf8d4347d7ea4}\label{classController_aad24c1ab575cde1771cdf8d4347d7ea4}} 
-ros\+::\+Publisher {\bfseries permission\+\_\+pub}
+ros\+::\+Publisher \mbox{\hyperlink{classController_aad24c1ab575cde1771cdf8d4347d7ea4}{permission\+\_\+pub}}
 \end{DoxyCompactItemize}
 
 
@@ -52,7 +48,7 @@ ros\+::\+Publisher {\bfseries permission\+\_\+pub}
 \mbox{\Hypertarget{classController_a67ab54a3108b37566f29ec822580a493}\label{classController_a67ab54a3108b37566f29ec822580a493}} 
 \index{Controller@{Controller}!Controller@{Controller}}
 \index{Controller@{Controller}!Controller@{Controller}}
-\doxysubsubsection{\texorpdfstring{Controller()}{Controller()}}
+\doxysubsubsection{\texorpdfstring{Controller()}{Controller()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
 {\footnotesize\ttfamily Controller\+::\+Controller (\begin{DoxyParamCaption}\item[{double}]{loop\+\_\+frequency,  }\item[{bool}]{start\+\_\+homing }\end{DoxyParamCaption})}
 
 
@@ -66,6 +62,12 @@ Initialize loop frequency, get parameters, subscribe to topics, and advertise to
 {\em start\+\_\+homing} & If true, move to default position after initialization \\
 \hline
 \end{DoxyParams}
+\mbox{\Hypertarget{classController_ad60a07d08c4445bfd56a600e8840b8fe}\label{classController_ad60a07d08c4445bfd56a600e8840b8fe}} 
+\index{Controller@{Controller}!Controller@{Controller}}
+\index{Controller@{Controller}!Controller@{Controller}}
+\doxysubsubsection{\texorpdfstring{Controller()}{Controller()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily Controller\+::\+Controller (\begin{DoxyParamCaption}\item[{double}]{loop\+\_\+frequency }\end{DoxyParamCaption})}
+
 
 
 \doxysubsection{Member Function Documentation}
@@ -73,7 +75,7 @@ Initialize loop frequency, get parameters, subscribe to topics, and advertise to
 \index{Controller@{Controller}!get\_gripper\_state@{get\_gripper\_state}}
 \index{get\_gripper\_state@{get\_gripper\_state}!Controller@{Controller}}
 \doxysubsubsection{\texorpdfstring{get\_gripper\_state()}{get\_gripper\_state()}}
-{\footnotesize\ttfamily Gripper\+State\+Vector Controller\+::get\+\_\+gripper\+\_\+state (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily \mbox{\hyperlink{controller_8h_ad0bbb2dfef70ac4d002dbb4759ec0ecf}{Gripper\+State\+Vector}} Controller\+::get\+\_\+gripper\+\_\+state (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
 
 
@@ -86,7 +88,7 @@ Gripper\+State\+Vector The current gripper state
 \index{Controller@{Controller}!get\_joint\_state@{get\_joint\_state}}
 \index{get\_joint\_state@{get\_joint\_state}!Controller@{Controller}}
 \doxysubsubsection{\texorpdfstring{get\_joint\_state()}{get\_joint\_state()}}
-{\footnotesize\ttfamily joint\+Values Controller\+::get\+\_\+joint\+\_\+state (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily \mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}} Controller\+::get\+\_\+joint\+\_\+state (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
 
 
@@ -99,7 +101,7 @@ joint\+Values The current joint state
 \index{Controller@{Controller}!get\_position@{get\_position}}
 \index{get\_position@{get\_position}!Controller@{Controller}}
 \doxysubsubsection{\texorpdfstring{get\_position()}{get\_position()}}
-{\footnotesize\ttfamily pair$<$ coordinates, rot\+Matrix $>$ Controller\+::get\+\_\+position (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily pair$<$ \mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}}, \mbox{\hyperlink{eigenMatrices_8h_ac54b83793bde6df4d513f6ab9da32f8e}{rot\+Matrix}} $>$ Controller\+::get\+\_\+position (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
 
 
 
@@ -127,7 +129,7 @@ Set the diameter of the gripper.
 \index{Controller@{Controller}!move\_to@{move\_to}}
 \index{move\_to@{move\_to}!Controller@{Controller}}
 \doxysubsubsection{\texorpdfstring{move\_to()}{move\_to()}}
-{\footnotesize\ttfamily int Controller\+::move\+\_\+to (\begin{DoxyParamCaption}\item[{const coordinates \&}]{position,  }\item[{const rot\+Matrix \&}]{rotation,  }\item[{bool}]{pick\+\_\+or\+\_\+place,  }\item[{bool}]{homing,  }\item[{bool}]{up\+\_\+and\+\_\+move\+\_\+flag,  }\item[{bool}]{move\+\_\+to\+\_\+near\+\_\+axis\+\_\+flag,  }\item[{bool}]{side\+\_\+pick\+\_\+flag }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily int Controller\+::move\+\_\+to (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}} \&}]{position,  }\item[{const \mbox{\hyperlink{eigenMatrices_8h_ac54b83793bde6df4d513f6ab9da32f8e}{rot\+Matrix}} \&}]{rotation,  }\item[{bool}]{pick\+\_\+or\+\_\+place,  }\item[{bool}]{homing,  }\item[{bool}]{up\+\_\+and\+\_\+move\+\_\+flag,  }\item[{bool}]{move\+\_\+to\+\_\+near\+\_\+axis\+\_\+flag,  }\item[{bool}]{side\+\_\+pick\+\_\+flag }\end{DoxyParamCaption})}
 
 
 
@@ -157,7 +159,7 @@ int (1\+: move to, 2\+: move with side pick, 0\+: move failed)
 \index{Controller@{Controller}!move\_to\_multiple@{move\_to\_multiple}}
 \index{move\_to\_multiple@{move\_to\_multiple}!Controller@{Controller}}
 \doxysubsubsection{\texorpdfstring{move\_to\_multiple()}{move\_to\_multiple()}}
-{\footnotesize\ttfamily int Controller\+::move\+\_\+to\+\_\+multiple (\begin{DoxyParamCaption}\item[{vector$<$ pair$<$ coordinates, rot\+Matrix $>$$>$}]{poses\+\_\+rots,  }\item[{bool $\ast$}]{pick\+\_\+or\+\_\+place,  }\item[{bool $\ast$}]{homing,  }\item[{bool $\ast$}]{up\+\_\+and\+\_\+move\+\_\+flag,  }\item[{bool $\ast$}]{move\+\_\+to\+\_\+near\+\_\+axis\+\_\+flag,  }\item[{bool $\ast$}]{side\+\_\+picks\+\_\+flag }\end{DoxyParamCaption})}
+{\footnotesize\ttfamily int Controller\+::move\+\_\+to\+\_\+multiple (\begin{DoxyParamCaption}\item[{vector$<$ pair$<$ \mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}}, \mbox{\hyperlink{eigenMatrices_8h_ac54b83793bde6df4d513f6ab9da32f8e}{rot\+Matrix}} $>$$>$}]{poses\+\_\+rots,  }\item[{bool $\ast$}]{pick\+\_\+or\+\_\+place,  }\item[{bool $\ast$}]{homing,  }\item[{bool $\ast$}]{up\+\_\+and\+\_\+move\+\_\+flag,  }\item[{bool $\ast$}]{move\+\_\+to\+\_\+near\+\_\+axis\+\_\+flag,  }\item[{bool $\ast$}]{side\+\_\+picks\+\_\+flag }\end{DoxyParamCaption})}
 
 
 
@@ -181,6 +183,12 @@ int (1\+: move to, 2\+: move with side pick, 0\+: move failed)
 \begin{DoxyReturn}{Returns}
 int (1\+: moving to, 2\+: moving with side pick, 0\+: move failed) 
 \end{DoxyReturn}
+\mbox{\Hypertarget{classController_a5e4624ef7093cd5f406058b925d8f5ab}\label{classController_a5e4624ef7093cd5f406058b925d8f5ab}} 
+\index{Controller@{Controller}!print\_current\_pos\_rot@{print\_current\_pos\_rot}}
+\index{print\_current\_pos\_rot@{print\_current\_pos\_rot}!Controller@{Controller}}
+\doxysubsubsection{\texorpdfstring{print\_current\_pos\_rot()}{print\_current\_pos\_rot()}}
+{\footnotesize\ttfamily void Controller\+::print\+\_\+current\+\_\+pos\+\_\+rot (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
 \mbox{\Hypertarget{classController_ab85a5f3c73a950c39a2f9182862443ce}\label{classController_ab85a5f3c73a950c39a2f9182862443ce}} 
 \index{Controller@{Controller}!setGripping@{setGripping}}
 \index{setGripping@{setGripping}!Controller@{Controller}}
@@ -198,10 +206,49 @@ Set the gripping flag.
 {\em side\+\_\+pick} & \\
 \hline
 \end{DoxyParams}
+\mbox{\Hypertarget{classController_a0a830d20fe7ad7b1af5ea97c79c08829}\label{classController_a0a830d20fe7ad7b1af5ea97c79c08829}} 
+\index{Controller@{Controller}!sleep@{sleep}}
+\index{sleep@{sleep}!Controller@{Controller}}
+\doxysubsubsection{\texorpdfstring{sleep()}{sleep()}}
+{\footnotesize\ttfamily void Controller\+::sleep (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classController_a61395574c5b5df3a362302e3de5f7268}\label{classController_a61395574c5b5df3a362302e3de5f7268}} 
+\index{Controller@{Controller}!test\_traj@{test\_traj}}
+\index{test\_traj@{test\_traj}!Controller@{Controller}}
+\doxysubsubsection{\texorpdfstring{test\_traj()}{test\_traj()}}
+{\footnotesize\ttfamily double $\ast$ Controller\+::test\+\_\+traj (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}}}]{position,  }\item[{\mbox{\hyperlink{eigenMatrices_8h_ac54b83793bde6df4d513f6ab9da32f8e}{rot\+Matrix}}}]{rotation,  }\item[{bool}]{pick\+\_\+or\+\_\+place,  }\item[{bool}]{homing,  }\item[{bool}]{up\+\_\+and\+\_\+move\+\_\+flag,  }\item[{bool}]{move\+\_\+to\+\_\+near\+\_\+axis\+\_\+flag,  }\item[{\mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}}}]{start\+\_\+joints,  }\item[{bool}]{is\+Gripping }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classController_a150bd423bb850a92cc17e869b24938be}\label{classController_a150bd423bb850a92cc17e869b24938be}} 
+\index{Controller@{Controller}!test\_traj\_multiple@{test\_traj\_multiple}}
+\index{test\_traj\_multiple@{test\_traj\_multiple}!Controller@{Controller}}
+\doxysubsubsection{\texorpdfstring{test\_traj\_multiple()}{test\_traj\_multiple()}}
+{\footnotesize\ttfamily double $\ast$ Controller\+::test\+\_\+traj\+\_\+multiple (\begin{DoxyParamCaption}\item[{vector$<$ pair$<$ \mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}}, \mbox{\hyperlink{eigenMatrices_8h_ac54b83793bde6df4d513f6ab9da32f8e}{rot\+Matrix}} $>$$>$}]{poses\+\_\+rots,  }\item[{bool $\ast$}]{pick\+\_\+or\+\_\+place,  }\item[{bool $\ast$}]{homing,  }\item[{bool $\ast$}]{up\+\_\+and\+\_\+move\+\_\+flag,  }\item[{bool $\ast$}]{move\+\_\+to\+\_\+near\+\_\+axis\+\_\+flag,  }\item[{bool $\ast$}]{side\+\_\+picks\+\_\+flag,  }\item[{\mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}}}]{start\+\_\+joints,  }\item[{bool}]{is\+Gripping }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classController_a0c99f7fdc9d19ad6f37fb6e794e54dc9}\label{classController_a0c99f7fdc9d19ad6f37fb6e794e54dc9}} 
+\index{Controller@{Controller}!test\_traj\_multiple\_side\_pick@{test\_traj\_multiple\_side\_pick}}
+\index{test\_traj\_multiple\_side\_pick@{test\_traj\_multiple\_side\_pick}!Controller@{Controller}}
+\doxysubsubsection{\texorpdfstring{test\_traj\_multiple\_side\_pick()}{test\_traj\_multiple\_side\_pick()}}
+{\footnotesize\ttfamily double $\ast$ Controller\+::test\+\_\+traj\+\_\+multiple\+\_\+side\+\_\+pick (\begin{DoxyParamCaption}\item[{vector$<$ pair$<$ \mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}}, \mbox{\hyperlink{eigenMatrices_8h_ac54b83793bde6df4d513f6ab9da32f8e}{rot\+Matrix}} $>$$>$}]{poses\+\_\+rots,  }\item[{bool $\ast$}]{pick\+\_\+or\+\_\+place,  }\item[{bool $\ast$}]{homing,  }\item[{bool $\ast$}]{up\+\_\+and\+\_\+move\+\_\+flag,  }\item[{bool $\ast$}]{move\+\_\+to\+\_\+near\+\_\+axis\+\_\+flag,  }\item[{bool $\ast$}]{side\+\_\+picks\+\_\+flag,  }\item[{\mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}}}]{start\+\_\+joints,  }\item[{bool}]{is\+Gripping }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classController_aa9d8d12a16b9844a4681eb4e43651e8e}\label{classController_aa9d8d12a16b9844a4681eb4e43651e8e}} 
+\index{Controller@{Controller}!test\_traj\_side\_pick@{test\_traj\_side\_pick}}
+\index{test\_traj\_side\_pick@{test\_traj\_side\_pick}!Controller@{Controller}}
+\doxysubsubsection{\texorpdfstring{test\_traj\_side\_pick()}{test\_traj\_side\_pick()}}
+{\footnotesize\ttfamily double $\ast$ Controller\+::test\+\_\+traj\+\_\+side\+\_\+pick (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}}}]{position,  }\item[{\mbox{\hyperlink{eigenMatrices_8h_ac54b83793bde6df4d513f6ab9da32f8e}{rot\+Matrix}}}]{rotation,  }\item[{bool}]{pick\+\_\+or\+\_\+place,  }\item[{bool}]{homing,  }\item[{bool}]{up\+\_\+and\+\_\+move\+\_\+flag,  }\item[{bool}]{move\+\_\+to\+\_\+near\+\_\+axis\+\_\+flag,  }\item[{\mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}}}]{start\+\_\+joints,  }\item[{bool}]{is\+Gripping }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classController_aad24c1ab575cde1771cdf8d4347d7ea4}\label{classController_aad24c1ab575cde1771cdf8d4347d7ea4}} 
+\index{Controller@{Controller}!permission\_pub@{permission\_pub}}
+\index{permission\_pub@{permission\_pub}!Controller@{Controller}}
+\doxysubsubsection{\texorpdfstring{permission\_pub}{permission\_pub}}
+{\footnotesize\ttfamily ros\+::\+Publisher Controller\+::permission\+\_\+pub}
+
 
 
 The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
 \item 
-cpp/include/controller.\+h\item 
-cpp/src/controller.\+cpp\item 
-cpp/src/controller\+\_\+tests.\+cpp\end{DoxyCompactItemize}
+cpp/include/\mbox{\hyperlink{controller_8h}{controller.\+h}}\item 
+cpp/src/\mbox{\hyperlink{controller_8cpp}{controller.\+cpp}}\item 
+cpp/src/\mbox{\hyperlink{controller__tests_8cpp}{controller\+\_\+tests.\+cpp}}\end{DoxyCompactItemize}

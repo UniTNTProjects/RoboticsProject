@@ -1,0 +1,315 @@
+\hypertarget{yoloNode_8cpp}{}\doxysection{computer\+\_\+vision/src/yolo\+Node.cpp File Reference}
+\label{yoloNode_8cpp}\index{computer\_vision/src/yoloNode.cpp@{computer\_vision/src/yoloNode.cpp}}
+{\ttfamily \#include \char`\"{}robot\+Vision/robot\+Vision.\+h\char`\"{}}\newline
+{\ttfamily \#include $<$vector$>$}\newline
+{\ttfamily \#include $<$queue$>$}\newline
+{\ttfamily \#include $<$map$>$}\newline
+Include dependency graph for yolo\+Node.\+cpp\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{yoloNode_8cpp__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{yoloNode_8cpp_a1f3b1e973e6df6a33d2a122734d84eee}{check\+Point\+Cloud}} (computer\+\_\+vision\+::\+Points point)
+\begin{DoxyCompactList}\small\item\em Check if the point cloud is valid. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{yoloNode_8cpp_a5fa3420e453cee793473e14a95ae51d5}{get\+Orientation}} (computer\+\_\+vision\+::\+Bounding\+Box box)
+\begin{DoxyCompactList}\small\item\em Get the orientation of the block using bounding box. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{yoloNode_8cpp_aa790551b7601fa009027598ebcf61a9b}{get\+Orientation\+Point\+Cloud}} (computer\+\_\+vision\+::\+Bounding\+Box box)
+\begin{DoxyCompactList}\small\item\em Get the orientation of the block using point cloud Retrieves 3 points from the block and calculates the orientation. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{yoloNode_8cpp_af0a142f547cbfeb98a04c90e65c8fd6d}{check\+On\+Silhouette}} (computer\+\_\+vision\+::\+Bounding\+Box bbox\+\_\+block)
+\begin{DoxyCompactList}\small\item\em Check if the block is on the silhouette. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{yoloNode_8cpp_a18904cc31098147fa3a94005a2c2c2bf}{check\+Same\+B\+Box}} (computer\+\_\+vision\+::\+Bounding\+Box box1, computer\+\_\+vision\+::\+Bounding\+Box box2)
+\begin{DoxyCompactList}\small\item\em Check if the bounding boxes are the same. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{yoloNode_8cpp_a93780f5cdf744d431511762147a21d40}{robot2\+D\+Image\+Callback}} (const computer\+\_\+vision\+::\+Bounding\+Boxes \&msg)
+\begin{DoxyCompactList}\small\item\em Callback function for the 2D image. \end{DoxyCompactList}\item 
+computer\+\_\+vision\+::\+Points \mbox{\hyperlink{yoloNode_8cpp_a25dfefff5d12018b984f15e3a967ac0e}{get\+Point\+Cloud}} (double x, double y)
+\begin{DoxyCompactList}\small\item\em Get the point cloud of the block. \end{DoxyCompactList}\item 
+computer\+\_\+vision\+::\+Points \mbox{\hyperlink{yoloNode_8cpp_a568d29520b3980c6f5e39eed515f1aa1}{get\+Point\+Cloud}} (computer\+\_\+vision\+::\+Bounding\+Box box)
+\begin{DoxyCompactList}\small\item\em Get the point cloud of the block. \end{DoxyCompactList}\item 
+computer\+\_\+vision\+::\+Instruction \mbox{\hyperlink{yoloNode_8cpp_ad737df659e663501feb939ecabf92aca}{create\+Instructions}} (pair$<$ int, computer\+\_\+vision\+::\+Bounding\+Box $>$ block)
+\begin{DoxyCompactList}\small\item\em Create instructions for the block. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{yoloNode_8cpp_a67e85c8ead9776f9dcb07449b31cc4d2}{get\+Instructions\+Callback}} (computer\+\_\+vision\+::\+Get\+Instructions\+::\+Request \&req, computer\+\_\+vision\+::\+Get\+Instructions\+::\+Response \&res)
+\begin{DoxyCompactList}\small\item\em Get instructions for the blocks. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{yoloNode_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}{main}} (int argc, char $\ast$$\ast$argv)
+\begin{DoxyCompactList}\small\item\em Main function. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+vector$<$ pair$<$ int, computer\+\_\+vision\+::\+Bounding\+Box $>$ $>$ \mbox{\hyperlink{yoloNode_8cpp_a37f0df13eaffd0258555b2c4cf7728ec}{blocks\+\_\+history}}
+\item 
+vector$<$ pair$<$ int, computer\+\_\+vision\+::\+Bounding\+Box $>$ $>$ \mbox{\hyperlink{yoloNode_8cpp_aebe9095c35b0b0163ebebd7ba1f3e17f}{blocks}}
+\item 
+vector$<$ pair$<$ int, computer\+\_\+vision\+::\+Bounding\+Box $>$ $>$ \mbox{\hyperlink{yoloNode_8cpp_a853a34d117ca40b6a6ce5655b9129a19}{sil}}
+\item 
+bool \mbox{\hyperlink{yoloNode_8cpp_a3c28c4e237ad840be0600089817bd0e7}{block\+\_\+detected}} = false
+\item 
+const bool \mbox{\hyperlink{yoloNode_8cpp_ac11361f47fa806ea175626569fb68882}{testing}} = false
+\item 
+ros\+::\+Service\+Client \mbox{\hyperlink{yoloNode_8cpp_ae9aec8bd2b1bdeebd438de52e3007916}{pc\+\_\+client}}
+\item 
+ros\+::\+Service\+Server \mbox{\hyperlink{yoloNode_8cpp_a04dd4d094fa30c8b122676d3ebb55afa}{get\+Points\+\_\+server}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{yoloNode_8cpp_af0a142f547cbfeb98a04c90e65c8fd6d}\label{yoloNode_8cpp_af0a142f547cbfeb98a04c90e65c8fd6d}} 
+\index{yoloNode.cpp@{yoloNode.cpp}!checkOnSilhouette@{checkOnSilhouette}}
+\index{checkOnSilhouette@{checkOnSilhouette}!yoloNode.cpp@{yoloNode.cpp}}
+\doxysubsubsection{\texorpdfstring{checkOnSilhouette()}{checkOnSilhouette()}}
+{\footnotesize\ttfamily bool check\+On\+Silhouette (\begin{DoxyParamCaption}\item[{computer\+\_\+vision\+::\+Bounding\+Box}]{bbox\+\_\+block }\end{DoxyParamCaption})}
+
+
+
+Check if the block is on the silhouette. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em bbox\+\_\+block} & Bounding box of the block \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if the block is on the silhouette 
+
+false if the block is not on the silhouette 
+\end{DoxyReturn}
+\mbox{\Hypertarget{yoloNode_8cpp_a1f3b1e973e6df6a33d2a122734d84eee}\label{yoloNode_8cpp_a1f3b1e973e6df6a33d2a122734d84eee}} 
+\index{yoloNode.cpp@{yoloNode.cpp}!checkPointCloud@{checkPointCloud}}
+\index{checkPointCloud@{checkPointCloud}!yoloNode.cpp@{yoloNode.cpp}}
+\doxysubsubsection{\texorpdfstring{checkPointCloud()}{checkPointCloud()}}
+{\footnotesize\ttfamily bool check\+Point\+Cloud (\begin{DoxyParamCaption}\item[{computer\+\_\+vision\+::\+Points}]{point }\end{DoxyParamCaption})}
+
+
+
+Check if the point cloud is valid. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em point} & Point cloud \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if the point cloud is valid 
+
+false if the point cloud is invalid 
+\end{DoxyReturn}
+\mbox{\Hypertarget{yoloNode_8cpp_a18904cc31098147fa3a94005a2c2c2bf}\label{yoloNode_8cpp_a18904cc31098147fa3a94005a2c2c2bf}} 
+\index{yoloNode.cpp@{yoloNode.cpp}!checkSameBBox@{checkSameBBox}}
+\index{checkSameBBox@{checkSameBBox}!yoloNode.cpp@{yoloNode.cpp}}
+\doxysubsubsection{\texorpdfstring{checkSameBBox()}{checkSameBBox()}}
+{\footnotesize\ttfamily bool check\+Same\+B\+Box (\begin{DoxyParamCaption}\item[{computer\+\_\+vision\+::\+Bounding\+Box}]{box1,  }\item[{computer\+\_\+vision\+::\+Bounding\+Box}]{box2 }\end{DoxyParamCaption})}
+
+
+
+Check if the bounding boxes are the same. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em box1} & Bounding box 1 \\
+\hline
+{\em box2} & Bounding box 2 \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if the bounding boxes are the same 
+
+false if the bounding boxes are not the same 
+\end{DoxyReturn}
+\mbox{\Hypertarget{yoloNode_8cpp_ad737df659e663501feb939ecabf92aca}\label{yoloNode_8cpp_ad737df659e663501feb939ecabf92aca}} 
+\index{yoloNode.cpp@{yoloNode.cpp}!createInstructions@{createInstructions}}
+\index{createInstructions@{createInstructions}!yoloNode.cpp@{yoloNode.cpp}}
+\doxysubsubsection{\texorpdfstring{createInstructions()}{createInstructions()}}
+{\footnotesize\ttfamily computer\+\_\+vision\+::\+Instruction create\+Instructions (\begin{DoxyParamCaption}\item[{pair$<$ int, computer\+\_\+vision\+::\+Bounding\+Box $>$}]{block }\end{DoxyParamCaption})}
+
+
+
+Create instructions for the block. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em block} & Block to create instructions for \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+computer\+\_\+vision\+::\+Instruction Instructions for the block 
+\end{DoxyReturn}
+\mbox{\Hypertarget{yoloNode_8cpp_a67e85c8ead9776f9dcb07449b31cc4d2}\label{yoloNode_8cpp_a67e85c8ead9776f9dcb07449b31cc4d2}} 
+\index{yoloNode.cpp@{yoloNode.cpp}!getInstructionsCallback@{getInstructionsCallback}}
+\index{getInstructionsCallback@{getInstructionsCallback}!yoloNode.cpp@{yoloNode.cpp}}
+\doxysubsubsection{\texorpdfstring{getInstructionsCallback()}{getInstructionsCallback()}}
+{\footnotesize\ttfamily bool get\+Instructions\+Callback (\begin{DoxyParamCaption}\item[{computer\+\_\+vision\+::\+Get\+Instructions\+::\+Request \&}]{req,  }\item[{computer\+\_\+vision\+::\+Get\+Instructions\+::\+Response \&}]{res }\end{DoxyParamCaption})}
+
+
+
+Get instructions for the blocks. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em req} & Request for the instructions \\
+\hline
+{\em res} & Response for the instructions \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if the instructions are valid 
+
+false if the instructions are invalid 
+\end{DoxyReturn}
+\mbox{\Hypertarget{yoloNode_8cpp_a5fa3420e453cee793473e14a95ae51d5}\label{yoloNode_8cpp_a5fa3420e453cee793473e14a95ae51d5}} 
+\index{yoloNode.cpp@{yoloNode.cpp}!getOrientation@{getOrientation}}
+\index{getOrientation@{getOrientation}!yoloNode.cpp@{yoloNode.cpp}}
+\doxysubsubsection{\texorpdfstring{getOrientation()}{getOrientation()}}
+{\footnotesize\ttfamily int get\+Orientation (\begin{DoxyParamCaption}\item[{computer\+\_\+vision\+::\+Bounding\+Box}]{box }\end{DoxyParamCaption})}
+
+
+
+Get the orientation of the block using bounding box. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em box} & Bounding box of the block \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+int Orientation of the block 
+\end{DoxyReturn}
+\mbox{\Hypertarget{yoloNode_8cpp_aa790551b7601fa009027598ebcf61a9b}\label{yoloNode_8cpp_aa790551b7601fa009027598ebcf61a9b}} 
+\index{yoloNode.cpp@{yoloNode.cpp}!getOrientationPointCloud@{getOrientationPointCloud}}
+\index{getOrientationPointCloud@{getOrientationPointCloud}!yoloNode.cpp@{yoloNode.cpp}}
+\doxysubsubsection{\texorpdfstring{getOrientationPointCloud()}{getOrientationPointCloud()}}
+{\footnotesize\ttfamily int get\+Orientation\+Point\+Cloud (\begin{DoxyParamCaption}\item[{computer\+\_\+vision\+::\+Bounding\+Box}]{box }\end{DoxyParamCaption})}
+
+
+
+Get the orientation of the block using point cloud Retrieves 3 points from the block and calculates the orientation. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em box} & Bounding box of the block \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+int Orientation of the block 
+\end{DoxyReturn}
+\mbox{\Hypertarget{yoloNode_8cpp_a568d29520b3980c6f5e39eed515f1aa1}\label{yoloNode_8cpp_a568d29520b3980c6f5e39eed515f1aa1}} 
+\index{yoloNode.cpp@{yoloNode.cpp}!getPointCloud@{getPointCloud}}
+\index{getPointCloud@{getPointCloud}!yoloNode.cpp@{yoloNode.cpp}}
+\doxysubsubsection{\texorpdfstring{getPointCloud()}{getPointCloud()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily computer\+\_\+vision\+::\+Points get\+Point\+Cloud (\begin{DoxyParamCaption}\item[{computer\+\_\+vision\+::\+Bounding\+Box}]{box }\end{DoxyParamCaption})}
+
+
+
+Get the point cloud of the block. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em box} & Bounding box of the block \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+computer\+\_\+vision\+::\+Points Point cloud of the block 
+\end{DoxyReturn}
+\mbox{\Hypertarget{yoloNode_8cpp_a25dfefff5d12018b984f15e3a967ac0e}\label{yoloNode_8cpp_a25dfefff5d12018b984f15e3a967ac0e}} 
+\index{yoloNode.cpp@{yoloNode.cpp}!getPointCloud@{getPointCloud}}
+\index{getPointCloud@{getPointCloud}!yoloNode.cpp@{yoloNode.cpp}}
+\doxysubsubsection{\texorpdfstring{getPointCloud()}{getPointCloud()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily computer\+\_\+vision\+::\+Points get\+Point\+Cloud (\begin{DoxyParamCaption}\item[{double}]{x,  }\item[{double}]{y }\end{DoxyParamCaption})}
+
+
+
+Get the point cloud of the block. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & X coordinate of the block \\
+\hline
+{\em y} & Y coordinate of the block \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+computer\+\_\+vision\+::\+Points Point cloud of the block 
+\end{DoxyReturn}
+\mbox{\Hypertarget{yoloNode_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}\label{yoloNode_8cpp_a3c04138a5bfe5d72780bb7e82a18e627}} 
+\index{yoloNode.cpp@{yoloNode.cpp}!main@{main}}
+\index{main@{main}!yoloNode.cpp@{yoloNode.cpp}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily int main (\begin{DoxyParamCaption}\item[{int}]{argc,  }\item[{char $\ast$$\ast$}]{argv }\end{DoxyParamCaption})}
+
+
+
+Main function. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em argc} & Number of arguments \\
+\hline
+{\em argv} & Arguments \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+int 0 if the program runs successfully 
+\end{DoxyReturn}
+\mbox{\Hypertarget{yoloNode_8cpp_a93780f5cdf744d431511762147a21d40}\label{yoloNode_8cpp_a93780f5cdf744d431511762147a21d40}} 
+\index{yoloNode.cpp@{yoloNode.cpp}!robot2DImageCallback@{robot2DImageCallback}}
+\index{robot2DImageCallback@{robot2DImageCallback}!yoloNode.cpp@{yoloNode.cpp}}
+\doxysubsubsection{\texorpdfstring{robot2DImageCallback()}{robot2DImageCallback()}}
+{\footnotesize\ttfamily void robot2\+D\+Image\+Callback (\begin{DoxyParamCaption}\item[{const computer\+\_\+vision\+::\+Bounding\+Boxes \&}]{msg }\end{DoxyParamCaption})}
+
+
+
+Callback function for the 2D image. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em msg} & 2D image message \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{yoloNode_8cpp_a3c28c4e237ad840be0600089817bd0e7}\label{yoloNode_8cpp_a3c28c4e237ad840be0600089817bd0e7}} 
+\index{yoloNode.cpp@{yoloNode.cpp}!block\_detected@{block\_detected}}
+\index{block\_detected@{block\_detected}!yoloNode.cpp@{yoloNode.cpp}}
+\doxysubsubsection{\texorpdfstring{block\_detected}{block\_detected}}
+{\footnotesize\ttfamily bool block\+\_\+detected = false}
+
+\mbox{\Hypertarget{yoloNode_8cpp_aebe9095c35b0b0163ebebd7ba1f3e17f}\label{yoloNode_8cpp_aebe9095c35b0b0163ebebd7ba1f3e17f}} 
+\index{yoloNode.cpp@{yoloNode.cpp}!blocks@{blocks}}
+\index{blocks@{blocks}!yoloNode.cpp@{yoloNode.cpp}}
+\doxysubsubsection{\texorpdfstring{blocks}{blocks}}
+{\footnotesize\ttfamily vector$<$pair$<$int, computer\+\_\+vision\+::\+Bounding\+Box$>$ $>$ blocks}
+
+\mbox{\Hypertarget{yoloNode_8cpp_a37f0df13eaffd0258555b2c4cf7728ec}\label{yoloNode_8cpp_a37f0df13eaffd0258555b2c4cf7728ec}} 
+\index{yoloNode.cpp@{yoloNode.cpp}!blocks\_history@{blocks\_history}}
+\index{blocks\_history@{blocks\_history}!yoloNode.cpp@{yoloNode.cpp}}
+\doxysubsubsection{\texorpdfstring{blocks\_history}{blocks\_history}}
+{\footnotesize\ttfamily vector$<$pair$<$int, computer\+\_\+vision\+::\+Bounding\+Box$>$ $>$ blocks\+\_\+history}
+
+\mbox{\Hypertarget{yoloNode_8cpp_a04dd4d094fa30c8b122676d3ebb55afa}\label{yoloNode_8cpp_a04dd4d094fa30c8b122676d3ebb55afa}} 
+\index{yoloNode.cpp@{yoloNode.cpp}!getPoints\_server@{getPoints\_server}}
+\index{getPoints\_server@{getPoints\_server}!yoloNode.cpp@{yoloNode.cpp}}
+\doxysubsubsection{\texorpdfstring{getPoints\_server}{getPoints\_server}}
+{\footnotesize\ttfamily ros\+::\+Service\+Server get\+Points\+\_\+server}
+
+\mbox{\Hypertarget{yoloNode_8cpp_ae9aec8bd2b1bdeebd438de52e3007916}\label{yoloNode_8cpp_ae9aec8bd2b1bdeebd438de52e3007916}} 
+\index{yoloNode.cpp@{yoloNode.cpp}!pc\_client@{pc\_client}}
+\index{pc\_client@{pc\_client}!yoloNode.cpp@{yoloNode.cpp}}
+\doxysubsubsection{\texorpdfstring{pc\_client}{pc\_client}}
+{\footnotesize\ttfamily ros\+::\+Service\+Client pc\+\_\+client}
+
+\mbox{\Hypertarget{yoloNode_8cpp_a853a34d117ca40b6a6ce5655b9129a19}\label{yoloNode_8cpp_a853a34d117ca40b6a6ce5655b9129a19}} 
+\index{yoloNode.cpp@{yoloNode.cpp}!sil@{sil}}
+\index{sil@{sil}!yoloNode.cpp@{yoloNode.cpp}}
+\doxysubsubsection{\texorpdfstring{sil}{sil}}
+{\footnotesize\ttfamily vector$<$pair$<$int, computer\+\_\+vision\+::\+Bounding\+Box$>$ $>$ sil}
+
+\mbox{\Hypertarget{yoloNode_8cpp_ac11361f47fa806ea175626569fb68882}\label{yoloNode_8cpp_ac11361f47fa806ea175626569fb68882}} 
+\index{yoloNode.cpp@{yoloNode.cpp}!testing@{testing}}
+\index{testing@{testing}!yoloNode.cpp@{yoloNode.cpp}}
+\doxysubsubsection{\texorpdfstring{testing}{testing}}
+{\footnotesize\ttfamily const bool testing = false}
+

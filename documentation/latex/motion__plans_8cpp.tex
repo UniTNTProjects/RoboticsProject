@@ -1,0 +1,410 @@
+\hypertarget{motion__plans_8cpp}{}\doxysection{cpp/src/trajectories/motion\+\_\+plans.cpp File Reference}
+\label{motion__plans_8cpp}\index{cpp/src/trajectories/motion\_plans.cpp@{cpp/src/trajectories/motion\_plans.cpp}}
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$vector$>$}\newline
+{\ttfamily \#include $<$Eigen/\+Dense$>$}\newline
+{\ttfamily \#include \char`\"{}motion\+\_\+trajectory.\+h\char`\"{}}\newline
+Include dependency graph for motion\+\_\+plans.\+cpp\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{motion__plans_8cpp__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+vector$<$ double $\ast$ $>$ \mbox{\hyperlink{motion__plans_8cpp_a42584a92f7e046677f7dd5a5ee51a5ca}{up\+\_\+tray}} (\mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}} start\+Joint, bool side\+\_\+pick, bool is\+Gripping)
+\begin{DoxyCompactList}\small\item\em Calculate trajectory to move U\+R5 arm up. \end{DoxyCompactList}\item 
+vector$<$ double $\ast$ $>$ \mbox{\hyperlink{motion__plans_8cpp_adf5a187054562390d580b4952841bb00}{up\+\_\+and\+\_\+move}} (const \mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}} \&position, const \mbox{\hyperlink{eigenMatrices_8h_ac54b83793bde6df4d513f6ab9da32f8e}{rot\+Matrix}} \&rotation, int \mbox{\hyperlink{motion__trajectory_8h_ada5c987e854a34d90b0438379925ffad}{steps}}, \mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}} start\+Joint, bool side\+\_\+pick, bool is\+Gripping)
+\begin{DoxyCompactList}\small\item\em Function to calculate up and move trajectory. \end{DoxyCompactList}\item 
+vector$<$ double $\ast$ $>$ \mbox{\hyperlink{motion__plans_8cpp_a87c825b2ca7d2d057535ae3d93d0fd48}{reset\+\_\+main\+\_\+joint}} (const \mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}} \&position, const \mbox{\hyperlink{eigenMatrices_8h_ac54b83793bde6df4d513f6ab9da32f8e}{rot\+Matrix}} \&rotation, int \mbox{\hyperlink{motion__trajectory_8h_ada5c987e854a34d90b0438379925ffad}{steps}}, \mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}} start\+Joint, bool side\+\_\+pick, bool is\+Gripping)
+\begin{DoxyCompactList}\small\item\em Reset the main joint values based on the start joint values. \end{DoxyCompactList}\item 
+vector$<$ double $\ast$ $>$ \mbox{\hyperlink{motion__plans_8cpp_a4276a8283ca0b7f5da17318ea705928e}{calc\+\_\+direct\+\_\+traj\+\_\+joint}} (const \mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}} end\+Joint, bool pick\+\_\+or\+\_\+place, bool homing, \mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}} start\+Joint, bool side\+\_\+pick, bool is\+Gripping)
+\begin{DoxyCompactList}\small\item\em Calculate direct trajectory for one position. \end{DoxyCompactList}\item 
+vector$<$ double $\ast$ $>$ \mbox{\hyperlink{motion__plans_8cpp_adbeca7407b071e7918fb1f0347b8f26f}{calc\+\_\+direct\+\_\+traj\+\_\+multiple\+\_\+joint}} (vector$<$ \mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}} $>$ end\+Joints, bool $\ast$pick\+\_\+or\+\_\+place, bool $\ast$homing, \mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}} start\+Joint, bool $\ast$side\+\_\+pick, bool is\+Gripping)
+\begin{DoxyCompactList}\small\item\em Calculate direct trajectory for multiple joints. \end{DoxyCompactList}\item 
+vector$<$ double $\ast$ $>$ \mbox{\hyperlink{motion__plans_8cpp_a738962addf8a28788689f3c92f1685a6}{calc\+\_\+direct\+\_\+traj}} (const \mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}} \&position, const \mbox{\hyperlink{eigenMatrices_8h_ac54b83793bde6df4d513f6ab9da32f8e}{rot\+Matrix}} \&rotation, bool pick\+\_\+or\+\_\+place, bool homing, \mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}} start\+Joint, bool side\+\_\+pick, bool is\+Gripping)
+\begin{DoxyCompactList}\small\item\em Calculate direct trajectory for one position. \end{DoxyCompactList}\item 
+vector$<$ double $\ast$ $>$ \mbox{\hyperlink{motion__plans_8cpp_ac4b0c2e9192aee926fba4142b7c21477}{calc\+\_\+direct\+\_\+traj\+\_\+multiple}} (vector$<$ pair$<$ \mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}}, \mbox{\hyperlink{eigenMatrices_8h_ac54b83793bde6df4d513f6ab9da32f8e}{rot\+Matrix}} $>$$>$ poses\+\_\+rots, bool $\ast$pick\+\_\+or\+\_\+place, bool $\ast$homing, \mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}} start\+Joint, bool $\ast$side\+\_\+pick, bool is\+Gripping)
+\begin{DoxyCompactList}\small\item\em Calculate direct trajectory for multiple positions. \end{DoxyCompactList}\item 
+vector$<$ double $\ast$ $>$ \mbox{\hyperlink{motion__plans_8cpp_a8524e86ae5390038f5477f06b5576f96}{calc\+\_\+traj}} (const \mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}} \&position, const \mbox{\hyperlink{eigenMatrices_8h_ac54b83793bde6df4d513f6ab9da32f8e}{rot\+Matrix}} \&rotation, bool pick\+\_\+or\+\_\+place, bool homing, bool up\+\_\+and\+\_\+move\+\_\+flag, bool move\+\_\+to\+\_\+near\+\_\+axis\+\_\+flag, \mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}} start\+Joint, bool side\+\_\+pick, bool is\+Gripping, bool reset\+\_\+flag)
+\begin{DoxyCompactList}\small\item\em Calculate trajectory to move to a single position. \end{DoxyCompactList}\item 
+vector$<$ double $\ast$ $>$ \mbox{\hyperlink{motion__plans_8cpp_a8ff904b381df89be60905cf9c483469f}{calc\+\_\+traj\+\_\+multiple}} (vector$<$ pair$<$ \mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}}, \mbox{\hyperlink{eigenMatrices_8h_ac54b83793bde6df4d513f6ab9da32f8e}{rot\+Matrix}} $>$$>$ poses\+\_\+rots, bool $\ast$pick\+\_\+or\+\_\+place, bool $\ast$homing, bool $\ast$up\+\_\+and\+\_\+move\+\_\+flag, bool $\ast$move\+\_\+to\+\_\+near\+\_\+axis\+\_\+flag, \mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}} start\+Joint, bool $\ast$side\+\_\+pick, bool is\+Gripping)
+\begin{DoxyCompactList}\small\item\em Calculate trajectory for multiple positions. \end{DoxyCompactList}\item 
+vector$<$ double $\ast$ $>$ \mbox{\hyperlink{motion__plans_8cpp_a2b776f31f44dbe5afe54de4e78553e14}{move\+\_\+through\+\_\+homing}} (\mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}} final\+\_\+cord, \mbox{\hyperlink{eigenMatrices_8h_ac54b83793bde6df4d513f6ab9da32f8e}{rot\+Matrix}} rot, \mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}} start\+Joint, bool is\+Gripping, bool side\+\_\+pick)
+\begin{DoxyCompactList}\small\item\em Calculate trajectory to move through homing. \end{DoxyCompactList}\item 
+vector$<$ double $\ast$ $>$ \mbox{\hyperlink{motion__plans_8cpp_abe3f1355f9f2a9d76681ee30f0ff1fef}{move\+\_\+to\+\_\+near\+\_\+axis}} (const \mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}} \&position, const \mbox{\hyperlink{eigenMatrices_8h_ac54b83793bde6df4d513f6ab9da32f8e}{rot\+Matrix}} \&rotation, bool pick\+\_\+or\+\_\+place, bool homing, \mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}} start\+Joint, bool side\+\_\+pick, bool is\+Gripping)
+\begin{DoxyCompactList}\small\item\em Calculate trajectory to move to near axis. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}} \mbox{\hyperlink{motion__plans_8cpp_a5226ca2cc020a7e71519c3444775d623}{near\+Homing\+Rec}} (\mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}} current\+\_\+cord, \mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}} default\+Cord, double \&nearhomingdist, \mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}} \&nearhomingcord)
+\begin{DoxyCompactList}\small\item\em Calculate trajectory to move to near homing. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}} \mbox{\hyperlink{motion__plans_8cpp_a6eb3802f1aa8dbd5949d5b7855bf3d89}{near\+Homing}} (\mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}} cord)
+\begin{DoxyCompactList}\small\item\em Calculate the nearest homing position. \end{DoxyCompactList}\item 
+\mbox{\hyperlink{eigenMatrices_8h_ac54b83793bde6df4d513f6ab9da32f8e}{rot\+Matrix}} \mbox{\hyperlink{motion__plans_8cpp_a3323b4296b29732bfcd781902a410204}{get\+\_\+rotation}} (double angle)
+\begin{DoxyCompactList}\small\item\em Get the rotation matrix for side pick. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{motion__plans_8cpp_a738962addf8a28788689f3c92f1685a6}\label{motion__plans_8cpp_a738962addf8a28788689f3c92f1685a6}} 
+\index{motion\_plans.cpp@{motion\_plans.cpp}!calc\_direct\_traj@{calc\_direct\_traj}}
+\index{calc\_direct\_traj@{calc\_direct\_traj}!motion\_plans.cpp@{motion\_plans.cpp}}
+\doxysubsubsection{\texorpdfstring{calc\_direct\_traj()}{calc\_direct\_traj()}}
+{\footnotesize\ttfamily vector$<$double $\ast$$>$ calc\+\_\+direct\+\_\+traj (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}} \&}]{position,  }\item[{const \mbox{\hyperlink{eigenMatrices_8h_ac54b83793bde6df4d513f6ab9da32f8e}{rot\+Matrix}} \&}]{rotation,  }\item[{bool}]{pick\+\_\+or\+\_\+place,  }\item[{bool}]{homing,  }\item[{\mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}}}]{start\+Joint,  }\item[{bool}]{side\+\_\+pick,  }\item[{bool}]{is\+Gripping }\end{DoxyParamCaption})}
+
+
+
+Calculate direct trajectory for one position. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em position} & Coordinates of the target position \\
+\hline
+{\em rotation} & Rotation matrix of the target position \\
+\hline
+{\em pick\+\_\+or\+\_\+place} & Pick or place flag \\
+\hline
+{\em homing} & Homing flag \\
+\hline
+{\em start\+Joint} & Start joint configuration \\
+\hline
+{\em side\+\_\+pick} & Side pick flag \\
+\hline
+{\em is\+Gripping} & Gripping flag \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Trajectory as a vector of double pointers 
+\end{DoxyReturn}
+\mbox{\Hypertarget{motion__plans_8cpp_a4276a8283ca0b7f5da17318ea705928e}\label{motion__plans_8cpp_a4276a8283ca0b7f5da17318ea705928e}} 
+\index{motion\_plans.cpp@{motion\_plans.cpp}!calc\_direct\_traj\_joint@{calc\_direct\_traj\_joint}}
+\index{calc\_direct\_traj\_joint@{calc\_direct\_traj\_joint}!motion\_plans.cpp@{motion\_plans.cpp}}
+\doxysubsubsection{\texorpdfstring{calc\_direct\_traj\_joint()}{calc\_direct\_traj\_joint()}}
+{\footnotesize\ttfamily vector$<$double $\ast$$>$ calc\+\_\+direct\+\_\+traj\+\_\+joint (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}}}]{end\+Joint,  }\item[{bool}]{pick\+\_\+or\+\_\+place,  }\item[{bool}]{homing,  }\item[{\mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}}}]{start\+Joint,  }\item[{bool}]{side\+\_\+pick,  }\item[{bool}]{is\+Gripping }\end{DoxyParamCaption})}
+
+
+
+Calculate direct trajectory for one position. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em end\+Joint} & End joint configuration \\
+\hline
+{\em pick\+\_\+or\+\_\+place} & Pick or place flag \\
+\hline
+{\em homing} & Homing flag \\
+\hline
+{\em start\+Joint} & Start joint configuration \\
+\hline
+{\em side\+\_\+pick} & Side pick flag \\
+\hline
+{\em is\+Gripping} & Gripping flag \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Trajectory as a vector of double pointers 
+\end{DoxyReturn}
+\mbox{\Hypertarget{motion__plans_8cpp_ac4b0c2e9192aee926fba4142b7c21477}\label{motion__plans_8cpp_ac4b0c2e9192aee926fba4142b7c21477}} 
+\index{motion\_plans.cpp@{motion\_plans.cpp}!calc\_direct\_traj\_multiple@{calc\_direct\_traj\_multiple}}
+\index{calc\_direct\_traj\_multiple@{calc\_direct\_traj\_multiple}!motion\_plans.cpp@{motion\_plans.cpp}}
+\doxysubsubsection{\texorpdfstring{calc\_direct\_traj\_multiple()}{calc\_direct\_traj\_multiple()}}
+{\footnotesize\ttfamily vector$<$double $\ast$$>$ calc\+\_\+direct\+\_\+traj\+\_\+multiple (\begin{DoxyParamCaption}\item[{vector$<$ pair$<$ \mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}}, \mbox{\hyperlink{eigenMatrices_8h_ac54b83793bde6df4d513f6ab9da32f8e}{rot\+Matrix}} $>$$>$}]{poses\+\_\+rots,  }\item[{bool $\ast$}]{pick\+\_\+or\+\_\+place,  }\item[{bool $\ast$}]{homing,  }\item[{\mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}}}]{start\+Joint,  }\item[{bool $\ast$}]{side\+\_\+pick,  }\item[{bool}]{is\+Gripping }\end{DoxyParamCaption})}
+
+
+
+Calculate direct trajectory for multiple positions. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em poses\+\_\+rots} & Vector of pairs of coordinates and rotation matrices \\
+\hline
+{\em pick\+\_\+or\+\_\+place} & Pick or place flags \\
+\hline
+{\em homing} & Homing flags \\
+\hline
+{\em start\+Joint} & Start joint configuration \\
+\hline
+{\em side\+\_\+pick} & Side pick flags \\
+\hline
+{\em is\+Gripping} & Gripping flag \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Trajectory as a vector of double pointers 
+\end{DoxyReturn}
+\mbox{\Hypertarget{motion__plans_8cpp_adbeca7407b071e7918fb1f0347b8f26f}\label{motion__plans_8cpp_adbeca7407b071e7918fb1f0347b8f26f}} 
+\index{motion\_plans.cpp@{motion\_plans.cpp}!calc\_direct\_traj\_multiple\_joint@{calc\_direct\_traj\_multiple\_joint}}
+\index{calc\_direct\_traj\_multiple\_joint@{calc\_direct\_traj\_multiple\_joint}!motion\_plans.cpp@{motion\_plans.cpp}}
+\doxysubsubsection{\texorpdfstring{calc\_direct\_traj\_multiple\_joint()}{calc\_direct\_traj\_multiple\_joint()}}
+{\footnotesize\ttfamily vector$<$double $\ast$$>$ calc\+\_\+direct\+\_\+traj\+\_\+multiple\+\_\+joint (\begin{DoxyParamCaption}\item[{vector$<$ \mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}} $>$}]{end\+Joints,  }\item[{bool $\ast$}]{pick\+\_\+or\+\_\+place,  }\item[{bool $\ast$}]{homing,  }\item[{\mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}}}]{start\+Joint,  }\item[{bool $\ast$}]{side\+\_\+pick,  }\item[{bool}]{is\+Gripping }\end{DoxyParamCaption})}
+
+
+
+Calculate direct trajectory for multiple joints. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em end\+Joints} & End joint configurations \\
+\hline
+{\em pick\+\_\+or\+\_\+place} & Pick or place flags \\
+\hline
+{\em homing} & Homing flags \\
+\hline
+{\em start\+Joint} & Start joint configuration \\
+\hline
+{\em side\+\_\+pick} & Side pick flags \\
+\hline
+{\em is\+Gripping} & Gripping flag \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Trajectory as a vector of double pointers 
+\end{DoxyReturn}
+\mbox{\Hypertarget{motion__plans_8cpp_a8524e86ae5390038f5477f06b5576f96}\label{motion__plans_8cpp_a8524e86ae5390038f5477f06b5576f96}} 
+\index{motion\_plans.cpp@{motion\_plans.cpp}!calc\_traj@{calc\_traj}}
+\index{calc\_traj@{calc\_traj}!motion\_plans.cpp@{motion\_plans.cpp}}
+\doxysubsubsection{\texorpdfstring{calc\_traj()}{calc\_traj()}}
+{\footnotesize\ttfamily vector$<$double $\ast$$>$ calc\+\_\+traj (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}} \&}]{position,  }\item[{const \mbox{\hyperlink{eigenMatrices_8h_ac54b83793bde6df4d513f6ab9da32f8e}{rot\+Matrix}} \&}]{rotation,  }\item[{bool}]{pick\+\_\+or\+\_\+place,  }\item[{bool}]{homing,  }\item[{bool}]{up\+\_\+and\+\_\+move\+\_\+flag,  }\item[{bool}]{move\+\_\+to\+\_\+near\+\_\+axis\+\_\+flag,  }\item[{\mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}}}]{start\+Joint,  }\item[{bool}]{side\+\_\+pick,  }\item[{bool}]{is\+Gripping,  }\item[{bool}]{reset\+\_\+flag }\end{DoxyParamCaption})}
+
+
+
+Calculate trajectory to move to a single position. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em final\+\_\+cord} & Final coordinates \\
+\hline
+{\em rot} & Final rotation matrix \\
+\hline
+{\em start\+Joint} & Start joint configuration \\
+\hline
+{\em side\+\_\+pick} & Side pick flag \\
+\hline
+{\em is\+Gripping} & Gripping flag \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Trajectory as a vector of double pointers 
+\end{DoxyReturn}
+\mbox{\Hypertarget{motion__plans_8cpp_a8ff904b381df89be60905cf9c483469f}\label{motion__plans_8cpp_a8ff904b381df89be60905cf9c483469f}} 
+\index{motion\_plans.cpp@{motion\_plans.cpp}!calc\_traj\_multiple@{calc\_traj\_multiple}}
+\index{calc\_traj\_multiple@{calc\_traj\_multiple}!motion\_plans.cpp@{motion\_plans.cpp}}
+\doxysubsubsection{\texorpdfstring{calc\_traj\_multiple()}{calc\_traj\_multiple()}}
+{\footnotesize\ttfamily vector$<$double $\ast$$>$ calc\+\_\+traj\+\_\+multiple (\begin{DoxyParamCaption}\item[{vector$<$ pair$<$ \mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}}, \mbox{\hyperlink{eigenMatrices_8h_ac54b83793bde6df4d513f6ab9da32f8e}{rot\+Matrix}} $>$$>$}]{poses\+\_\+rots,  }\item[{bool $\ast$}]{pick\+\_\+or\+\_\+place,  }\item[{bool $\ast$}]{homing,  }\item[{bool $\ast$}]{up\+\_\+and\+\_\+move\+\_\+flag,  }\item[{bool $\ast$}]{move\+\_\+to\+\_\+near\+\_\+axis\+\_\+flag,  }\item[{\mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}}}]{start\+Joint,  }\item[{bool $\ast$}]{side\+\_\+pick,  }\item[{bool}]{is\+Gripping }\end{DoxyParamCaption})}
+
+
+
+Calculate trajectory for multiple positions. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em poses\+\_\+rots} & Vector of pairs of coordinates and rotation matrices \\
+\hline
+{\em pick\+\_\+or\+\_\+place} & Pick or place flags \\
+\hline
+{\em homing} & Homing flags \\
+\hline
+{\em start\+Joint} & Start joint configuration \\
+\hline
+{\em side\+\_\+pick} & Side pick flags \\
+\hline
+{\em is\+Gripping} & Gripping flag \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Trajectory as a vector of double pointers 
+\end{DoxyReturn}
+\mbox{\Hypertarget{motion__plans_8cpp_a3323b4296b29732bfcd781902a410204}\label{motion__plans_8cpp_a3323b4296b29732bfcd781902a410204}} 
+\index{motion\_plans.cpp@{motion\_plans.cpp}!get\_rotation@{get\_rotation}}
+\index{get\_rotation@{get\_rotation}!motion\_plans.cpp@{motion\_plans.cpp}}
+\doxysubsubsection{\texorpdfstring{get\_rotation()}{get\_rotation()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{eigenMatrices_8h_ac54b83793bde6df4d513f6ab9da32f8e}{rot\+Matrix}} get\+\_\+rotation (\begin{DoxyParamCaption}\item[{double}]{angle }\end{DoxyParamCaption})}
+
+
+
+Get the rotation matrix for side pick. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em angle} & \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+rot\+Matrix 
+\end{DoxyReturn}
+\mbox{\Hypertarget{motion__plans_8cpp_a2b776f31f44dbe5afe54de4e78553e14}\label{motion__plans_8cpp_a2b776f31f44dbe5afe54de4e78553e14}} 
+\index{motion\_plans.cpp@{motion\_plans.cpp}!move\_through\_homing@{move\_through\_homing}}
+\index{move\_through\_homing@{move\_through\_homing}!motion\_plans.cpp@{motion\_plans.cpp}}
+\doxysubsubsection{\texorpdfstring{move\_through\_homing()}{move\_through\_homing()}}
+{\footnotesize\ttfamily vector$<$double $\ast$$>$ move\+\_\+through\+\_\+homing (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}}}]{final\+\_\+cord,  }\item[{\mbox{\hyperlink{eigenMatrices_8h_ac54b83793bde6df4d513f6ab9da32f8e}{rot\+Matrix}}}]{rot,  }\item[{\mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}}}]{start\+Joint,  }\item[{bool}]{is\+Gripping,  }\item[{bool}]{side\+\_\+pick }\end{DoxyParamCaption})}
+
+
+
+Calculate trajectory to move through homing. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em final\+\_\+cord} & Final coordinates \\
+\hline
+{\em rot} & Final rotation matrix \\
+\hline
+{\em start\+Joint} & Start joint configuration \\
+\hline
+{\em side\+\_\+pick} & Side pick flag \\
+\hline
+{\em is\+Gripping} & Gripping flag \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Trajectory as a vector of double pointers 
+\end{DoxyReturn}
+\mbox{\Hypertarget{motion__plans_8cpp_abe3f1355f9f2a9d76681ee30f0ff1fef}\label{motion__plans_8cpp_abe3f1355f9f2a9d76681ee30f0ff1fef}} 
+\index{motion\_plans.cpp@{motion\_plans.cpp}!move\_to\_near\_axis@{move\_to\_near\_axis}}
+\index{move\_to\_near\_axis@{move\_to\_near\_axis}!motion\_plans.cpp@{motion\_plans.cpp}}
+\doxysubsubsection{\texorpdfstring{move\_to\_near\_axis()}{move\_to\_near\_axis()}}
+{\footnotesize\ttfamily vector$<$double $\ast$$>$ move\+\_\+to\+\_\+near\+\_\+axis (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}} \&}]{position,  }\item[{const \mbox{\hyperlink{eigenMatrices_8h_ac54b83793bde6df4d513f6ab9da32f8e}{rot\+Matrix}} \&}]{rotation,  }\item[{bool}]{pick\+\_\+or\+\_\+place,  }\item[{bool}]{homing,  }\item[{\mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}}}]{start\+Joint,  }\item[{bool}]{side\+\_\+pick,  }\item[{bool}]{is\+Gripping }\end{DoxyParamCaption})}
+
+
+
+Calculate trajectory to move to near axis. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em position} & Coordinates of the target position \\
+\hline
+{\em rotation} & Rotation matrix of the target position \\
+\hline
+{\em pick\+\_\+or\+\_\+place} & Pick or place flag \\
+\hline
+{\em homing} & Homing flag \\
+\hline
+{\em start\+Joint} & Start joint configuration \\
+\hline
+{\em side\+\_\+pick} & Side pick flag \\
+\hline
+{\em is\+Gripping} & Gripping flag \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Trajectory as a vector of double pointers 
+\end{DoxyReturn}
+\mbox{\Hypertarget{motion__plans_8cpp_a6eb3802f1aa8dbd5949d5b7855bf3d89}\label{motion__plans_8cpp_a6eb3802f1aa8dbd5949d5b7855bf3d89}} 
+\index{motion\_plans.cpp@{motion\_plans.cpp}!nearHoming@{nearHoming}}
+\index{nearHoming@{nearHoming}!motion\_plans.cpp@{motion\_plans.cpp}}
+\doxysubsubsection{\texorpdfstring{nearHoming()}{nearHoming()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}} near\+Homing (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}}}]{cord }\end{DoxyParamCaption})}
+
+
+
+Calculate the nearest homing position. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em cord} & Current coordinates \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Coordinates of the nearest homing position 
+\end{DoxyReturn}
+\mbox{\Hypertarget{motion__plans_8cpp_a5226ca2cc020a7e71519c3444775d623}\label{motion__plans_8cpp_a5226ca2cc020a7e71519c3444775d623}} 
+\index{motion\_plans.cpp@{motion\_plans.cpp}!nearHomingRec@{nearHomingRec}}
+\index{nearHomingRec@{nearHomingRec}!motion\_plans.cpp@{motion\_plans.cpp}}
+\doxysubsubsection{\texorpdfstring{nearHomingRec()}{nearHomingRec()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}} near\+Homing\+Rec (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}}}]{current\+\_\+cord,  }\item[{\mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}}}]{default\+Cord,  }\item[{double \&}]{nearhomingdist,  }\item[{\mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}} \&}]{nearhomingcord }\end{DoxyParamCaption})}
+
+
+
+Calculate trajectory to move to near homing. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em current\+\_\+cord} & Current coordinates \\
+\hline
+{\em default\+Cord} & Default coordinates \\
+\hline
+{\em nearhomingdist} & Distance to the nearest homing position \\
+\hline
+{\em nearhomingcord} & Coordinates of the nearest homing position \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Coordinates of the nearest homing position 
+\end{DoxyReturn}
+\mbox{\Hypertarget{motion__plans_8cpp_a87c825b2ca7d2d057535ae3d93d0fd48}\label{motion__plans_8cpp_a87c825b2ca7d2d057535ae3d93d0fd48}} 
+\index{motion\_plans.cpp@{motion\_plans.cpp}!reset\_main\_joint@{reset\_main\_joint}}
+\index{reset\_main\_joint@{reset\_main\_joint}!motion\_plans.cpp@{motion\_plans.cpp}}
+\doxysubsubsection{\texorpdfstring{reset\_main\_joint()}{reset\_main\_joint()}}
+{\footnotesize\ttfamily vector$<$double $\ast$$>$ reset\+\_\+main\+\_\+joint (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}} \&}]{position,  }\item[{const \mbox{\hyperlink{eigenMatrices_8h_ac54b83793bde6df4d513f6ab9da32f8e}{rot\+Matrix}} \&}]{rotation,  }\item[{int}]{steps,  }\item[{\mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}}}]{start\+Joint,  }\item[{bool}]{side\+\_\+pick,  }\item[{bool}]{is\+Gripping }\end{DoxyParamCaption})}
+
+
+
+Reset the main joint values based on the start joint values. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em position} & The position of the robot. \\
+\hline
+{\em rotation} & The rotation matrix of the robot. \\
+\hline
+{\em steps} & The number of steps to reset the joint values. \\
+\hline
+{\em start\+Joint} & The start joint values. \\
+\hline
+{\em side\+\_\+pick} & True if the robot is picking from the side, false otherwise. \\
+\hline
+{\em is\+Gripping} & True if the robot is gripping, false otherwise. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+A vector of pointers to the reset joint values. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{motion__plans_8cpp_adf5a187054562390d580b4952841bb00}\label{motion__plans_8cpp_adf5a187054562390d580b4952841bb00}} 
+\index{motion\_plans.cpp@{motion\_plans.cpp}!up\_and\_move@{up\_and\_move}}
+\index{up\_and\_move@{up\_and\_move}!motion\_plans.cpp@{motion\_plans.cpp}}
+\doxysubsubsection{\texorpdfstring{up\_and\_move()}{up\_and\_move()}}
+{\footnotesize\ttfamily vector$<$double $\ast$$>$ up\+\_\+and\+\_\+move (\begin{DoxyParamCaption}\item[{const \mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}} \&}]{position,  }\item[{const \mbox{\hyperlink{eigenMatrices_8h_ac54b83793bde6df4d513f6ab9da32f8e}{rot\+Matrix}} \&}]{rotation,  }\item[{int}]{steps,  }\item[{\mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}}}]{start\+Joint,  }\item[{bool}]{side\+\_\+pick,  }\item[{bool}]{is\+Gripping }\end{DoxyParamCaption})}
+
+
+
+Function to calculate up and move trajectory. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em position} & Coordinates of the target position \\
+\hline
+{\em rotation} & Rotation matrix of the target position \\
+\hline
+{\em steps} & Number of steps to move \\
+\hline
+{\em start\+Joint} & Initial joint values \\
+\hline
+{\em side\+\_\+pick} & Flag to indicate side pick \\
+\hline
+{\em is\+Gripping} & Flag to indicate if gripping\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Vector of double pointers for up and move trajectory 
+\end{DoxyReturn}
+\mbox{\Hypertarget{motion__plans_8cpp_a42584a92f7e046677f7dd5a5ee51a5ca}\label{motion__plans_8cpp_a42584a92f7e046677f7dd5a5ee51a5ca}} 
+\index{motion\_plans.cpp@{motion\_plans.cpp}!up\_tray@{up\_tray}}
+\index{up\_tray@{up\_tray}!motion\_plans.cpp@{motion\_plans.cpp}}
+\doxysubsubsection{\texorpdfstring{up\_tray()}{up\_tray()}}
+{\footnotesize\ttfamily vector$<$double $\ast$$>$ up\+\_\+tray (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}}}]{start\+Joint,  }\item[{bool}]{side\+\_\+pick,  }\item[{bool}]{is\+Gripping }\end{DoxyParamCaption})}
+
+
+
+Calculate trajectory to move U\+R5 arm up. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em startJ} & Starting joint values \\
+\hline
+{\em side\+\_\+pick} & Whether to pick from the left or right side \\
+\hline
+{\em is\+Gripping} & Whether the gripper is holding an object \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+vector$<$double$\ast$$>$ Trajectory as vector of joint values 
+\end{DoxyReturn}

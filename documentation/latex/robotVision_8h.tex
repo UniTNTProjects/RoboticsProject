@@ -1,0 +1,151 @@
+\hypertarget{robotVision_8h}{}\doxysection{computer\+\_\+vision/include/robot\+Vision/robot\+Vision.h File Reference}
+\label{robotVision_8h}\index{computer\_vision/include/robotVision/robotVision.h@{computer\_vision/include/robotVision/robotVision.h}}
+{\ttfamily \#include \char`\"{}ros/ros.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}sensor\+\_\+msgs/\+Image.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}computer\+\_\+vision/\+Bounding\+Box.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}computer\+\_\+vision/\+Bounding\+Boxes.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}computer\+\_\+vision/\+Points.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}computer\+\_\+vision/\+Point\+Cloud.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}sensor\+\_\+msgs/\+Point\+Cloud2.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}computer\+\_\+vision/\+Get\+Instructions.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}eigen3/\+Eigen/\+Dense\char`\"{}}\newline
+{\ttfamily \#include $<$vector$>$}\newline
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include $<$map$>$}\newline
+Include dependency graph for robot\+Vision.\+h\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{robotVision_8h__incl}
+\end{center}
+\end{figure}
+This graph shows which files directly or indirectly include this file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=223pt]{robotVision_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{robotVision_8h_a93780f5cdf744d431511762147a21d40}{robot2\+D\+Image\+Callback}} (const computer\+\_\+vision\+::\+Bounding\+Boxes \&msg)
+\begin{DoxyCompactList}\small\item\em Callback function for the 2D image. \end{DoxyCompactList}\item 
+computer\+\_\+vision\+::\+Points \mbox{\hyperlink{robotVision_8h_a25dfefff5d12018b984f15e3a967ac0e}{get\+Point\+Cloud}} (double x, double y)
+\begin{DoxyCompactList}\small\item\em Get the point cloud of the block. \end{DoxyCompactList}\item 
+computer\+\_\+vision\+::\+Points \mbox{\hyperlink{robotVision_8h_ae63ed285d331693f35ae624241d8d682}{get\+Point\+Cloud}} (computer\+\_\+vision\+::\+Bounding\+Box)
+\begin{DoxyCompactList}\small\item\em Get the point cloud of the block. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+map$<$ string, Vector3d $>$ \mbox{\hyperlink{robotVision_8h_a9abe6dbf2bc900160f124a80ee4e15e0}{blocks\+\_\+type}}
+\item 
+map$<$ string, Vector3d $>$ \mbox{\hyperlink{robotVision_8h_a82edba3bdb63e087e6abbb9dc1b58a16}{blocks\+\_\+lenght}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{robotVision_8h_ae63ed285d331693f35ae624241d8d682}\label{robotVision_8h_ae63ed285d331693f35ae624241d8d682}} 
+\index{robotVision.h@{robotVision.h}!getPointCloud@{getPointCloud}}
+\index{getPointCloud@{getPointCloud}!robotVision.h@{robotVision.h}}
+\doxysubsubsection{\texorpdfstring{getPointCloud()}{getPointCloud()}\hspace{0.1cm}{\footnotesize\ttfamily [1/2]}}
+{\footnotesize\ttfamily computer\+\_\+vision\+::\+Points get\+Point\+Cloud (\begin{DoxyParamCaption}\item[{computer\+\_\+vision\+::\+Bounding\+Box}]{box }\end{DoxyParamCaption})}
+
+
+
+Get the point cloud of the block. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em box} & Bounding box of the block \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+computer\+\_\+vision\+::\+Points Point cloud of the block 
+\end{DoxyReturn}
+\mbox{\Hypertarget{robotVision_8h_a25dfefff5d12018b984f15e3a967ac0e}\label{robotVision_8h_a25dfefff5d12018b984f15e3a967ac0e}} 
+\index{robotVision.h@{robotVision.h}!getPointCloud@{getPointCloud}}
+\index{getPointCloud@{getPointCloud}!robotVision.h@{robotVision.h}}
+\doxysubsubsection{\texorpdfstring{getPointCloud()}{getPointCloud()}\hspace{0.1cm}{\footnotesize\ttfamily [2/2]}}
+{\footnotesize\ttfamily computer\+\_\+vision\+::\+Points get\+Point\+Cloud (\begin{DoxyParamCaption}\item[{double}]{x,  }\item[{double}]{y }\end{DoxyParamCaption})}
+
+
+
+Get the point cloud of the block. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em x} & X coordinate of the block \\
+\hline
+{\em y} & Y coordinate of the block \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+computer\+\_\+vision\+::\+Points Point cloud of the block 
+\end{DoxyReturn}
+\mbox{\Hypertarget{robotVision_8h_a93780f5cdf744d431511762147a21d40}\label{robotVision_8h_a93780f5cdf744d431511762147a21d40}} 
+\index{robotVision.h@{robotVision.h}!robot2DImageCallback@{robot2DImageCallback}}
+\index{robot2DImageCallback@{robot2DImageCallback}!robotVision.h@{robotVision.h}}
+\doxysubsubsection{\texorpdfstring{robot2DImageCallback()}{robot2DImageCallback()}}
+{\footnotesize\ttfamily void robot2\+D\+Image\+Callback (\begin{DoxyParamCaption}\item[{const computer\+\_\+vision\+::\+Bounding\+Boxes \&}]{msg }\end{DoxyParamCaption})}
+
+
+
+Callback function for the 2D image. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em msg} & 2D image message \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{robotVision_8h_a82edba3bdb63e087e6abbb9dc1b58a16}\label{robotVision_8h_a82edba3bdb63e087e6abbb9dc1b58a16}} 
+\index{robotVision.h@{robotVision.h}!blocks\_lenght@{blocks\_lenght}}
+\index{blocks\_lenght@{blocks\_lenght}!robotVision.h@{robotVision.h}}
+\doxysubsubsection{\texorpdfstring{blocks\_lenght}{blocks\_lenght}}
+{\footnotesize\ttfamily map$<$string, Vector3d$>$ blocks\+\_\+lenght}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{= \{}
+\DoxyCodeLine{    \{\textcolor{stringliteral}{"X1-\/Y1-\/Z2"}, Vector3d(0.1, 0.1, 0.2)\},}
+\DoxyCodeLine{    \{\textcolor{stringliteral}{"X1-\/Y2-\/Z1"}, Vector3d(0.1, 0.2, 0.1)\},}
+\DoxyCodeLine{    \{\textcolor{stringliteral}{"X1-\/Y2-\/Z2"}, Vector3d(0.1, 0.2, 0.2)\},}
+\DoxyCodeLine{    \{\textcolor{stringliteral}{"X1-\/Y2-\/Z2-\/CHAMFER"}, Vector3d(0.1, 0.2, 0.2)\},}
+\DoxyCodeLine{    \{\textcolor{stringliteral}{"X1-\/Y2-\/Z2-\/TWINFILLET"}, Vector3d(0.1, 0.2, 0.2)\},}
+\DoxyCodeLine{    \{\textcolor{stringliteral}{"X1-\/Y3-\/Z2"}, Vector3d(0.1, 0.3, 0.2)\},}
+\DoxyCodeLine{    \{\textcolor{stringliteral}{"X1-\/Y3-\/Z2-\/FILLET"}, Vector3d(0.1, 0.3, 0.2)\},}
+\DoxyCodeLine{    \{\textcolor{stringliteral}{"X1-\/Y4-\/Z1"}, Vector3d(0.1, 0.4, 0.1)\},}
+\DoxyCodeLine{    \{\textcolor{stringliteral}{"X1-\/Y4-\/Z2"}, Vector3d(0.1, 0.4, 0.2)\},}
+\DoxyCodeLine{    \{\textcolor{stringliteral}{"X2-\/Y2-\/Z2"}, Vector3d(0.2, 0.2, 0.2)\},}
+\DoxyCodeLine{    \{\textcolor{stringliteral}{"X2-\/Y2-\/Z2-\/FILLET"}, Vector3d(0.2, 0.2, 0.2)\},}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{robotVision_8h_a9abe6dbf2bc900160f124a80ee4e15e0}\label{robotVision_8h_a9abe6dbf2bc900160f124a80ee4e15e0}} 
+\index{robotVision.h@{robotVision.h}!blocks\_type@{blocks\_type}}
+\index{blocks\_type@{blocks\_type}!robotVision.h@{robotVision.h}}
+\doxysubsubsection{\texorpdfstring{blocks\_type}{blocks\_type}}
+{\footnotesize\ttfamily map$<$string, Vector3d$>$ blocks\+\_\+type}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{= \{}
+\DoxyCodeLine{    \{\textcolor{stringliteral}{"X1-\/Y1-\/Z2"}, Vector3d(0.8, 0.75, 0.6)\},}
+\DoxyCodeLine{    \{\textcolor{stringliteral}{"X1-\/Y2-\/Z1"}, Vector3d(0.7, 0.75, 0.6)\},}
+\DoxyCodeLine{    \{\textcolor{stringliteral}{"X1-\/Y2-\/Z2"}, Vector3d(0.6, 0.75, 0.6)\},}
+\DoxyCodeLine{    \{\textcolor{stringliteral}{"X1-\/Y2-\/Z2-\/CHAMFER"}, Vector3d(0.5, 0.75, 0.6)\},}
+\DoxyCodeLine{    \{\textcolor{stringliteral}{"X1-\/Y2-\/Z2-\/TWINFILLET"}, Vector3d(0.4, 0.75, 0.6)\},}
+\DoxyCodeLine{    \{\textcolor{stringliteral}{"X1-\/Y3-\/Z2"}, Vector3d(0.3, 0.75, 0.6)\},}
+\DoxyCodeLine{    \{\textcolor{stringliteral}{"X1-\/Y3-\/Z2-\/FILLET"}, Vector3d(0.2, 0.75, 0.6)\},}
+\DoxyCodeLine{    \{\textcolor{stringliteral}{"X1-\/Y4-\/Z1"}, Vector3d(0.9, 0.75, 0.6)\},}
+\DoxyCodeLine{    \{\textcolor{stringliteral}{"X1-\/Y4-\/Z2"}, Vector3d(0.1, 0.75, 0.6)\},}
+\DoxyCodeLine{    \{\textcolor{stringliteral}{"X2-\/Y2-\/Z2"}, Vector3d(0.1, 0.65, 0.6)\},}
+\DoxyCodeLine{    \{\textcolor{stringliteral}{"X2-\/Y2-\/Z2-\/FILLET"}, Vector3d(0.1, 0.55, 0.6)\},}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}

@@ -69,12 +69,12 @@ $(function() {
 <div class="title">eigenMatrices.h</div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &lt;eigen3/Eigen/Dense&gt;</span></div>
+<a href="eigenMatrices_8h.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160;<span class="preprocessor">#include &lt;eigen3/Eigen/Dense&gt;</span></div>
 <div class="line"><a name="l00002"></a><span class="lineno">    2</span>&#160; </div>
-<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="keyword">typedef</span> Eigen::Matrix&lt;double, 6, 1&gt; jointValues;</div>
-<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="keyword">typedef</span> Eigen::Matrix&lt;double, 4, 4&gt; homoMatrix;</div>
-<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="keyword">typedef</span> Eigen::Matrix&lt;double, 3, 1&gt; coordinates; <span class="comment">// x,y,z</span></div>
-<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="keyword">typedef</span> Eigen::Matrix&lt;double, 3, 3&gt; rotMatrix;</div>
+<div class="line"><a name="l00003"></a><span class="lineno"><a class="line" href="eigenMatrices_8h.html#a2c8ac94aebda33c388e4355fec1a44b6">    3</a></span>&#160;<span class="keyword">typedef</span> Eigen::Matrix&lt;double, 6, 1&gt; <a class="code" href="eigenMatrices_8h.html#a2c8ac94aebda33c388e4355fec1a44b6">jointValues</a>;</div>
+<div class="line"><a name="l00004"></a><span class="lineno"><a class="line" href="eigenMatrices_8h.html#abe6572f893a786d06251835d48acad72">    4</a></span>&#160;<span class="keyword">typedef</span> Eigen::Matrix&lt;double, 4, 4&gt; <a class="code" href="eigenMatrices_8h.html#abe6572f893a786d06251835d48acad72">homoMatrix</a>;</div>
+<div class="line"><a name="l00005"></a><span class="lineno"><a class="line" href="eigenMatrices_8h.html#ac5194800d365ec2c626bf6caff92b63e">    5</a></span>&#160;<span class="keyword">typedef</span> Eigen::Matrix&lt;double, 3, 1&gt; <a class="code" href="eigenMatrices_8h.html#ac5194800d365ec2c626bf6caff92b63e">coordinates</a>; <span class="comment">// x,y,z</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno"><a class="line" href="eigenMatrices_8h.html#ac54b83793bde6df4d513f6ab9da32f8e">    6</a></span>&#160;<span class="keyword">typedef</span> Eigen::Matrix&lt;double, 3, 3&gt; <a class="code" href="eigenMatrices_8h.html#ac54b83793bde6df4d513f6ab9da32f8e">rotMatrix</a>;</div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160; </div>
 <div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="comment">// // dh parameters</span></div>
 <div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="comment">// // Vector of the A distance (expressed in metres)</span></div>
@@ -88,9 +88,15 @@ $(function() {
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment">// // Vector of the D distance (expressed in metres)</span></div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment">// const double D[] = {0.0892, 0, 0, 0.1093, 0.09475, 0.0825};</span></div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160; </div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="keyword">const</span> <span class="keywordtype">double</span> A[6] = {0, -0.425, -0.3922, 0, 0, 0};</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keyword">const</span> <span class="keywordtype">double</span> D[6] = {0.1625, 0, 0, 0.1333, 0.0997, 0.0996 + 0.14};</div>
+<div class="line"><a name="l00020"></a><span class="lineno"><a class="line" href="eigenMatrices_8h.html#a2d77012fd18c8363bb1b106f452144cd">   20</a></span>&#160;<span class="keyword">const</span> <span class="keywordtype">double</span> <a class="code" href="eigenMatrices_8h.html#a2d77012fd18c8363bb1b106f452144cd">A</a>[6] = {0, -0.425, -0.3922, 0, 0, 0};</div>
+<div class="line"><a name="l00021"></a><span class="lineno"><a class="line" href="eigenMatrices_8h.html#a27605ec55d733f4428e61a3cee6fbe1c">   21</a></span>&#160;<span class="keyword">const</span> <span class="keywordtype">double</span> <a class="code" href="eigenMatrices_8h.html#a27605ec55d733f4428e61a3cee6fbe1c">D</a>[6] = {0.1625, 0, 0, 0.1333, 0.0997, 0.0996 + 0.14};</div>
 </div><!-- fragment --></div><!-- contents -->
+<div class="ttc" id="aeigenMatrices_8h_html_a2d77012fd18c8363bb1b106f452144cd"><div class="ttname"><a href="eigenMatrices_8h.html#a2d77012fd18c8363bb1b106f452144cd">A</a></div><div class="ttdeci">const double A[6]</div><div class="ttdef"><b>Definition:</b> eigenMatrices.h:20</div></div>
+<div class="ttc" id="aeigenMatrices_8h_html_ac5194800d365ec2c626bf6caff92b63e"><div class="ttname"><a href="eigenMatrices_8h.html#ac5194800d365ec2c626bf6caff92b63e">coordinates</a></div><div class="ttdeci">Eigen::Matrix&lt; double, 3, 1 &gt; coordinates</div><div class="ttdef"><b>Definition:</b> eigenMatrices.h:5</div></div>
+<div class="ttc" id="aeigenMatrices_8h_html_a2c8ac94aebda33c388e4355fec1a44b6"><div class="ttname"><a href="eigenMatrices_8h.html#a2c8ac94aebda33c388e4355fec1a44b6">jointValues</a></div><div class="ttdeci">Eigen::Matrix&lt; double, 6, 1 &gt; jointValues</div><div class="ttdef"><b>Definition:</b> eigenMatrices.h:3</div></div>
+<div class="ttc" id="aeigenMatrices_8h_html_abe6572f893a786d06251835d48acad72"><div class="ttname"><a href="eigenMatrices_8h.html#abe6572f893a786d06251835d48acad72">homoMatrix</a></div><div class="ttdeci">Eigen::Matrix&lt; double, 4, 4 &gt; homoMatrix</div><div class="ttdef"><b>Definition:</b> eigenMatrices.h:4</div></div>
+<div class="ttc" id="aeigenMatrices_8h_html_ac54b83793bde6df4d513f6ab9da32f8e"><div class="ttname"><a href="eigenMatrices_8h.html#ac54b83793bde6df4d513f6ab9da32f8e">rotMatrix</a></div><div class="ttdeci">Eigen::Matrix&lt; double, 3, 3 &gt; rotMatrix</div><div class="ttdef"><b>Definition:</b> eigenMatrices.h:6</div></div>
+<div class="ttc" id="aeigenMatrices_8h_html_a27605ec55d733f4428e61a3cee6fbe1c"><div class="ttname"><a href="eigenMatrices_8h.html#a27605ec55d733f4428e61a3cee6fbe1c">D</a></div><div class="ttdeci">const double D[6]</div><div class="ttdef"><b>Definition:</b> eigenMatrices.h:21</div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">

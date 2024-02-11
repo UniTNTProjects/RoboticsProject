@@ -1,0 +1,129 @@
+\hypertarget{namespaceutils_1_1math__tools}{}\doxysection{utils.\+math\+\_\+tools Namespace Reference}
+\label{namespaceutils_1_1math__tools}\index{utils.math\_tools@{utils.math\_tools}}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classutils_1_1math__tools_1_1LineCoeff2d}{Line\+Coeff2d}}
+\item 
+class \mbox{\hyperlink{classutils_1_1math__tools_1_1Math}{Math}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \mbox{\hyperlink{namespaceutils_1_1math__tools_a96559485a7a43e3ca7cf49638c990263}{cross\+\_\+mx}} (v)
+\item 
+def \mbox{\hyperlink{namespaceutils_1_1math__tools_a248154c40e2c0f3f74c172f62f757ad6}{cross\+\_\+mx\+\_\+casadi}} (v)
+\item 
+def \mbox{\hyperlink{namespaceutils_1_1math__tools_ad66e74e9416511e55c4903016591b7dd}{skew\+\_\+sim\+To\+Vec}} (Ra)
+\item 
+def \mbox{\hyperlink{namespaceutils_1_1math__tools_ac9843ba8e42b674b54093d216f40bd67}{rot\+Mat\+To\+Rot\+Vec}} (Ra)
+\item 
+def \mbox{\hyperlink{namespaceutils_1_1math__tools_a29c03a8c24b7c8133eb5f832707806c1}{euler\+\_\+from\+\_\+matrix}} (matrix, axes=\textquotesingle{}sxyz\textquotesingle{})
+\item 
+def \mbox{\hyperlink{namespaceutils_1_1math__tools_a66d8e0450947dcad92abc09ecda9ecc1}{euler\+\_\+from\+\_\+quaternion}} (quaternion, axes=\textquotesingle{}sxyz\textquotesingle{})
+\item 
+def \mbox{\hyperlink{namespaceutils_1_1math__tools_a6396c87d324f5f6aebc6d56cc3b89d4f}{quaternion\+\_\+matrix}} (quaternion)
+\item 
+def \mbox{\hyperlink{namespaceutils_1_1math__tools_a19cf1fc0f8e93bb7f908094e193857dc}{Mx\+Inv}} (\mbox{\hyperlink{eigenMatrices_8h_a2d77012fd18c8363bb1b106f452144cd}{A}})
+\item 
+def \mbox{\hyperlink{namespaceutils_1_1math__tools_a7c598d83d636e78d64cd6a5880fba242}{motion\+Vector\+Transform}} (position, rotation\+Mx)
+\item 
+def \mbox{\hyperlink{namespaceutils_1_1math__tools_a083a5cc4226982790f023b1fd1df7fda}{force\+Vector\+Transform}} (position, rotation\+Mx)
+\item 
+def \mbox{\hyperlink{namespaceutils_1_1math__tools_a8e9df8b4d88886518aca277f3fc6233e}{polynomial\+Ref}} (x0, xf, v0, vf, a0, af, T)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{namespaceutils_1_1math__tools_a96559485a7a43e3ca7cf49638c990263}\label{namespaceutils_1_1math__tools_a96559485a7a43e3ca7cf49638c990263}} 
+\index{utils.math\_tools@{utils.math\_tools}!cross\_mx@{cross\_mx}}
+\index{cross\_mx@{cross\_mx}!utils.math\_tools@{utils.math\_tools}}
+\doxysubsubsection{\texorpdfstring{cross\_mx()}{cross\_mx()}}
+{\footnotesize\ttfamily def utils.\+math\+\_\+tools.\+cross\+\_\+mx (\begin{DoxyParamCaption}\item[{}]{v }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespaceutils_1_1math__tools_a248154c40e2c0f3f74c172f62f757ad6}\label{namespaceutils_1_1math__tools_a248154c40e2c0f3f74c172f62f757ad6}} 
+\index{utils.math\_tools@{utils.math\_tools}!cross\_mx\_casadi@{cross\_mx\_casadi}}
+\index{cross\_mx\_casadi@{cross\_mx\_casadi}!utils.math\_tools@{utils.math\_tools}}
+\doxysubsubsection{\texorpdfstring{cross\_mx\_casadi()}{cross\_mx\_casadi()}}
+{\footnotesize\ttfamily def utils.\+math\+\_\+tools.\+cross\+\_\+mx\+\_\+casadi (\begin{DoxyParamCaption}\item[{}]{v }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespaceutils_1_1math__tools_a29c03a8c24b7c8133eb5f832707806c1}\label{namespaceutils_1_1math__tools_a29c03a8c24b7c8133eb5f832707806c1}} 
+\index{utils.math\_tools@{utils.math\_tools}!euler\_from\_matrix@{euler\_from\_matrix}}
+\index{euler\_from\_matrix@{euler\_from\_matrix}!utils.math\_tools@{utils.math\_tools}}
+\doxysubsubsection{\texorpdfstring{euler\_from\_matrix()}{euler\_from\_matrix()}}
+{\footnotesize\ttfamily def utils.\+math\+\_\+tools.\+euler\+\_\+from\+\_\+matrix (\begin{DoxyParamCaption}\item[{}]{matrix,  }\item[{}]{axes = {\ttfamily \textquotesingle{}sxyz\textquotesingle{}} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Return Euler angles from rotation matrix for specified axis sequence.
+
+axes : One of 24 axis sequences as string or encoded tuple
+
+Note that many Euler angle triplets can describe one matrix.
+
+>>> R0 = euler_matrix(1, 2, 3, 'syxz')
+>>> al, be, ga = euler_from_matrix(R0, 'syxz')
+>>> R1 = euler_matrix(al, be, ga, 'syxz')
+>>> np.allclose(R0, R1)
+True
+>>> angles = (4.0*math.pi) * (np.random.random(3) - 0.5)
+>>> for axes in _AXES2TUPLE.keys():
+...    R0 = euler_matrix(axes=axes, *angles)
+...    R1 = euler_matrix(axes=axes, *euler_from_matrix(R0, axes))
+...    if not np.allclose(R0, R1): print axes, "failed"\end{DoxyVerb}
+ \mbox{\Hypertarget{namespaceutils_1_1math__tools_a66d8e0450947dcad92abc09ecda9ecc1}\label{namespaceutils_1_1math__tools_a66d8e0450947dcad92abc09ecda9ecc1}} 
+\index{utils.math\_tools@{utils.math\_tools}!euler\_from\_quaternion@{euler\_from\_quaternion}}
+\index{euler\_from\_quaternion@{euler\_from\_quaternion}!utils.math\_tools@{utils.math\_tools}}
+\doxysubsubsection{\texorpdfstring{euler\_from\_quaternion()}{euler\_from\_quaternion()}}
+{\footnotesize\ttfamily def utils.\+math\+\_\+tools.\+euler\+\_\+from\+\_\+quaternion (\begin{DoxyParamCaption}\item[{}]{quaternion,  }\item[{}]{axes = {\ttfamily \textquotesingle{}sxyz\textquotesingle{}} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Return Euler angles from quaternion for specified axis sequence.
+
+>>> angles = euler_from_quaternion([0.06146124, 0, 0, 0.99810947])
+>>> np.allclose(angles, [0.123, 0, 0])
+True\end{DoxyVerb}
+ \mbox{\Hypertarget{namespaceutils_1_1math__tools_a083a5cc4226982790f023b1fd1df7fda}\label{namespaceutils_1_1math__tools_a083a5cc4226982790f023b1fd1df7fda}} 
+\index{utils.math\_tools@{utils.math\_tools}!forceVectorTransform@{forceVectorTransform}}
+\index{forceVectorTransform@{forceVectorTransform}!utils.math\_tools@{utils.math\_tools}}
+\doxysubsubsection{\texorpdfstring{forceVectorTransform()}{forceVectorTransform()}}
+{\footnotesize\ttfamily def utils.\+math\+\_\+tools.\+force\+Vector\+Transform (\begin{DoxyParamCaption}\item[{}]{position,  }\item[{}]{rotation\+Mx }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespaceutils_1_1math__tools_a7c598d83d636e78d64cd6a5880fba242}\label{namespaceutils_1_1math__tools_a7c598d83d636e78d64cd6a5880fba242}} 
+\index{utils.math\_tools@{utils.math\_tools}!motionVectorTransform@{motionVectorTransform}}
+\index{motionVectorTransform@{motionVectorTransform}!utils.math\_tools@{utils.math\_tools}}
+\doxysubsubsection{\texorpdfstring{motionVectorTransform()}{motionVectorTransform()}}
+{\footnotesize\ttfamily def utils.\+math\+\_\+tools.\+motion\+Vector\+Transform (\begin{DoxyParamCaption}\item[{}]{position,  }\item[{}]{rotation\+Mx }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespaceutils_1_1math__tools_a19cf1fc0f8e93bb7f908094e193857dc}\label{namespaceutils_1_1math__tools_a19cf1fc0f8e93bb7f908094e193857dc}} 
+\index{utils.math\_tools@{utils.math\_tools}!MxInv@{MxInv}}
+\index{MxInv@{MxInv}!utils.math\_tools@{utils.math\_tools}}
+\doxysubsubsection{\texorpdfstring{MxInv()}{MxInv()}}
+{\footnotesize\ttfamily def utils.\+math\+\_\+tools.\+Mx\+Inv (\begin{DoxyParamCaption}\item[{}]{A }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespaceutils_1_1math__tools_a8e9df8b4d88886518aca277f3fc6233e}\label{namespaceutils_1_1math__tools_a8e9df8b4d88886518aca277f3fc6233e}} 
+\index{utils.math\_tools@{utils.math\_tools}!polynomialRef@{polynomialRef}}
+\index{polynomialRef@{polynomialRef}!utils.math\_tools@{utils.math\_tools}}
+\doxysubsubsection{\texorpdfstring{polynomialRef()}{polynomialRef()}}
+{\footnotesize\ttfamily def utils.\+math\+\_\+tools.\+polynomial\+Ref (\begin{DoxyParamCaption}\item[{}]{x0,  }\item[{}]{xf,  }\item[{}]{v0,  }\item[{}]{vf,  }\item[{}]{a0,  }\item[{}]{af,  }\item[{}]{T }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespaceutils_1_1math__tools_a6396c87d324f5f6aebc6d56cc3b89d4f}\label{namespaceutils_1_1math__tools_a6396c87d324f5f6aebc6d56cc3b89d4f}} 
+\index{utils.math\_tools@{utils.math\_tools}!quaternion\_matrix@{quaternion\_matrix}}
+\index{quaternion\_matrix@{quaternion\_matrix}!utils.math\_tools@{utils.math\_tools}}
+\doxysubsubsection{\texorpdfstring{quaternion\_matrix()}{quaternion\_matrix()}}
+{\footnotesize\ttfamily def utils.\+math\+\_\+tools.\+quaternion\+\_\+matrix (\begin{DoxyParamCaption}\item[{}]{quaternion }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Return homogeneous rotation matrix from quaternion.
+
+>>> R = quaternion_matrix([0.06146124, 0, 0, 0.99810947])
+>>> np.allclose(R, rotation_matrix(0.123, (1, 0, 0)))
+True\end{DoxyVerb}
+ \mbox{\Hypertarget{namespaceutils_1_1math__tools_ac9843ba8e42b674b54093d216f40bd67}\label{namespaceutils_1_1math__tools_ac9843ba8e42b674b54093d216f40bd67}} 
+\index{utils.math\_tools@{utils.math\_tools}!rotMatToRotVec@{rotMatToRotVec}}
+\index{rotMatToRotVec@{rotMatToRotVec}!utils.math\_tools@{utils.math\_tools}}
+\doxysubsubsection{\texorpdfstring{rotMatToRotVec()}{rotMatToRotVec()}}
+{\footnotesize\ttfamily def utils.\+math\+\_\+tools.\+rot\+Mat\+To\+Rot\+Vec (\begin{DoxyParamCaption}\item[{}]{Ra }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespaceutils_1_1math__tools_ad66e74e9416511e55c4903016591b7dd}\label{namespaceutils_1_1math__tools_ad66e74e9416511e55c4903016591b7dd}} 
+\index{utils.math\_tools@{utils.math\_tools}!skew\_simToVec@{skew\_simToVec}}
+\index{skew\_simToVec@{skew\_simToVec}!utils.math\_tools@{utils.math\_tools}}
+\doxysubsubsection{\texorpdfstring{skew\_simToVec()}{skew\_simToVec()}}
+{\footnotesize\ttfamily def utils.\+math\+\_\+tools.\+skew\+\_\+sim\+To\+Vec (\begin{DoxyParamCaption}\item[{}]{Ra }\end{DoxyParamCaption})}
+

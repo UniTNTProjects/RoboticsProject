@@ -1,0 +1,219 @@
+\hypertarget{namespacesafezone}{}\doxysection{safezone Namespace Reference}
+\label{namespacesafezone}\index{safezone@{safezone}}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classsafezone_1_1Point}{Point}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \mbox{\hyperlink{namespacesafezone_acb9ad1410707bf594bff25eeb9cb8f73}{rad2deg}} (rad)
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespacesafezone_a120f7c2283f8d1a767238dcd59559430}{fig2}} = plt.\+figure()
+\item 
+\mbox{\hyperlink{namespacesafezone_aad4bcb8fefcafeec45e08c0c11fd5652}{ax2}} = fig2.\+add\+\_\+subplot(111, projection=\char`\"{}3d\char`\"{})
+\item 
+\mbox{\hyperlink{namespacesafezone_a69db9bab14392ad1e42790005751a21c}{choose}} = input(\char`\"{}1 for \mbox{\hyperlink{namespacesafezone_a09cf5cb0e321ef92ba384fddf03b215b}{c}}++ error, 2 for matlab error\+: \char`\"{})
+\item 
+\mbox{\hyperlink{namespacesafezone_a6db564829d1cd610c3ac2f27a9eab48c}{file2}} = None
+\item 
+list \mbox{\hyperlink{namespacesafezone_acb146801a74a23f4132b961d71923375}{points}} = \mbox{[}$\,$\mbox{]}
+\item 
+list \mbox{\hyperlink{namespacesafezone_a14ba5b83a0d0736a075138fba16f0c2e}{points2}} = \mbox{[}$\,$\mbox{]}
+\item 
+float \mbox{\hyperlink{namespacesafezone_aa55f0c0a411e21644eef03b8ad54e407}{z\+\_\+index}} = 0.\+15
+\item 
+float \mbox{\hyperlink{namespacesafezone_af8500c3174e350586067e2474ffeaca6}{x\+\_\+index}} = -\/0.\+15
+\item 
+float \mbox{\hyperlink{namespacesafezone_ad77ebea4419665ea5a5a0e449bf4c4f6}{y\+\_\+index}} = 0.\+15
+\item 
+float \mbox{\hyperlink{namespacesafezone_a20631bf664c02fe2503bbd50d5f66db4}{z\+\_\+index2}} = 0.\+15
+\item 
+float \mbox{\hyperlink{namespacesafezone_a16a152d8f1ad404d1badba967ad0f153}{x\+\_\+index2}} = -\/0.\+15
+\item 
+float \mbox{\hyperlink{namespacesafezone_a46f260302eed47dfa2ffc43dd667adb5}{y\+\_\+index2}} = 0.\+15
+\item 
+int \mbox{\hyperlink{namespacesafezone_ad3669204d8a176780ed0230662ddc5d3}{value\+\_\+count}} = 0
+\item 
+\mbox{\hyperlink{namespacesafezone_aff11bf0a8fffa6cc93d69ac02d305eca}{line}} = line.\+strip(\char`\"{}\textbackslash{}n\char`\"{})
+\item 
+list \mbox{\hyperlink{namespacesafezone_a4c7ff101770efb88815bb88779b0a845}{values}} = \mbox{[}point.\+value for point in \mbox{\hyperlink{namespacesafezone_a14ba5b83a0d0736a075138fba16f0c2e}{points2}}\mbox{]}
+\item 
+list \mbox{\hyperlink{namespacesafezone_aafacb891bb74d6999cfae659ac6c60da}{size}} = \mbox{[}point.\+value $\ast$ 10 for point in \mbox{\hyperlink{namespacesafezone_a14ba5b83a0d0736a075138fba16f0c2e}{points2}}\mbox{]}
+\item 
+list \mbox{\hyperlink{namespacesafezone_a0371e76700d1d02068cbd3d564b9a532}{X2}} = \mbox{[}point\mbox{[}0\mbox{]} for point in \mbox{\hyperlink{namespacesafezone_a14ba5b83a0d0736a075138fba16f0c2e}{points2}}\mbox{]}
+\item 
+list \mbox{\hyperlink{namespacesafezone_a3c83fec56801bfc42a1f361cf786d72b}{Y2}} = \mbox{[}point\mbox{[}1\mbox{]} for point in \mbox{\hyperlink{namespacesafezone_a14ba5b83a0d0736a075138fba16f0c2e}{points2}}\mbox{]}
+\item 
+list \mbox{\hyperlink{namespacesafezone_a17dfe8731f3ff205640f13cb69eb10a5}{Z2}} = \mbox{[}point\mbox{[}2\mbox{]} for point in \mbox{\hyperlink{namespacesafezone_a14ba5b83a0d0736a075138fba16f0c2e}{points2}}\mbox{]}
+\item 
+\mbox{\hyperlink{namespacesafezone_af5b793e58af7cb110e674b1ff1ffc331}{color\+\_\+map}} = cm.\+Scalar\+Mappable()
+\item 
+\mbox{\hyperlink{namespacesafezone_a23dc8863809b95dd8f9a8c89ee3f90be}{s}}
+\item 
+\mbox{\hyperlink{namespacesafezone_a09cf5cb0e321ef92ba384fddf03b215b}{c}}
+\item 
+\mbox{\hyperlink{namespacesafezone_a6fe37ebc2e5bc07832c65ab08b03d133}{marker}}
+\item 
+\mbox{\hyperlink{namespacesafezone_aa36b8fec146ec80dfda7cfd31bd22704}{alpha}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{namespacesafezone_acb9ad1410707bf594bff25eeb9cb8f73}\label{namespacesafezone_acb9ad1410707bf594bff25eeb9cb8f73}} 
+\index{safezone@{safezone}!rad2deg@{rad2deg}}
+\index{rad2deg@{rad2deg}!safezone@{safezone}}
+\doxysubsubsection{\texorpdfstring{rad2deg()}{rad2deg()}}
+{\footnotesize\ttfamily def safezone.\+rad2deg (\begin{DoxyParamCaption}\item[{}]{rad }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{namespacesafezone_aa36b8fec146ec80dfda7cfd31bd22704}\label{namespacesafezone_aa36b8fec146ec80dfda7cfd31bd22704}} 
+\index{safezone@{safezone}!alpha@{alpha}}
+\index{alpha@{alpha}!safezone@{safezone}}
+\doxysubsubsection{\texorpdfstring{alpha}{alpha}}
+{\footnotesize\ttfamily safezone.\+alpha}
+
+\mbox{\Hypertarget{namespacesafezone_aad4bcb8fefcafeec45e08c0c11fd5652}\label{namespacesafezone_aad4bcb8fefcafeec45e08c0c11fd5652}} 
+\index{safezone@{safezone}!ax2@{ax2}}
+\index{ax2@{ax2}!safezone@{safezone}}
+\doxysubsubsection{\texorpdfstring{ax2}{ax2}}
+{\footnotesize\ttfamily safezone.\+ax2 = fig2.\+add\+\_\+subplot(111, projection=\char`\"{}3d\char`\"{})}
+
+\mbox{\Hypertarget{namespacesafezone_a09cf5cb0e321ef92ba384fddf03b215b}\label{namespacesafezone_a09cf5cb0e321ef92ba384fddf03b215b}} 
+\index{safezone@{safezone}!c@{c}}
+\index{c@{c}!safezone@{safezone}}
+\doxysubsubsection{\texorpdfstring{c}{c}}
+{\footnotesize\ttfamily safezone.\+c}
+
+\mbox{\Hypertarget{namespacesafezone_a69db9bab14392ad1e42790005751a21c}\label{namespacesafezone_a69db9bab14392ad1e42790005751a21c}} 
+\index{safezone@{safezone}!choose@{choose}}
+\index{choose@{choose}!safezone@{safezone}}
+\doxysubsubsection{\texorpdfstring{choose}{choose}}
+{\footnotesize\ttfamily safezone.\+choose = input(\char`\"{}1 for \mbox{\hyperlink{namespacesafezone_a09cf5cb0e321ef92ba384fddf03b215b}{c}}++ error, 2 for matlab error\+: \char`\"{})}
+
+\mbox{\Hypertarget{namespacesafezone_af5b793e58af7cb110e674b1ff1ffc331}\label{namespacesafezone_af5b793e58af7cb110e674b1ff1ffc331}} 
+\index{safezone@{safezone}!color\_map@{color\_map}}
+\index{color\_map@{color\_map}!safezone@{safezone}}
+\doxysubsubsection{\texorpdfstring{color\_map}{color\_map}}
+{\footnotesize\ttfamily safezone.\+color\+\_\+map = cm.\+Scalar\+Mappable()}
+
+\mbox{\Hypertarget{namespacesafezone_a120f7c2283f8d1a767238dcd59559430}\label{namespacesafezone_a120f7c2283f8d1a767238dcd59559430}} 
+\index{safezone@{safezone}!fig2@{fig2}}
+\index{fig2@{fig2}!safezone@{safezone}}
+\doxysubsubsection{\texorpdfstring{fig2}{fig2}}
+{\footnotesize\ttfamily safezone.\+fig2 = plt.\+figure()}
+
+\mbox{\Hypertarget{namespacesafezone_a6db564829d1cd610c3ac2f27a9eab48c}\label{namespacesafezone_a6db564829d1cd610c3ac2f27a9eab48c}} 
+\index{safezone@{safezone}!file2@{file2}}
+\index{file2@{file2}!safezone@{safezone}}
+\doxysubsubsection{\texorpdfstring{file2}{file2}}
+{\footnotesize\ttfamily safezone.\+file2 = None}
+
+\mbox{\Hypertarget{namespacesafezone_aff11bf0a8fffa6cc93d69ac02d305eca}\label{namespacesafezone_aff11bf0a8fffa6cc93d69ac02d305eca}} 
+\index{safezone@{safezone}!line@{line}}
+\index{line@{line}!safezone@{safezone}}
+\doxysubsubsection{\texorpdfstring{line}{line}}
+{\footnotesize\ttfamily safezone.\+line = line.\+strip(\char`\"{}\textbackslash{}n\char`\"{})}
+
+\mbox{\Hypertarget{namespacesafezone_a6fe37ebc2e5bc07832c65ab08b03d133}\label{namespacesafezone_a6fe37ebc2e5bc07832c65ab08b03d133}} 
+\index{safezone@{safezone}!marker@{marker}}
+\index{marker@{marker}!safezone@{safezone}}
+\doxysubsubsection{\texorpdfstring{marker}{marker}}
+{\footnotesize\ttfamily safezone.\+marker}
+
+\mbox{\Hypertarget{namespacesafezone_acb146801a74a23f4132b961d71923375}\label{namespacesafezone_acb146801a74a23f4132b961d71923375}} 
+\index{safezone@{safezone}!points@{points}}
+\index{points@{points}!safezone@{safezone}}
+\doxysubsubsection{\texorpdfstring{points}{points}}
+{\footnotesize\ttfamily list safezone.\+points = \mbox{[}$\,$\mbox{]}}
+
+\mbox{\Hypertarget{namespacesafezone_a14ba5b83a0d0736a075138fba16f0c2e}\label{namespacesafezone_a14ba5b83a0d0736a075138fba16f0c2e}} 
+\index{safezone@{safezone}!points2@{points2}}
+\index{points2@{points2}!safezone@{safezone}}
+\doxysubsubsection{\texorpdfstring{points2}{points2}}
+{\footnotesize\ttfamily list safezone.\+points2 = \mbox{[}$\,$\mbox{]}}
+
+\mbox{\Hypertarget{namespacesafezone_a23dc8863809b95dd8f9a8c89ee3f90be}\label{namespacesafezone_a23dc8863809b95dd8f9a8c89ee3f90be}} 
+\index{safezone@{safezone}!s@{s}}
+\index{s@{s}!safezone@{safezone}}
+\doxysubsubsection{\texorpdfstring{s}{s}}
+{\footnotesize\ttfamily safezone.\+s}
+
+\mbox{\Hypertarget{namespacesafezone_aafacb891bb74d6999cfae659ac6c60da}\label{namespacesafezone_aafacb891bb74d6999cfae659ac6c60da}} 
+\index{safezone@{safezone}!size@{size}}
+\index{size@{size}!safezone@{safezone}}
+\doxysubsubsection{\texorpdfstring{size}{size}}
+{\footnotesize\ttfamily safezone.\+size = \mbox{[}point.\+value $\ast$ 10 for point in \mbox{\hyperlink{namespacesafezone_a14ba5b83a0d0736a075138fba16f0c2e}{points2}}\mbox{]}}
+
+\mbox{\Hypertarget{namespacesafezone_ad3669204d8a176780ed0230662ddc5d3}\label{namespacesafezone_ad3669204d8a176780ed0230662ddc5d3}} 
+\index{safezone@{safezone}!value\_count@{value\_count}}
+\index{value\_count@{value\_count}!safezone@{safezone}}
+\doxysubsubsection{\texorpdfstring{value\_count}{value\_count}}
+{\footnotesize\ttfamily int safezone.\+value\+\_\+count = 0}
+
+\mbox{\Hypertarget{namespacesafezone_a4c7ff101770efb88815bb88779b0a845}\label{namespacesafezone_a4c7ff101770efb88815bb88779b0a845}} 
+\index{safezone@{safezone}!values@{values}}
+\index{values@{values}!safezone@{safezone}}
+\doxysubsubsection{\texorpdfstring{values}{values}}
+{\footnotesize\ttfamily safezone.\+values = \mbox{[}point.\+value for point in \mbox{\hyperlink{namespacesafezone_a14ba5b83a0d0736a075138fba16f0c2e}{points2}}\mbox{]}}
+
+\mbox{\Hypertarget{namespacesafezone_a0371e76700d1d02068cbd3d564b9a532}\label{namespacesafezone_a0371e76700d1d02068cbd3d564b9a532}} 
+\index{safezone@{safezone}!X2@{X2}}
+\index{X2@{X2}!safezone@{safezone}}
+\doxysubsubsection{\texorpdfstring{X2}{X2}}
+{\footnotesize\ttfamily safezone.\+X2 = \mbox{[}point\mbox{[}0\mbox{]} for point in \mbox{\hyperlink{namespacesafezone_a14ba5b83a0d0736a075138fba16f0c2e}{points2}}\mbox{]}}
+
+\mbox{\Hypertarget{namespacesafezone_af8500c3174e350586067e2474ffeaca6}\label{namespacesafezone_af8500c3174e350586067e2474ffeaca6}} 
+\index{safezone@{safezone}!x\_index@{x\_index}}
+\index{x\_index@{x\_index}!safezone@{safezone}}
+\doxysubsubsection{\texorpdfstring{x\_index}{x\_index}}
+{\footnotesize\ttfamily float safezone.\+x\+\_\+index = -\/0.\+15}
+
+\mbox{\Hypertarget{namespacesafezone_a16a152d8f1ad404d1badba967ad0f153}\label{namespacesafezone_a16a152d8f1ad404d1badba967ad0f153}} 
+\index{safezone@{safezone}!x\_index2@{x\_index2}}
+\index{x\_index2@{x\_index2}!safezone@{safezone}}
+\doxysubsubsection{\texorpdfstring{x\_index2}{x\_index2}}
+{\footnotesize\ttfamily float safezone.\+x\+\_\+index2 = -\/0.\+15}
+
+\mbox{\Hypertarget{namespacesafezone_a3c83fec56801bfc42a1f361cf786d72b}\label{namespacesafezone_a3c83fec56801bfc42a1f361cf786d72b}} 
+\index{safezone@{safezone}!Y2@{Y2}}
+\index{Y2@{Y2}!safezone@{safezone}}
+\doxysubsubsection{\texorpdfstring{Y2}{Y2}}
+{\footnotesize\ttfamily safezone.\+Y2 = \mbox{[}point\mbox{[}1\mbox{]} for point in \mbox{\hyperlink{namespacesafezone_a14ba5b83a0d0736a075138fba16f0c2e}{points2}}\mbox{]}}
+
+\mbox{\Hypertarget{namespacesafezone_ad77ebea4419665ea5a5a0e449bf4c4f6}\label{namespacesafezone_ad77ebea4419665ea5a5a0e449bf4c4f6}} 
+\index{safezone@{safezone}!y\_index@{y\_index}}
+\index{y\_index@{y\_index}!safezone@{safezone}}
+\doxysubsubsection{\texorpdfstring{y\_index}{y\_index}}
+{\footnotesize\ttfamily float safezone.\+y\+\_\+index = 0.\+15}
+
+\mbox{\Hypertarget{namespacesafezone_a46f260302eed47dfa2ffc43dd667adb5}\label{namespacesafezone_a46f260302eed47dfa2ffc43dd667adb5}} 
+\index{safezone@{safezone}!y\_index2@{y\_index2}}
+\index{y\_index2@{y\_index2}!safezone@{safezone}}
+\doxysubsubsection{\texorpdfstring{y\_index2}{y\_index2}}
+{\footnotesize\ttfamily float safezone.\+y\+\_\+index2 = 0.\+15}
+
+\mbox{\Hypertarget{namespacesafezone_a17dfe8731f3ff205640f13cb69eb10a5}\label{namespacesafezone_a17dfe8731f3ff205640f13cb69eb10a5}} 
+\index{safezone@{safezone}!Z2@{Z2}}
+\index{Z2@{Z2}!safezone@{safezone}}
+\doxysubsubsection{\texorpdfstring{Z2}{Z2}}
+{\footnotesize\ttfamily safezone.\+Z2 = \mbox{[}point\mbox{[}2\mbox{]} for point in \mbox{\hyperlink{namespacesafezone_a14ba5b83a0d0736a075138fba16f0c2e}{points2}}\mbox{]}}
+
+\mbox{\Hypertarget{namespacesafezone_aa55f0c0a411e21644eef03b8ad54e407}\label{namespacesafezone_aa55f0c0a411e21644eef03b8ad54e407}} 
+\index{safezone@{safezone}!z\_index@{z\_index}}
+\index{z\_index@{z\_index}!safezone@{safezone}}
+\doxysubsubsection{\texorpdfstring{z\_index}{z\_index}}
+{\footnotesize\ttfamily float safezone.\+z\+\_\+index = 0.\+15}
+
+\mbox{\Hypertarget{namespacesafezone_a20631bf664c02fe2503bbd50d5f66db4}\label{namespacesafezone_a20631bf664c02fe2503bbd50d5f66db4}} 
+\index{safezone@{safezone}!z\_index2@{z\_index2}}
+\index{z\_index2@{z\_index2}!safezone@{safezone}}
+\doxysubsubsection{\texorpdfstring{z\_index2}{z\_index2}}
+{\footnotesize\ttfamily float safezone.\+z\+\_\+index2 = 0.\+15}
+

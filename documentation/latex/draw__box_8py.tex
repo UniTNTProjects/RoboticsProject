@@ -1,0 +1,47 @@
+\hypertarget{draw__box_8py}{}\doxysection{computer\+\_\+vision/data\+\_\+generation/scripts/draw\+\_\+box.py File Reference}
+\label{draw__box_8py}\index{computer\_vision/data\_generation/scripts/draw\_box.py@{computer\_vision/data\_generation/scripts/draw\_box.py}}
+\doxysubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \mbox{\hyperlink{namespacedraw__box}{draw\+\_\+box}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \mbox{\hyperlink{namespacedraw__box_ad0761c216b2202552559a58fae4b6169}{draw\+\_\+box.\+plot\+\_\+one\+\_\+box}} (x, image, color=None, label=None, line\+\_\+thickness=None)
+\item 
+def \mbox{\hyperlink{namespacedraw__box_aae30f90c9dbc13c76430eadbca38d220}{draw\+\_\+box.\+draw\+\_\+box\+\_\+on\+\_\+image}} (image\+\_\+name, classes, colors, label\+\_\+folder, raw\+\_\+images\+\_\+folder, save\+\_\+images\+\_\+folder)
+\item 
+def \mbox{\hyperlink{namespacedraw__box_add2f10251fa8aa35515803790199437d}{draw\+\_\+box.\+make\+\_\+name\+\_\+list}} (raw\+\_\+images\+\_\+folder, name\+\_\+list\+\_\+path)
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+string \mbox{\hyperlink{namespacedraw__box_a9246aab37f849e3ae537398896c3a6f4}{draw\+\_\+box.\+label\+\_\+folder}} = r\char`\"{}./dataset/prova/nobox/labels/\char`\"{}
+\item 
+string \mbox{\hyperlink{namespacedraw__box_a4b92af23e3b0eab0a1f8d9bacccdfd0b}{draw\+\_\+box.\+raw\+\_\+images\+\_\+folder}} = r\char`\"{}./dataset/prova/nobox/images/\char`\"{}
+\item 
+string \mbox{\hyperlink{namespacedraw__box_a8013f1da6356a651d64bf6cdc7ebaf22}{draw\+\_\+box.\+save\+\_\+images\+\_\+folder}} = r\char`\"{}./dataset/prova/box\char`\"{}
+\item 
+string \mbox{\hyperlink{namespacedraw__box_ad67a4127838200a0cd5d903a9946416f}{draw\+\_\+box.\+name\+\_\+list\+\_\+path}} = \char`\"{}./name\+\_\+list.\+txt\char`\"{}
+\item 
+string \mbox{\hyperlink{namespacedraw__box_aded11f243ad1e85cd5197e7f6f132dbb}{draw\+\_\+box.\+classes\+\_\+path}} = \char`\"{}./classes.\+txt\char`\"{}
+\item 
+\mbox{\hyperlink{namespacedraw__box_a18da8389f10385be17a9f20ef5cfbaf3}{draw\+\_\+box.\+file}} = yaml.\+safe\+\_\+load(open(\char`\"{}./dataset/macro\+\_\+block.\+yaml\char`\"{}))
+\item 
+dictionary \mbox{\hyperlink{namespacedraw__box_a4ec2ce514f16dde05da4dfdc6904d316}{draw\+\_\+box.\+class\+\_\+dict}} = \{\}
+\item 
+\mbox{\hyperlink{namespacedraw__box_a6a9e024a7559e19da8dea82a8198ca87}{draw\+\_\+box.\+classes}} = file\mbox{[}\char`\"{}names\char`\"{}\mbox{]}
+\item 
+list \mbox{\hyperlink{namespacedraw__box_a1a34e14deb22d56c84e36c3e5894db8e}{draw\+\_\+box.\+colors}} = \mbox{[}\mbox{[}random.\+randint(0, 255) for \+\_\+ in range(3)\mbox{]} for \+\_\+ in range(len(classes))\mbox{]}
+\item 
+\mbox{\hyperlink{namespacedraw__box_afdf2734635c6a5051faefacbb381d70d}{draw\+\_\+box.\+image\+\_\+names}} = open(name\+\_\+list\+\_\+path).read().strip().split()
+\item 
+int \mbox{\hyperlink{namespacedraw__box_a520725dbff7bcb7f7d1945de7b796754}{draw\+\_\+box.\+box\+\_\+total}} = 0
+\item 
+int \mbox{\hyperlink{namespacedraw__box_ac3dd48d3d16900e3ec9d1ae13037c651}{draw\+\_\+box.\+image\+\_\+total}} = 0
+\item 
+def \mbox{\hyperlink{namespacedraw__box_aa3d0225ae2e5e4e203f510f4a81e7053}{draw\+\_\+box.\+box\+\_\+num}}
+\item 
+\mbox{\hyperlink{namespacedraw__box_ab7bfe91f42a169d1d23c657a2d72e654}{draw\+\_\+box.\+end}}
+\end{DoxyCompactItemize}

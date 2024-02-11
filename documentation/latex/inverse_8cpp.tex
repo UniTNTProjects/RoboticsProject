@@ -1,0 +1,52 @@
+\hypertarget{inverse_8cpp}{}\doxysection{cpp/src/kinematics/inverse.cpp File Reference}
+\label{inverse_8cpp}\index{cpp/src/kinematics/inverse.cpp@{cpp/src/kinematics/inverse.cpp}}
+{\ttfamily \#include $<$complex.\+h$>$}\newline
+{\ttfamily \#include $<$cmath$>$}\newline
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$algorithm$>$}\newline
+{\ttfamily \#include $<$map$>$}\newline
+{\ttfamily \#include \char`\"{}kinematics.\+h\char`\"{}}\newline
+Include dependency graph for inverse.\+cpp\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{inverse_8cpp__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+Matrix$<$ double, 8, 6 $>$ \mbox{\hyperlink{inverse_8cpp_ab6434dfd33287e7789c03d02838dbb1c}{ur5\+Inverse}} (\mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}} pe, \mbox{\hyperlink{eigenMatrices_8h_ac54b83793bde6df4d513f6ab9da32f8e}{rot\+Matrix}} re)
+\begin{DoxyCompactList}\small\item\em Inverse Kinematics of the U\+R5 robot. \end{DoxyCompactList}\item 
+int $\ast$ \mbox{\hyperlink{inverse_8cpp_adca35e9287c50ac9eb0b830be2c4f16b}{sort\+\_\+inverse}} (Eigen\+::\+Matrix$<$ double, 8, 6 $>$ \&inverse\+\_\+kinematics\+\_\+res, const \mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}} \&initial\+\_\+joints)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{inverse_8cpp_adca35e9287c50ac9eb0b830be2c4f16b}\label{inverse_8cpp_adca35e9287c50ac9eb0b830be2c4f16b}} 
+\index{inverse.cpp@{inverse.cpp}!sort\_inverse@{sort\_inverse}}
+\index{sort\_inverse@{sort\_inverse}!inverse.cpp@{inverse.cpp}}
+\doxysubsubsection{\texorpdfstring{sort\_inverse()}{sort\_inverse()}}
+{\footnotesize\ttfamily int$\ast$ sort\+\_\+inverse (\begin{DoxyParamCaption}\item[{Eigen\+::\+Matrix$<$ double, 8, 6 $>$ \&}]{inverse\+\_\+kinematics\+\_\+res,  }\item[{const \mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}} \&}]{initial\+\_\+joints }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{inverse_8cpp_ab6434dfd33287e7789c03d02838dbb1c}\label{inverse_8cpp_ab6434dfd33287e7789c03d02838dbb1c}} 
+\index{inverse.cpp@{inverse.cpp}!ur5Inverse@{ur5Inverse}}
+\index{ur5Inverse@{ur5Inverse}!inverse.cpp@{inverse.cpp}}
+\doxysubsubsection{\texorpdfstring{ur5Inverse()}{ur5Inverse()}}
+{\footnotesize\ttfamily Matrix$<$double, 8, 6$>$ ur5\+Inverse (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}}}]{pe,  }\item[{\mbox{\hyperlink{eigenMatrices_8h_ac54b83793bde6df4d513f6ab9da32f8e}{rot\+Matrix}}}]{re }\end{DoxyParamCaption})}
+
+
+
+Inverse Kinematics of the U\+R5 robot. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pe} & cartesian position of the end effecto \\
+\hline
+{\em re} & rotation matrix of the end effector \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Matrix$<$double, 8, 6$>$ 8 possible solutions for the joint angles 
+\end{DoxyReturn}

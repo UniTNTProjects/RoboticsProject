@@ -1,0 +1,233 @@
+\hypertarget{namespaceutils_1_1common__functions}{}\doxysection{utils.\+common\+\_\+functions Namespace Reference}
+\label{namespaceutils_1_1common__functions}\index{utils.common\_functions@{utils.common\_functions}}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classutils_1_1common__functions_1_1Pose}{Pose}}
+\item 
+class \mbox{\hyperlink{classutils_1_1common__functions_1_1State}{State}}
+\item 
+class \mbox{\hyperlink{classutils_1_1common__functions_1_1Twist}{Twist}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \mbox{\hyperlink{namespaceutils_1_1common__functions_a69e4510ed8d25aa2613640d1d254bbf7}{check\+Ros\+Master}} ()
+\item 
+def \mbox{\hyperlink{namespaceutils_1_1common__functions_ad82d0683f3ac52a5c99adaf63aa3acc2}{start\+Node}} (node\+\_\+name)
+\item 
+def \mbox{\hyperlink{namespaceutils_1_1common__functions_ad04b0673cf935f6c2f20e89788463bd8}{get\+Robot\+Model}} (robot\+\_\+name=\char`\"{}hyq\char`\"{}, generate\+\_\+urdf=False, xacro\+\_\+path=None, additional\+\_\+urdf\+\_\+args=None)
+\item 
+def \mbox{\hyperlink{namespaceutils_1_1common__functions_a0d1eace6f2cd964f6b344ada7f03dd8c}{subplot}} (n\+\_\+rows, n\+\_\+cols, n\+\_\+subplot, sharex=False, sharey=False, ax\+\_\+to\+\_\+share=None)
+\item 
+def \mbox{\hyperlink{namespaceutils_1_1common__functions_aee1d9724bd3d2aa9c05ed2de2652c343}{plot\+Joint}} (name, time\+\_\+log, q\+\_\+log=None, q\+\_\+des\+\_\+log=None, qd\+\_\+log=None, qd\+\_\+des\+\_\+log=None, qdd\+\_\+log=None, qdd\+\_\+des\+\_\+log=None, tau\+\_\+log=None, tau\+\_\+ffwd\+\_\+log=None, tau\+\_\+des\+\_\+log=None, joint\+\_\+names=None, q\+\_\+adm=None, sharex=True, sharey=True, start=0, end=-\/1)
+\item 
+def \mbox{\hyperlink{namespaceutils_1_1common__functions_ab3b2365aa7f74ca851bbc75f7ce64198}{plot\+Endeff}} (name, figure\+\_\+id, time\+\_\+log, plot\+\_\+var\+\_\+log, plot\+\_\+var\+\_\+des\+\_\+log=None)
+\item 
+def \mbox{\hyperlink{namespaceutils_1_1common__functions_ab56fc3b82f06d4a33bd906890b021007}{plot\+Admittance\+Tracking}} (figure\+\_\+id, time\+\_\+log, x\+\_\+log, x\+\_\+des\+\_\+log, x\+\_\+des\+\_\+log\+\_\+adm, f\+\_\+log)
+\item 
+def \mbox{\hyperlink{namespaceutils_1_1common__functions_ac8ccbc3c5b64c5f9633549fa8832f692}{plot\+Frame}} (name, time\+\_\+log, des\+\_\+\+Pose\+\_\+log=None, Pose\+\_\+log=None, des\+\_\+\+Twist\+\_\+log=None, Twist\+\_\+log=None, des\+\_\+\+Acc\+\_\+log=None, Acc\+\_\+log=None, des\+\_\+\+Wrench\+\_\+log=None, Wrench\+\_\+log=None, title=None, frame=None, sharex=True, sharey=True, start=0, end=-\/1)
+\item 
+def \mbox{\hyperlink{namespaceutils_1_1common__functions_abd45833d288c339b9bbf43aaa2cf79a2}{plot\+Frame\+Linear}} (name, time\+\_\+log, des\+\_\+\+Pose\+\_\+log=None, Pose\+\_\+log=None, des\+\_\+\+Twist\+\_\+log=None, Twist\+\_\+log=None, des\+\_\+\+Acc=None, Acc=None, des\+\_\+\+Wrench=None, Wrench\+\_\+log=None, title=None, frame=None, sharex=True, sharey=True, start=0, end=-\/1)
+\item 
+def \mbox{\hyperlink{namespaceutils_1_1common__functions_ab264f2a22c97fedb6f740164cd8aeed7}{plot\+Frame\+Angular}} (name, time\+\_\+log, des\+\_\+\+Pose\+\_\+log=None, Pose\+\_\+log=None, des\+\_\+\+Twist\+\_\+log=None, Twist\+\_\+log=None, des\+\_\+\+Acc=None, Acc=None, des\+\_\+\+Wrench\+\_\+log=None, Wrench\+\_\+log=None, title=None, frame=None, sharex=True, sharey=True, start=0, end=-\/1)
+\item 
+def \mbox{\hyperlink{namespaceutils_1_1common__functions_a58bc93164f5c363073cbdadd5b650d76}{plot\+Contacts}} (name, time\+\_\+log, des\+\_\+\+Lin\+Pose\+\_\+log=None, Lin\+Pose\+\_\+log=None, des\+\_\+\+Lin\+Twist\+\_\+log=None, Lin\+Twist\+\_\+log=None, des\+\_\+\+Forces\+\_\+log=None, Forces\+\_\+log=None, gt\+\_\+\+Forces\+\_\+log=None, contact\+\_\+states=None, frame=None, sharex=True, sharey=True, start=0, end=-\/1)
+\item 
+def \mbox{\hyperlink{namespaceutils_1_1common__functions_ad501f6709a97a75d31c6db61a7754e3c}{plot\+Constrait\+Violation}} (figure\+\_\+id, constr\+\_\+viol\+\_\+log)
+\item 
+def \mbox{\hyperlink{namespaceutils_1_1common__functions_ae21f87890511dd8d48ac2f12629ab53c}{plot\+Endeff\+Impedance}} (name, figure\+\_\+id, x\+\_\+log, x\+\_\+des\+\_\+log, f\+\_\+log)
+\item 
+def \mbox{\hyperlink{namespaceutils_1_1common__functions_a1c2395c2a6462be3b8e98a2b7db34fc3}{plot\+Joint\+Impedance}} (name, q\+\_\+log, q\+\_\+des\+\_\+log, tau\+\_\+log)
+\item 
+def \mbox{\hyperlink{namespaceutils_1_1common__functions_a59264e6af29b56891cc19a0bb83b6492}{polar\+\_\+char}} (name, figure\+\_\+id, phase\+\_\+deg, mag0, mag1=None, mag2=None)
+\item 
+def \mbox{\hyperlink{namespaceutils_1_1common__functions_a8447b56c6f06f1c580bf81aa45f71032}{plot\+Wrenches}} (name, figure\+\_\+id, time\+\_\+log, wrench\+\_\+fb\+\_\+log=None, wrench\+\_\+ffwd\+\_\+log=None, wrench\+\_\+g\+\_\+log=None)
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{namespaceutils_1_1common__functions_a325a76287a814fb6e215f7e46bd2b9ec}{lw\+\_\+des}} = 7
+\item 
+int \mbox{\hyperlink{namespaceutils_1_1common__functions_a0f47af25ff01f5bb12057a072119d4a9}{lw\+\_\+act}} = 4
+\item 
+int \mbox{\hyperlink{namespaceutils_1_1common__functions_af1f19871501afde2afbc0073f32973ef}{marker\+\_\+size}} = 0
+\item 
+\mbox{\hyperlink{namespaceutils_1_1common__functions_a497bfcfff269b978c6c4982bc9fd2021}{u}} = \mbox{\hyperlink{classutils_1_1utils_1_1Utils}{Utils}}()
+\item 
+list \mbox{\hyperlink{namespaceutils_1_1common__functions_a3efca14412a9640bded1bed82916b088}{labels\+\_\+ur}}
+\item 
+list \mbox{\hyperlink{namespaceutils_1_1common__functions_adc648c27b87b734d345ebc19caa93428}{labels\+\_\+quadruped}}
+\item 
+list \mbox{\hyperlink{namespaceutils_1_1common__functions_a48e301217c85e755ca8faf39e2b15e05}{labels\+\_\+flywheel2}} = labels\+\_\+quadruped.\+append(\mbox{[}\char`\"{}left\+\_\+wheel\char`\"{}, \char`\"{}right\+\_\+wheel\char`\"{}\mbox{]})
+\item 
+list \mbox{\hyperlink{namespaceutils_1_1common__functions_a9c1e34834d9773e67fdd0e807f0c4dfd}{labels\+\_\+flywheel4}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{namespaceutils_1_1common__functions_a69e4510ed8d25aa2613640d1d254bbf7}\label{namespaceutils_1_1common__functions_a69e4510ed8d25aa2613640d1d254bbf7}} 
+\index{utils.common\_functions@{utils.common\_functions}!checkRosMaster@{checkRosMaster}}
+\index{checkRosMaster@{checkRosMaster}!utils.common\_functions@{utils.common\_functions}}
+\doxysubsubsection{\texorpdfstring{checkRosMaster()}{checkRosMaster()}}
+{\footnotesize\ttfamily def utils.\+common\+\_\+functions.\+check\+Ros\+Master (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespaceutils_1_1common__functions_ad04b0673cf935f6c2f20e89788463bd8}\label{namespaceutils_1_1common__functions_ad04b0673cf935f6c2f20e89788463bd8}} 
+\index{utils.common\_functions@{utils.common\_functions}!getRobotModel@{getRobotModel}}
+\index{getRobotModel@{getRobotModel}!utils.common\_functions@{utils.common\_functions}}
+\doxysubsubsection{\texorpdfstring{getRobotModel()}{getRobotModel()}}
+{\footnotesize\ttfamily def utils.\+common\+\_\+functions.\+get\+Robot\+Model (\begin{DoxyParamCaption}\item[{}]{robot\+\_\+name = {\ttfamily \char`\"{}hyq\char`\"{}},  }\item[{}]{generate\+\_\+urdf = {\ttfamily False},  }\item[{}]{xacro\+\_\+path = {\ttfamily None},  }\item[{}]{additional\+\_\+urdf\+\_\+args = {\ttfamily None} }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespaceutils_1_1common__functions_ab56fc3b82f06d4a33bd906890b021007}\label{namespaceutils_1_1common__functions_ab56fc3b82f06d4a33bd906890b021007}} 
+\index{utils.common\_functions@{utils.common\_functions}!plotAdmittanceTracking@{plotAdmittanceTracking}}
+\index{plotAdmittanceTracking@{plotAdmittanceTracking}!utils.common\_functions@{utils.common\_functions}}
+\doxysubsubsection{\texorpdfstring{plotAdmittanceTracking()}{plotAdmittanceTracking()}}
+{\footnotesize\ttfamily def utils.\+common\+\_\+functions.\+plot\+Admittance\+Tracking (\begin{DoxyParamCaption}\item[{}]{figure\+\_\+id,  }\item[{}]{time\+\_\+log,  }\item[{}]{x\+\_\+log,  }\item[{}]{x\+\_\+des\+\_\+log,  }\item[{}]{x\+\_\+des\+\_\+log\+\_\+adm,  }\item[{}]{f\+\_\+log }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespaceutils_1_1common__functions_ad501f6709a97a75d31c6db61a7754e3c}\label{namespaceutils_1_1common__functions_ad501f6709a97a75d31c6db61a7754e3c}} 
+\index{utils.common\_functions@{utils.common\_functions}!plotConstraitViolation@{plotConstraitViolation}}
+\index{plotConstraitViolation@{plotConstraitViolation}!utils.common\_functions@{utils.common\_functions}}
+\doxysubsubsection{\texorpdfstring{plotConstraitViolation()}{plotConstraitViolation()}}
+{\footnotesize\ttfamily def utils.\+common\+\_\+functions.\+plot\+Constrait\+Violation (\begin{DoxyParamCaption}\item[{}]{figure\+\_\+id,  }\item[{}]{constr\+\_\+viol\+\_\+log }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespaceutils_1_1common__functions_a58bc93164f5c363073cbdadd5b650d76}\label{namespaceutils_1_1common__functions_a58bc93164f5c363073cbdadd5b650d76}} 
+\index{utils.common\_functions@{utils.common\_functions}!plotContacts@{plotContacts}}
+\index{plotContacts@{plotContacts}!utils.common\_functions@{utils.common\_functions}}
+\doxysubsubsection{\texorpdfstring{plotContacts()}{plotContacts()}}
+{\footnotesize\ttfamily def utils.\+common\+\_\+functions.\+plot\+Contacts (\begin{DoxyParamCaption}\item[{}]{name,  }\item[{}]{time\+\_\+log,  }\item[{}]{des\+\_\+\+Lin\+Pose\+\_\+log = {\ttfamily None},  }\item[{}]{Lin\+Pose\+\_\+log = {\ttfamily None},  }\item[{}]{des\+\_\+\+Lin\+Twist\+\_\+log = {\ttfamily None},  }\item[{}]{Lin\+Twist\+\_\+log = {\ttfamily None},  }\item[{}]{des\+\_\+\+Forces\+\_\+log = {\ttfamily None},  }\item[{}]{Forces\+\_\+log = {\ttfamily None},  }\item[{}]{gt\+\_\+\+Forces\+\_\+log = {\ttfamily None},  }\item[{}]{contact\+\_\+states = {\ttfamily None},  }\item[{}]{frame = {\ttfamily None},  }\item[{}]{sharex = {\ttfamily True},  }\item[{}]{sharey = {\ttfamily True},  }\item[{}]{start = {\ttfamily 0},  }\item[{}]{end = {\ttfamily -\/1} }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespaceutils_1_1common__functions_ab3b2365aa7f74ca851bbc75f7ce64198}\label{namespaceutils_1_1common__functions_ab3b2365aa7f74ca851bbc75f7ce64198}} 
+\index{utils.common\_functions@{utils.common\_functions}!plotEndeff@{plotEndeff}}
+\index{plotEndeff@{plotEndeff}!utils.common\_functions@{utils.common\_functions}}
+\doxysubsubsection{\texorpdfstring{plotEndeff()}{plotEndeff()}}
+{\footnotesize\ttfamily def utils.\+common\+\_\+functions.\+plot\+Endeff (\begin{DoxyParamCaption}\item[{}]{name,  }\item[{}]{figure\+\_\+id,  }\item[{}]{time\+\_\+log,  }\item[{}]{plot\+\_\+var\+\_\+log,  }\item[{}]{plot\+\_\+var\+\_\+des\+\_\+log = {\ttfamily None} }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespaceutils_1_1common__functions_ae21f87890511dd8d48ac2f12629ab53c}\label{namespaceutils_1_1common__functions_ae21f87890511dd8d48ac2f12629ab53c}} 
+\index{utils.common\_functions@{utils.common\_functions}!plotEndeffImpedance@{plotEndeffImpedance}}
+\index{plotEndeffImpedance@{plotEndeffImpedance}!utils.common\_functions@{utils.common\_functions}}
+\doxysubsubsection{\texorpdfstring{plotEndeffImpedance()}{plotEndeffImpedance()}}
+{\footnotesize\ttfamily def utils.\+common\+\_\+functions.\+plot\+Endeff\+Impedance (\begin{DoxyParamCaption}\item[{}]{name,  }\item[{}]{figure\+\_\+id,  }\item[{}]{x\+\_\+log,  }\item[{}]{x\+\_\+des\+\_\+log,  }\item[{}]{f\+\_\+log }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespaceutils_1_1common__functions_ac8ccbc3c5b64c5f9633549fa8832f692}\label{namespaceutils_1_1common__functions_ac8ccbc3c5b64c5f9633549fa8832f692}} 
+\index{utils.common\_functions@{utils.common\_functions}!plotFrame@{plotFrame}}
+\index{plotFrame@{plotFrame}!utils.common\_functions@{utils.common\_functions}}
+\doxysubsubsection{\texorpdfstring{plotFrame()}{plotFrame()}}
+{\footnotesize\ttfamily def utils.\+common\+\_\+functions.\+plot\+Frame (\begin{DoxyParamCaption}\item[{}]{name,  }\item[{}]{time\+\_\+log,  }\item[{}]{des\+\_\+\+Pose\+\_\+log = {\ttfamily None},  }\item[{}]{Pose\+\_\+log = {\ttfamily None},  }\item[{}]{des\+\_\+\+Twist\+\_\+log = {\ttfamily None},  }\item[{}]{Twist\+\_\+log = {\ttfamily None},  }\item[{}]{des\+\_\+\+Acc\+\_\+log = {\ttfamily None},  }\item[{}]{Acc\+\_\+log = {\ttfamily None},  }\item[{}]{des\+\_\+\+Wrench\+\_\+log = {\ttfamily None},  }\item[{}]{Wrench\+\_\+log = {\ttfamily None},  }\item[{}]{title = {\ttfamily None},  }\item[{}]{frame = {\ttfamily None},  }\item[{}]{sharex = {\ttfamily True},  }\item[{}]{sharey = {\ttfamily True},  }\item[{}]{start = {\ttfamily 0},  }\item[{}]{end = {\ttfamily -\/1} }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespaceutils_1_1common__functions_ab264f2a22c97fedb6f740164cd8aeed7}\label{namespaceutils_1_1common__functions_ab264f2a22c97fedb6f740164cd8aeed7}} 
+\index{utils.common\_functions@{utils.common\_functions}!plotFrameAngular@{plotFrameAngular}}
+\index{plotFrameAngular@{plotFrameAngular}!utils.common\_functions@{utils.common\_functions}}
+\doxysubsubsection{\texorpdfstring{plotFrameAngular()}{plotFrameAngular()}}
+{\footnotesize\ttfamily def utils.\+common\+\_\+functions.\+plot\+Frame\+Angular (\begin{DoxyParamCaption}\item[{}]{name,  }\item[{}]{time\+\_\+log,  }\item[{}]{des\+\_\+\+Pose\+\_\+log = {\ttfamily None},  }\item[{}]{Pose\+\_\+log = {\ttfamily None},  }\item[{}]{des\+\_\+\+Twist\+\_\+log = {\ttfamily None},  }\item[{}]{Twist\+\_\+log = {\ttfamily None},  }\item[{}]{des\+\_\+\+Acc = {\ttfamily None},  }\item[{}]{Acc = {\ttfamily None},  }\item[{}]{des\+\_\+\+Wrench\+\_\+log = {\ttfamily None},  }\item[{}]{Wrench\+\_\+log = {\ttfamily None},  }\item[{}]{title = {\ttfamily None},  }\item[{}]{frame = {\ttfamily None},  }\item[{}]{sharex = {\ttfamily True},  }\item[{}]{sharey = {\ttfamily True},  }\item[{}]{start = {\ttfamily 0},  }\item[{}]{end = {\ttfamily -\/1} }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespaceutils_1_1common__functions_abd45833d288c339b9bbf43aaa2cf79a2}\label{namespaceutils_1_1common__functions_abd45833d288c339b9bbf43aaa2cf79a2}} 
+\index{utils.common\_functions@{utils.common\_functions}!plotFrameLinear@{plotFrameLinear}}
+\index{plotFrameLinear@{plotFrameLinear}!utils.common\_functions@{utils.common\_functions}}
+\doxysubsubsection{\texorpdfstring{plotFrameLinear()}{plotFrameLinear()}}
+{\footnotesize\ttfamily def utils.\+common\+\_\+functions.\+plot\+Frame\+Linear (\begin{DoxyParamCaption}\item[{}]{name,  }\item[{}]{time\+\_\+log,  }\item[{}]{des\+\_\+\+Pose\+\_\+log = {\ttfamily None},  }\item[{}]{Pose\+\_\+log = {\ttfamily None},  }\item[{}]{des\+\_\+\+Twist\+\_\+log = {\ttfamily None},  }\item[{}]{Twist\+\_\+log = {\ttfamily None},  }\item[{}]{des\+\_\+\+Acc = {\ttfamily None},  }\item[{}]{Acc = {\ttfamily None},  }\item[{}]{des\+\_\+\+Wrench = {\ttfamily None},  }\item[{}]{Wrench\+\_\+log = {\ttfamily None},  }\item[{}]{title = {\ttfamily None},  }\item[{}]{frame = {\ttfamily None},  }\item[{}]{sharex = {\ttfamily True},  }\item[{}]{sharey = {\ttfamily True},  }\item[{}]{start = {\ttfamily 0},  }\item[{}]{end = {\ttfamily -\/1} }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespaceutils_1_1common__functions_aee1d9724bd3d2aa9c05ed2de2652c343}\label{namespaceutils_1_1common__functions_aee1d9724bd3d2aa9c05ed2de2652c343}} 
+\index{utils.common\_functions@{utils.common\_functions}!plotJoint@{plotJoint}}
+\index{plotJoint@{plotJoint}!utils.common\_functions@{utils.common\_functions}}
+\doxysubsubsection{\texorpdfstring{plotJoint()}{plotJoint()}}
+{\footnotesize\ttfamily def utils.\+common\+\_\+functions.\+plot\+Joint (\begin{DoxyParamCaption}\item[{}]{name,  }\item[{}]{time\+\_\+log,  }\item[{}]{q\+\_\+log = {\ttfamily None},  }\item[{}]{q\+\_\+des\+\_\+log = {\ttfamily None},  }\item[{}]{qd\+\_\+log = {\ttfamily None},  }\item[{}]{qd\+\_\+des\+\_\+log = {\ttfamily None},  }\item[{}]{qdd\+\_\+log = {\ttfamily None},  }\item[{}]{qdd\+\_\+des\+\_\+log = {\ttfamily None},  }\item[{}]{tau\+\_\+log = {\ttfamily None},  }\item[{}]{tau\+\_\+ffwd\+\_\+log = {\ttfamily None},  }\item[{}]{tau\+\_\+des\+\_\+log = {\ttfamily None},  }\item[{}]{joint\+\_\+names = {\ttfamily None},  }\item[{}]{q\+\_\+adm = {\ttfamily None},  }\item[{}]{sharex = {\ttfamily True},  }\item[{}]{sharey = {\ttfamily True},  }\item[{}]{start = {\ttfamily 0},  }\item[{}]{end = {\ttfamily -\/1} }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespaceutils_1_1common__functions_a1c2395c2a6462be3b8e98a2b7db34fc3}\label{namespaceutils_1_1common__functions_a1c2395c2a6462be3b8e98a2b7db34fc3}} 
+\index{utils.common\_functions@{utils.common\_functions}!plotJointImpedance@{plotJointImpedance}}
+\index{plotJointImpedance@{plotJointImpedance}!utils.common\_functions@{utils.common\_functions}}
+\doxysubsubsection{\texorpdfstring{plotJointImpedance()}{plotJointImpedance()}}
+{\footnotesize\ttfamily def utils.\+common\+\_\+functions.\+plot\+Joint\+Impedance (\begin{DoxyParamCaption}\item[{}]{name,  }\item[{}]{q\+\_\+log,  }\item[{}]{q\+\_\+des\+\_\+log,  }\item[{}]{tau\+\_\+log }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespaceutils_1_1common__functions_a8447b56c6f06f1c580bf81aa45f71032}\label{namespaceutils_1_1common__functions_a8447b56c6f06f1c580bf81aa45f71032}} 
+\index{utils.common\_functions@{utils.common\_functions}!plotWrenches@{plotWrenches}}
+\index{plotWrenches@{plotWrenches}!utils.common\_functions@{utils.common\_functions}}
+\doxysubsubsection{\texorpdfstring{plotWrenches()}{plotWrenches()}}
+{\footnotesize\ttfamily def utils.\+common\+\_\+functions.\+plot\+Wrenches (\begin{DoxyParamCaption}\item[{}]{name,  }\item[{}]{figure\+\_\+id,  }\item[{}]{time\+\_\+log,  }\item[{}]{wrench\+\_\+fb\+\_\+log = {\ttfamily None},  }\item[{}]{wrench\+\_\+ffwd\+\_\+log = {\ttfamily None},  }\item[{}]{wrench\+\_\+g\+\_\+log = {\ttfamily None} }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespaceutils_1_1common__functions_a59264e6af29b56891cc19a0bb83b6492}\label{namespaceutils_1_1common__functions_a59264e6af29b56891cc19a0bb83b6492}} 
+\index{utils.common\_functions@{utils.common\_functions}!polar\_char@{polar\_char}}
+\index{polar\_char@{polar\_char}!utils.common\_functions@{utils.common\_functions}}
+\doxysubsubsection{\texorpdfstring{polar\_char()}{polar\_char()}}
+{\footnotesize\ttfamily def utils.\+common\+\_\+functions.\+polar\+\_\+char (\begin{DoxyParamCaption}\item[{}]{name,  }\item[{}]{figure\+\_\+id,  }\item[{}]{phase\+\_\+deg,  }\item[{}]{mag0,  }\item[{}]{mag1 = {\ttfamily None},  }\item[{}]{mag2 = {\ttfamily None} }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespaceutils_1_1common__functions_ad82d0683f3ac52a5c99adaf63aa3acc2}\label{namespaceutils_1_1common__functions_ad82d0683f3ac52a5c99adaf63aa3acc2}} 
+\index{utils.common\_functions@{utils.common\_functions}!startNode@{startNode}}
+\index{startNode@{startNode}!utils.common\_functions@{utils.common\_functions}}
+\doxysubsubsection{\texorpdfstring{startNode()}{startNode()}}
+{\footnotesize\ttfamily def utils.\+common\+\_\+functions.\+start\+Node (\begin{DoxyParamCaption}\item[{}]{node\+\_\+name }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespaceutils_1_1common__functions_a0d1eace6f2cd964f6b344ada7f03dd8c}\label{namespaceutils_1_1common__functions_a0d1eace6f2cd964f6b344ada7f03dd8c}} 
+\index{utils.common\_functions@{utils.common\_functions}!subplot@{subplot}}
+\index{subplot@{subplot}!utils.common\_functions@{utils.common\_functions}}
+\doxysubsubsection{\texorpdfstring{subplot()}{subplot()}}
+{\footnotesize\ttfamily def utils.\+common\+\_\+functions.\+subplot (\begin{DoxyParamCaption}\item[{}]{n\+\_\+rows,  }\item[{}]{n\+\_\+cols,  }\item[{}]{n\+\_\+subplot,  }\item[{}]{sharex = {\ttfamily False},  }\item[{}]{sharey = {\ttfamily False},  }\item[{}]{ax\+\_\+to\+\_\+share = {\ttfamily None} }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{namespaceutils_1_1common__functions_a48e301217c85e755ca8faf39e2b15e05}\label{namespaceutils_1_1common__functions_a48e301217c85e755ca8faf39e2b15e05}} 
+\index{utils.common\_functions@{utils.common\_functions}!labels\_flywheel2@{labels\_flywheel2}}
+\index{labels\_flywheel2@{labels\_flywheel2}!utils.common\_functions@{utils.common\_functions}}
+\doxysubsubsection{\texorpdfstring{labels\_flywheel2}{labels\_flywheel2}}
+{\footnotesize\ttfamily list utils.\+common\+\_\+functions.\+labels\+\_\+flywheel2 = labels\+\_\+quadruped.\+append(\mbox{[}\char`\"{}left\+\_\+wheel\char`\"{}, \char`\"{}right\+\_\+wheel\char`\"{}\mbox{]})}
+
+\mbox{\Hypertarget{namespaceutils_1_1common__functions_a9c1e34834d9773e67fdd0e807f0c4dfd}\label{namespaceutils_1_1common__functions_a9c1e34834d9773e67fdd0e807f0c4dfd}} 
+\index{utils.common\_functions@{utils.common\_functions}!labels\_flywheel4@{labels\_flywheel4}}
+\index{labels\_flywheel4@{labels\_flywheel4}!utils.common\_functions@{utils.common\_functions}}
+\doxysubsubsection{\texorpdfstring{labels\_flywheel4}{labels\_flywheel4}}
+{\footnotesize\ttfamily list utils.\+common\+\_\+functions.\+labels\+\_\+flywheel4}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 =  labels\_quadruped.append(}
+\DoxyCodeLine{2     [\textcolor{stringliteral}{"back\_wheel"}, \textcolor{stringliteral}{"front\_wheel"}, \textcolor{stringliteral}{"left\_wheel"}, \textcolor{stringliteral}{"right\_wheel"}])}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{namespaceutils_1_1common__functions_adc648c27b87b734d345ebc19caa93428}\label{namespaceutils_1_1common__functions_adc648c27b87b734d345ebc19caa93428}} 
+\index{utils.common\_functions@{utils.common\_functions}!labels\_quadruped@{labels\_quadruped}}
+\index{labels\_quadruped@{labels\_quadruped}!utils.common\_functions@{utils.common\_functions}}
+\doxysubsubsection{\texorpdfstring{labels\_quadruped}{labels\_quadruped}}
+{\footnotesize\ttfamily list utils.\+common\+\_\+functions.\+labels\+\_\+quadruped}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 =  [\textcolor{stringliteral}{"LF\_HAA"}, \textcolor{stringliteral}{"LF\_HFE"}, \textcolor{stringliteral}{"LF\_KFE"}, \textcolor{stringliteral}{"LH\_HAA"}, \textcolor{stringliteral}{"LH\_HFE"},}
+\DoxyCodeLine{2                     \textcolor{stringliteral}{"LH\_KFE"}, \textcolor{stringliteral}{"RF\_HAA"}, \textcolor{stringliteral}{"RF\_HFE"}, \textcolor{stringliteral}{"RF\_KFE"}, \textcolor{stringliteral}{"RH\_HAA"}, \textcolor{stringliteral}{"RH\_HFE"}, \textcolor{stringliteral}{"RH\_KFE"}]}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{namespaceutils_1_1common__functions_a3efca14412a9640bded1bed82916b088}\label{namespaceutils_1_1common__functions_a3efca14412a9640bded1bed82916b088}} 
+\index{utils.common\_functions@{utils.common\_functions}!labels\_ur@{labels\_ur}}
+\index{labels\_ur@{labels\_ur}!utils.common\_functions@{utils.common\_functions}}
+\doxysubsubsection{\texorpdfstring{labels\_ur}{labels\_ur}}
+{\footnotesize\ttfamily list utils.\+common\+\_\+functions.\+labels\+\_\+ur}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 =  [\textcolor{stringliteral}{"1 -\/ Shoulder Pan"}, \textcolor{stringliteral}{"2 -\/ Shoulder Lift"},}
+\DoxyCodeLine{2              \textcolor{stringliteral}{"3 -\/ Elbow"}, \textcolor{stringliteral}{"4 -\/ Wrist 1"}, \textcolor{stringliteral}{"5 -\/ Wrist 2"}, \textcolor{stringliteral}{"6 -\/ Wrist 3"}]}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{namespaceutils_1_1common__functions_a0f47af25ff01f5bb12057a072119d4a9}\label{namespaceutils_1_1common__functions_a0f47af25ff01f5bb12057a072119d4a9}} 
+\index{utils.common\_functions@{utils.common\_functions}!lw\_act@{lw\_act}}
+\index{lw\_act@{lw\_act}!utils.common\_functions@{utils.common\_functions}}
+\doxysubsubsection{\texorpdfstring{lw\_act}{lw\_act}}
+{\footnotesize\ttfamily int utils.\+common\+\_\+functions.\+lw\+\_\+act = 4}
+
+\mbox{\Hypertarget{namespaceutils_1_1common__functions_a325a76287a814fb6e215f7e46bd2b9ec}\label{namespaceutils_1_1common__functions_a325a76287a814fb6e215f7e46bd2b9ec}} 
+\index{utils.common\_functions@{utils.common\_functions}!lw\_des@{lw\_des}}
+\index{lw\_des@{lw\_des}!utils.common\_functions@{utils.common\_functions}}
+\doxysubsubsection{\texorpdfstring{lw\_des}{lw\_des}}
+{\footnotesize\ttfamily int utils.\+common\+\_\+functions.\+lw\+\_\+des = 7}
+
+\mbox{\Hypertarget{namespaceutils_1_1common__functions_af1f19871501afde2afbc0073f32973ef}\label{namespaceutils_1_1common__functions_af1f19871501afde2afbc0073f32973ef}} 
+\index{utils.common\_functions@{utils.common\_functions}!marker\_size@{marker\_size}}
+\index{marker\_size@{marker\_size}!utils.common\_functions@{utils.common\_functions}}
+\doxysubsubsection{\texorpdfstring{marker\_size}{marker\_size}}
+{\footnotesize\ttfamily int utils.\+common\+\_\+functions.\+marker\+\_\+size = 0}
+
+\mbox{\Hypertarget{namespaceutils_1_1common__functions_a497bfcfff269b978c6c4982bc9fd2021}\label{namespaceutils_1_1common__functions_a497bfcfff269b978c6c4982bc9fd2021}} 
+\index{utils.common\_functions@{utils.common\_functions}!u@{u}}
+\index{u@{u}!utils.common\_functions@{utils.common\_functions}}
+\doxysubsubsection{\texorpdfstring{u}{u}}
+{\footnotesize\ttfamily utils.\+common\+\_\+functions.\+u = \mbox{\hyperlink{classutils_1_1utils_1_1Utils}{Utils}}()}
+

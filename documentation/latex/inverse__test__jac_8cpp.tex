@@ -1,0 +1,42 @@
+\hypertarget{inverse__test__jac_8cpp}{}\doxysection{cpp/src/kinematics/inverse\+\_\+test\+\_\+jac.cpp File Reference}
+\label{inverse__test__jac_8cpp}\index{cpp/src/kinematics/inverse\_test\_jac.cpp@{cpp/src/kinematics/inverse\_test\_jac.cpp}}
+{\ttfamily \#include $<$complex.\+h$>$}\newline
+{\ttfamily \#include $<$cmath$>$}\newline
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include \char`\"{}kinematics.\+h\char`\"{}}\newline
+Include dependency graph for inverse\+\_\+test\+\_\+jac.\+cpp\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{inverse__test__jac_8cpp__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+Matrix$<$ double, 8, 6 $>$ \mbox{\hyperlink{inverse__test__jac_8cpp_a69ec3725d7999cfc940dd081c0c88018}{ur5\+Inverse\+Test\+Jac}} (\mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}} pe, \mbox{\hyperlink{eigenMatrices_8h_ac54b83793bde6df4d513f6ab9da32f8e}{rot\+Matrix}} re)
+\begin{DoxyCompactList}\small\item\em Inverse Kinematics of the U\+R5 robot. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{inverse__test__jac_8cpp_a69ec3725d7999cfc940dd081c0c88018}\label{inverse__test__jac_8cpp_a69ec3725d7999cfc940dd081c0c88018}} 
+\index{inverse\_test\_jac.cpp@{inverse\_test\_jac.cpp}!ur5InverseTestJac@{ur5InverseTestJac}}
+\index{ur5InverseTestJac@{ur5InverseTestJac}!inverse\_test\_jac.cpp@{inverse\_test\_jac.cpp}}
+\doxysubsubsection{\texorpdfstring{ur5InverseTestJac()}{ur5InverseTestJac()}}
+{\footnotesize\ttfamily Matrix$<$double, 8, 6$>$ ur5\+Inverse\+Test\+Jac (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}}}]{pe,  }\item[{\mbox{\hyperlink{eigenMatrices_8h_ac54b83793bde6df4d513f6ab9da32f8e}{rot\+Matrix}}}]{re }\end{DoxyParamCaption})}
+
+
+
+Inverse Kinematics of the U\+R5 robot. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em pe} & cartesian position of the end effecto \\
+\hline
+{\em re} & rotation matrix of the end effector \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Matrix$<$double, 8, 6$>$ 8 possible solutions for the joint angles 
+\end{DoxyReturn}

@@ -3,62 +3,156 @@
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\Hypertarget{classinverse__kinematics_1_1inv__kinematics__pinocchio_1_1robotKinematics_a661f0332c0f8cf55a5c2dcabaa0c5529}\label{classinverse__kinematics_1_1inv__kinematics__pinocchio_1_1robotKinematics_a661f0332c0f8cf55a5c2dcabaa0c5529}} 
-def {\bfseries \+\_\+\+\_\+init\+\_\+\+\_\+} (self, robot, ee\+\_\+frames)
+def \mbox{\hyperlink{classinverse__kinematics_1_1inv__kinematics__pinocchio_1_1robotKinematics_a661f0332c0f8cf55a5c2dcabaa0c5529}{\+\_\+\+\_\+init\+\_\+\+\_\+}} (self, \mbox{\hyperlink{classinverse__kinematics_1_1inv__kinematics__pinocchio_1_1robotKinematics_ab272100d61c0b72489dc0590ead04752}{robot}}, ee\+\_\+frames)
 \item 
-\mbox{\Hypertarget{classinverse__kinematics_1_1inv__kinematics__pinocchio_1_1robotKinematics_ad5d590d60d2c9671a62228da2dba4c48}\label{classinverse__kinematics_1_1inv__kinematics__pinocchio_1_1robotKinematics_ad5d590d60d2c9671a62228da2dba4c48}} 
-def {\bfseries get\+Block\+Index} (self, frame\+\_\+name)
+def \mbox{\hyperlink{classinverse__kinematics_1_1inv__kinematics__pinocchio_1_1robotKinematics_ad5d590d60d2c9671a62228da2dba4c48}{get\+Block\+Index}} (self, frame\+\_\+name)
 \item 
-\mbox{\Hypertarget{classinverse__kinematics_1_1inv__kinematics__pinocchio_1_1robotKinematics_a15fdffbac3f33fe931140ce3f122fbce}\label{classinverse__kinematics_1_1inv__kinematics__pinocchio_1_1robotKinematics_a15fdffbac3f33fe931140ce3f122fbce}} 
-def {\bfseries compute\+Foot\+Forward\+Kinematics} (self, q\+\_\+leg, frame\+\_\+name)
+def \mbox{\hyperlink{classinverse__kinematics_1_1inv__kinematics__pinocchio_1_1robotKinematics_a15fdffbac3f33fe931140ce3f122fbce}{compute\+Foot\+Forward\+Kinematics}} (self, q\+\_\+leg, frame\+\_\+name)
 \item 
-\mbox{\Hypertarget{classinverse__kinematics_1_1inv__kinematics__pinocchio_1_1robotKinematics_a603088b2c5ae34114c69d631d1aeab2e}\label{classinverse__kinematics_1_1inv__kinematics__pinocchio_1_1robotKinematics_a603088b2c5ae34114c69d631d1aeab2e}} 
-def {\bfseries compute\+Foot\+Jacobian} (self, q\+\_\+leg, frame\+\_\+name)
+def \mbox{\hyperlink{classinverse__kinematics_1_1inv__kinematics__pinocchio_1_1robotKinematics_a603088b2c5ae34114c69d631d1aeab2e}{compute\+Foot\+Jacobian}} (self, q\+\_\+leg, frame\+\_\+name)
 \item 
-\mbox{\Hypertarget{classinverse__kinematics_1_1inv__kinematics__pinocchio_1_1robotKinematics_a053faede9376345971d05f7f5f8ba3e0}\label{classinverse__kinematics_1_1inv__kinematics__pinocchio_1_1robotKinematics_a053faede9376345971d05f7f5f8ba3e0}} 
-def {\bfseries foot\+Inverse\+Kinematics\+Fixed\+Base\+Line\+Search} (self, foot\+\_\+pos\+\_\+des, frame\+\_\+name, q0\+\_\+leg=np.\+zeros(3), verbose=False)
+def \mbox{\hyperlink{classinverse__kinematics_1_1inv__kinematics__pinocchio_1_1robotKinematics_a053faede9376345971d05f7f5f8ba3e0}{foot\+Inverse\+Kinematics\+Fixed\+Base\+Line\+Search}} (self, foot\+\_\+pos\+\_\+des, frame\+\_\+name, q0\+\_\+leg=np.\+zeros(3), verbose=False)
 \item 
-\mbox{\Hypertarget{classinverse__kinematics_1_1inv__kinematics__pinocchio_1_1robotKinematics_a800574c0aef11a4f9be18218a392ccb8}\label{classinverse__kinematics_1_1inv__kinematics__pinocchio_1_1robotKinematics_a800574c0aef11a4f9be18218a392ccb8}} 
-def {\bfseries endeffector\+Inverse\+Kinematics\+Line\+Search} (self, ee\+\_\+pos\+\_\+des, frame\+\_\+name, q0=np.\+zeros(6), verbose=False, use\+\_\+error\+\_\+as\+\_\+termination\+\_\+criteria=False, postural\+\_\+task=True, w\+\_\+postural=0.\+001, q\+\_\+postural=np.\+zeros(6), wrap=False)
+def \mbox{\hyperlink{classinverse__kinematics_1_1inv__kinematics__pinocchio_1_1robotKinematics_a800574c0aef11a4f9be18218a392ccb8}{endeffector\+Inverse\+Kinematics\+Line\+Search}} (self, ee\+\_\+pos\+\_\+des, frame\+\_\+name, q0=np.\+zeros(6), verbose=False, use\+\_\+error\+\_\+as\+\_\+termination\+\_\+criteria=False, postural\+\_\+task=True, w\+\_\+postural=0.\+001, q\+\_\+postural=np.\+zeros(6), wrap=False)
 \item 
-\mbox{\Hypertarget{classinverse__kinematics_1_1inv__kinematics__pinocchio_1_1robotKinematics_acbf9d54ed06ee679a944b9733988fddd}\label{classinverse__kinematics_1_1inv__kinematics__pinocchio_1_1robotKinematics_acbf9d54ed06ee679a944b9733988fddd}} 
-def {\bfseries error\+In\+S\+O3} (self, R\+\_\+e, R\+\_\+e\+\_\+des)
+def \mbox{\hyperlink{classinverse__kinematics_1_1inv__kinematics__pinocchio_1_1robotKinematics_acbf9d54ed06ee679a944b9733988fddd}{error\+In\+S\+O3}} (self, R\+\_\+e, R\+\_\+e\+\_\+des)
 \item 
-\mbox{\Hypertarget{classinverse__kinematics_1_1inv__kinematics__pinocchio_1_1robotKinematics_a3721bc30f59ff28777f403841de18ea6}\label{classinverse__kinematics_1_1inv__kinematics__pinocchio_1_1robotKinematics_a3721bc30f59ff28777f403841de18ea6}} 
-def {\bfseries endeffector\+Frame\+Inverse\+Kinematics\+Line\+Search} (self, ee\+\_\+pos\+\_\+des, w\+\_\+\+R\+\_\+e\+\_\+des, frame\+\_\+name, q0=np.\+zeros(6), verbose=False, wrap=False)
+def \mbox{\hyperlink{classinverse__kinematics_1_1inv__kinematics__pinocchio_1_1robotKinematics_a3721bc30f59ff28777f403841de18ea6}{endeffector\+Frame\+Inverse\+Kinematics\+Line\+Search}} (self, ee\+\_\+pos\+\_\+des, w\+\_\+\+R\+\_\+e\+\_\+des, frame\+\_\+name, q0=np.\+zeros(6), verbose=False, wrap=False)
 \item 
-\mbox{\Hypertarget{classinverse__kinematics_1_1inv__kinematics__pinocchio_1_1robotKinematics_a68462b717b11895e7aa384e346696977}\label{classinverse__kinematics_1_1inv__kinematics__pinocchio_1_1robotKinematics_a68462b717b11895e7aa384e346696977}} 
-def {\bfseries legged\+Robot\+Inverse\+Kinematics} (self, feet\+Pos\+Des, q0, verbose=False)
+def \mbox{\hyperlink{classinverse__kinematics_1_1inv__kinematics__pinocchio_1_1robotKinematics_a68462b717b11895e7aa384e346696977}{legged\+Robot\+Inverse\+Kinematics}} (self, feet\+Pos\+Des, q0, verbose=False)
 \item 
-\mbox{\Hypertarget{classinverse__kinematics_1_1inv__kinematics__pinocchio_1_1robotKinematics_a9324fdd5d8c89abe32851bdadd05c76c}\label{classinverse__kinematics_1_1inv__kinematics__pinocchio_1_1robotKinematics_a9324fdd5d8c89abe32851bdadd05c76c}} 
-def {\bfseries is\+Out\+Of\+Joint\+Lims} (self, joint\+\_\+positions, joint\+\_\+limits\+\_\+max, joint\+\_\+limits\+\_\+min)
+def \mbox{\hyperlink{classinverse__kinematics_1_1inv__kinematics__pinocchio_1_1robotKinematics_a9324fdd5d8c89abe32851bdadd05c76c}{is\+Out\+Of\+Joint\+Lims}} (self, joint\+\_\+positions, joint\+\_\+limits\+\_\+max, joint\+\_\+limits\+\_\+min)
 \item 
-\mbox{\Hypertarget{classinverse__kinematics_1_1inv__kinematics__pinocchio_1_1robotKinematics_a1cd6ba897dfc2d22fcc8a771d47f915a}\label{classinverse__kinematics_1_1inv__kinematics__pinocchio_1_1robotKinematics_a1cd6ba897dfc2d22fcc8a771d47f915a}} 
-def {\bfseries is\+Out\+Of\+Work\+Space} (self, contacts\+B\+F\+\_\+check, joint\+\_\+limits\+\_\+max, joint\+\_\+limits\+\_\+min, stance\+\_\+index, foot\+\_\+vel)
+def \mbox{\hyperlink{classinverse__kinematics_1_1inv__kinematics__pinocchio_1_1robotKinematics_a1cd6ba897dfc2d22fcc8a771d47f915a}{is\+Out\+Of\+Work\+Space}} (self, contacts\+B\+F\+\_\+check, joint\+\_\+limits\+\_\+max, joint\+\_\+limits\+\_\+min, stance\+\_\+index, foot\+\_\+vel)
 \item 
-\mbox{\Hypertarget{classinverse__kinematics_1_1inv__kinematics__pinocchio_1_1robotKinematics_a3e73a47e48dea62d7d1999bd6d04463a}\label{classinverse__kinematics_1_1inv__kinematics__pinocchio_1_1robotKinematics_a3e73a47e48dea62d7d1999bd6d04463a}} 
-def {\bfseries inv\+Kin\+Foot} (self, ee\+\_\+pos\+\_\+des\+\_\+\+BF, frame\+\_\+name, q0\+\_\+leg=np.\+zeros(3), verbose=False)
+def \mbox{\hyperlink{classinverse__kinematics_1_1inv__kinematics__pinocchio_1_1robotKinematics_a3e73a47e48dea62d7d1999bd6d04463a}{inv\+Kin\+Foot}} (self, ee\+\_\+pos\+\_\+des\+\_\+\+BF, frame\+\_\+name, q0\+\_\+leg=np.\+zeros(3), verbose=False)
 \end{DoxyCompactItemize}
 \doxysubsection*{Public Attributes}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\Hypertarget{classinverse__kinematics_1_1inv__kinematics__pinocchio_1_1robotKinematics_a370c65c9fd7b61c30de267f81055d8c8}\label{classinverse__kinematics_1_1inv__kinematics__pinocchio_1_1robotKinematics_a370c65c9fd7b61c30de267f81055d8c8}} 
-{\bfseries u}
+\mbox{\hyperlink{classinverse__kinematics_1_1inv__kinematics__pinocchio_1_1robotKinematics_a370c65c9fd7b61c30de267f81055d8c8}{u}}
 \item 
-\mbox{\Hypertarget{classinverse__kinematics_1_1inv__kinematics__pinocchio_1_1robotKinematics_ab272100d61c0b72489dc0590ead04752}\label{classinverse__kinematics_1_1inv__kinematics__pinocchio_1_1robotKinematics_ab272100d61c0b72489dc0590ead04752}} 
-{\bfseries robot}
+\mbox{\hyperlink{classinverse__kinematics_1_1inv__kinematics__pinocchio_1_1robotKinematics_ab272100d61c0b72489dc0590ead04752}{robot}}
 \item 
-\mbox{\Hypertarget{classinverse__kinematics_1_1inv__kinematics__pinocchio_1_1robotKinematics_ae8a418714f9cb7d69c0ff6efb4bab3eb}\label{classinverse__kinematics_1_1inv__kinematics__pinocchio_1_1robotKinematics_ae8a418714f9cb7d69c0ff6efb4bab3eb}} 
-{\bfseries ik\+\_\+success}
+\mbox{\hyperlink{classinverse__kinematics_1_1inv__kinematics__pinocchio_1_1robotKinematics_ae8a418714f9cb7d69c0ff6efb4bab3eb}{ik\+\_\+success}}
 \item 
-\mbox{\Hypertarget{classinverse__kinematics_1_1inv__kinematics__pinocchio_1_1robotKinematics_a8140c9ba8936d5f79a502ada61a29b14}\label{classinverse__kinematics_1_1inv__kinematics__pinocchio_1_1robotKinematics_a8140c9ba8936d5f79a502ada61a29b14}} 
-{\bfseries urdf\+\_\+feet\+\_\+names}
+\mbox{\hyperlink{classinverse__kinematics_1_1inv__kinematics__pinocchio_1_1robotKinematics_a8140c9ba8936d5f79a502ada61a29b14}{urdf\+\_\+feet\+\_\+names}}
 \item 
-\mbox{\Hypertarget{classinverse__kinematics_1_1inv__kinematics__pinocchio_1_1robotKinematics_ac35756177a7c9184e0ff6abe8de0f2e2}\label{classinverse__kinematics_1_1inv__kinematics__pinocchio_1_1robotKinematics_ac35756177a7c9184e0ff6abe8de0f2e2}} 
-{\bfseries urdf\+\_\+feet\+\_\+names\+\_\+pinocchio}
+\mbox{\hyperlink{classinverse__kinematics_1_1inv__kinematics__pinocchio_1_1robotKinematics_ac35756177a7c9184e0ff6abe8de0f2e2}{urdf\+\_\+feet\+\_\+names\+\_\+pinocchio}}
 \end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classinverse__kinematics_1_1inv__kinematics__pinocchio_1_1robotKinematics_a661f0332c0f8cf55a5c2dcabaa0c5529}\label{classinverse__kinematics_1_1inv__kinematics__pinocchio_1_1robotKinematics_a661f0332c0f8cf55a5c2dcabaa0c5529}} 
+\index{inverse\_kinematics.inv\_kinematics\_pinocchio.robotKinematics@{inverse\_kinematics.inv\_kinematics\_pinocchio.robotKinematics}!\_\_init\_\_@{\_\_init\_\_}}
+\index{\_\_init\_\_@{\_\_init\_\_}!inverse\_kinematics.inv\_kinematics\_pinocchio.robotKinematics@{inverse\_kinematics.inv\_kinematics\_pinocchio.robotKinematics}}
+\doxysubsubsection{\texorpdfstring{\_\_init\_\_()}{\_\_init\_\_()}}
+{\footnotesize\ttfamily def inverse\+\_\+kinematics.\+inv\+\_\+kinematics\+\_\+pinocchio.\+robot\+Kinematics.\+\_\+\+\_\+init\+\_\+\+\_\+ (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{robot,  }\item[{}]{ee\+\_\+frames }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classinverse__kinematics_1_1inv__kinematics__pinocchio_1_1robotKinematics_a15fdffbac3f33fe931140ce3f122fbce}\label{classinverse__kinematics_1_1inv__kinematics__pinocchio_1_1robotKinematics_a15fdffbac3f33fe931140ce3f122fbce}} 
+\index{inverse\_kinematics.inv\_kinematics\_pinocchio.robotKinematics@{inverse\_kinematics.inv\_kinematics\_pinocchio.robotKinematics}!computeFootForwardKinematics@{computeFootForwardKinematics}}
+\index{computeFootForwardKinematics@{computeFootForwardKinematics}!inverse\_kinematics.inv\_kinematics\_pinocchio.robotKinematics@{inverse\_kinematics.inv\_kinematics\_pinocchio.robotKinematics}}
+\doxysubsubsection{\texorpdfstring{computeFootForwardKinematics()}{computeFootForwardKinematics()}}
+{\footnotesize\ttfamily def inverse\+\_\+kinematics.\+inv\+\_\+kinematics\+\_\+pinocchio.\+robot\+Kinematics.\+compute\+Foot\+Forward\+Kinematics (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{q\+\_\+leg,  }\item[{}]{frame\+\_\+name }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classinverse__kinematics_1_1inv__kinematics__pinocchio_1_1robotKinematics_a603088b2c5ae34114c69d631d1aeab2e}\label{classinverse__kinematics_1_1inv__kinematics__pinocchio_1_1robotKinematics_a603088b2c5ae34114c69d631d1aeab2e}} 
+\index{inverse\_kinematics.inv\_kinematics\_pinocchio.robotKinematics@{inverse\_kinematics.inv\_kinematics\_pinocchio.robotKinematics}!computeFootJacobian@{computeFootJacobian}}
+\index{computeFootJacobian@{computeFootJacobian}!inverse\_kinematics.inv\_kinematics\_pinocchio.robotKinematics@{inverse\_kinematics.inv\_kinematics\_pinocchio.robotKinematics}}
+\doxysubsubsection{\texorpdfstring{computeFootJacobian()}{computeFootJacobian()}}
+{\footnotesize\ttfamily def inverse\+\_\+kinematics.\+inv\+\_\+kinematics\+\_\+pinocchio.\+robot\+Kinematics.\+compute\+Foot\+Jacobian (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{q\+\_\+leg,  }\item[{}]{frame\+\_\+name }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classinverse__kinematics_1_1inv__kinematics__pinocchio_1_1robotKinematics_a3721bc30f59ff28777f403841de18ea6}\label{classinverse__kinematics_1_1inv__kinematics__pinocchio_1_1robotKinematics_a3721bc30f59ff28777f403841de18ea6}} 
+\index{inverse\_kinematics.inv\_kinematics\_pinocchio.robotKinematics@{inverse\_kinematics.inv\_kinematics\_pinocchio.robotKinematics}!endeffectorFrameInverseKinematicsLineSearch@{endeffectorFrameInverseKinematicsLineSearch}}
+\index{endeffectorFrameInverseKinematicsLineSearch@{endeffectorFrameInverseKinematicsLineSearch}!inverse\_kinematics.inv\_kinematics\_pinocchio.robotKinematics@{inverse\_kinematics.inv\_kinematics\_pinocchio.robotKinematics}}
+\doxysubsubsection{\texorpdfstring{endeffectorFrameInverseKinematicsLineSearch()}{endeffectorFrameInverseKinematicsLineSearch()}}
+{\footnotesize\ttfamily def inverse\+\_\+kinematics.\+inv\+\_\+kinematics\+\_\+pinocchio.\+robot\+Kinematics.\+endeffector\+Frame\+Inverse\+Kinematics\+Line\+Search (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{ee\+\_\+pos\+\_\+des,  }\item[{}]{w\+\_\+\+R\+\_\+e\+\_\+des,  }\item[{}]{frame\+\_\+name,  }\item[{}]{q0 = {\ttfamily np.zeros(6)},  }\item[{}]{verbose = {\ttfamily False},  }\item[{}]{wrap = {\ttfamily False} }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classinverse__kinematics_1_1inv__kinematics__pinocchio_1_1robotKinematics_a800574c0aef11a4f9be18218a392ccb8}\label{classinverse__kinematics_1_1inv__kinematics__pinocchio_1_1robotKinematics_a800574c0aef11a4f9be18218a392ccb8}} 
+\index{inverse\_kinematics.inv\_kinematics\_pinocchio.robotKinematics@{inverse\_kinematics.inv\_kinematics\_pinocchio.robotKinematics}!endeffectorInverseKinematicsLineSearch@{endeffectorInverseKinematicsLineSearch}}
+\index{endeffectorInverseKinematicsLineSearch@{endeffectorInverseKinematicsLineSearch}!inverse\_kinematics.inv\_kinematics\_pinocchio.robotKinematics@{inverse\_kinematics.inv\_kinematics\_pinocchio.robotKinematics}}
+\doxysubsubsection{\texorpdfstring{endeffectorInverseKinematicsLineSearch()}{endeffectorInverseKinematicsLineSearch()}}
+{\footnotesize\ttfamily def inverse\+\_\+kinematics.\+inv\+\_\+kinematics\+\_\+pinocchio.\+robot\+Kinematics.\+endeffector\+Inverse\+Kinematics\+Line\+Search (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{ee\+\_\+pos\+\_\+des,  }\item[{}]{frame\+\_\+name,  }\item[{}]{q0 = {\ttfamily np.zeros(6)},  }\item[{}]{verbose = {\ttfamily False},  }\item[{}]{use\+\_\+error\+\_\+as\+\_\+termination\+\_\+criteria = {\ttfamily False},  }\item[{}]{postural\+\_\+task = {\ttfamily True},  }\item[{}]{w\+\_\+postural = {\ttfamily 0.001},  }\item[{}]{q\+\_\+postural = {\ttfamily np.zeros(6)},  }\item[{}]{wrap = {\ttfamily False} }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classinverse__kinematics_1_1inv__kinematics__pinocchio_1_1robotKinematics_acbf9d54ed06ee679a944b9733988fddd}\label{classinverse__kinematics_1_1inv__kinematics__pinocchio_1_1robotKinematics_acbf9d54ed06ee679a944b9733988fddd}} 
+\index{inverse\_kinematics.inv\_kinematics\_pinocchio.robotKinematics@{inverse\_kinematics.inv\_kinematics\_pinocchio.robotKinematics}!errorInSO3@{errorInSO3}}
+\index{errorInSO3@{errorInSO3}!inverse\_kinematics.inv\_kinematics\_pinocchio.robotKinematics@{inverse\_kinematics.inv\_kinematics\_pinocchio.robotKinematics}}
+\doxysubsubsection{\texorpdfstring{errorInSO3()}{errorInSO3()}}
+{\footnotesize\ttfamily def inverse\+\_\+kinematics.\+inv\+\_\+kinematics\+\_\+pinocchio.\+robot\+Kinematics.\+error\+In\+S\+O3 (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{R\+\_\+e,  }\item[{}]{R\+\_\+e\+\_\+des }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classinverse__kinematics_1_1inv__kinematics__pinocchio_1_1robotKinematics_a053faede9376345971d05f7f5f8ba3e0}\label{classinverse__kinematics_1_1inv__kinematics__pinocchio_1_1robotKinematics_a053faede9376345971d05f7f5f8ba3e0}} 
+\index{inverse\_kinematics.inv\_kinematics\_pinocchio.robotKinematics@{inverse\_kinematics.inv\_kinematics\_pinocchio.robotKinematics}!footInverseKinematicsFixedBaseLineSearch@{footInverseKinematicsFixedBaseLineSearch}}
+\index{footInverseKinematicsFixedBaseLineSearch@{footInverseKinematicsFixedBaseLineSearch}!inverse\_kinematics.inv\_kinematics\_pinocchio.robotKinematics@{inverse\_kinematics.inv\_kinematics\_pinocchio.robotKinematics}}
+\doxysubsubsection{\texorpdfstring{footInverseKinematicsFixedBaseLineSearch()}{footInverseKinematicsFixedBaseLineSearch()}}
+{\footnotesize\ttfamily def inverse\+\_\+kinematics.\+inv\+\_\+kinematics\+\_\+pinocchio.\+robot\+Kinematics.\+foot\+Inverse\+Kinematics\+Fixed\+Base\+Line\+Search (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{foot\+\_\+pos\+\_\+des,  }\item[{}]{frame\+\_\+name,  }\item[{}]{q0\+\_\+leg = {\ttfamily np.zeros(3)},  }\item[{}]{verbose = {\ttfamily False} }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classinverse__kinematics_1_1inv__kinematics__pinocchio_1_1robotKinematics_ad5d590d60d2c9671a62228da2dba4c48}\label{classinverse__kinematics_1_1inv__kinematics__pinocchio_1_1robotKinematics_ad5d590d60d2c9671a62228da2dba4c48}} 
+\index{inverse\_kinematics.inv\_kinematics\_pinocchio.robotKinematics@{inverse\_kinematics.inv\_kinematics\_pinocchio.robotKinematics}!getBlockIndex@{getBlockIndex}}
+\index{getBlockIndex@{getBlockIndex}!inverse\_kinematics.inv\_kinematics\_pinocchio.robotKinematics@{inverse\_kinematics.inv\_kinematics\_pinocchio.robotKinematics}}
+\doxysubsubsection{\texorpdfstring{getBlockIndex()}{getBlockIndex()}}
+{\footnotesize\ttfamily def inverse\+\_\+kinematics.\+inv\+\_\+kinematics\+\_\+pinocchio.\+robot\+Kinematics.\+get\+Block\+Index (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{frame\+\_\+name }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classinverse__kinematics_1_1inv__kinematics__pinocchio_1_1robotKinematics_a3e73a47e48dea62d7d1999bd6d04463a}\label{classinverse__kinematics_1_1inv__kinematics__pinocchio_1_1robotKinematics_a3e73a47e48dea62d7d1999bd6d04463a}} 
+\index{inverse\_kinematics.inv\_kinematics\_pinocchio.robotKinematics@{inverse\_kinematics.inv\_kinematics\_pinocchio.robotKinematics}!invKinFoot@{invKinFoot}}
+\index{invKinFoot@{invKinFoot}!inverse\_kinematics.inv\_kinematics\_pinocchio.robotKinematics@{inverse\_kinematics.inv\_kinematics\_pinocchio.robotKinematics}}
+\doxysubsubsection{\texorpdfstring{invKinFoot()}{invKinFoot()}}
+{\footnotesize\ttfamily def inverse\+\_\+kinematics.\+inv\+\_\+kinematics\+\_\+pinocchio.\+robot\+Kinematics.\+inv\+Kin\+Foot (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{ee\+\_\+pos\+\_\+des\+\_\+\+BF,  }\item[{}]{frame\+\_\+name,  }\item[{}]{q0\+\_\+leg = {\ttfamily np.zeros(3)},  }\item[{}]{verbose = {\ttfamily False} }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classinverse__kinematics_1_1inv__kinematics__pinocchio_1_1robotKinematics_a9324fdd5d8c89abe32851bdadd05c76c}\label{classinverse__kinematics_1_1inv__kinematics__pinocchio_1_1robotKinematics_a9324fdd5d8c89abe32851bdadd05c76c}} 
+\index{inverse\_kinematics.inv\_kinematics\_pinocchio.robotKinematics@{inverse\_kinematics.inv\_kinematics\_pinocchio.robotKinematics}!isOutOfJointLims@{isOutOfJointLims}}
+\index{isOutOfJointLims@{isOutOfJointLims}!inverse\_kinematics.inv\_kinematics\_pinocchio.robotKinematics@{inverse\_kinematics.inv\_kinematics\_pinocchio.robotKinematics}}
+\doxysubsubsection{\texorpdfstring{isOutOfJointLims()}{isOutOfJointLims()}}
+{\footnotesize\ttfamily def inverse\+\_\+kinematics.\+inv\+\_\+kinematics\+\_\+pinocchio.\+robot\+Kinematics.\+is\+Out\+Of\+Joint\+Lims (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{joint\+\_\+positions,  }\item[{}]{joint\+\_\+limits\+\_\+max,  }\item[{}]{joint\+\_\+limits\+\_\+min }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classinverse__kinematics_1_1inv__kinematics__pinocchio_1_1robotKinematics_a1cd6ba897dfc2d22fcc8a771d47f915a}\label{classinverse__kinematics_1_1inv__kinematics__pinocchio_1_1robotKinematics_a1cd6ba897dfc2d22fcc8a771d47f915a}} 
+\index{inverse\_kinematics.inv\_kinematics\_pinocchio.robotKinematics@{inverse\_kinematics.inv\_kinematics\_pinocchio.robotKinematics}!isOutOfWorkSpace@{isOutOfWorkSpace}}
+\index{isOutOfWorkSpace@{isOutOfWorkSpace}!inverse\_kinematics.inv\_kinematics\_pinocchio.robotKinematics@{inverse\_kinematics.inv\_kinematics\_pinocchio.robotKinematics}}
+\doxysubsubsection{\texorpdfstring{isOutOfWorkSpace()}{isOutOfWorkSpace()}}
+{\footnotesize\ttfamily def inverse\+\_\+kinematics.\+inv\+\_\+kinematics\+\_\+pinocchio.\+robot\+Kinematics.\+is\+Out\+Of\+Work\+Space (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{contacts\+B\+F\+\_\+check,  }\item[{}]{joint\+\_\+limits\+\_\+max,  }\item[{}]{joint\+\_\+limits\+\_\+min,  }\item[{}]{stance\+\_\+index,  }\item[{}]{foot\+\_\+vel }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{classinverse__kinematics_1_1inv__kinematics__pinocchio_1_1robotKinematics_a68462b717b11895e7aa384e346696977}\label{classinverse__kinematics_1_1inv__kinematics__pinocchio_1_1robotKinematics_a68462b717b11895e7aa384e346696977}} 
+\index{inverse\_kinematics.inv\_kinematics\_pinocchio.robotKinematics@{inverse\_kinematics.inv\_kinematics\_pinocchio.robotKinematics}!leggedRobotInverseKinematics@{leggedRobotInverseKinematics}}
+\index{leggedRobotInverseKinematics@{leggedRobotInverseKinematics}!inverse\_kinematics.inv\_kinematics\_pinocchio.robotKinematics@{inverse\_kinematics.inv\_kinematics\_pinocchio.robotKinematics}}
+\doxysubsubsection{\texorpdfstring{leggedRobotInverseKinematics()}{leggedRobotInverseKinematics()}}
+{\footnotesize\ttfamily def inverse\+\_\+kinematics.\+inv\+\_\+kinematics\+\_\+pinocchio.\+robot\+Kinematics.\+legged\+Robot\+Inverse\+Kinematics (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{feet\+Pos\+Des,  }\item[{}]{q0,  }\item[{}]{verbose = {\ttfamily False} }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classinverse__kinematics_1_1inv__kinematics__pinocchio_1_1robotKinematics_ae8a418714f9cb7d69c0ff6efb4bab3eb}\label{classinverse__kinematics_1_1inv__kinematics__pinocchio_1_1robotKinematics_ae8a418714f9cb7d69c0ff6efb4bab3eb}} 
+\index{inverse\_kinematics.inv\_kinematics\_pinocchio.robotKinematics@{inverse\_kinematics.inv\_kinematics\_pinocchio.robotKinematics}!ik\_success@{ik\_success}}
+\index{ik\_success@{ik\_success}!inverse\_kinematics.inv\_kinematics\_pinocchio.robotKinematics@{inverse\_kinematics.inv\_kinematics\_pinocchio.robotKinematics}}
+\doxysubsubsection{\texorpdfstring{ik\_success}{ik\_success}}
+{\footnotesize\ttfamily inverse\+\_\+kinematics.\+inv\+\_\+kinematics\+\_\+pinocchio.\+robot\+Kinematics.\+ik\+\_\+success}
+
+\mbox{\Hypertarget{classinverse__kinematics_1_1inv__kinematics__pinocchio_1_1robotKinematics_ab272100d61c0b72489dc0590ead04752}\label{classinverse__kinematics_1_1inv__kinematics__pinocchio_1_1robotKinematics_ab272100d61c0b72489dc0590ead04752}} 
+\index{inverse\_kinematics.inv\_kinematics\_pinocchio.robotKinematics@{inverse\_kinematics.inv\_kinematics\_pinocchio.robotKinematics}!robot@{robot}}
+\index{robot@{robot}!inverse\_kinematics.inv\_kinematics\_pinocchio.robotKinematics@{inverse\_kinematics.inv\_kinematics\_pinocchio.robotKinematics}}
+\doxysubsubsection{\texorpdfstring{robot}{robot}}
+{\footnotesize\ttfamily inverse\+\_\+kinematics.\+inv\+\_\+kinematics\+\_\+pinocchio.\+robot\+Kinematics.\+robot}
+
+\mbox{\Hypertarget{classinverse__kinematics_1_1inv__kinematics__pinocchio_1_1robotKinematics_a370c65c9fd7b61c30de267f81055d8c8}\label{classinverse__kinematics_1_1inv__kinematics__pinocchio_1_1robotKinematics_a370c65c9fd7b61c30de267f81055d8c8}} 
+\index{inverse\_kinematics.inv\_kinematics\_pinocchio.robotKinematics@{inverse\_kinematics.inv\_kinematics\_pinocchio.robotKinematics}!u@{u}}
+\index{u@{u}!inverse\_kinematics.inv\_kinematics\_pinocchio.robotKinematics@{inverse\_kinematics.inv\_kinematics\_pinocchio.robotKinematics}}
+\doxysubsubsection{\texorpdfstring{u}{u}}
+{\footnotesize\ttfamily inverse\+\_\+kinematics.\+inv\+\_\+kinematics\+\_\+pinocchio.\+robot\+Kinematics.\+u}
+
+\mbox{\Hypertarget{classinverse__kinematics_1_1inv__kinematics__pinocchio_1_1robotKinematics_a8140c9ba8936d5f79a502ada61a29b14}\label{classinverse__kinematics_1_1inv__kinematics__pinocchio_1_1robotKinematics_a8140c9ba8936d5f79a502ada61a29b14}} 
+\index{inverse\_kinematics.inv\_kinematics\_pinocchio.robotKinematics@{inverse\_kinematics.inv\_kinematics\_pinocchio.robotKinematics}!urdf\_feet\_names@{urdf\_feet\_names}}
+\index{urdf\_feet\_names@{urdf\_feet\_names}!inverse\_kinematics.inv\_kinematics\_pinocchio.robotKinematics@{inverse\_kinematics.inv\_kinematics\_pinocchio.robotKinematics}}
+\doxysubsubsection{\texorpdfstring{urdf\_feet\_names}{urdf\_feet\_names}}
+{\footnotesize\ttfamily inverse\+\_\+kinematics.\+inv\+\_\+kinematics\+\_\+pinocchio.\+robot\+Kinematics.\+urdf\+\_\+feet\+\_\+names}
+
+\mbox{\Hypertarget{classinverse__kinematics_1_1inv__kinematics__pinocchio_1_1robotKinematics_ac35756177a7c9184e0ff6abe8de0f2e2}\label{classinverse__kinematics_1_1inv__kinematics__pinocchio_1_1robotKinematics_ac35756177a7c9184e0ff6abe8de0f2e2}} 
+\index{inverse\_kinematics.inv\_kinematics\_pinocchio.robotKinematics@{inverse\_kinematics.inv\_kinematics\_pinocchio.robotKinematics}!urdf\_feet\_names\_pinocchio@{urdf\_feet\_names\_pinocchio}}
+\index{urdf\_feet\_names\_pinocchio@{urdf\_feet\_names\_pinocchio}!inverse\_kinematics.inv\_kinematics\_pinocchio.robotKinematics@{inverse\_kinematics.inv\_kinematics\_pinocchio.robotKinematics}}
+\doxysubsubsection{\texorpdfstring{urdf\_feet\_names\_pinocchio}{urdf\_feet\_names\_pinocchio}}
+{\footnotesize\ttfamily inverse\+\_\+kinematics.\+inv\+\_\+kinematics\+\_\+pinocchio.\+robot\+Kinematics.\+urdf\+\_\+feet\+\_\+names\+\_\+pinocchio}
+
 
 
 The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 
-components/inverse\+\_\+kinematics/inv\+\_\+kinematics\+\_\+pinocchio.\+py\end{DoxyCompactItemize}
+components/inverse\+\_\+kinematics/\mbox{\hyperlink{inv__kinematics__pinocchio_8py}{inv\+\_\+kinematics\+\_\+pinocchio.\+py}}\end{DoxyCompactItemize}

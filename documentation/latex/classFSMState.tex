@@ -2,6 +2,10 @@
 \label{classFSMState}\index{FSMState@{FSMState}}
 
 
+{\ttfamily \#include $<$F\+S\+M\+State.\+h$>$}
+
+
+
 Inheritance diagram for F\+S\+M\+State\+:
 \nopagebreak
 \begin{figure}[H]
@@ -13,17 +17,58 @@ Inheritance diagram for F\+S\+M\+State\+:
 \doxysubsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\mbox{\Hypertarget{classFSMState_a612b1cfc6f365bd993d0a3a0027a5c6e}\label{classFSMState_a612b1cfc6f365bd993d0a3a0027a5c6e}} 
-virtual void {\bfseries enter} (\mbox{\hyperlink{classFSM}{F\+SM}} $\ast$fsm)=0
+virtual void \mbox{\hyperlink{classFSMState_a612b1cfc6f365bd993d0a3a0027a5c6e}{enter}} (\mbox{\hyperlink{classFSM}{F\+SM}} $\ast$fsm)=0
 \item 
-\mbox{\Hypertarget{classFSMState_a6471748e6bc52e263cec4f5994687e28}\label{classFSMState_a6471748e6bc52e263cec4f5994687e28}} 
-virtual void {\bfseries toggle} (\mbox{\hyperlink{classFSM}{F\+SM}} $\ast$fsm)=0
+virtual void \mbox{\hyperlink{classFSMState_a6471748e6bc52e263cec4f5994687e28}{toggle}} (\mbox{\hyperlink{classFSM}{F\+SM}} $\ast$fsm)=0
 \item 
-\mbox{\Hypertarget{classFSMState_a4113e969a6d0af12361bab1787bd9e82}\label{classFSMState_a4113e969a6d0af12361bab1787bd9e82}} 
-virtual void {\bfseries exit} (\mbox{\hyperlink{classFSM}{F\+SM}} $\ast$fsm)=0
+virtual void \mbox{\hyperlink{classFSMState_a4113e969a6d0af12361bab1787bd9e82}{exit}} (\mbox{\hyperlink{classFSM}{F\+SM}} $\ast$fsm)=0
+\item 
+virtual \mbox{\hyperlink{classFSMState_a28aedc4aeea51a4e1c2a200da9041bf5}{$\sim$\+F\+S\+M\+State}} ()
 \end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{classFSMState_a28aedc4aeea51a4e1c2a200da9041bf5}\label{classFSMState_a28aedc4aeea51a4e1c2a200da9041bf5}} 
+\index{FSMState@{FSMState}!````~FSMState@{$\sim$FSMState}}
+\index{````~FSMState@{$\sim$FSMState}!FSMState@{FSMState}}
+\doxysubsubsection{\texorpdfstring{$\sim$FSMState()}{~FSMState()}}
+{\footnotesize\ttfamily virtual F\+S\+M\+State\+::$\sim$\+F\+S\+M\+State (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classFSMState_a612b1cfc6f365bd993d0a3a0027a5c6e}\label{classFSMState_a612b1cfc6f365bd993d0a3a0027a5c6e}} 
+\index{FSMState@{FSMState}!enter@{enter}}
+\index{enter@{enter}!FSMState@{FSMState}}
+\doxysubsubsection{\texorpdfstring{enter()}{enter()}}
+{\footnotesize\ttfamily virtual void F\+S\+M\+State\+::enter (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classFSM}{F\+SM}} $\ast$}]{fsm }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \mbox{\hyperlink{classPlaceDown_ae607b23a894669f2a32a81a1b8fe97d6}{Place\+Down}}, \mbox{\hyperlink{classPickUp_a20fba5606f62ba288ba9c9cf5633e596}{Pick\+Up}}, \mbox{\hyperlink{classMove_a1eb7e755f866a1eeac1440dc284cb435}{Move}}, \mbox{\hyperlink{classInit_aca493c6db26e7e0d110b83afc5aa06b2}{Init}}, \mbox{\hyperlink{classWait_a2662386f7799137f747fa50d3f708ced}{Wait}}, and \mbox{\hyperlink{classSearch_aa809166e7254102ed60eeb1fe7e91c98}{Search}}.
+
+\mbox{\Hypertarget{classFSMState_a4113e969a6d0af12361bab1787bd9e82}\label{classFSMState_a4113e969a6d0af12361bab1787bd9e82}} 
+\index{FSMState@{FSMState}!exit@{exit}}
+\index{exit@{exit}!FSMState@{FSMState}}
+\doxysubsubsection{\texorpdfstring{exit()}{exit()}}
+{\footnotesize\ttfamily virtual void F\+S\+M\+State\+::exit (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classFSM}{F\+SM}} $\ast$}]{fsm }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \mbox{\hyperlink{classPlaceDown_adfde52a283beb3cff92320990be6d172}{Place\+Down}}, \mbox{\hyperlink{classPickUp_a11c488ccaa5b4b30d84a30d99444aa54}{Pick\+Up}}, \mbox{\hyperlink{classMove_a9cd247ae1845edb3da1b4f0e79d282ae}{Move}}, \mbox{\hyperlink{classInit_a1d8c729b6c1ee819d63a29fae98fcd21}{Init}}, \mbox{\hyperlink{classWait_a5b957ffc37570e1f61dd1917e117d22a}{Wait}}, and \mbox{\hyperlink{classSearch_a68a2b8ef3dfe16ced578ee2768726aa3}{Search}}.
+
+\mbox{\Hypertarget{classFSMState_a6471748e6bc52e263cec4f5994687e28}\label{classFSMState_a6471748e6bc52e263cec4f5994687e28}} 
+\index{FSMState@{FSMState}!toggle@{toggle}}
+\index{toggle@{toggle}!FSMState@{FSMState}}
+\doxysubsubsection{\texorpdfstring{toggle()}{toggle()}}
+{\footnotesize\ttfamily virtual void F\+S\+M\+State\+::toggle (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{classFSM}{F\+SM}} $\ast$}]{fsm }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \mbox{\hyperlink{classPlaceDown_a3ac38e683823bf8d55d3d0ac14a44f92}{Place\+Down}}, \mbox{\hyperlink{classPickUp_a94709f91fe761481faa72558b429d76b}{Pick\+Up}}, \mbox{\hyperlink{classMove_afd9ee27c79b61632bb714b7a7837f524}{Move}}, \mbox{\hyperlink{classInit_a95d5caa44dfcda7e87e705ab3b30d106}{Init}}, \mbox{\hyperlink{classWait_a32c63ac66ed4075c08186697c79a2b72}{Wait}}, and \mbox{\hyperlink{classSearch_ab62967f2b2b383ed1ad24d57822b3306}{Search}}.
+
 
 
 The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
 \item 
-cpp/include/F\+S\+M\+State.\+h\end{DoxyCompactItemize}
+cpp/include/\mbox{\hyperlink{FSMState_8h}{F\+S\+M\+State.\+h}}\end{DoxyCompactItemize}

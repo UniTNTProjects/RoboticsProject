@@ -1,0 +1,162 @@
+\hypertarget{namespacedraw__box}{}\doxysection{draw\+\_\+box Namespace Reference}
+\label{namespacedraw__box}\index{draw\_box@{draw\_box}}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \mbox{\hyperlink{namespacedraw__box_ad0761c216b2202552559a58fae4b6169}{plot\+\_\+one\+\_\+box}} (x, image, color=None, label=None, line\+\_\+thickness=None)
+\item 
+def \mbox{\hyperlink{namespacedraw__box_aae30f90c9dbc13c76430eadbca38d220}{draw\+\_\+box\+\_\+on\+\_\+image}} (image\+\_\+name, \mbox{\hyperlink{namespacedraw__box_a6a9e024a7559e19da8dea82a8198ca87}{classes}}, \mbox{\hyperlink{namespacedraw__box_a1a34e14deb22d56c84e36c3e5894db8e}{colors}}, \mbox{\hyperlink{namespacedraw__box_a9246aab37f849e3ae537398896c3a6f4}{label\+\_\+folder}}, \mbox{\hyperlink{namespacedraw__box_a4b92af23e3b0eab0a1f8d9bacccdfd0b}{raw\+\_\+images\+\_\+folder}}, \mbox{\hyperlink{namespacedraw__box_a8013f1da6356a651d64bf6cdc7ebaf22}{save\+\_\+images\+\_\+folder}})
+\item 
+def \mbox{\hyperlink{namespacedraw__box_add2f10251fa8aa35515803790199437d}{make\+\_\+name\+\_\+list}} (\mbox{\hyperlink{namespacedraw__box_a4b92af23e3b0eab0a1f8d9bacccdfd0b}{raw\+\_\+images\+\_\+folder}}, \mbox{\hyperlink{namespacedraw__box_ad67a4127838200a0cd5d903a9946416f}{name\+\_\+list\+\_\+path}})
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+string \mbox{\hyperlink{namespacedraw__box_a9246aab37f849e3ae537398896c3a6f4}{label\+\_\+folder}} = r\char`\"{}./dataset/prova/nobox/labels/\char`\"{}
+\item 
+string \mbox{\hyperlink{namespacedraw__box_a4b92af23e3b0eab0a1f8d9bacccdfd0b}{raw\+\_\+images\+\_\+folder}} = r\char`\"{}./dataset/prova/nobox/images/\char`\"{}
+\item 
+string \mbox{\hyperlink{namespacedraw__box_a8013f1da6356a651d64bf6cdc7ebaf22}{save\+\_\+images\+\_\+folder}} = r\char`\"{}./dataset/prova/box\char`\"{}
+\item 
+string \mbox{\hyperlink{namespacedraw__box_ad67a4127838200a0cd5d903a9946416f}{name\+\_\+list\+\_\+path}} = \char`\"{}./name\+\_\+list.\+txt\char`\"{}
+\item 
+string \mbox{\hyperlink{namespacedraw__box_aded11f243ad1e85cd5197e7f6f132dbb}{classes\+\_\+path}} = \char`\"{}./classes.\+txt\char`\"{}
+\item 
+\mbox{\hyperlink{namespacedraw__box_a18da8389f10385be17a9f20ef5cfbaf3}{file}} = yaml.\+safe\+\_\+load(open(\char`\"{}./dataset/macro\+\_\+block.\+yaml\char`\"{}))
+\item 
+dictionary \mbox{\hyperlink{namespacedraw__box_a4ec2ce514f16dde05da4dfdc6904d316}{class\+\_\+dict}} = \{\}
+\item 
+\mbox{\hyperlink{namespacedraw__box_a6a9e024a7559e19da8dea82a8198ca87}{classes}} = \mbox{\hyperlink{namespacedraw__box_a18da8389f10385be17a9f20ef5cfbaf3}{file}}\mbox{[}\char`\"{}names\char`\"{}\mbox{]}
+\item 
+list \mbox{\hyperlink{namespacedraw__box_a1a34e14deb22d56c84e36c3e5894db8e}{colors}} = \mbox{[}\mbox{[}random.\+randint(0, 255) for \+\_\+ in range(3)\mbox{]} for \+\_\+ in range(len(\mbox{\hyperlink{namespacedraw__box_a6a9e024a7559e19da8dea82a8198ca87}{classes}}))\mbox{]}
+\item 
+\mbox{\hyperlink{namespacedraw__box_afdf2734635c6a5051faefacbb381d70d}{image\+\_\+names}} = open(\mbox{\hyperlink{namespacedraw__box_ad67a4127838200a0cd5d903a9946416f}{name\+\_\+list\+\_\+path}}).read().strip().split()
+\item 
+int \mbox{\hyperlink{namespacedraw__box_a520725dbff7bcb7f7d1945de7b796754}{box\+\_\+total}} = 0
+\item 
+int \mbox{\hyperlink{namespacedraw__box_ac3dd48d3d16900e3ec9d1ae13037c651}{image\+\_\+total}} = 0
+\item 
+def \mbox{\hyperlink{namespacedraw__box_aa3d0225ae2e5e4e203f510f4a81e7053}{box\+\_\+num}}
+\item 
+\mbox{\hyperlink{namespacedraw__box_ab7bfe91f42a169d1d23c657a2d72e654}{end}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{namespacedraw__box_aae30f90c9dbc13c76430eadbca38d220}\label{namespacedraw__box_aae30f90c9dbc13c76430eadbca38d220}} 
+\index{draw\_box@{draw\_box}!draw\_box\_on\_image@{draw\_box\_on\_image}}
+\index{draw\_box\_on\_image@{draw\_box\_on\_image}!draw\_box@{draw\_box}}
+\doxysubsubsection{\texorpdfstring{draw\_box\_on\_image()}{draw\_box\_on\_image()}}
+{\footnotesize\ttfamily def draw\+\_\+box.\+draw\+\_\+box\+\_\+on\+\_\+image (\begin{DoxyParamCaption}\item[{}]{image\+\_\+name,  }\item[{}]{classes,  }\item[{}]{colors,  }\item[{}]{label\+\_\+folder,  }\item[{}]{raw\+\_\+images\+\_\+folder,  }\item[{}]{save\+\_\+images\+\_\+folder }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespacedraw__box_add2f10251fa8aa35515803790199437d}\label{namespacedraw__box_add2f10251fa8aa35515803790199437d}} 
+\index{draw\_box@{draw\_box}!make\_name\_list@{make\_name\_list}}
+\index{make\_name\_list@{make\_name\_list}!draw\_box@{draw\_box}}
+\doxysubsubsection{\texorpdfstring{make\_name\_list()}{make\_name\_list()}}
+{\footnotesize\ttfamily def draw\+\_\+box.\+make\+\_\+name\+\_\+list (\begin{DoxyParamCaption}\item[{}]{raw\+\_\+images\+\_\+folder,  }\item[{}]{name\+\_\+list\+\_\+path }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{namespacedraw__box_ad0761c216b2202552559a58fae4b6169}\label{namespacedraw__box_ad0761c216b2202552559a58fae4b6169}} 
+\index{draw\_box@{draw\_box}!plot\_one\_box@{plot\_one\_box}}
+\index{plot\_one\_box@{plot\_one\_box}!draw\_box@{draw\_box}}
+\doxysubsubsection{\texorpdfstring{plot\_one\_box()}{plot\_one\_box()}}
+{\footnotesize\ttfamily def draw\+\_\+box.\+plot\+\_\+one\+\_\+box (\begin{DoxyParamCaption}\item[{}]{x,  }\item[{}]{image,  }\item[{}]{color = {\ttfamily None},  }\item[{}]{label = {\ttfamily None},  }\item[{}]{line\+\_\+thickness = {\ttfamily None} }\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{namespacedraw__box_aa3d0225ae2e5e4e203f510f4a81e7053}\label{namespacedraw__box_aa3d0225ae2e5e4e203f510f4a81e7053}} 
+\index{draw\_box@{draw\_box}!box\_num@{box\_num}}
+\index{box\_num@{box\_num}!draw\_box@{draw\_box}}
+\doxysubsubsection{\texorpdfstring{box\_num}{box\_num}}
+{\footnotesize\ttfamily def draw\+\_\+box.\+box\+\_\+num}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 =  \mbox{\hyperlink{namespacedraw__box_aae30f90c9dbc13c76430eadbca38d220}{draw\_box\_on\_image}}(}
+\DoxyCodeLine{2             image\_name,}
+\DoxyCodeLine{3             classes,}
+\DoxyCodeLine{4             colors,}
+\DoxyCodeLine{5             label\_folder,}
+\DoxyCodeLine{6             raw\_images\_folder,}
+\DoxyCodeLine{7             save\_images\_folder,}
+\DoxyCodeLine{8         )}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{namespacedraw__box_a520725dbff7bcb7f7d1945de7b796754}\label{namespacedraw__box_a520725dbff7bcb7f7d1945de7b796754}} 
+\index{draw\_box@{draw\_box}!box\_total@{box\_total}}
+\index{box\_total@{box\_total}!draw\_box@{draw\_box}}
+\doxysubsubsection{\texorpdfstring{box\_total}{box\_total}}
+{\footnotesize\ttfamily int draw\+\_\+box.\+box\+\_\+total = 0}
+
+\mbox{\Hypertarget{namespacedraw__box_a4ec2ce514f16dde05da4dfdc6904d316}\label{namespacedraw__box_a4ec2ce514f16dde05da4dfdc6904d316}} 
+\index{draw\_box@{draw\_box}!class\_dict@{class\_dict}}
+\index{class\_dict@{class\_dict}!draw\_box@{draw\_box}}
+\doxysubsubsection{\texorpdfstring{class\_dict}{class\_dict}}
+{\footnotesize\ttfamily dictionary draw\+\_\+box.\+class\+\_\+dict = \{\}}
+
+\mbox{\Hypertarget{namespacedraw__box_a6a9e024a7559e19da8dea82a8198ca87}\label{namespacedraw__box_a6a9e024a7559e19da8dea82a8198ca87}} 
+\index{draw\_box@{draw\_box}!classes@{classes}}
+\index{classes@{classes}!draw\_box@{draw\_box}}
+\doxysubsubsection{\texorpdfstring{classes}{classes}}
+{\footnotesize\ttfamily draw\+\_\+box.\+classes = \mbox{\hyperlink{namespacedraw__box_a18da8389f10385be17a9f20ef5cfbaf3}{file}}\mbox{[}\char`\"{}names\char`\"{}\mbox{]}}
+
+\mbox{\Hypertarget{namespacedraw__box_aded11f243ad1e85cd5197e7f6f132dbb}\label{namespacedraw__box_aded11f243ad1e85cd5197e7f6f132dbb}} 
+\index{draw\_box@{draw\_box}!classes\_path@{classes\_path}}
+\index{classes\_path@{classes\_path}!draw\_box@{draw\_box}}
+\doxysubsubsection{\texorpdfstring{classes\_path}{classes\_path}}
+{\footnotesize\ttfamily string draw\+\_\+box.\+classes\+\_\+path = \char`\"{}./classes.\+txt\char`\"{}}
+
+\mbox{\Hypertarget{namespacedraw__box_a1a34e14deb22d56c84e36c3e5894db8e}\label{namespacedraw__box_a1a34e14deb22d56c84e36c3e5894db8e}} 
+\index{draw\_box@{draw\_box}!colors@{colors}}
+\index{colors@{colors}!draw\_box@{draw\_box}}
+\doxysubsubsection{\texorpdfstring{colors}{colors}}
+{\footnotesize\ttfamily list draw\+\_\+box.\+colors = \mbox{[}\mbox{[}random.\+randint(0, 255) for \+\_\+ in range(3)\mbox{]} for \+\_\+ in range(len(\mbox{\hyperlink{namespacedraw__box_a6a9e024a7559e19da8dea82a8198ca87}{classes}}))\mbox{]}}
+
+\mbox{\Hypertarget{namespacedraw__box_ab7bfe91f42a169d1d23c657a2d72e654}\label{namespacedraw__box_ab7bfe91f42a169d1d23c657a2d72e654}} 
+\index{draw\_box@{draw\_box}!end@{end}}
+\index{end@{end}!draw\_box@{draw\_box}}
+\doxysubsubsection{\texorpdfstring{end}{end}}
+{\footnotesize\ttfamily draw\+\_\+box.\+end}
+
+\mbox{\Hypertarget{namespacedraw__box_a18da8389f10385be17a9f20ef5cfbaf3}\label{namespacedraw__box_a18da8389f10385be17a9f20ef5cfbaf3}} 
+\index{draw\_box@{draw\_box}!file@{file}}
+\index{file@{file}!draw\_box@{draw\_box}}
+\doxysubsubsection{\texorpdfstring{file}{file}}
+{\footnotesize\ttfamily draw\+\_\+box.\+file = yaml.\+safe\+\_\+load(open(\char`\"{}./dataset/macro\+\_\+block.\+yaml\char`\"{}))}
+
+\mbox{\Hypertarget{namespacedraw__box_afdf2734635c6a5051faefacbb381d70d}\label{namespacedraw__box_afdf2734635c6a5051faefacbb381d70d}} 
+\index{draw\_box@{draw\_box}!image\_names@{image\_names}}
+\index{image\_names@{image\_names}!draw\_box@{draw\_box}}
+\doxysubsubsection{\texorpdfstring{image\_names}{image\_names}}
+{\footnotesize\ttfamily draw\+\_\+box.\+image\+\_\+names = open(\mbox{\hyperlink{namespacedraw__box_ad67a4127838200a0cd5d903a9946416f}{name\+\_\+list\+\_\+path}}).read().strip().split()}
+
+\mbox{\Hypertarget{namespacedraw__box_ac3dd48d3d16900e3ec9d1ae13037c651}\label{namespacedraw__box_ac3dd48d3d16900e3ec9d1ae13037c651}} 
+\index{draw\_box@{draw\_box}!image\_total@{image\_total}}
+\index{image\_total@{image\_total}!draw\_box@{draw\_box}}
+\doxysubsubsection{\texorpdfstring{image\_total}{image\_total}}
+{\footnotesize\ttfamily draw\+\_\+box.\+image\+\_\+total = 0}
+
+\mbox{\Hypertarget{namespacedraw__box_a9246aab37f849e3ae537398896c3a6f4}\label{namespacedraw__box_a9246aab37f849e3ae537398896c3a6f4}} 
+\index{draw\_box@{draw\_box}!label\_folder@{label\_folder}}
+\index{label\_folder@{label\_folder}!draw\_box@{draw\_box}}
+\doxysubsubsection{\texorpdfstring{label\_folder}{label\_folder}}
+{\footnotesize\ttfamily string draw\+\_\+box.\+label\+\_\+folder = r\char`\"{}./dataset/prova/nobox/labels/\char`\"{}}
+
+\mbox{\Hypertarget{namespacedraw__box_ad67a4127838200a0cd5d903a9946416f}\label{namespacedraw__box_ad67a4127838200a0cd5d903a9946416f}} 
+\index{draw\_box@{draw\_box}!name\_list\_path@{name\_list\_path}}
+\index{name\_list\_path@{name\_list\_path}!draw\_box@{draw\_box}}
+\doxysubsubsection{\texorpdfstring{name\_list\_path}{name\_list\_path}}
+{\footnotesize\ttfamily string draw\+\_\+box.\+name\+\_\+list\+\_\+path = \char`\"{}./name\+\_\+list.\+txt\char`\"{}}
+
+\mbox{\Hypertarget{namespacedraw__box_a4b92af23e3b0eab0a1f8d9bacccdfd0b}\label{namespacedraw__box_a4b92af23e3b0eab0a1f8d9bacccdfd0b}} 
+\index{draw\_box@{draw\_box}!raw\_images\_folder@{raw\_images\_folder}}
+\index{raw\_images\_folder@{raw\_images\_folder}!draw\_box@{draw\_box}}
+\doxysubsubsection{\texorpdfstring{raw\_images\_folder}{raw\_images\_folder}}
+{\footnotesize\ttfamily string draw\+\_\+box.\+raw\+\_\+images\+\_\+folder = r\char`\"{}./dataset/prova/nobox/images/\char`\"{}}
+
+\mbox{\Hypertarget{namespacedraw__box_a8013f1da6356a651d64bf6cdc7ebaf22}\label{namespacedraw__box_a8013f1da6356a651d64bf6cdc7ebaf22}} 
+\index{draw\_box@{draw\_box}!save\_images\_folder@{save\_images\_folder}}
+\index{save\_images\_folder@{save\_images\_folder}!draw\_box@{draw\_box}}
+\doxysubsubsection{\texorpdfstring{save\_images\_folder}{save\_images\_folder}}
+{\footnotesize\ttfamily string draw\+\_\+box.\+save\+\_\+images\+\_\+folder = r\char`\"{}./dataset/prova/box\char`\"{}}
+

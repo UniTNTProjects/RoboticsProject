@@ -1,0 +1,84 @@
+\hypertarget{movement__checks_8cpp}{}\doxysection{cpp/src/trajectories/movement\+\_\+checks.cpp File Reference}
+\label{movement__checks_8cpp}\index{cpp/src/trajectories/movement\_checks.cpp@{cpp/src/trajectories/movement\_checks.cpp}}
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$vector$>$}\newline
+{\ttfamily \#include $<$Eigen/\+Dense$>$}\newline
+{\ttfamily \#include \char`\"{}motion\+\_\+trajectory.\+h\char`\"{}}\newline
+Include dependency graph for movement\+\_\+checks.\+cpp\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{movement__checks_8cpp__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{movement__checks_8cpp_a1b4ea83e7100eaa310f1430abbee619f}{check\+\_\+singularity\+\_\+collision}} (\mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}} joints, bool side\+\_\+pick)
+\begin{DoxyCompactList}\small\item\em Checks for singularity and collision. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{movement__checks_8cpp_a43290356874060289c4c0f92d910f9eb}{check\+\_\+trajectory}} (vector$<$ double $\ast$ $>$ traj, int step, bool pick\+\_\+or\+\_\+place, int $\ast$error\+\_\+code, const \mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}} \&requested\+\_\+cord, const \mbox{\hyperlink{eigenMatrices_8h_ac54b83793bde6df4d513f6ab9da32f8e}{rot\+Matrix}} \&requested\+\_\+rotation, const \mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}} \&init\+\_\+joint, bool homing, bool side\+\_\+pick, bool is\+Gripping)
+\begin{DoxyCompactList}\small\item\em Checks if the trajectory is valid. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{movement__checks_8cpp_a1b4ea83e7100eaa310f1430abbee619f}\label{movement__checks_8cpp_a1b4ea83e7100eaa310f1430abbee619f}} 
+\index{movement\_checks.cpp@{movement\_checks.cpp}!check\_singularity\_collision@{check\_singularity\_collision}}
+\index{check\_singularity\_collision@{check\_singularity\_collision}!movement\_checks.cpp@{movement\_checks.cpp}}
+\doxysubsubsection{\texorpdfstring{check\_singularity\_collision()}{check\_singularity\_collision()}}
+{\footnotesize\ttfamily bool check\+\_\+singularity\+\_\+collision (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}}}]{joints,  }\item[{bool}]{side\+\_\+pick }\end{DoxyParamCaption})}
+
+
+
+Checks for singularity and collision. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em joints} & Joint values. \\
+\hline
+{\em side\+\_\+pick} & True if side pick, false otherwise. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true If singularity or collision is detected. 
+
+false Otherwise. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{movement__checks_8cpp_a43290356874060289c4c0f92d910f9eb}\label{movement__checks_8cpp_a43290356874060289c4c0f92d910f9eb}} 
+\index{movement\_checks.cpp@{movement\_checks.cpp}!check\_trajectory@{check\_trajectory}}
+\index{check\_trajectory@{check\_trajectory}!movement\_checks.cpp@{movement\_checks.cpp}}
+\doxysubsubsection{\texorpdfstring{check\_trajectory()}{check\_trajectory()}}
+{\footnotesize\ttfamily bool check\+\_\+trajectory (\begin{DoxyParamCaption}\item[{vector$<$ double $\ast$ $>$}]{traj,  }\item[{int}]{step,  }\item[{bool}]{pick\+\_\+or\+\_\+place,  }\item[{int $\ast$}]{error\+\_\+code,  }\item[{const \mbox{\hyperlink{eigenMatrices_8h_ac5194800d365ec2c626bf6caff92b63e}{coordinates}} \&}]{requested\+\_\+cord,  }\item[{const \mbox{\hyperlink{eigenMatrices_8h_ac54b83793bde6df4d513f6ab9da32f8e}{rot\+Matrix}} \&}]{requested\+\_\+rotation,  }\item[{const \mbox{\hyperlink{eigenMatrices_8h_a2c8ac94aebda33c388e4355fec1a44b6}{joint\+Values}} \&}]{init\+\_\+joint,  }\item[{bool}]{homing,  }\item[{bool}]{side\+\_\+pick,  }\item[{bool}]{is\+Gripping }\end{DoxyParamCaption})}
+
+
+
+Checks if the trajectory is valid. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em traj} & Trajectory. \\
+\hline
+{\em step} & Number of steps. \\
+\hline
+{\em pick\+\_\+or\+\_\+place} & True if pick, false if place. \\
+\hline
+{\em error\+\_\+code} & Error code. \\
+\hline
+{\em requested\+\_\+cord} & Requested coordinates. \\
+\hline
+{\em requested\+\_\+rotation} & Requested rotation. \\
+\hline
+{\em init\+\_\+joint} & Initial joint values. \\
+\hline
+{\em homing} & True if homing, false otherwise. \\
+\hline
+{\em side\+\_\+pick} & True if side pick, false otherwise. \\
+\hline
+{\em is\+Gripping} & True if gripping, false otherwise. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true If trajectory is valid. 
+
+false Otherwise. 
+\end{DoxyReturn}

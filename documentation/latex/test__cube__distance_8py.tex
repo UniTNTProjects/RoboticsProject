@@ -1,0 +1,28 @@
+\hypertarget{test__cube__distance_8py}{}\doxysection{components/obstacle\+\_\+avoidance/test\+\_\+cube\+\_\+distance.py File Reference}
+\label{test__cube__distance_8py}\index{components/obstacle\_avoidance/test\_cube\_distance.py@{components/obstacle\_avoidance/test\_cube\_distance.py}}
+\doxysubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \mbox{\hyperlink{namespacetest__cube__distance}{test\+\_\+cube\+\_\+distance}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespacetest__cube__distance_af92764a133d80197629ea9f337e69836}{test\+\_\+cube\+\_\+distance.\+center}} = np.\+array(\mbox{[}1,0,0\mbox{]})
+\item 
+float \mbox{\hyperlink{namespacetest__cube__distance_a0743fe2d1872261378d7e1889c214880}{test\+\_\+cube\+\_\+distance.\+side}} = 0.\+5
+\item 
+\mbox{\hyperlink{namespacetest__cube__distance_a1101e6d49e346429a0c79f424ace218b}{test\+\_\+cube\+\_\+distance.\+input\+\_\+point}} = np.\+array(\mbox{[}1.\+5,0.\+2,0.\+5\mbox{]})
+\item 
+\mbox{\hyperlink{namespacetest__cube__distance_a0077afd635f9eae1e578683bdf6a8a90}{test\+\_\+cube\+\_\+distance.\+A}}
+\item 
+\mbox{\hyperlink{namespacetest__cube__distance_a77e7b0e309aa551ff307fdbb15a74b1c}{test\+\_\+cube\+\_\+distance.\+x}} = cp.\+Variable(3)
+\item 
+\mbox{\hyperlink{namespacetest__cube__distance_a2ff4b8dd72f762df2441ff3b685988be}{test\+\_\+cube\+\_\+distance.\+objective}} = cp.\+Minimize(cp.\+norm2(x -\/ input\+\_\+point))
+\item 
+list \mbox{\hyperlink{namespacetest__cube__distance_a45fc600078278f84513491ebb2eac330}{test\+\_\+cube\+\_\+distance.\+constraints}} = \mbox{[} \mbox{\hyperlink{eigenMatrices_8h_a2d77012fd18c8363bb1b106f452144cd}{A}} @ (x -\/ center) $<$= side/2\mbox{]}
+\item 
+\mbox{\hyperlink{namespacetest__cube__distance_a8372a813026016d7bfcd19590d16d74f}{test\+\_\+cube\+\_\+distance.\+problem}} = cp.\+Problem(objective, constraints)
+\item 
+\mbox{\hyperlink{namespacetest__cube__distance_ab560f8f7707ca015fabcb3e7cb4a254c}{test\+\_\+cube\+\_\+distance.\+result}} = problem.\+solve()
+\end{DoxyCompactItemize}

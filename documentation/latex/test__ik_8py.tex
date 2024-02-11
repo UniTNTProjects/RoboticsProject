@@ -1,0 +1,44 @@
+\hypertarget{test__ik_8py}{}\doxysection{components/inverse\+\_\+kinematics/test\+\_\+ik.py File Reference}
+\label{test__ik_8py}\index{components/inverse\_kinematics/test\_ik.py@{components/inverse\_kinematics/test\_ik.py}}
+\doxysubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \mbox{\hyperlink{namespaceinverse__kinematics_1_1test__ik}{inverse\+\_\+kinematics.\+test\+\_\+ik}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespaceinverse__kinematics_1_1test__ik_acba6c486f8f4bdb40344cbe35a5449bb}{inverse\+\_\+kinematics.\+test\+\_\+ik.\+threshold}}
+\item 
+\mbox{\hyperlink{namespaceinverse__kinematics_1_1test__ik_a8f662e02261d8b40f1a9ff379caa050e}{inverse\+\_\+kinematics.\+test\+\_\+ik.\+inf}}
+\item 
+\mbox{\hyperlink{namespaceinverse__kinematics_1_1test__ik_a3a828c2f99e310c3f1ee443dbb224a38}{inverse\+\_\+kinematics.\+test\+\_\+ik.\+precision}}
+\item 
+\mbox{\hyperlink{namespaceinverse__kinematics_1_1test__ik_a4be188edaf9377f6392d895e0c2c83d5}{inverse\+\_\+kinematics.\+test\+\_\+ik.\+linewidth}}
+\item 
+\mbox{\hyperlink{namespaceinverse__kinematics_1_1test__ik_a528bfb4c17cd48731c56fe027dc87fe2}{inverse\+\_\+kinematics.\+test\+\_\+ik.\+suppress}}
+\item 
+string \mbox{\hyperlink{namespaceinverse__kinematics_1_1test__ik_a35999dda7fab282df5498dd9cf6b2c79}{inverse\+\_\+kinematics.\+test\+\_\+ik.\+robot\+\_\+name}} = \char`\"{}solo\char`\"{}
+\item 
+\mbox{\hyperlink{namespaceinverse__kinematics_1_1test__ik_ac9f7ebfcd0427e065a279fe4afacdba2}{inverse\+\_\+kinematics.\+test\+\_\+ik.\+L\+F\+\_\+foot}} = np.\+array(\mbox{[}0.\+19683, 0.\+19107, -\/0.\+21159\mbox{]})
+\item 
+\mbox{\hyperlink{namespaceinverse__kinematics_1_1test__ik_aeb47c1aebf8230d1c6eb1c02646400e8}{inverse\+\_\+kinematics.\+test\+\_\+ik.\+R\+F\+\_\+foot}} = np.\+array(\mbox{[}0.\+19678, -\/0.\+19122, -\/0.\+21158\mbox{]})
+\item 
+\mbox{\hyperlink{namespaceinverse__kinematics_1_1test__ik_a5a8fc47b63415cb5a388b10e64ca41dc}{inverse\+\_\+kinematics.\+test\+\_\+ik.\+L\+H\+\_\+foot}} = np.\+array(\mbox{[}-\/0.\+19679, 0.\+19115, -\/0.\+21158\mbox{]})
+\item 
+\mbox{\hyperlink{namespaceinverse__kinematics_1_1test__ik_a12742c6c76fb37b5d4a2e70534c06007}{inverse\+\_\+kinematics.\+test\+\_\+ik.\+R\+H\+\_\+foot}} = np.\+array(\mbox{[}-\/0.\+19681, -\/0.\+19111, -\/0.\+21116\mbox{]})
+\item 
+\mbox{\hyperlink{namespaceinverse__kinematics_1_1test__ik_a6a58dabd83f68c029e703faa08ab7ad8}{inverse\+\_\+kinematics.\+test\+\_\+ik.\+q0}}
+\item 
+\mbox{\hyperlink{namespaceinverse__kinematics_1_1test__ik_adb7c70ee4dc911b6d3814eefef952102}{inverse\+\_\+kinematics.\+test\+\_\+ik.\+robot}} = get\+Robot\+Model(robot\+\_\+name)
+\begin{DoxyCompactList}\small\item\em use a reasonable guess q0 = np.\+vstack((np.\+array(\mbox{[}-\/0.\+2, 0.\+7, -\/1.\+4\mbox{]}), np.\+array(\mbox{[}-\/0.\+2, 0.\+7, -\/1.\+4\mbox{]}), np.\+array(\mbox{[}-\/0.\+2, -\/0.\+7, 1.\+4\mbox{]}), np.\+array(\mbox{[}-\/0.\+2, -\/0.\+7, 1.\+4\mbox{]}))) \end{DoxyCompactList}\item 
+list \mbox{\hyperlink{namespaceinverse__kinematics_1_1test__ik_a34f8d6a6f8098136df8e49e39c0aa58b}{inverse\+\_\+kinematics.\+test\+\_\+ik.\+ee\+\_\+frames}} = \mbox{[}\textquotesingle{}lf\+\_\+foot\textquotesingle{}, \textquotesingle{}rf\+\_\+foot\textquotesingle{}, \textquotesingle{}lh\+\_\+foot\textquotesingle{},\textquotesingle{}rh\+\_\+foot\textquotesingle{}\mbox{]}
+\item 
+\mbox{\hyperlink{namespaceinverse__kinematics_1_1test__ik_a02028de7f0df8c91cf52394d7a5ba496}{inverse\+\_\+kinematics.\+test\+\_\+ik.\+feet\+\_\+pos\+\_\+des}} = np.\+vstack((L\+F\+\_\+foot, R\+F\+\_\+foot, L\+H\+\_\+foot, R\+H\+\_\+foot))
+\item 
+\mbox{\hyperlink{namespaceinverse__kinematics_1_1test__ik_af7d57bf4dc38f572a72688ba7ed5eb06}{inverse\+\_\+kinematics.\+test\+\_\+ik.\+kin}} = robot\+Kinematics(robot, ee\+\_\+frames)
+\item 
+\mbox{\hyperlink{namespaceinverse__kinematics_1_1test__ik_a61ef7d7f6bce3de6ded2463f4ef9c040}{inverse\+\_\+kinematics.\+test\+\_\+ik.\+start\+\_\+time}} = time.\+time()
+\item 
+\mbox{\hyperlink{namespaceinverse__kinematics_1_1test__ik_afa84d38f231c086129ee35a7d939c354}{inverse\+\_\+kinematics.\+test\+\_\+ik.\+q}} = kin.\+legged\+Robot\+Inverse\+Kinematics(feet\+\_\+pos\+\_\+des, q0.\+ravel(), verbose = True)
+\end{DoxyCompactItemize}

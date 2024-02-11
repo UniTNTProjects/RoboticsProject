@@ -1,0 +1,70 @@
+\hypertarget{common__functions_8py}{}\doxysection{utils/common\+\_\+functions.py File Reference}
+\label{common__functions_8py}\index{utils/common\_functions.py@{utils/common\_functions.py}}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{classutils_1_1common__functions_1_1Twist}{utils.\+common\+\_\+functions.\+Twist}}
+\item 
+class \mbox{\hyperlink{classutils_1_1common__functions_1_1Pose}{utils.\+common\+\_\+functions.\+Pose}}
+\item 
+class \mbox{\hyperlink{classutils_1_1common__functions_1_1State}{utils.\+common\+\_\+functions.\+State}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \mbox{\hyperlink{namespaceutils_1_1common__functions}{utils.\+common\+\_\+functions}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+def \mbox{\hyperlink{namespaceutils_1_1common__functions_a69e4510ed8d25aa2613640d1d254bbf7}{utils.\+common\+\_\+functions.\+check\+Ros\+Master}} ()
+\item 
+def \mbox{\hyperlink{namespaceutils_1_1common__functions_ad82d0683f3ac52a5c99adaf63aa3acc2}{utils.\+common\+\_\+functions.\+start\+Node}} (node\+\_\+name)
+\item 
+def \mbox{\hyperlink{namespaceutils_1_1common__functions_ad04b0673cf935f6c2f20e89788463bd8}{utils.\+common\+\_\+functions.\+get\+Robot\+Model}} (robot\+\_\+name=\char`\"{}hyq\char`\"{}, generate\+\_\+urdf=False, xacro\+\_\+path=None, additional\+\_\+urdf\+\_\+args=None)
+\item 
+def \mbox{\hyperlink{namespaceutils_1_1common__functions_a0d1eace6f2cd964f6b344ada7f03dd8c}{utils.\+common\+\_\+functions.\+subplot}} (n\+\_\+rows, n\+\_\+cols, n\+\_\+subplot, sharex=False, sharey=False, ax\+\_\+to\+\_\+share=None)
+\item 
+def \mbox{\hyperlink{namespaceutils_1_1common__functions_aee1d9724bd3d2aa9c05ed2de2652c343}{utils.\+common\+\_\+functions.\+plot\+Joint}} (name, time\+\_\+log, q\+\_\+log=None, q\+\_\+des\+\_\+log=None, qd\+\_\+log=None, qd\+\_\+des\+\_\+log=None, qdd\+\_\+log=None, qdd\+\_\+des\+\_\+log=None, tau\+\_\+log=None, tau\+\_\+ffwd\+\_\+log=None, tau\+\_\+des\+\_\+log=None, joint\+\_\+names=None, q\+\_\+adm=None, sharex=True, sharey=True, start=0, end=-\/1)
+\item 
+def \mbox{\hyperlink{namespaceutils_1_1common__functions_ab3b2365aa7f74ca851bbc75f7ce64198}{utils.\+common\+\_\+functions.\+plot\+Endeff}} (name, figure\+\_\+id, time\+\_\+log, plot\+\_\+var\+\_\+log, plot\+\_\+var\+\_\+des\+\_\+log=None)
+\item 
+def \mbox{\hyperlink{namespaceutils_1_1common__functions_ab56fc3b82f06d4a33bd906890b021007}{utils.\+common\+\_\+functions.\+plot\+Admittance\+Tracking}} (figure\+\_\+id, time\+\_\+log, x\+\_\+log, x\+\_\+des\+\_\+log, x\+\_\+des\+\_\+log\+\_\+adm, f\+\_\+log)
+\item 
+def \mbox{\hyperlink{namespaceutils_1_1common__functions_ac8ccbc3c5b64c5f9633549fa8832f692}{utils.\+common\+\_\+functions.\+plot\+Frame}} (name, time\+\_\+log, des\+\_\+\+Pose\+\_\+log=None, Pose\+\_\+log=None, des\+\_\+\+Twist\+\_\+log=None, Twist\+\_\+log=None, des\+\_\+\+Acc\+\_\+log=None, Acc\+\_\+log=None, des\+\_\+\+Wrench\+\_\+log=None, Wrench\+\_\+log=None, title=None, frame=None, sharex=True, sharey=True, start=0, end=-\/1)
+\item 
+def \mbox{\hyperlink{namespaceutils_1_1common__functions_abd45833d288c339b9bbf43aaa2cf79a2}{utils.\+common\+\_\+functions.\+plot\+Frame\+Linear}} (name, time\+\_\+log, des\+\_\+\+Pose\+\_\+log=None, Pose\+\_\+log=None, des\+\_\+\+Twist\+\_\+log=None, Twist\+\_\+log=None, des\+\_\+\+Acc=None, Acc=None, des\+\_\+\+Wrench=None, Wrench\+\_\+log=None, title=None, frame=None, sharex=True, sharey=True, start=0, end=-\/1)
+\item 
+def \mbox{\hyperlink{namespaceutils_1_1common__functions_ab264f2a22c97fedb6f740164cd8aeed7}{utils.\+common\+\_\+functions.\+plot\+Frame\+Angular}} (name, time\+\_\+log, des\+\_\+\+Pose\+\_\+log=None, Pose\+\_\+log=None, des\+\_\+\+Twist\+\_\+log=None, Twist\+\_\+log=None, des\+\_\+\+Acc=None, Acc=None, des\+\_\+\+Wrench\+\_\+log=None, Wrench\+\_\+log=None, title=None, frame=None, sharex=True, sharey=True, start=0, end=-\/1)
+\item 
+def \mbox{\hyperlink{namespaceutils_1_1common__functions_a58bc93164f5c363073cbdadd5b650d76}{utils.\+common\+\_\+functions.\+plot\+Contacts}} (name, time\+\_\+log, des\+\_\+\+Lin\+Pose\+\_\+log=None, Lin\+Pose\+\_\+log=None, des\+\_\+\+Lin\+Twist\+\_\+log=None, Lin\+Twist\+\_\+log=None, des\+\_\+\+Forces\+\_\+log=None, Forces\+\_\+log=None, gt\+\_\+\+Forces\+\_\+log=None, contact\+\_\+states=None, frame=None, sharex=True, sharey=True, start=0, end=-\/1)
+\item 
+def \mbox{\hyperlink{namespaceutils_1_1common__functions_ad501f6709a97a75d31c6db61a7754e3c}{utils.\+common\+\_\+functions.\+plot\+Constrait\+Violation}} (figure\+\_\+id, constr\+\_\+viol\+\_\+log)
+\item 
+def \mbox{\hyperlink{namespaceutils_1_1common__functions_ae21f87890511dd8d48ac2f12629ab53c}{utils.\+common\+\_\+functions.\+plot\+Endeff\+Impedance}} (name, figure\+\_\+id, x\+\_\+log, x\+\_\+des\+\_\+log, f\+\_\+log)
+\item 
+def \mbox{\hyperlink{namespaceutils_1_1common__functions_a1c2395c2a6462be3b8e98a2b7db34fc3}{utils.\+common\+\_\+functions.\+plot\+Joint\+Impedance}} (name, q\+\_\+log, q\+\_\+des\+\_\+log, tau\+\_\+log)
+\item 
+def \mbox{\hyperlink{namespaceutils_1_1common__functions_a59264e6af29b56891cc19a0bb83b6492}{utils.\+common\+\_\+functions.\+polar\+\_\+char}} (name, figure\+\_\+id, phase\+\_\+deg, mag0, mag1=None, mag2=None)
+\item 
+def \mbox{\hyperlink{namespaceutils_1_1common__functions_a8447b56c6f06f1c580bf81aa45f71032}{utils.\+common\+\_\+functions.\+plot\+Wrenches}} (name, figure\+\_\+id, time\+\_\+log, wrench\+\_\+fb\+\_\+log=None, wrench\+\_\+ffwd\+\_\+log=None, wrench\+\_\+g\+\_\+log=None)
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{namespaceutils_1_1common__functions_a325a76287a814fb6e215f7e46bd2b9ec}{utils.\+common\+\_\+functions.\+lw\+\_\+des}} = 7
+\item 
+int \mbox{\hyperlink{namespaceutils_1_1common__functions_a0f47af25ff01f5bb12057a072119d4a9}{utils.\+common\+\_\+functions.\+lw\+\_\+act}} = 4
+\item 
+int \mbox{\hyperlink{namespaceutils_1_1common__functions_af1f19871501afde2afbc0073f32973ef}{utils.\+common\+\_\+functions.\+marker\+\_\+size}} = 0
+\item 
+\mbox{\hyperlink{namespaceutils_1_1common__functions_a497bfcfff269b978c6c4982bc9fd2021}{utils.\+common\+\_\+functions.\+u}} = Utils()
+\item 
+list \mbox{\hyperlink{namespaceutils_1_1common__functions_a3efca14412a9640bded1bed82916b088}{utils.\+common\+\_\+functions.\+labels\+\_\+ur}}
+\item 
+list \mbox{\hyperlink{namespaceutils_1_1common__functions_adc648c27b87b734d345ebc19caa93428}{utils.\+common\+\_\+functions.\+labels\+\_\+quadruped}}
+\item 
+list \mbox{\hyperlink{namespaceutils_1_1common__functions_a48e301217c85e755ca8faf39e2b15e05}{utils.\+common\+\_\+functions.\+labels\+\_\+flywheel2}} = labels\+\_\+quadruped.\+append(\mbox{[}\char`\"{}left\+\_\+wheel\char`\"{}, \char`\"{}right\+\_\+wheel\char`\"{}\mbox{]})
+\item 
+list \mbox{\hyperlink{namespaceutils_1_1common__functions_a9c1e34834d9773e67fdd0e807f0c4dfd}{utils.\+common\+\_\+functions.\+labels\+\_\+flywheel4}}
+\end{DoxyCompactItemize}
