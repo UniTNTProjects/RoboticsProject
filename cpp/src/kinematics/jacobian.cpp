@@ -6,6 +6,12 @@
 using namespace std;
 using namespace Eigen;
 
+/**
+ * @brief Jacobian of the UR5 robot
+ * 
+ * @param Th six joint angles
+ * @return Matrix<double, 6, 6> jacobian matrix of the UR5 robot
+ */
 Matrix<double, 6, 6> ur5Jac(jointValues &Th)
 {
 

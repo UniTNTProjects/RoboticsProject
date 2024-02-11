@@ -5,13 +5,15 @@
 using namespace std;
 using namespace Eigen;
 
-// Direct Kinematics of the UR5
-// Th: six joint angles
-// pe: cartesian position of the end effector
-// re: Rotation matrix of the end effector
 
 // alfa = [0, pi/2, 0, 0, pi/2, -pi/2];
-
+/**
+ * @brief Direct kinematics of the UR5 robot
+ * 
+ * @param th six joint angles
+ * @param pe cartesian position of the end effector
+ * @param re rotation matrix of the end effector
+ */
 void ur5Direct(const jointValues &th, coordinates &pe, rotMatrix &re)
 {
 
