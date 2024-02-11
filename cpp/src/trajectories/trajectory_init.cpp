@@ -6,6 +6,16 @@
 using namespace Eigen;
 using namespace std;
 
+/**
+ * @brief Function: ur5Trajectory
+ * 
+ * @details Generates UR5 robot trajectory
+ * 
+ * @param Th Output trajectory
+ * @param initial_position Initial joint values
+ * @param final_position Final joint values
+ * @param steps Number of steps
+ */
 void ur5Trajectory(vector<double *> *Th, jointValues initial_position, jointValues final_position, int steps)
 {
 
@@ -48,6 +58,24 @@ void ur5Trajectory(vector<double *> *Th, jointValues initial_position, jointValu
     // }
 }
 
+/**
+ * @brief Function: check_trajectory
+ * 
+ * @details Check if the trajectory is valid
+ * 
+ * @param Th Trajectory
+ * @param steps Number of steps
+ * @param pick_or_place Pick or place
+ * @param error_code Error code
+ * @param requested_cord Requested coordinates
+ * @param requested_rotation Requested rotation
+ * @param init_joint Initial joint values
+ * @param homing Homing
+ * @param side_pick Side pick
+ * @param isGripping Is gripping
+ * 
+ * @return bool True if the trajectory is valid
+ */
 bool init_verify_trajectory(vector<double *> *Th, jointValues init_joint, jointValues final_joint, int steps, bool pick_or_place, const coordinates &requested_cord, const rotMatrix &requested_rotation, bool homing, bool side_pick, bool isGripping)
 {
     ur5Trajectory(Th, init_joint, final_joint, steps);

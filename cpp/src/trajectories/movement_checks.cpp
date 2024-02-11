@@ -3,6 +3,13 @@
 #include <Eigen/Dense>
 #include "motion_trajectory.h"
 
+/**
+ * @brief Checks for singularity and collision.
+ * 
+ * @param joints Joint values.
+ * @return true If singularity or collision is detected.
+ * @return false Otherwise.
+ */
 bool check_singularity_collision(jointValues joints)
 {
 
@@ -43,6 +50,13 @@ bool check_singularity_collision(jointValues joints)
     return false;
 }
 
+/**
+ * @brief Checks for self collision.
+ * 
+ * @param Th Joint values.
+ * @return true If self collision is detected.
+ * @return false Otherwise.
+ */
 bool check_self_collision(jointValues Th)
 {
     homoMatrix mat;
@@ -96,6 +110,22 @@ bool check_self_collision(jointValues Th)
     return false;
 }
 
+/**
+ * @brief Checks if the trajectory is valid.
+ * 
+ * @param traj Trajectory.
+ * @param step Number of steps.
+ * @param pick_or_place True if pick, false if place.
+ * @param error_code Error code.
+ * @param requested_cord Requested coordinates.
+ * @param requested_rotation Requested rotation.
+ * @param init_joint Initial joint values.
+ * @param homing True if homing, false otherwise.
+ * @param side_pick True if side pick, false otherwise.
+ * @param isGripping True if gripping, false otherwise.
+ * @return true If trajectory is valid.
+ * @return false Otherwise.
+ */
 bool check_trajectory(vector<double *> traj, int step, bool pick_or_place, int *error_code, const coordinates &requested_cord, const rotMatrix &requested_rotation, const jointValues &init_joint, bool homing, bool side_pick, bool isGripping)
 {
     coordinates start_cord;

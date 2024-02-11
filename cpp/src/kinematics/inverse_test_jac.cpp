@@ -7,6 +7,13 @@ using namespace Eigen;
 using namespace std;
 
 // IK of UR5
+/**
+ * @brief Inverse Kinematics of the UR5 robot
+ * 
+ * @param pe cartesian position of the end effecto
+ * @param re rotation matrix of the end effector
+ * @return Matrix<double, 8, 6> 8 possible solutions for the joint angles
+ */
 Matrix<double, 8, 6> ur5InverseTestJac(coordinates pe, rotMatrix re)
 {
     //  ee_pos and ee_rot are the position and rotation of the end effector

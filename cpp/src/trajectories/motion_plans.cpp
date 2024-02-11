@@ -6,12 +6,22 @@
 using namespace Eigen;
 using namespace std;
 
+/**
+* @brief Calculate trajectory to move UR5 arm up
+*
+* @param startJ  Starting joint values
+* @param side_pick   Whether to pick from the left or right side
+* @param isGripping  Whether the gripper is holding an object
+* @return vector<double\*>  Trajectory as vector of joint values
+*/
 vector<double *> up_tray(jointValues startJoint, bool side_pick, bool isGripping)
 {
+    // Get current position and orientation
     coordinates startCord;
     rotMatrix startRot;
     ur5Direct(startJoint, startCord, startRot);
 
+    // Calculate new z-coordinate
     double new_z = startCord(2) - 0.15;
 
     if (isGripping)
@@ -29,9 +39,11 @@ vector<double *> up_tray(jointValues startJoint, bool side_pick, bool isGripping
         // return empty vector
         return vector<double *>();
     }
+    // Calculate target position
     coordinates aboveCurrent;
     aboveCurrent << startCord(0), startCord(1), new_z;
 
+    // Calculate trajectory
     vector<double *> up_traj = calc_direct_traj(aboveCurrent, startRot, true, false, startJoint, side_pick, false);
     if (up_traj.size() > 0)
     {
@@ -43,6 +55,18 @@ vector<double *> up_tray(jointValues startJoint, bool side_pick, bool isGripping
     }
 }
 
+/**
+* @brief Function to calculate up and move trajectory
+*
+* @param position Coordinates of the target position
+* @param rotation Rotation matrix of the target position
+* @param steps Number of steps to move
+* @param startJoint Initial joint values
+* @param side_pick Flag to indicate side pick
+* @param isGripping Flag to indicate if gripping
+*
+* @return Vector of double pointers for up and move trajectory
+*/
 vector<double *> up_and_move(const coordinates &position, const rotMatrix &rotation, int steps, jointValues startJoint, bool side_pick, bool isGripping)
 {
 
@@ -86,6 +110,17 @@ vector<double *> up_and_move(const coordinates &position, const rotMatrix &rotat
     return vector<double *>();
 }
 
+/**
+ * @brief Reset the main joint values based on the start joint values.
+ * 
+ * @param position The position of the robot.
+ * @param rotation The rotation matrix of the robot.
+ * @param steps The number of steps to reset the joint values.
+ * @param startJoint The start joint values.
+ * @param side_pick True if the robot is picking from the side, false otherwise.
+ * @param isGripping True if the robot is gripping, false otherwise.
+ * @return A vector of pointers to the reset joint values.
+ */
 vector<double *> reset_main_joint(const coordinates &position, const rotMatrix &rotation, int steps, jointValues startJoint, bool side_pick, bool isGripping)
 {
     jointValues reset_values;
@@ -216,6 +251,17 @@ vector<double *> reset_main_joint(const coordinates &position, const rotMatrix &
     return vector<double *>();
 }
 
+/**
+ * @brief Calculate direct trajectory for one position
+ * 
+ * @param endJoint End joint configuration
+ * @param pick_or_place Pick or place flag
+ * @param homing Homing flag
+ * @param startJoint Start joint configuration
+ * @param side_pick Side pick flag
+ * @param isGripping Gripping flag
+ * @return Trajectory as a vector of double pointers
+ */
 vector<double *> calc_direct_traj_joint(const jointValues endJoint, bool pick_or_place, bool homing, jointValues startJoint, bool side_pick, bool isGripping)
 {
     coordinates startPos;
@@ -246,6 +292,17 @@ vector<double *> calc_direct_traj_joint(const jointValues endJoint, bool pick_or
     return vector<double *>();
 }
 
+/**
+ * @brief Calculate direct trajectory for multiple joints
+ * 
+ * @param endJoints End joint configurations
+ * @param pick_or_place Pick or place flags
+ * @param homing Homing flags
+ * @param startJoint Start joint configuration
+ * @param side_pick Side pick flags
+ * @param isGripping Gripping flag
+ * @return Trajectory as a vector of double pointers
+ */
 vector<double *> calc_direct_traj_multiple_joint(vector<jointValues> endJoints, bool *pick_or_place, bool *homing, jointValues startJoint, bool *side_pick, bool isGripping)
 {
     vector<double *> trajectory_tot = vector<double *>();
@@ -276,6 +333,18 @@ vector<double *> calc_direct_traj_multiple_joint(vector<jointValues> endJoints, 
     return trajectory_tot;
 }
 
+/**
+ * @brief Calculate direct trajectory for one position
+ * 
+ * @param position Coordinates of the target position
+ * @param rotation Rotation matrix of the target position
+ * @param pick_or_place Pick or place flag
+ * @param homing Homing flag
+ * @param startJoint Start joint configuration
+ * @param side_pick Side pick flag
+ * @param isGripping Gripping flag
+ * @return Trajectory as a vector of double pointers
+ */
 vector<double *> calc_direct_traj(const coordinates &position, const rotMatrix &rotation, bool pick_or_place, bool homing, jointValues startJoint, bool side_pick, bool isGripping)
 {
     coordinates startPos;
@@ -316,6 +385,17 @@ vector<double *> calc_direct_traj(const coordinates &position, const rotMatrix &
     return vector<double *>();
 }
 
+/**
+ * @brief Calculate direct trajectory for multiple positions
+ * 
+ * @param poses_rots Vector of pairs of coordinates and rotation matrices
+ * @param pick_or_place Pick or place flags
+ * @param homing Homing flags
+ * @param startJoint Start joint configuration
+ * @param side_pick Side pick flags
+ * @param isGripping Gripping flag
+ * @return Trajectory as a vector of double pointers
+ */
 vector<double *> calc_direct_traj_multiple(vector<pair<coordinates, rotMatrix>> poses_rots, bool *pick_or_place, bool *homing, jointValues startJoint, bool *side_pick, bool isGripping)
 {
     vector<double *> trajectory_tot = vector<double *>();
@@ -347,6 +427,16 @@ vector<double *> calc_direct_traj_multiple(vector<pair<coordinates, rotMatrix>> 
     return trajectory_tot;
 }
 
+/**
+ * @brief Calculate trajectory to move to a single position
+ * 
+ * @param final_cord Final coordinates
+ * @param rot Final rotation matrix
+ * @param startJoint Start joint configuration
+ * @param side_pick Side pick flag
+ * @param isGripping Gripping flag
+ * @return Trajectory as a vector of double pointers
+ */
 vector<double *> calc_traj(const coordinates &position, const rotMatrix &rotation, bool pick_or_place, bool homing, bool up_and_move_flag, bool move_to_near_axis_flag, jointValues startJoint, bool side_pick, bool isGripping, bool reset_flag)
 {
     coordinates startPos;
@@ -420,6 +510,17 @@ vector<double *> calc_traj(const coordinates &position, const rotMatrix &rotatio
     return vector<double *>();
 }
 
+/**
+ * @brief Calculate trajectory for multiple positions
+ * 
+ * @param poses_rots Vector of pairs of coordinates and rotation matrices
+ * @param pick_or_place Pick or place flags
+ * @param homing Homing flags
+ * @param startJoint Start joint configuration
+ * @param side_pick Side pick flags
+ * @param isGripping Gripping flag
+ * @return Trajectory as a vector of double pointers
+ */
 vector<double *> calc_traj_multiple(vector<pair<coordinates, rotMatrix>> poses_rots, bool *pick_or_place, bool *homing, bool *up_and_move_flag, bool *move_to_near_axis_flag, jointValues startJoint, bool *side_pick, bool isGripping)
 {
     vector<double *> trajectory_tot = vector<double *>();
@@ -451,6 +552,16 @@ vector<double *> calc_traj_multiple(vector<pair<coordinates, rotMatrix>> poses_r
     return trajectory_tot;
 }
 
+/**
+ * @brief Calculate trajectory to move through homing
+ * 
+ * @param final_cord Final coordinates
+ * @param rot Final rotation matrix
+ * @param startJoint Start joint configuration
+ * @param side_pick Side pick flag
+ * @param isGripping Gripping flag
+ * @return Trajectory as a vector of double pointers
+ */
 vector<double *> move_through_homing(coordinates final_cord, rotMatrix rot, jointValues startJoint, bool isGripping, bool side_pick)
 {
     cout << "### Calc move through homing: " << endl;
@@ -555,6 +666,18 @@ vector<double *> move_through_homing(coordinates final_cord, rotMatrix rot, join
     }
 }
 
+/**
+ * @brief Calculate trajectory to move to near axis
+ * 
+ * @param position Coordinates of the target position
+ * @param rotation Rotation matrix of the target position
+ * @param pick_or_place Pick or place flag
+ * @param homing Homing flag
+ * @param startJoint Start joint configuration
+ * @param side_pick Side pick flag
+ * @param isGripping Gripping flag
+ * @return Trajectory as a vector of double pointers
+ */
 vector<double *> move_to_near_axis(const coordinates &position, const rotMatrix &rotation, bool pick_or_place, bool homing, jointValues startJoint, bool side_pick, bool isGripping)
 {
     cout << "### Calc move to near axis: " << endl;
@@ -596,6 +719,15 @@ vector<double *> move_to_near_axis(const coordinates &position, const rotMatrix 
     }
 }
 
+/**
+ * @brief Calculate trajectory to move to near homing
+ * 
+ * @param current_cord Current coordinates
+ * @param defaultCord Default coordinates
+ * @param nearhomingdist Distance to the nearest homing position
+ * @param nearhomingcord Coordinates of the nearest homing position
+ * @return Coordinates of the nearest homing position
+ */
 coordinates nearHomingRec(coordinates current_cord, coordinates defaultCord, double &nearhomingdist, coordinates &nearhomingcord)
 {
     // cout << "defaultCord: " << defaultCord.transpose() << endl;
@@ -608,6 +740,12 @@ coordinates nearHomingRec(coordinates current_cord, coordinates defaultCord, dou
     return nearhomingcord;
 }
 
+/**
+ * @brief Calculate the nearest homing position
+ * 
+ * @param cord Current coordinates
+ * @return Coordinates of the nearest homing position
+ */
 coordinates nearHoming(coordinates cord)
 {
 
@@ -626,6 +764,12 @@ coordinates nearHoming(coordinates cord)
     return nearhomingcord;
 }
 
+/**
+ * @brief Get the rotation matrix for side pick
+ * 
+ * @param angle 
+ * @return rotMatrix 
+ */
 rotMatrix get_rotation(double angle)
 {
     // transform the angle in radians(0-2pi)

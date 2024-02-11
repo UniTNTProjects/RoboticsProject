@@ -3,6 +3,10 @@
 
 using namespace std;
 
+/**
+ * @brief Construct a new FSM::FSM object
+ * 
+ */
 FSM::FSM()
 {
     currentState = &Init::getInstance();
@@ -16,12 +20,21 @@ FSM::FSM()
     cout << "FSM initialized" << endl;
 }
 
+/**
+ * @brief 
+ * 
+ */
 void FSM::toggle()
 {
 
     currentState->toggle(this);
 }
 
+/**
+ * @brief 
+ * 
+ * @param newState 
+ */
 void FSM::setState(FSMState &newState)
 {
 
@@ -32,6 +45,11 @@ void FSM::setState(FSMState &newState)
     currentState->enter(this);
 }
 
+/**
+ * @brief 
+ * 
+ * @return pair<coordinates, rotMatrix> 
+ */
 pair<coordinates, rotMatrix> FSM::getNextPosition()
 {
     pair<coordinates, rotMatrix> nextPos = positions->front();
@@ -39,6 +57,12 @@ pair<coordinates, rotMatrix> FSM::getNextPosition()
     return nextPos;
 }
 
+/**
+ * @brief 
+ * 
+ * @param blockCord 
+ * @return coordinates 
+ */
 coordinates FSM::translateBlockCordToRobotCord(coordinates blockCord)
 {
 
@@ -51,6 +75,12 @@ coordinates FSM::translateBlockCordToRobotCord(coordinates blockCord)
     return robotCord;
 }
 
+/**
+ * @brief 
+ * 
+ * @param pos 
+ * @param rot 
+ */
 void FSM::addPosition(coordinates pos, rotMatrix rot)
 {
     cout << "Adding position to queue" << endl;
@@ -59,36 +89,84 @@ void FSM::addPosition(coordinates pos, rotMatrix rot)
     cout << "Queue done" << endl;
 }
 
+/**
+ * @brief 
+ * 
+ */
 void FSM::removePosition()
 {
     positions->pop();
 }
 
+/**
+ * @brief 
+ * 
+ * @return true 
+ * @return false 
+ */
 bool FSM::isPositionQueueEmpty()
 {
     return positions->empty();
 }
 
+/**
+ * @brief 
+ * 
+ * @param pos 
+ * @param rot 
+ * @param pick_or_place 
+ * @param homing 
+ * @param up_and_move_flag 
+ * @param move_to_near_axis_flag 
+ * @param side_pick_flag 
+ * @return int 
+ */
 int FSM::moveTo(coordinates pos, rotMatrix rot, bool pick_or_place, bool homing, bool up_and_move_flag, bool move_to_near_axis_flag, bool side_pick_flag)
 {
     return controller->move_to(pos, rot, pick_or_place, homing, up_and_move_flag, move_to_near_axis_flag, side_pick_flag);
 }
 
+/**
+ * @brief 
+ * 
+ * @param poses_rots 
+ * @param pick_or_place 
+ * @param homing 
+ * @param up_and_move_flag 
+ * @param move_to_near_axis_flag 
+ * @param side_picks_flag 
+ * @return int 
+ */
 int FSM::moveToMultiple(vector<pair<coordinates, rotMatrix>> poses_rots, bool *pick_or_place, bool *homing, bool *up_and_move_flag, bool *move_to_near_axis_flag, bool *side_picks_flag)
 {
     return controller->move_to_multiple(poses_rots, pick_or_place, homing, up_and_move_flag, move_to_near_axis_flag, side_picks_flag);
 }
 
+/**
+ * @brief 
+ * 
+ * @return coordinates 
+ */
 coordinates FSM::getCurrentPosition()
 {
     return controller->get_position().first;
 }
 
+/**
+ * @brief 
+ * 
+ * @param diameter 
+ */
 void FSM::moveGripperTo(int diameter)
 {
     controller->move_gripper_to(diameter);
 }
 
+/**
+ * @brief 
+ * 
+ * @param permission_to_send 
+ */
 void FSM::setPermission(bool permission_to_send)
 {
     std_msgs::Bool permission;
@@ -99,6 +177,10 @@ void FSM::setPermission(bool permission_to_send)
     loop_rate.sleep();
 }
 
+/**
+ * @brief 
+ * 
+ */
 void FSM::pickUp()
 {
     positions->pop();
@@ -107,6 +189,10 @@ void FSM::pickUp()
     controller->setGripping(true, this->isSidePick);
 }
 
+/**
+ * @brief 
+ * 
+ */
 void FSM::placeDown()
 {
 
@@ -116,6 +202,13 @@ void FSM::placeDown()
     controller->setGripping(false, false);
 }
 
+/**
+ * @brief 
+ * 
+ * @param argc 
+ * @param argv 
+ * @return int 
+ */
 int main(int argc, char **argv)
 {
 

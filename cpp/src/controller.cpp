@@ -7,6 +7,12 @@
 
 using namespace std;
 
+/**
+ * @brief Gaussian distribution function
+ *
+ * @param x Input value
+ * @return Gaussian distribution value at x
+ */
 double gaussian_distribution(double x)
 {
     double mean = 0.0;
@@ -14,6 +20,15 @@ double gaussian_distribution(double x)
     return (1 / (std_dev * sqrt(2 * M_PI))) * exp(-0.5 * pow((x - mean) / std_dev, 2));
 }
 
+/**
+ * @brief Callback function for joint state message
+ *
+ * This function is called whenever a new joint state message is received.
+ * It sets the flag 'joint_initialized' to true and stores the current
+ * joint positions in the 'current_joints' vector.
+ *
+ * @param msg A pointer to the received joint state message
+ */
 void Controller::joint_state_callback(const sensor_msgs::JointState::ConstPtr &msg)
 {
     joint_initialized = true;
@@ -28,6 +43,15 @@ void Controller::joint_state_callback(const sensor_msgs::JointState::ConstPtr &m
     // cout << "current_joints " << current_joints << endl;
 }
 
+/**
+ * @brief Constructor for Controller class
+ * 
+ * Initialize loop frequency, get parameters, subscribe to topics, and advertise topics
+ * Wait for joint initialization before moving to default position
+ * If start_homing is true, move to default position
+ * @param loop_frequency The desired loop frequency
+ * @param start_homing If true, move to default position after initialization
+ */
 Controller::Controller(double loop_frequency, bool start_homing) : loop_rate(loop_frequency)
 {
     this->loop_frequency = loop_frequency;
@@ -51,6 +75,11 @@ Controller::Controller(double loop_frequency, bool start_homing) : loop_rate(loo
     }
 }
 
+/**
+ * @brief Publish joint values to a ROS topic
+ * 
+ * @param joint_pos The desired joint values
+ */
 void Controller::send_state(const jointValues &joint_pos)
 {
 
@@ -81,6 +110,11 @@ void Controller::send_state(const jointValues &joint_pos)
     pub_des_jstate.publish(joint_state_msg_array);
 }
 
+/**
+ * @brief Set the gripper diameter
+ * 
+ * @param diameter The target gripper diameter
+ */
 void Controller::sent_gripper_diameter(const int diameter)
 {
     if (test_fast_mode)
@@ -97,18 +131,33 @@ void Controller::sent_gripper_diameter(const int diameter)
          << endl;
 }
 
+/**
+ * @brief Get the current joint state
+ * 
+ * @return jointValues The current joint state
+ */
 jointValues Controller::get_joint_state()
 {
     ros::spinOnce();
     return current_joints;
 }
 
+/**
+ * @brief Get the current gripper state
+ * 
+ * @return GripperStateVector The current gripper state
+ */
 GripperStateVector Controller::get_gripper_state()
 {
     ros::spinOnce();
     return current_gripper;
 }
 
+/**
+ * @brief Get the current position and rotation of the end effector
+ * 
+ * @return std::pair<coordinates, rotMatrix> The current position and rotation of the end effector
+ */
 pair<coordinates, rotMatrix> Controller::get_position()
 {
     coordinates cord;
@@ -117,6 +166,10 @@ pair<coordinates, rotMatrix> Controller::get_position()
     return make_pair(cord, rotation);
 }
 
+/**
+ * @brief Inizialize the filter
+ * 
+ */
 void Controller::init_filter(void)
 {
     if (debug_traj)
@@ -127,6 +180,13 @@ void Controller::init_filter(void)
     filter_2 = current_joints;
 }
 
+/**
+ * @brief Filter joint values using second-order filter
+ *
+ * @param input Joint values to be filtered
+ * @param rate Sampling rate of the system
+ * @param settling_time Desired settling time of the filter
+ */
 jointValues Controller::second_order_filter(const jointValues &input, const double rate, const double settling_time)
 {
 
@@ -137,6 +197,13 @@ jointValues Controller::second_order_filter(const jointValues &input, const doub
     return filter_2;
 }
 
+/**
+ * @brief Moving the robot with a trajectory
+ * 
+ * @param trajectory trajactory to be followed
+ * @return true if the movement is successful
+ * @return false if the movement is not successful
+ */
 bool Controller::move_inside(vector<double *> *trajectory)
 {
     int steps = trajectory->size();
@@ -236,12 +303,29 @@ bool Controller::move_inside(vector<double *> *trajectory)
     return true;
 }
 
+/**
+ * @brief Set the diameter of the gripper
+ * 
+ * @param diameter 
+ */
 void Controller::move_gripper_to(const int diameter)
 {
 
     sent_gripper_diameter(diameter);
 }
 
+/**
+ * @brief Move the robot to a specific position
+ * 
+ * @param position coordinates of the target position
+ * @param rotation rotation matrix of the target position
+ * @param pick_or_place 
+ * @param homing 
+ * @param up_and_move_flag 
+ * @param move_to_near_axis_flag 
+ * @param side_pick_flag 
+ * @return int (1: move to, 2: move with side pick, 0: move failed)
+ */
 int Controller::move_to(const coordinates &position, const rotMatrix &rotation, bool pick_or_place, bool homing, bool up_and_move_flag, bool move_to_near_axis_flag, bool side_pick_flag)
 {
     cout << "Requested move_to with position: " << position.transpose() << endl;
@@ -303,6 +387,17 @@ int Controller::move_to(const coordinates &position, const rotMatrix &rotation, 
     return 0;
 }
 
+/**
+ * @brief Move the robot to multiple positions
+ * 
+ * @param poses_rots vector of positions and rotations
+ * @param pick_or_place 
+ * @param homing 
+ * @param up_and_move_flag 
+ * @param move_to_near_axis_flag 
+ * @param side_picks_flag 
+ * @return int (1: moving to, 2: moving with side pick, 0: move failed)
+ */
 int Controller::move_to_multiple(vector<pair<coordinates, rotMatrix>> poses_rots, bool *pick_or_place, bool *homing, bool *up_and_move_flag, bool *move_to_near_axis_flag, bool *side_picks_flag)
 {
 
@@ -388,6 +483,12 @@ int Controller::move_to_multiple(vector<pair<coordinates, rotMatrix>> poses_rots
     return 0;
 }
 
+/**
+ * @brief Set the gripping flag
+ * 
+ * @param isGripping 
+ * @param side_pick 
+ */
 void Controller ::setGripping(bool isGripping, bool side_pick)
 {
     this->isGripping = isGripping;

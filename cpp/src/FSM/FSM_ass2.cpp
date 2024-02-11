@@ -4,18 +4,33 @@
 using namespace std;
 using namespace Eigen;
 
+/**
+ * @brief 
+ * 
+ * @param fsm 
+ */
 void Init::toggle(FSM *fsm)
 {
     cout << "Init toggle" << endl;
     fsm->setState(Wait::getInstance());
 }
 
+/**
+ * @brief 
+ * 
+ * @param fsm 
+ */
 void Init::enter(FSM *fsm)
 {
     cout << "\n/////////////////////////\nEntered Init State\n/////////////////////////\n"
          << endl;
 }
 
+/**
+ * @brief 
+ * 
+ * @param fsm 
+ */
 void Init::exit(FSM *fsm)
 {
 
@@ -24,12 +39,22 @@ void Init::exit(FSM *fsm)
          << endl;
 }
 
+/**
+ * @brief 
+ * 
+ * @return FSMState& 
+ */
 FSMState &Init::getInstance()
 {
     static Init instance;
     return instance;
 }
 
+/**
+ * @brief 
+ * 
+ * @param fsm 
+ */
 void Wait::toggle(FSM *fsm)
 {
     if (fsm->isPositionQueueEmpty())
@@ -44,6 +69,11 @@ void Wait::toggle(FSM *fsm)
     }
 }
 
+/**
+ * @brief 
+ * 
+ * @param fsm 
+ */
 void Wait::enter(FSM *fsm)
 {
     // Do something
@@ -53,6 +83,11 @@ void Wait::enter(FSM *fsm)
     // move up before pick
 }
 
+/**
+ * @brief 
+ * 
+ * @param fsm 
+ */
 void Wait::exit(FSM *fsm)
 {
     /*
@@ -69,12 +104,22 @@ void Wait::exit(FSM *fsm)
          << endl;
 }
 
+/**
+ * @brief 
+ * 
+ * @return FSMState& 
+ */
 FSMState &Search::getInstance()
 {
     static Search instance;
     return instance;
 }
 
+/**
+ * @brief 
+ * 
+ * @param fsm 
+ */
 void Search::toggle(FSM *fsm)
 {
     if (fsm->isPositionQueueEmpty())
@@ -88,6 +133,11 @@ void Search::toggle(FSM *fsm)
     }
 }
 
+/**
+ * @brief 
+ * 
+ * @param fsm 
+ */
 void Search::enter(FSM *fsm)
 {
     if (fsm->init)
@@ -193,6 +243,11 @@ void Search::enter(FSM *fsm)
     return;
 }
 
+/**
+ * @brief 
+ * 
+ * @param fsm 
+ */
 void Search::exit(FSM *fsm)
 {
     // Do something
@@ -202,12 +257,22 @@ void Search::exit(FSM *fsm)
     return;
 }
 
+/**
+ * @brief 
+ * 
+ * @return FSMState& 
+ */
 FSMState &Wait::getInstance()
 {
     static Wait instance;
     return instance;
 }
 
+/**
+ * @brief 
+ * 
+ * @param fsm 
+ */
 void Move::toggle(FSM *fsm)
 {
 
@@ -230,6 +295,11 @@ void Move::toggle(FSM *fsm)
     }
 }
 
+/**
+ * @brief 
+ * 
+ * @param fsm 
+ */
 void Move::enter(FSM *fsm)
 {
     cout << "\n/////////////////////////\nEntered Move State\n/////////////////////////\n"
@@ -279,6 +349,11 @@ void Move::enter(FSM *fsm)
     return;
 }
 
+/**
+ * @brief 
+ * 
+ * @param fsm 
+ */
 void Move::exit(FSM *fsm)
 {
     cout << "\n/////////////////////////\nExited Move State\n/////////////////////////\n"
@@ -288,17 +363,32 @@ void Move::exit(FSM *fsm)
     return;
 }
 
+/**
+ * @brief 
+ * 
+ * @return FSMState& 
+ */
 FSMState &Move::getInstance()
 {
     static Move instance;
     return instance;
 }
 
+/**
+ * @brief 
+ * 
+ * @param fsm 
+ */
 void PickUp::toggle(FSM *fsm)
 {
     fsm->setState(Move::getInstance());
 }
 
+/**
+ * @brief 
+ * 
+ * @param fsm 
+ */
 void PickUp::enter(FSM *fsm)
 {
     cout << "\n/////////////////////////\nEntered PickUp State\n/////////////////////////\n"
@@ -306,6 +396,11 @@ void PickUp::enter(FSM *fsm)
     fsm->pickUp();
 }
 
+/**
+ * @brief 
+ * 
+ * @param fsm 
+ */
 void PickUp::exit(FSM *fsm)
 {
     // Do something
@@ -314,18 +409,33 @@ void PickUp::exit(FSM *fsm)
     return;
 }
 
+/**
+ * @brief 
+ * 
+ * @return FSMState& 
+ */
 FSMState &PickUp::getInstance()
 {
     static PickUp instance;
     return instance;
 }
 
+/**
+ * @brief 
+ * 
+ * @param fsm 
+ */
 void PlaceDown::toggle(FSM *fsm)
 {
     // exit already for assignment 1?
     fsm->setState(Wait::getInstance());
 }
 
+/**
+ * @brief 
+ * 
+ * @param fsm 
+ */
 void PlaceDown::enter(FSM *fsm)
 {
     cout << "\n/////////////////////////\nEntered PlaceDown State\n/////////////////////////\n"
@@ -334,6 +444,11 @@ void PlaceDown::enter(FSM *fsm)
     fsm->placeDown();
 }
 
+/**
+ * @brief 
+ * 
+ * @param fsm 
+ */
 void PlaceDown::exit(FSM *fsm)
 {
     // Do something
@@ -343,6 +458,11 @@ void PlaceDown::exit(FSM *fsm)
     return;
 }
 
+/**
+ * @brief 
+ * 
+ * @return FSMState& 
+ */
 FSMState &PlaceDown::getInstance()
 {
     static PlaceDown instance;
