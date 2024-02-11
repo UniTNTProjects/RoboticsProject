@@ -14,6 +14,12 @@ class FSM
 {
 public:
     FSM();
+
+    double timer_rec_objct = 0;
+    double start_objct_pick = 0;
+    double end_objct_pick = 0;
+    double objct_pick_time = 0;
+
     inline FSMState *getCurrentState() const { return currentState; }
     void toggle();
     void setState(FSMState &newState);

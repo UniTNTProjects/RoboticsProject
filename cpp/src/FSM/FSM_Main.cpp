@@ -18,6 +18,74 @@ void Init::enter(FSM *fsm)
 
 void Init::exit(FSM *fsm)
 {
+    coordinates defaultCordArray = {0.35, 0.03, 0.7};
+    rotMatrix rotDefault;
+    rotDefault << -1, 0, 0,
+        0, -1, 0,
+        0, 0, 1;
+    fsm->setPermission(true);
+    fsm->moveTo(defaultCordArray, rotDefault, false, false, false, false, false);
+    fsm->setPermission(false);
+    double initial_timer = ros::Time::now().toSec();
+
+    for (int i = 0; i < fsm->srv_points.response.instructions.size(); i++)
+    {
+        coordinates blockCord, silCord;
+        rotMatrix rot;
+        rotMatrix rot_default;
+        blockCord << fsm->srv_points.response.instructions[i].block.x,
+            fsm->srv_points.response.instructions[i].block.y,
+            fsm->srv_points.response.instructions[i].block.z;
+
+        int angle = fsm->srv_points.response.instructions[i].block.angle;
+        double angle_rad = angle * M_PI / 180.0;
+
+        Vector3d block_angles = {0, 0, angle_rad};
+        // Quaternion
+        Quaterniond q = AngleAxisd(block_angles(0), Vector3d::UnitX()) *
+                        AngleAxisd(block_angles(1), Vector3d::UnitY()) *
+                        AngleAxisd(block_angles(2), Vector3d::UnitZ());
+
+        coordinates side_pos;
+        side_pos << blockCord(0), blockCord(1), blockCord(2);
+
+        rot << cos(angle_rad), -sin(angle_rad), 0,
+            sin(angle_rad), cos(angle_rad), 0,
+            0, 0, 1;
+
+        // FIX TO DEFAULT ROT, TEST ONLY PURPOSE
+        rot_default
+            << -1,
+            0, 0,
+            0, -1, 0,
+            0, 0, 1;
+
+        silCord
+            << fsm->srv_points.response.instructions[i].sil.x,
+            fsm->srv_points.response.instructions[i].sil.y,
+            fsm->srv_points.response.instructions[i].sil.z;
+
+        cout << "Block type: " << fsm->srv_points.response.instructions[i].type << endl;
+        cout << "Angle: " << angle_rad * 180 / M_PI << endl;
+
+        coordinates blockCordRobot = fsm->translateBlockCordToRobotCord(side_pos);
+        coordinates silCordRobot = fsm->translateBlockCordToRobotCord(silCord);
+
+        silCordRobot(2) = 0.84;
+
+        cout << "Added position to queue" << endl;
+        cout << "Block cord (robot_ref): " << blockCordRobot << endl;
+        cout << "Sil cord (robot_ref): " << silCordRobot << endl;
+        cout << "---------------------" << endl;
+
+        fsm->addPosition(blockCordRobot, rot);
+        fsm->addPosition(silCordRobot, rot_default);
+    }
+
+    fsm->timer_rec_objct = ros::Time::now().toSec() - initial_timer;
+
+    cout << "Time to receive object: " << fsm->timer_rec_objct << endl;
+    fsm->start_objct_pick = ros::Time::now().toSec();
 
     cout << "\n/////////////////////////\nExited Init State\n/////////////////////////\n"
          << endl
@@ -55,15 +123,6 @@ void Wait::enter(FSM *fsm)
 
 void Wait::exit(FSM *fsm)
 {
-    /*
-    coordinates a,b;
-    a << 0.2, -0.2, 0.6;
-    b << 0.3, -0.3, 0.6;
-
-
-    fsm->addPosition(a, rot);
-    fsm->addPosition(b, rot);
-    */
 
     cout << "\n/////////////////////////\nExited Wait State\n/////////////////////////\n"
          << endl;
@@ -90,27 +149,25 @@ void Search::toggle(FSM *fsm)
 
 void Search::enter(FSM *fsm)
 {
+    cout << "\n/////////////////////////\nEntered Search State\n/////////////////////////\n"
+         << endl;
     if (fsm->init)
     {
-
-        coordinates defaultCordArray = {0.35, 0.3, 0.7};
+        coordinates defaultCordArray = {0.35, 0.03, 0.7};
         rotMatrix rotDefault;
         rotDefault << -1, 0, 0,
             0, -1, 0,
             0, 0, 1;
-        fsm->moveTo(defaultCordArray, rotDefault, false, true, false, false, false);
+        fsm->moveTo(defaultCordArray, rotDefault, false, false, false, false, false);
     }
     else
     {
         fsm->init = true;
     }
-    cout << "\n/////////////////////////\nEntered Search State\n/////////////////////////\n"
-         << endl;
     // Do something
     fsm->setPermission(true);
     cout << "Waiting for block" << endl;
     sleep(5);
-    cout << "Hope the block is arrived" << endl;
     fsm->get_ins.call(fsm->srv_points);
     for (int i = 0; i < fsm->srv_points.response.instructions.size(); i++)
     {
@@ -124,7 +181,6 @@ void Search::enter(FSM *fsm)
         int angle = fsm->srv_points.response.instructions[i].block.angle;
         double angle_rad = angle * M_PI / 180.0;
 
-        // Vector3d block_angles = {-M_PI_2, -angle_rad + M_PI, 0};
         Vector3d block_angles = {0, 0, angle_rad};
         // Quaternion
         Quaterniond q = AngleAxisd(block_angles(0), Vector3d::UnitX()) *
@@ -133,9 +189,7 @@ void Search::enter(FSM *fsm)
 
         coordinates side_pos;
         side_pos << blockCord(0), blockCord(1), blockCord(2);
-        // side_pos << blockCord(0) + sin(angle_rad) * 0.015, blockCord(1) - cos(angle_rad) * 0.015, blockCord(2) + 0.025;
-        // Rotation matrix
-        // rot = q.normalized().toRotationMatrix();
+
         rot << cos(angle_rad), -sin(angle_rad), 0,
             sin(angle_rad), cos(angle_rad), 0,
             0, 0, 1;
@@ -147,40 +201,18 @@ void Search::enter(FSM *fsm)
             0, -1, 0,
             0, 0, 1;
 
-        // switch (fsm->srv_points.response.instructions[i].block.angle)
-        // {
-        // case 0:
-        //     rot << -1, 0, 0,
-        //         0, -1, 0,
-        //         0, 0, 1;
-        //     break;
-        // case 45:
-        //     rot << -0.707, -0.707, 0,
-        //         0.707, -0.707, 0,
-        //         0, 0, 1;
-        // rad
-        // case 90:
-        //     rot << 0, -1, 0,
-        //         1, 0, 0,
-        //         0, 0, 1;
-        //     break;
-        // }
-
         silCord
             << fsm->srv_points.response.instructions[i].sil.x,
             fsm->srv_points.response.instructions[i].sil.y,
             fsm->srv_points.response.instructions[i].sil.z;
 
-        // cout << "Block cord (gazebo_ref): " << blockCord << endl;
-        // cout << "Sil cord (gazebo_ref): " << silCord << endl;
         cout << "Block type: " << fsm->srv_points.response.instructions[i].type << endl;
         cout << "Angle: " << angle_rad * 180 / M_PI << endl;
 
         coordinates blockCordRobot = fsm->translateBlockCordToRobotCord(side_pos);
         coordinates silCordRobot = fsm->translateBlockCordToRobotCord(silCord);
 
-        // blockCordRobot(2) = 0.76;
-        silCordRobot(2) = 0.76;
+        silCordRobot(2) = 0.84;
 
         cout << "Added position to queue" << endl;
         cout << "Block cord (robot_ref): " << blockCordRobot << endl;
@@ -214,7 +246,15 @@ void Move::toggle(FSM *fsm)
     if (fsm->isError)
     {
         fsm->isError = false;
-        fsm->removePosition();
+        if (!fsm->isGripping)
+        {
+            fsm->removePosition();
+            fsm->removePosition();
+        }
+        else
+        {
+            fsm->placeDown();
+        }
         fsm->setState(Wait::getInstance());
     }
     else
@@ -255,7 +295,7 @@ void Move::enter(FSM *fsm)
     bool homing[2] = {false, false};
     bool up_and_move_flag[2] = {false, false};
     bool move_to_near_axis_flag[2] = {false, false};
-    bool side_pick_flag[2] = {true, true};
+    bool side_pick_flag[2] = {false, false};
 
     fsm->isSidePick = false;
     switch (fsm->moveToMultiple(poses_rots, pick_or_place, homing, up_and_move_flag, move_to_near_axis_flag, side_pick_flag))
@@ -332,6 +372,8 @@ void PlaceDown::enter(FSM *fsm)
          << endl;
 
     fsm->placeDown();
+    fsm->end_objct_pick = ros::Time::now().toSec();
+    fsm->objct_pick_time = fsm->end_objct_pick - fsm->start_objct_pick;
 }
 
 void PlaceDown::exit(FSM *fsm)

@@ -15,20 +15,18 @@ catkin_package()
 # # Build talker and listener
 include_directories(include ${catkin_INCLUDE_DIRS} ${EIGEN3_INCLUDE_DIR})
 
-add_executable(FSM_ass2 src/FSM/FSM.cpp src/FSM/FSM_ass2.cpp  src/controller.cpp  src/kinematics/direct.cpp src/kinematics/inverse.cpp src/kinematics/jacobian.cpp   src/trajectories/movement_checks.cpp src/trajectories/motion_plans.cpp src/trajectories/trajectory_init.cpp)
+add_executable(FSM_Main src/FSM/FSM.cpp src/FSM/FSM_Main.cpp src/controller.cpp src/kinematics/direct.cpp src/kinematics/inverse.cpp src/kinematics/jacobian.cpp src/trajectories/movement_checks.cpp src/trajectories/motion_plans.cpp src/trajectories/trajectory_init.cpp)
 
+target_link_libraries(FSM_Main ${catkin_LIBRARIES})
+target_link_libraries(FSM_Main pinocchio::pinocchio)
 
-target_link_libraries(FSM_ass2 ${catkin_LIBRARIES})
-target_link_libraries(FSM_ass2 pinocchio::pinocchio)
-
-install(TARGETS FSM_ass2
+install(TARGETS FSM_Main
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
-add_executable(test src/test_new_kinematics.cpp src/controller.cpp  src/kinematics/direct.cpp src/kinematics/inverse.cpp src/kinematics/jacobian.cpp  src/trajectories/movement_checks.cpp src/trajectories/motion_plans.cpp src/trajectories/trajectory_init.cpp)
-
+add_executable(test src/test_new_kinematics.cpp src/controller.cpp src/kinematics/direct.cpp src/kinematics/inverse.cpp src/kinematics/jacobian.cpp src/trajectories/movement_checks.cpp src/trajectories/motion_plans.cpp src/trajectories/trajectory_init.cpp)
 
 target_link_libraries(test ${catkin_LIBRARIES})
 target_link_libraries(test pinocchio::pinocchio)
@@ -39,8 +37,7 @@ install(TARGETS test
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
-add_executable(test_all_poses src/test_all_poses.cpp src/controller.cpp src/controller_tests.cpp  src/kinematics/direct.cpp src/kinematics/inverse.cpp src/kinematics/jacobian.cpp  src/trajectories/movement_checks.cpp src/trajectories/motion_plans.cpp src/trajectories/trajectory_init.cpp)
-
+add_executable(test_all_poses src/test_all_poses.cpp src/controller.cpp src/controller_tests.cpp src/kinematics/direct.cpp src/kinematics/inverse.cpp src/kinematics/jacobian.cpp src/trajectories/movement_checks.cpp src/trajectories/motion_plans.cpp src/trajectories/trajectory_init.cpp)
 
 target_link_libraries(test_all_poses ${catkin_LIBRARIES})
 target_link_libraries(test_all_poses pinocchio::pinocchio)
