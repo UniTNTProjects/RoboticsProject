@@ -51,8 +51,7 @@ class Detector:
         self.robot_name = robot_name
         self.real_robot = False
         self.bridge = CvBridge()
-        self.weights = base_path + "runs/detect/trainBest/best.pt"
-        # self.weights = base_path + "dataset/runs/detect/trainBest/best.pt"
+        self.weights = base_path + "weight/best.pt"
         self.model = YOLO(self.weights)
         self.image_sub = rospy.Subscriber(
             "/ur5/zed_node/left_raw/image_raw_color", Image, self.callback
