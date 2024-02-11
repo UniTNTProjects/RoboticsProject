@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+
+<launch>
+    <arg name="assignement" default="2" />
+
+
+    <rosparam command="load" file="$(env HOME)/ros_ws/src/locosim/RoboticsProject/cpp/launch/area.yaml" />
+
+
+    <node name="lego_2" pkg="gazebo_ros" respawn="false" type="spawn_model" args="-x 0.32  -y 0.6 -z 0.87  -Y 0.85 -file $(env HOME)/ros_ws/src/locosim/RoboticsProject/models/X1-Y2-Z2/X1-Y2-Z2.sdf -model 2 -sdf" />
+    <node pkg="computer_vision" name="yoloNode" type="yoloNode" />
+    <node pkg="computer_vision" name="detect" type="detect.py" />
+
+    <!-- <node pkg="robot_project" name="FSM_Main" type="FSM_Main" output="log" /> -->
+  
+</launch>

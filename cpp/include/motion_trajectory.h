@@ -3,13 +3,13 @@
 using namespace Eigen;
 using namespace std;
 
-const bool debug_traj = true;
+const bool debug_traj = false;
 const bool error_code_debug = true;
 
 const int steps = 20;
 
 const double max_x = 1.5;
-const double max_y = 0.275;
+const double max_y = 0.25;
 const double max_z = 0.885;
 
 const double min_x = -1.5;
@@ -19,10 +19,11 @@ const double min_z = 0.0;
 const double max_y_near_end_table = 0.125;
 const double max_z_near_end_table = 0.73;
 
-const double max_z_moving = 0.81;
+const double max_z_moving = 0.82;
 const double max_z_moving_gripping = 0.78;
 
-const double max_z_sidepick = 0.84;
+// const double max_z_sidepick = 0.84;
+const double max_z_sidepick = 0.885;
 const double max_z_moving_sidepick = 0.8;
 const double max_z_moving_gripping_sidepick = 0.77;
 
@@ -35,7 +36,6 @@ const coordinates defaultCordArray[6] = {
     (coordinates() << -0.33, -0.29, 0.7).finished(),
     (coordinates() << 0.01, -0.29, 0.7).finished(),
     (coordinates() << 0.35, -0.29, 0.7).finished(),
-
 };
 
 bool check_singularity_collision(jointValues joints);

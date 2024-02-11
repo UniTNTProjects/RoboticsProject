@@ -21,17 +21,16 @@ vector<double *> up_tray(jointValues startJoint, bool side_pick, bool isGripping
     rotMatrix startRot;
     ur5Direct(startJoint, startCord, startRot);
 
-    // Calculate new z-coordinate
-    double new_z = startCord(2) - 0.15;
+    double new_z = startCord(2) - 0.2;
 
     if (isGripping)
     {
         new_z = startCord(2) - 0.07;
     }
 
-    if (new_z < 0.55)
+    if (new_z < 0.5)
     {
-        new_z = 0.55;
+        new_z = 0.5;
     }
     // if difference in new_z and currentPos(2) is too small, don't move up
     if (abs(new_z - startCord(2)) < 0.03)
@@ -76,11 +75,12 @@ vector<double *> up_and_move(const coordinates &position, const rotMatrix &rotat
     if (up_traj.size() > 0)
     {
         coordinates aboveCurrentpos;
-        rotMatrix rotation;
+        rotMatrix rot;
+
         jointValues aboveCurrentJoint;
         aboveCurrentJoint << up_traj[up_traj.size() - 1][0], up_traj[up_traj.size() - 1][1], up_traj[up_traj.size() - 1][2],
             up_traj[up_traj.size() - 1][3], up_traj[up_traj.size() - 1][4], up_traj[up_traj.size() - 1][5];
-        ur5Direct(aboveCurrentJoint, aboveCurrentpos, rotation);
+        ur5Direct(aboveCurrentJoint, aboveCurrentpos, rot);
 
         coordinates aboveNext;
         aboveNext << position(0), position(1), aboveCurrentpos(2);
@@ -96,13 +96,24 @@ vector<double *> up_and_move(const coordinates &position, const rotMatrix &rotat
         bool up_and_move_flag[] = {false, false};
         bool move_to_near_axis_flag[] = {false, false};
 
-        vector<double *> move_and_down_tray = calc_traj_multiple(positions, pick_or_place, homing, up_and_move_flag, move_to_near_axis_flag, aboveCurrentJoint, side_pick_array, isGripping);
-        if (move_and_down_tray.size() > 0)
+        vector<double *> move_tray = calc_traj(position, rotation, false, false, false, false, aboveCurrentJoint, side_pick, isGripping, false);
+        if (move_tray.size() > 0)
         {
-            up_traj.insert(up_traj.end(), move_and_down_tray.begin(), move_and_down_tray.end());
+            up_traj.insert(up_traj.end(), move_tray.begin(), move_tray.end());
             cout << "### Success\n"
                  << endl;
             return up_traj;
+        }
+        else
+        {
+            vector<double *> move_and_down_tray = calc_traj_multiple(positions, pick_or_place, homing, up_and_move_flag, move_to_near_axis_flag, aboveCurrentJoint, side_pick_array, isGripping);
+            if (move_and_down_tray.size() > 0)
+            {
+                up_traj.insert(up_traj.end(), move_and_down_tray.begin(), move_and_down_tray.end());
+                cout << "### Success 2 \n"
+                     << endl;
+                return up_traj;
+            }
         }
     }
     cout << "§§§ Failed\n"
@@ -238,7 +249,7 @@ vector<double *> reset_main_joint(const coordinates &position, const rotMatrix &
         joints.push_back(reset_values2);
 
         bool pick_or_place[] = {false, false};
-        bool homing[] = {true, false};
+        bool homing[] = {false, false};
         bool side_pick_array[] = {false, side_pick};
 
         vector<double *> reset_traj = calc_direct_traj_multiple_joint(joints, pick_or_place, homing, startJoint, side_pick_array, isGripping);
@@ -317,7 +328,7 @@ vector<double *> calc_direct_traj_multiple_joint(vector<jointValues> endJoints, 
         {
             currentJoints = endJoints[i - 1];
         }
-        vector<double *> direct_traj = calc_direct_traj_joint(endJoints[i], pick_or_place[i], homing[i], startJoint, side_pick[i], isGripping);
+        vector<double *> direct_traj = calc_direct_traj_joint(endJoints[i], pick_or_place[i], homing[i], currentJoints, side_pick[i], isGripping);
         if (direct_traj.size() > 0)
         {
             for (int j = 0; j < direct_traj.size(); j++)

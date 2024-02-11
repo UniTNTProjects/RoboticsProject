@@ -253,7 +253,7 @@ bool Controller::move_inside(vector<double *> *trajectory)
             des_normalized = bestNormalization(current_joints, des_not_linear);
             des_optimal = fixNormalization(des_normalized);
 
-            jointValues q_des = fixNormalization(bestNormalization(current_joints, second_order_filter(des_optimal, loop_frequency, settling_time)));
+            jointValues q_des = fixNormalization(bestNormalization(current_joints, second_order_filter(des_optimal, loop_frequency, 0.5)));
             if (use_filter)
             {
                 send_state(q_des);
@@ -403,7 +403,12 @@ int Controller::move_to_multiple(vector<pair<coordinates, rotMatrix>> poses_rots
 
     if (!(this->isGripping && this->side_pick))
     {
-        vector<double *> trajectory = calc_traj_multiple(poses_rots, pick_or_place, homing, up_and_move_flag, move_to_near_axis_flag, current_joints, side_picks_flag, this->isGripping);
+        bool *side_pick = new bool[poses_rots.size()];
+        for (int i = 0; i < poses_rots.size(); i++)
+        {
+            side_pick[i] = false;
+        }
+        vector<double *> trajectory = calc_traj_multiple(poses_rots, pick_or_place, homing, up_and_move_flag, move_to_near_axis_flag, current_joints, side_pick, this->isGripping);
 
         cout << "Requested move_to_multiple with positions: " << endl;
         for (int i = 0; i < poses_rots.size(); i++)
@@ -447,25 +452,27 @@ int Controller::move_to_multiple(vector<pair<coordinates, rotMatrix>> poses_rots
 
         Quaterniond side_pick_rot = q * toSidePick_Z * toSidePick_Y;
         // Overwrite last pose
+        bool *side_pick = new bool[poses_rots.size()];
         cout << "side_pick_euler: " << side_pick_euler << endl;
         for (int i = 0; i < poses_rots.size(); i++)
         {
+            side_pick[i] = false;
             if (side_picks_flag[i])
             {
                 cout << " --------------- Side pick\n"
                      << endl
                      << "BLOCK POS: " << poses_rots[i].first.transpose() << endl;
-
+                side_pick[i] = true;
                 coordinates block_pos = poses_rots[i].first;
                 coordinates side_pick_pos;
-                side_pick_pos << block_pos(0) + sin(euler(2)) * 0.02, block_pos(1) + cos(euler(2)) * 0.02, min(block_pos(2), 0.83);
+                side_pick_pos << block_pos(0) + sin(euler(2)) * 0.02, block_pos(1) + cos(euler(2)) * 0.02, min(block_pos(2), 0.839);
                 poses_rots[i].second = side_pick_rot.normalized().toRotationMatrix();
                 poses_rots[i].first = side_pick_pos;
                 cout << "SIDE PICK POS: " << side_pick_pos.transpose() << endl;
             }
         }
 
-        vector<double *> trajectory_side_pick = calc_traj_multiple(poses_rots, pick_or_place, homing, up_and_move_flag, move_to_near_axis_flag, current_joints, side_picks_flag, this->isGripping);
+        vector<double *> trajectory_side_pick = calc_traj_multiple(poses_rots, pick_or_place, homing, up_and_move_flag, move_to_near_axis_flag, current_joints, side_pick, this->isGripping);
         if (trajectory_side_pick.size() > 0)
         {
             if (move_inside(&trajectory_side_pick))

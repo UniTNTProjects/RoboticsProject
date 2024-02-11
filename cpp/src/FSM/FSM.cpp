@@ -10,13 +10,13 @@ using namespace std;
 FSM::FSM()
 {
     currentState = &Init::getInstance();
-    controller = new Controller(250., true);
+    controller = new Controller(250., false);
     positions = new queue<pair<coordinates, rotMatrix>>();
 
     get_ins = node.serviceClient<computer_vision::GetInstructions>("computer_vision/Instructions");
 
-    this->moveGripperTo(openGripperDiameter);
     this->setPermission(true);
+    this->moveGripperTo(openGripperDiameter);
     cout << "FSM initialized" << endl;
 }
 
@@ -220,6 +220,9 @@ int main(int argc, char **argv)
     {
         fsm.toggle();
     }
+    cout << "Done" << endl;
+    cout << "Time: " << fsm.objct_pick_time << endl;
+    cout << "Recognition time: " << fsm.timer_rec_objct << endl;
 
     return 0;
 }

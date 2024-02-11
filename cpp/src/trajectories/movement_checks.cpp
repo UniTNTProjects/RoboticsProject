@@ -7,10 +7,11 @@
  * @brief Checks for singularity and collision.
  * 
  * @param joints Joint values.
+ * @param side_pick True if side pick, false otherwise.
  * @return true If singularity or collision is detected.
  * @return false Otherwise.
  */
-bool check_singularity_collision(jointValues joints)
+bool check_singularity_collision(jointValues joints, bool side_pick)
 {
 
     homoMatrix mat;
@@ -42,71 +43,25 @@ bool check_singularity_collision(jointValues joints)
             {
                 cout << "joint[" << i << "] out of bounds" << endl;
                 cout << "joint[" << i << "]= (x: " << x_coord << ", y: " << y_coord << ", z: " << z_coord << ")" << endl;
+                cout << "min_z: " << min_z << ", max_z: " << max_z << ", max_y: " << max_y << endl;
             }
             return true;
         }
-    }
-    // cout << endl;
-    return false;
-}
-
-/**
- * @brief Checks for self collision.
- * 
- * @param Th Joint values.
- * @return true If self collision is detected.
- * @return false Otherwise.
- */
-bool check_self_collision(jointValues Th)
-{
-    homoMatrix mat;
-    mat << 1, 0, 0, 0,
-        0, 1, 0, 0,
-        0, 0, 1, 0,
-        0, 0, 0, 1;
-
-    homoMatrix matrixes[6];
-    matrixes[0] = T10f(Th(0));
-    matrixes[1] = T21f(Th(1));
-    matrixes[2] = T32f(Th(2));
-    matrixes[3] = T43f(Th(3));
-    matrixes[4] = T54f(Th(4));
-    matrixes[5] = T65f(Th(5));
-
-    vector<coordinates> cords;
-    for (int i = 0; i < 6; i++)
-    {
-        mat = mat * matrixes[i];
-        float x_coord = mat(0, 3);
-        float y_coord = mat(1, 3);
-        float z_coord = mat(2, 3);
-        coordinates cord;
-        cord << x_coord, y_coord, z_coord;
-        cords.push_back(cord);
-    }
-
-    // Check if gripper intersect with any joint
-
-    coordinates gripper;
-    gripper << cords[5](0), cords[5](1), cords[5](2);
-
-    // add end effector to coordinates[5]
-
-    for (int i = 0; i < 4; i++)
-    {
-        // Check if intersect the space between 2 joints
-
-        if (gripper(0) < cords[i](0) && gripper(0) > cords[i + 1](0))
+        if (side_pick)
         {
-            if (gripper(1) < cords[i](1) && gripper(1) > cords[i + 1](1))
+            if (z_coord > max_z_sidepick or z_coord < min_z or y_coord > max_y)
             {
-                if (gripper(2) < cords[i](2) && gripper(2) > cords[i + 1](2))
+                if (debug_traj)
                 {
-                    return true;
+                    cout << "Side pick:" << endl;
+                    cout << "joint[" << i << "] out of bounds" << endl;
+                    cout << "joint[" << i << "]= (x: " << x_coord << ", y: " << y_coord << ", z: " << z_coord << ")" << endl;
                 }
+                return true;
             }
         }
     }
+    // cout << endl;
     return false;
 }
 
@@ -152,11 +107,6 @@ bool check_trajectory(vector<double *> traj, int step, bool pick_or_place, int *
                  << endl;
         }
 
-        // if (check_self_collision(joints))
-        // {
-        //     *error_code = 42;
-        //     return false;
-        // }
         if (i == 0)
         {
             if ((cord - start_cord).norm() > 0.1)
@@ -187,7 +137,7 @@ bool check_trajectory(vector<double *> traj, int step, bool pick_or_place, int *
 
         if (i == step - 1)
         {
-            if ((cord - requested_cord).norm() > 0.1)
+            if (!side_pick && (cord - requested_cord).norm() > 0.1)
             {
                 if (debug_traj)
                 {
@@ -199,7 +149,7 @@ bool check_trajectory(vector<double *> traj, int step, bool pick_or_place, int *
                 *error_code = 14;
                 return false;
             }
-            if ((rot - requested_rotation).norm() > 0.1)
+            if ((rot - requested_rotation).norm() > 0.2)
             {
                 if (debug_traj)
                 {
@@ -211,7 +161,6 @@ bool check_trajectory(vector<double *> traj, int step, bool pick_or_place, int *
                 *error_code = 15;
                 return false;
             }
-
             if (side_pick && pick_or_place)
             {
                 homoMatrix mat;
@@ -264,7 +213,22 @@ bool check_trajectory(vector<double *> traj, int step, bool pick_or_place, int *
             }
         }
 
-        if (check_singularity_collision(joints))
+        if (joints(1) + M_PI_2 < M_PI_4 && joints(1) + M_PI_2 > -M_PI_4)
+        {
+            double offset = 0.1;
+            if (joints(2) < offset && joints(2) > -offset)
+            {
+                if (debug_traj)
+                {
+                    cout << "*******" << endl;
+                    cout << "type 3 collision with table" << endl;
+                }
+                *error_code = 36;
+                return false;
+            }
+        }
+
+        if (check_singularity_collision(joints, side_pick))
         {
             *error_code = 19;
             return false;
@@ -303,18 +267,43 @@ bool check_trajectory(vector<double *> traj, int step, bool pick_or_place, int *
             return false;
         }
 
-        if (side_pick && !pick_or_place && !homing && cord(2) > max_z_moving_sidepick)
+        if (side_pick)
         {
-            if (debug_traj)
+            if (!pick_or_place && cord(2) > max_z_moving_sidepick)
             {
-                cout << "*******" << endl;
-                cout << "moving too low sidepicking, z wrong: " << cord.transpose() << endl;
+                if (debug_traj)
+                {
+                    cout << "******" << endl;
+                    cout << "moving too low sidepicking, z wrong: " << cord.transpose() << endl;
+                }
+                *error_code = 52;
+                return false;
             }
-            *error_code = 52;
-            return false;
+
+            if (pick_or_place && cord(2) > max_z_sidepick)
+            {
+                if (debug_traj)
+                {
+                    cout << "*******" << endl;
+                    cout << "moving too low sidepicking, z wrong: " << cord.transpose() << endl;
+                }
+                *error_code = 53;
+                return false;
+            }
+
+            if (!pick_or_place && isGripping && cord(2) > max_z_moving_gripping_sidepick)
+            {
+                if (debug_traj)
+                {
+                    cout << "*******" << endl;
+                    cout << "moving too low gripping sidepicking, z wrong: " << cord.transpose() << endl;
+                }
+                *error_code = 54;
+                return false;
+            }
         }
 
-        if (!pick_or_place && cord(1) > max_y_near_end_table) // Should never happen
+        if (pick_or_place && (norm_angle(joints(5)) < M_PI_4 || norm_angle(joints(5)) > 7 * M_PI_4) && cord(1) > max_y_near_end_table && cord(2) > max_z_near_end_table)
         {
             if (debug_traj)
             {
@@ -336,20 +325,6 @@ bool check_trajectory(vector<double *> traj, int step, bool pick_or_place, int *
             return false;
         }
 
-        if (pick_or_place && (fabs(traj[0][4] - joints(4)) > M_PI / 2 || fabs(traj[0][5] - joints(5)) > M_PI / 2))
-        {
-            if (debug_traj)
-            {
-                cout << "*******" << endl;
-                cout << "trying strange rotation for pick or place" << endl;
-                cout << "traj[0][4]: " << traj[0][4] << ", traj[0][5]: " << traj[0][5] << endl;
-                cout << "joints(4): " << joints(4) << ", joints(5): " << joints(5) << endl;
-                cout << fabs(traj[0][4] - joints(4)) << ", " << fabs(traj[0][5] - joints(5)) << endl;
-            }
-            *error_code = 7;
-            return false;
-        }
-
         if (pick_or_place && (abs(start_cord(0) - cord(0))) > 0.2 && (abs(start_cord(1) - cord(1))) > 0.2)
         {
             if (debug_traj)
@@ -363,7 +338,7 @@ bool check_trajectory(vector<double *> traj, int step, bool pick_or_place, int *
             return false;
         }
 
-        if (pick_or_place && (start_rotation - rot).norm() > 0.2)
+        if (pick_or_place && abs(init_joint(4) - joints(4)) > 0.2)
         {
             if (debug_traj)
             {
@@ -384,7 +359,7 @@ bool check_trajectory(vector<double *> traj, int step, bool pick_or_place, int *
         MatrixXd jacobian = ur5Jac(joints);
         // cout << "jacobian: " << jacobian << endl;
 
-        if (joints(1) > 0.1 || joints(1) < -3.14)
+        if (joints(1) > 0.01 || joints(1) < -3.14)
         {
             if (debug_traj)
             {
