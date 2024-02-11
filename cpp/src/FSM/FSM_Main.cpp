@@ -23,10 +23,10 @@ void Init::exit(FSM *fsm)
     rotDefault << -1, 0, 0,
         0, -1, 0,
         0, 0, 1;
+    double initial_timer = ros::Time::now().toSec();
     fsm->setPermission(true);
     fsm->moveTo(defaultCordArray, rotDefault, false, false, false, false, false);
     fsm->setPermission(false);
-    double initial_timer = ros::Time::now().toSec();
 
     for (int i = 0; i < fsm->srv_points.response.instructions.size(); i++)
     {
@@ -35,7 +35,7 @@ void Init::exit(FSM *fsm)
         rotMatrix rot_default;
         blockCord << fsm->srv_points.response.instructions[i].block.x,
             fsm->srv_points.response.instructions[i].block.y,
-            fsm->srv_points.response.instructions[i].block.z;
+            fsm->srv_points.response.instructions[i].block.z - 0.055;
 
         int angle = fsm->srv_points.response.instructions[i].block.angle;
         double angle_rad = angle * M_PI / 180.0;
@@ -53,7 +53,6 @@ void Init::exit(FSM *fsm)
             sin(angle_rad), cos(angle_rad), 0,
             0, 0, 1;
 
-        // FIX TO DEFAULT ROT, TEST ONLY PURPOSE
         rot_default
             << -1,
             0, 0,

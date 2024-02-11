@@ -189,6 +189,21 @@ bool check_trajectory(vector<double *> traj, int step, bool pick_or_place, int *
             }
         }
 
+        if (joints(1) + M_PI_2 < M_PI_4 && joints(1) + M_PI_2 > -M_PI_4)
+        {
+            double offset = 0.1;
+            if (joints(2) < offset && joints(2) > -offset)
+            {
+                if (debug_traj)
+                {
+                    cout << "*******" << endl;
+                    cout << "type 3 collision with table" << endl;
+                }
+                *error_code = 36;
+                return false;
+            }
+        }
+
         if (check_singularity_collision(joints, side_pick))
         {
             *error_code = 19;

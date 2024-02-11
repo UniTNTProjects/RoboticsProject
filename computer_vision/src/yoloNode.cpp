@@ -8,9 +8,17 @@ vector<pair<int, computer_vision::BoundingBox>> blocks_history;
 vector<pair<int, computer_vision::BoundingBox>> blocks;
 vector<pair<int, computer_vision::BoundingBox>> sil;
 bool block_detected = false;
-bool init_sil = false;
+const bool testing = false;
 ros::ServiceClient pc_client;
 ros::ServiceServer getPoints_server;
+
+/**
+ * @brief Check if the point cloud is valid
+ *
+ * @param point Point cloud
+ * @return true  if the point cloud is valid
+ * @return false  if the point cloud is invalid
+ */
 bool checkPointCloud(computer_vision::Points point)
 {
     if ((point.x == 0 && point.y == 0 && point.z == 0) || point.z < 0.86 || point.z > 1.0)
@@ -20,8 +28,13 @@ bool checkPointCloud(computer_vision::Points point)
     }
     return true;
 }
-int call = 0;
-const bool testing = false;
+
+/**
+ * @brief Get the orientation of the block using bounding box
+ *
+ * @param box Bounding box of the block
+ * @return int Orientation of the block
+ */
 int getOrientation(computer_vision::BoundingBox box)
 {
     int offset = 10;
@@ -41,6 +54,13 @@ int getOrientation(computer_vision::BoundingBox box)
     }
 }
 
+/**
+ * @brief Get the orientation of the block using point cloud
+ *        Retrieves 3 points from the block and calculates the orientation
+ *
+ * @param box Bounding box of the block
+ * @return int Orientation of the block
+ */
 int getOrientationPointCloud(computer_vision::BoundingBox box)
 {
 
@@ -82,7 +102,7 @@ int getOrientationPointCloud(computer_vision::BoundingBox box)
 
     for (int i = box.ymax; i > box.ymin; i--)
     {
-        computer_vision::Points block = getPointCloud(box.xmin, i);
+        computer_vision::Points block = getPointCloud(box.xmin + 2, i);
         if (block.z > 0.871)
         {
             block_point_y_left(0) = block.x;
@@ -124,10 +144,17 @@ int getOrientationPointCloud(computer_vision::BoundingBox box)
 
     return angle_left - 180;
 }
+/**
+ * @brief  Check if the block is on the silhouette
+ *
+ * @param bbox_block  Bounding box of the block
+ * @return true  if the block is on the silhouette
+ * @return false  if the block is not on the silhouette
+ */
 
 bool checkOnSilhouette(computer_vision::BoundingBox bbox_block)
 {
-    double offset = 0.2;
+    double offset = 0.3;
     Vector3d sil = blocks_type[bbox_block.Class];
     computer_vision::Points block = getPointCloud(bbox_block);
 
@@ -136,6 +163,16 @@ bool checkOnSilhouette(computer_vision::BoundingBox bbox_block)
 
     return false;
 }
+
+/**
+ * @brief Check if the bounding boxes are the same
+ *
+ * @param box1 Bounding box 1
+ * @param box2 Bounding box 2
+ * @return true  if the bounding boxes are the same
+ * @return false  if the bounding boxes are not the same
+ *
+ */
 
 bool checkSameBBox(computer_vision::BoundingBox box1, computer_vision::BoundingBox box2)
 {
@@ -149,6 +186,13 @@ bool checkSameBBox(computer_vision::BoundingBox box1, computer_vision::BoundingB
     }
     return false;
 }
+
+/**
+ * @brief Callback function for the 2D image
+ *
+ * @param msg 2D image message
+ */
+
 void robot2DImageCallback(const computer_vision::BoundingBoxes &msg)
 {
 
@@ -189,6 +233,13 @@ void robot2DImageCallback(const computer_vision::BoundingBoxes &msg)
     return;
 }
 
+/**
+ * @brief Get the point cloud of the block
+ *
+ * @param x X coordinate of the block
+ * @param y Y coordinate of the block
+ * @return computer_vision::Points Point cloud of the block
+ */
 computer_vision::Points getPointCloud(double x, double y)
 {
 
@@ -212,6 +263,12 @@ computer_vision::Points getPointCloud(double x, double y)
     return res;
 }
 
+/**
+ * @brief Get the point cloud of the block
+ *
+ * @param box Bounding box of the block
+ * @return computer_vision::Points Point cloud of the block
+ */
 computer_vision::Points getPointCloud(computer_vision::BoundingBox box)
 {
     // get 2 points from the block
@@ -257,6 +314,12 @@ computer_vision::Points getPointCloud(computer_vision::BoundingBox box)
     return middle;
 }
 
+/**
+ * @brief Create instructions for the block
+ *
+ * @param block Block to create instructions for
+ * @return computer_vision::Instruction Instructions for the block
+ */
 computer_vision::Instruction createInstructions(pair<int, computer_vision::BoundingBox> block)
 {
     computer_vision::Instruction instruction;
@@ -284,6 +347,14 @@ computer_vision::Instruction createInstructions(pair<int, computer_vision::Bound
     return instruction;
 }
 
+/**
+ * @brief Get instructions for the blocks
+ *
+ * @param req Request for the instructions
+ * @param res Response for the instructions
+ * @return true  if the instructions are valid
+ * @return false  if the instructions are invalid
+ */
 bool getInstructionsCallback(computer_vision::GetInstructions::Request &req, computer_vision::GetInstructions::Response &res)
 {
     for (const auto &block : blocks)
@@ -304,6 +375,13 @@ bool getInstructionsCallback(computer_vision::GetInstructions::Request &req, com
     return true;
 }
 
+/**
+ * @brief Main function
+ *
+ * @param argc Number of arguments
+ * @param argv Arguments
+ * @return int 0 if the program runs successfully
+ */
 int main(int argc, char **argv)
 {
     ros::init(argc, argv, "yoloNode");

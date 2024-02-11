@@ -84,6 +84,7 @@ class Detector:
         self.show_image = True
         self.boxes = {}  # Dictionary with the bounding boxes
         self.objects = {}  # List with all the objects detected
+        self.silhouette = {}  # List with all the silhouettes detected
 
         for i in range(len(names)):
             self.objects[i] = []

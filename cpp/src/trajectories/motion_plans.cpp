@@ -215,7 +215,7 @@ vector<double *> reset_main_joint(const coordinates &position, const rotMatrix &
         joints.push_back(reset_values2);
 
         bool pick_or_place[] = {false, false};
-        bool homing[] = {true, false};
+        bool homing[] = {false, false};
         bool side_pick_array[] = {false, side_pick};
 
         vector<double *> reset_traj = calc_direct_traj_multiple_joint(joints, pick_or_place, homing, startJoint, side_pick_array, isGripping);
