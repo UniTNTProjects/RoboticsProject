@@ -1,0 +1,89 @@
+\hypertarget{classutils_1_1pidManager_1_1PidManager}{}\doxysection{utils.\+pid\+Manager.\+Pid\+Manager Class Reference}
+\label{classutils_1_1pidManager_1_1PidManager}\index{utils.pidManager.PidManager@{utils.pidManager.PidManager}}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classutils_1_1pidManager_1_1PidManager_ae3694e10ce1b2cb717c067fe9b967ec4}\label{classutils_1_1pidManager_1_1PidManager_ae3694e10ce1b2cb717c067fe9b967ec4}} 
+def {\bfseries \+\_\+\+\_\+init\+\_\+\+\_\+} (self, jnames)
+\item 
+def \mbox{\hyperlink{classutils_1_1pidManager_1_1PidManager_afafa238b3d5d9d9848241114b297a019}{set\+P\+Ds}} (self, kp, kd, ki=0)
+\item 
+def \mbox{\hyperlink{classutils_1_1pidManager_1_1PidManager_ac46f1b8951fc9b2311e242684f8f6d80}{set\+P\+Dleg}} (self, legid, kp, kd, ki)
+\item 
+def \mbox{\hyperlink{classutils_1_1pidManager_1_1PidManager_a0be8a49cfdaae99a8c398d19e0c45b33}{set\+P\+Djoint}} (self, joint\+\_\+idx, kp, kd, ki)
+\item 
+def \mbox{\hyperlink{classutils_1_1pidManager_1_1PidManager_a98f7db3a0615a257445f36bf83242bea}{set\+P\+Djoints}} (self, kp, kd, ki)
+\item 
+\mbox{\Hypertarget{classutils_1_1pidManager_1_1PidManager_ad8d593dea98cd3fba8e3102262423f17}\label{classutils_1_1pidManager_1_1PidManager_ad8d593dea98cd3fba8e3102262423f17}} 
+def {\bfseries \+\_\+\+\_\+repr\+\_\+\+\_\+} (self)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classutils_1_1pidManager_1_1PidManager_aa9321fa765e46340d2ab543ebb13d6f9}\label{classutils_1_1pidManager_1_1PidManager_aa9321fa765e46340d2ab543ebb13d6f9}} 
+{\bfseries joint\+\_\+names}
+\item 
+\mbox{\Hypertarget{classutils_1_1pidManager_1_1PidManager_a70ea1405e235bcbe56f777cfd4c0424f}\label{classutils_1_1pidManager_1_1PidManager_a70ea1405e235bcbe56f777cfd4c0424f}} 
+{\bfseries set\+\_\+pd\+\_\+service}
+\item 
+\mbox{\Hypertarget{classutils_1_1pidManager_1_1PidManager_ab3804c2955734a2254e977628969be7c}\label{classutils_1_1pidManager_1_1PidManager_ab3804c2955734a2254e977628969be7c}} 
+{\bfseries joint\+\_\+pid}
+\item 
+\mbox{\Hypertarget{classutils_1_1pidManager_1_1PidManager_a7e97e83d682304a0798081cc1b13f1fa}\label{classutils_1_1pidManager_1_1PidManager_a7e97e83d682304a0798081cc1b13f1fa}} 
+{\bfseries joint\+\_\+pid\+\_\+log}
+\item 
+\mbox{\Hypertarget{classutils_1_1pidManager_1_1PidManager_a72cedb1105f3d7ecb2d4dfa48d4cb25c}\label{classutils_1_1pidManager_1_1PidManager_a72cedb1105f3d7ecb2d4dfa48d4cb25c}} 
+{\bfseries req\+\_\+msg}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classutils_1_1pidManager_1_1PidManager_a0be8a49cfdaae99a8c398d19e0c45b33}\label{classutils_1_1pidManager_1_1PidManager_a0be8a49cfdaae99a8c398d19e0c45b33}} 
+\index{utils.pidManager.PidManager@{utils.pidManager.PidManager}!setPDjoint@{setPDjoint}}
+\index{setPDjoint@{setPDjoint}!utils.pidManager.PidManager@{utils.pidManager.PidManager}}
+\doxysubsubsection{\texorpdfstring{setPDjoint()}{setPDjoint()}}
+{\footnotesize\ttfamily def utils.\+pid\+Manager.\+Pid\+Manager.\+set\+P\+Djoint (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{joint\+\_\+idx,  }\item[{}]{kp,  }\item[{}]{kd,  }\item[{}]{ki }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Set value of PID for a specific joint or a set of joints
+@joint_idx: (int) index of the joint /(array) of indices of the set of joints
+@kp: proportional gain (int/array)
+@kd: derivative gain (int/array)
+@kp: integral gain (int/array)
+\end{DoxyVerb}
+ \mbox{\Hypertarget{classutils_1_1pidManager_1_1PidManager_a98f7db3a0615a257445f36bf83242bea}\label{classutils_1_1pidManager_1_1PidManager_a98f7db3a0615a257445f36bf83242bea}} 
+\index{utils.pidManager.PidManager@{utils.pidManager.PidManager}!setPDjoints@{setPDjoints}}
+\index{setPDjoints@{setPDjoints}!utils.pidManager.PidManager@{utils.pidManager.PidManager}}
+\doxysubsubsection{\texorpdfstring{setPDjoints()}{setPDjoints()}}
+{\footnotesize\ttfamily def utils.\+pid\+Manager.\+Pid\+Manager.\+set\+P\+Djoints (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{kp,  }\item[{}]{kd,  }\item[{}]{ki }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Set array of values of PID for all joints
+@kp: proportional gain (array)
+@kd: derivative gain (array)
+@ki: integral gain (array)
+\end{DoxyVerb}
+ \mbox{\Hypertarget{classutils_1_1pidManager_1_1PidManager_ac46f1b8951fc9b2311e242684f8f6d80}\label{classutils_1_1pidManager_1_1PidManager_ac46f1b8951fc9b2311e242684f8f6d80}} 
+\index{utils.pidManager.PidManager@{utils.pidManager.PidManager}!setPDleg@{setPDleg}}
+\index{setPDleg@{setPDleg}!utils.pidManager.PidManager@{utils.pidManager.PidManager}}
+\doxysubsubsection{\texorpdfstring{setPDleg()}{setPDleg()}}
+{\footnotesize\ttfamily def utils.\+pid\+Manager.\+Pid\+Manager.\+set\+P\+Dleg (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{legid,  }\item[{}]{kp,  }\item[{}]{kd,  }\item[{}]{ki }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Set PDs the same values for the joints of a leg of a quadruped
+@kp: proportional gain (scalar)
+@kd: derivative gain (scalar)
+@kp: integral gain (scalar)
+\end{DoxyVerb}
+ \mbox{\Hypertarget{classutils_1_1pidManager_1_1PidManager_afafa238b3d5d9d9848241114b297a019}\label{classutils_1_1pidManager_1_1PidManager_afafa238b3d5d9d9848241114b297a019}} 
+\index{utils.pidManager.PidManager@{utils.pidManager.PidManager}!setPDs@{setPDs}}
+\index{setPDs@{setPDs}!utils.pidManager.PidManager@{utils.pidManager.PidManager}}
+\doxysubsubsection{\texorpdfstring{setPDs()}{setPDs()}}
+{\footnotesize\ttfamily def utils.\+pid\+Manager.\+Pid\+Manager.\+set\+P\+Ds (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{kp,  }\item[{}]{kd,  }\item[{}]{ki = {\ttfamily 0} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb} Set the same values of PID for all the joints of the robot
+ @kp: proportional gain (scalar)
+ @kd: derivative gain (scalar)
+ @kp: integral gain (scalar)\end{DoxyVerb}
+ 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+utils/pid\+Manager.\+py\end{DoxyCompactItemize}

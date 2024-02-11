@@ -1,0 +1,146 @@
+\hypertarget{classutils_1_1custom__robot__wrapper_1_1RobotWrapper}{}\doxysection{utils.\+custom\+\_\+robot\+\_\+wrapper.\+Robot\+Wrapper Class Reference}
+\label{classutils_1_1custom__robot__wrapper_1_1RobotWrapper}\index{utils.custom\_robot\_wrapper.RobotWrapper@{utils.custom\_robot\_wrapper.RobotWrapper}}
+
+
+Inheritance diagram for utils.\+custom\+\_\+robot\+\_\+wrapper.\+Robot\+Wrapper\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=214pt]{classutils_1_1custom__robot__wrapper_1_1RobotWrapper__inherit__graph}
+\end{center}
+\end{figure}
+
+
+Collaboration diagram for utils.\+custom\+\_\+robot\+\_\+wrapper.\+Robot\+Wrapper\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=214pt]{classutils_1_1custom__robot__wrapper_1_1RobotWrapper__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classutils_1_1custom__robot__wrapper_1_1RobotWrapper_a62afeb22f62185f613ace29e7bf25e60}\label{classutils_1_1custom__robot__wrapper_1_1RobotWrapper_a62afeb22f62185f613ace29e7bf25e60}} 
+def {\bfseries mass} (self, q, update=True)
+\item 
+\mbox{\Hypertarget{classutils_1_1custom__robot__wrapper_1_1RobotWrapper_a430f8d79c32e9fe61d33ef0bd52669ce}\label{classutils_1_1custom__robot__wrapper_1_1RobotWrapper_a430f8d79c32e9fe61d33ef0bd52669ce}} 
+def {\bfseries nle} (self, q, v, update=True)
+\item 
+\mbox{\Hypertarget{classutils_1_1custom__robot__wrapper_1_1RobotWrapper_a876597180d496de6c3a92d6cba0e5ffb}\label{classutils_1_1custom__robot__wrapper_1_1RobotWrapper_a876597180d496de6c3a92d6cba0e5ffb}} 
+def {\bfseries robot\+ComW} (self, q=None, v=None, a=None, update=True)
+\item 
+\mbox{\Hypertarget{classutils_1_1custom__robot__wrapper_1_1RobotWrapper_a8c716ff95007354843c8707db765cb4c}\label{classutils_1_1custom__robot__wrapper_1_1RobotWrapper_a8c716ff95007354843c8707db765cb4c}} 
+def {\bfseries robot\+ComB} (self, q\+\_\+j, qd\+\_\+j=None)
+\item 
+\mbox{\Hypertarget{classutils_1_1custom__robot__wrapper_1_1RobotWrapper_a686e3b024d9e875916a751eeedba019e}\label{classutils_1_1custom__robot__wrapper_1_1RobotWrapper_a686e3b024d9e875916a751eeedba019e}} 
+def {\bfseries Jcom} (self, q, update=True)
+\item 
+\mbox{\Hypertarget{classutils_1_1custom__robot__wrapper_1_1RobotWrapper_aff5d753f7237499a6f80e4775de67436}\label{classutils_1_1custom__robot__wrapper_1_1RobotWrapper_aff5d753f7237499a6f80e4775de67436}} 
+def {\bfseries momentum\+Jacobian} (self, q, v, update=True)
+\item 
+\mbox{\Hypertarget{classutils_1_1custom__robot__wrapper_1_1RobotWrapper_afc4be32ebd2ab9ea3620118562bb5d67}\label{classutils_1_1custom__robot__wrapper_1_1RobotWrapper_afc4be32ebd2ab9ea3620118562bb5d67}} 
+def {\bfseries centroidal\+InertiaW} (self, q, v, update=True)
+\item 
+\mbox{\Hypertarget{classutils_1_1custom__robot__wrapper_1_1RobotWrapper_afd4a4fdf20a037d5c0e620d32f736f3b}\label{classutils_1_1custom__robot__wrapper_1_1RobotWrapper_afd4a4fdf20a037d5c0e620d32f736f3b}} 
+def {\bfseries centroidal\+InertiaB} (self, q, v, update=True)
+\item 
+\mbox{\Hypertarget{classutils_1_1custom__robot__wrapper_1_1RobotWrapper_aed4d34c9d7da04653b8b062a78f379ae}\label{classutils_1_1custom__robot__wrapper_1_1RobotWrapper_aed4d34c9d7da04653b8b062a78f379ae}} 
+def {\bfseries composite\+Robot\+InertiaB} (self, q, update=True)
+\item 
+def \mbox{\hyperlink{classutils_1_1custom__robot__wrapper_1_1RobotWrapper_a535c12116c8b45950e6d1a385210332b}{compute\+All\+Terms}} (self, q, v)
+\item 
+\mbox{\Hypertarget{classutils_1_1custom__robot__wrapper_1_1RobotWrapper_a2f66dc06e6cf3fff2fae86e640bf1c8f}\label{classutils_1_1custom__robot__wrapper_1_1RobotWrapper_a2f66dc06e6cf3fff2fae86e640bf1c8f}} 
+def {\bfseries forward\+Kinematics} (self, q, v=None, a=None)
+\item 
+def \mbox{\hyperlink{classutils_1_1custom__robot__wrapper_1_1RobotWrapper_a758db42a36266478941741f997d8eb46}{frame\+Jacobian}} (self, q, index, update=True, ref\+\_\+frame=pin.\+Reference\+Frame.\+L\+O\+C\+A\+L\+\_\+\+W\+O\+R\+L\+D\+\_\+\+A\+L\+I\+G\+N\+ED)
+\item 
+\mbox{\Hypertarget{classutils_1_1custom__robot__wrapper_1_1RobotWrapper_aad6170e0333860796a1d35f959bc4282}\label{classutils_1_1custom__robot__wrapper_1_1RobotWrapper_aad6170e0333860796a1d35f959bc4282}} 
+def {\bfseries frame\+Velocity} (self, q, v, index, update\+\_\+kinematics=True, ref\+\_\+frame=pin.\+Reference\+Frame.\+L\+O\+C\+A\+L\+\_\+\+W\+O\+R\+L\+D\+\_\+\+A\+L\+I\+G\+N\+ED)
+\item 
+\mbox{\Hypertarget{classutils_1_1custom__robot__wrapper_1_1RobotWrapper_a851b99531d08cf2a7bca83eb4c00fce7}\label{classutils_1_1custom__robot__wrapper_1_1RobotWrapper_a851b99531d08cf2a7bca83eb4c00fce7}} 
+def {\bfseries frame\+Acceleration} (self, q, v, a, index, update\+\_\+kinematics=True, ref\+\_\+frame=pin.\+Reference\+Frame.\+L\+O\+C\+A\+L\+\_\+\+W\+O\+R\+L\+D\+\_\+\+A\+L\+I\+G\+N\+ED)
+\item 
+\mbox{\Hypertarget{classutils_1_1custom__robot__wrapper_1_1RobotWrapper_afac1c8d3d3cb647220156f8c0abda517}\label{classutils_1_1custom__robot__wrapper_1_1RobotWrapper_afac1c8d3d3cb647220156f8c0abda517}} 
+def {\bfseries frame\+Classic\+Acceleration} (self, q, v, a, index, update\+\_\+kinematics=True, ref\+\_\+frame=pin.\+Reference\+Frame.\+L\+O\+C\+A\+L\+\_\+\+W\+O\+R\+L\+D\+\_\+\+A\+L\+I\+G\+N\+ED)
+\item 
+\mbox{\Hypertarget{classutils_1_1custom__robot__wrapper_1_1RobotWrapper_ad3984fe422d704fdd0cf698a5ae089b9}\label{classutils_1_1custom__robot__wrapper_1_1RobotWrapper_ad3984fe422d704fdd0cf698a5ae089b9}} 
+def {\bfseries deactivate\+Collision\+Pairs} (self, collision\+\_\+pair\+\_\+indexes)
+\item 
+\mbox{\Hypertarget{classutils_1_1custom__robot__wrapper_1_1RobotWrapper_a5e6579cf740b707862965b12ab120191}\label{classutils_1_1custom__robot__wrapper_1_1RobotWrapper_a5e6579cf740b707862965b12ab120191}} 
+def {\bfseries add\+All\+Collision\+Pairs} (self)
+\item 
+\mbox{\Hypertarget{classutils_1_1custom__robot__wrapper_1_1RobotWrapper_a1ae5f8dda1be503414caedb5aa47e68a}\label{classutils_1_1custom__robot__wrapper_1_1RobotWrapper_a1ae5f8dda1be503414caedb5aa47e68a}} 
+def {\bfseries is\+In\+Collision} (self, q, stop\+\_\+at\+\_\+first\+\_\+collision=True)
+\item 
+\mbox{\Hypertarget{classutils_1_1custom__robot__wrapper_1_1RobotWrapper_a5f8b08e63f5b79941718a9165ec1fd52}\label{classutils_1_1custom__robot__wrapper_1_1RobotWrapper_a5f8b08e63f5b79941718a9165ec1fd52}} 
+def {\bfseries find\+First\+Collision\+Pair} (self, consider\+\_\+only\+\_\+active\+\_\+collision\+\_\+pairs=True)
+\item 
+\mbox{\Hypertarget{classutils_1_1custom__robot__wrapper_1_1RobotWrapper_afe1d57e0c127c4d790f418904168f3c1}\label{classutils_1_1custom__robot__wrapper_1_1RobotWrapper_afe1d57e0c127c4d790f418904168f3c1}} 
+def {\bfseries find\+All\+Collision\+Pairs} (self, consider\+\_\+only\+\_\+active\+\_\+collision\+\_\+pairs=True)
+\item 
+\mbox{\Hypertarget{classutils_1_1custom__robot__wrapper_1_1RobotWrapper_ad1aafbe93bf83f47bf73483bc3b214eb}\label{classutils_1_1custom__robot__wrapper_1_1RobotWrapper_ad1aafbe93bf83f47bf73483bc3b214eb}} 
+def {\bfseries get\+E\+E\+Stack\+Jacobians} (self, q, component=\textquotesingle{}full\textquotesingle{}, ref\+\_\+frame=pin.\+Reference\+Frame.\+L\+O\+C\+A\+L\+\_\+\+W\+O\+R\+L\+D\+\_\+\+A\+L\+I\+G\+N\+ED)
+\item 
+\mbox{\Hypertarget{classutils_1_1custom__robot__wrapper_1_1RobotWrapper_a17e964860edc8892491855af441ee4f3}\label{classutils_1_1custom__robot__wrapper_1_1RobotWrapper_a17e964860edc8892491855af441ee4f3}} 
+def {\bfseries K\+K\+T\+Matrix\+At\+End\+Effectors} (self, q, component=\textquotesingle{}full\textquotesingle{}, ref\+\_\+frame=pin.\+Reference\+Frame.\+L\+O\+C\+A\+L\+\_\+\+W\+O\+R\+L\+D\+\_\+\+A\+L\+I\+G\+N\+ED)
+\item 
+\mbox{\Hypertarget{classutils_1_1custom__robot__wrapper_1_1RobotWrapper_a8f2bde91d96982c0c41134891b098754}\label{classutils_1_1custom__robot__wrapper_1_1RobotWrapper_a8f2bde91d96982c0c41134891b098754}} 
+def {\bfseries K\+K\+T\+Matrix\+At\+End\+Effectors\+Inv} (self, q, component=\textquotesingle{}full\textquotesingle{}, ref\+\_\+frame=pin.\+Reference\+Frame.\+L\+O\+C\+A\+L\+\_\+\+W\+O\+R\+L\+D\+\_\+\+A\+L\+I\+G\+N\+ED)
+\item 
+\mbox{\Hypertarget{classutils_1_1custom__robot__wrapper_1_1RobotWrapper_a7ed944c9be0f6993016f8079a5618d8a}\label{classutils_1_1custom__robot__wrapper_1_1RobotWrapper_a7ed944c9be0f6993016f8079a5618d8a}} 
+def {\bfseries d\+Jdq} (self, q, v, index, component=\textquotesingle{}full\textquotesingle{}, update\+\_\+kinematics=True, ref\+\_\+frame=pin.\+Reference\+Frame.\+L\+O\+C\+A\+L\+\_\+\+W\+O\+R\+L\+D\+\_\+\+A\+L\+I\+G\+N\+ED)
+\item 
+\mbox{\Hypertarget{classutils_1_1custom__robot__wrapper_1_1RobotWrapper_a7b489228afe5178ec9975bcb252336fd}\label{classutils_1_1custom__robot__wrapper_1_1RobotWrapper_a7b489228afe5178ec9975bcb252336fd}} 
+def {\bfseries friction\+Regressor} (self, v)
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classutils_1_1custom__robot__wrapper_1_1RobotWrapper_afddd13cf6f04951641312268c2013e8c}\label{classutils_1_1custom__robot__wrapper_1_1RobotWrapper_afddd13cf6f04951641312268c2013e8c}} 
+def {\bfseries Build\+From\+U\+R\+DF} (filename, package\+\_\+dirs=None, root\+\_\+joint=None, verbose=False, mesh\+Loader=None)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classutils_1_1custom__robot__wrapper_1_1RobotWrapper_aa0f31fb5bdabe3be3455a754ec88362d}\label{classutils_1_1custom__robot__wrapper_1_1RobotWrapper_aa0f31fb5bdabe3be3455a754ec88362d}} 
+{\bfseries collision\+\_\+data}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classutils_1_1custom__robot__wrapper_1_1RobotWrapper_a535c12116c8b45950e6d1a385210332b}\label{classutils_1_1custom__robot__wrapper_1_1RobotWrapper_a535c12116c8b45950e6d1a385210332b}} 
+\index{utils.custom\_robot\_wrapper.RobotWrapper@{utils.custom\_robot\_wrapper.RobotWrapper}!computeAllTerms@{computeAllTerms}}
+\index{computeAllTerms@{computeAllTerms}!utils.custom\_robot\_wrapper.RobotWrapper@{utils.custom\_robot\_wrapper.RobotWrapper}}
+\doxysubsubsection{\texorpdfstring{computeAllTerms()}{computeAllTerms()}}
+{\footnotesize\ttfamily def utils.\+custom\+\_\+robot\+\_\+wrapper.\+Robot\+Wrapper.\+compute\+All\+Terms (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{q,  }\item[{}]{v }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}pin.computeAllTerms is equivalent to calling:
+    pinocchio::forwardKinematics
+    pinocchio::crba
+    pinocchio::nonLinearEffects
+    pinocchio::computeJointJacobians
+    pinocchio::centerOfMass
+    pinocchio::jacobianCenterOfMass
+    pinocchio::kineticEnergy
+    pinocchio::potentialEnergy
+    This is too much for our needs, so we call only the functions
+    we need, including those for the frame kinematics
+\end{DoxyVerb}
+ \mbox{\Hypertarget{classutils_1_1custom__robot__wrapper_1_1RobotWrapper_a758db42a36266478941741f997d8eb46}\label{classutils_1_1custom__robot__wrapper_1_1RobotWrapper_a758db42a36266478941741f997d8eb46}} 
+\index{utils.custom\_robot\_wrapper.RobotWrapper@{utils.custom\_robot\_wrapper.RobotWrapper}!frameJacobian@{frameJacobian}}
+\index{frameJacobian@{frameJacobian}!utils.custom\_robot\_wrapper.RobotWrapper@{utils.custom\_robot\_wrapper.RobotWrapper}}
+\doxysubsubsection{\texorpdfstring{frameJacobian()}{frameJacobian()}}
+{\footnotesize\ttfamily def utils.\+custom\+\_\+robot\+\_\+wrapper.\+Robot\+Wrapper.\+frame\+Jacobian (\begin{DoxyParamCaption}\item[{}]{self,  }\item[{}]{q,  }\item[{}]{index,  }\item[{}]{update = {\ttfamily True},  }\item[{}]{ref\+\_\+frame = {\ttfamily pin.ReferenceFrame.LOCAL\+\_\+WORLD\+\_\+ALIGNED} }\end{DoxyParamCaption})}
+
+\begin{DoxyVerb}Call computeFrameJacobian if update is true. If not, user should call computeFrameJacobian first.
+    Then call getFrameJacobian and return the Jacobian matrix.
+    ref_frame can be: ReferenceFrame.LOCAL, ReferenceFrame.WORLD, ReferenceFrame.LOCAL_WORLD_ALIGNED
+\end{DoxyVerb}
+ 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+utils/custom\+\_\+robot\+\_\+wrapper.\+py\end{DoxyCompactItemize}

@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.17"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Robotics Project: RoboticsProject</title>
+<title>Robotics Project: Robotics project for University of Trento</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -62,10 +62,51 @@ $(function() {
 </div><!-- top -->
 <div class="PageDoc"><div class="header">
   <div class="headertitle">
-<div class="title">RoboticsProject </div>  </div>
+<div class="title">Robotics project for University of Trento </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"></div></div><!-- contents -->
+<div class="textblock"><p>Recognition of lego-like blocks, detection of the blocks and their position in the space, and planning of a path to reach the blocks and bring them to a desired location.</p>
+<h1><a class="anchor" id="autotoc_md1"></a>
+Authors</h1>
+<p>Emanuele Ricca, Emanuele Maccacaro, Jacopo Tomelleri</p>
+<h1><a class="anchor" id="autotoc_md2"></a>
+Project Report</h1>
+<p>In the <a href="./report.pdf">project report</a> can be found a detailed description of the project, the details of the implementation and the results obtained.</p>
+<h1><a class="anchor" id="autotoc_md3"></a>
+Example Video</h1>
+<p>The following links are videos of the project in action during assignment 1 and 2.</p>
+<ul>
+<li><a href="https://youtu.be/OmyCqnIY6ZQ">Assignment 1</a></li>
+<li><a href="https://youtu.be/MqdqDNI8kXU">Assignment 2</a></li>
+</ul>
+<h1><a class="anchor" id="autotoc_md4"></a>
+How to run the project</h1>
+<ul>
+<li>Clone the locosim enviroment (available at this <a href="https://github.com/mfocchi/locosim/tree/659f15fe13895336c0cb11469ef34e747bd84c7f#native-installation-on-linux">link</a>) in the ros workspace.</li>
+<li>Clone this repository in the locosim folder.</li>
+</ul>
+<div class="fragment"><div class="line">git clone https://github.com/UniTNTProjects/RoboticsProject.git</div>
+</div><!-- fragment --><ul>
+<li>Build the project</li>
+</ul>
+<div class="fragment"><div class="line">catkin build</div>
+</div><!-- fragment --><ul>
+<li>Source the new environment</li>
+</ul>
+<div class="fragment"><div class="line">source devel/setup.bash</div>
+</div><!-- fragment --><ul>
+<li>Run the simulation</li>
+</ul>
+<div class="fragment"><div class="line">python3 ./RoboticsProject/ur5_generic.py</div>
+</div><!-- fragment --><ul>
+<li>Launch the desired assignment (e.g. assignment 1)</li>
+</ul>
+<div class="fragment"><div class="line">roslaunch robot_projcet simulation_assignment1.launch</div>
+</div><!-- fragment --><ul>
+<li>Launch the <a class="el" href="classFSM.html">FSM</a></li>
+</ul>
+<div class="fragment"><div class="line">rosrun robot_project FSM_Main</div>
+</div><!-- fragment --> </div></div><!-- contents -->
 </div><!-- PageDoc -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

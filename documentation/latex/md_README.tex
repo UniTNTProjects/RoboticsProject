@@ -1,0 +1,76 @@
+Recognition of lego-\/like blocks, detection of the blocks and their position in the space, and planning of a path to reach the blocks and bring them to a desired location.\hypertarget{md_README_autotoc_md1}{}\doxysection{Authors}\label{md_README_autotoc_md1}
+Emanuele Ricca, Emanuele Maccacaro, Jacopo Tomelleri\hypertarget{md_README_autotoc_md2}{}\doxysection{Project Report}\label{md_README_autotoc_md2}
+In the \href{./report.pdf}{\texttt{ project report}} can be found a detailed description of the project, the details of the implementation and the results obtained.\hypertarget{md_README_autotoc_md3}{}\doxysection{Example Video}\label{md_README_autotoc_md3}
+The following links are videos of the project in action during assignment 1 and 2.
+
+
+\begin{DoxyItemize}
+\item \href{https://youtu.be/OmyCqnIY6ZQ}{\texttt{ Assignment 1}}
+\item \href{https://youtu.be/MqdqDNI8kXU}{\texttt{ Assignment 2}}
+\end{DoxyItemize}\hypertarget{md_README_autotoc_md4}{}\doxysection{How to run the project}\label{md_README_autotoc_md4}
+
+\begin{DoxyItemize}
+\item Clone the locosim enviroment (available at this \href{https://github.com/mfocchi/locosim/tree/659f15fe13895336c0cb11469ef34e747bd84c7f\#native-installation-on-linux}{\texttt{ link}}) in the ros workspace.
+\item Clone this repository in the locosim folder.
+\end{DoxyItemize}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{git clone https://github.com/UniTNTProjects/RoboticsProject.git}
+\end{DoxyCode}
+
+
+
+\begin{DoxyItemize}
+\item Build the project
+\end{DoxyItemize}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{catkin build}
+\end{DoxyCode}
+
+
+
+\begin{DoxyItemize}
+\item Source the new environment
+\end{DoxyItemize}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{source devel/setup.bash}
+\end{DoxyCode}
+
+
+
+\begin{DoxyItemize}
+\item Run the simulation
+\end{DoxyItemize}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{python3 ./RoboticsProject/ur5\_generic.py}
+\end{DoxyCode}
+
+
+
+\begin{DoxyItemize}
+\item Launch the desired assignment (e.\+g. assignment 1)
+\end{DoxyItemize}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{roslaunch robot\_projcet simulation\_assignment1.launch}
+\end{DoxyCode}
+
+
+
+\begin{DoxyItemize}
+\item Launch the \mbox{\hyperlink{classFSM}{F\+SM}}
+\end{DoxyItemize}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{rosrun robot\_project FSM\_Main}
+\end{DoxyCode}
+ 

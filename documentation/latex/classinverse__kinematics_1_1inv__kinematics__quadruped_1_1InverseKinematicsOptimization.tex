@@ -1,0 +1,49 @@
+\hypertarget{classinverse__kinematics_1_1inv__kinematics__quadruped_1_1InverseKinematicsOptimization}{}\doxysection{inverse\+\_\+kinematics.\+inv\+\_\+kinematics\+\_\+quadruped.\+Inverse\+Kinematics\+Optimization Class Reference}
+\label{classinverse__kinematics_1_1inv__kinematics__quadruped_1_1InverseKinematicsOptimization}\index{inverse\_kinematics.inv\_kinematics\_quadruped.InverseKinematicsOptimization@{inverse\_kinematics.inv\_kinematics\_quadruped.InverseKinematicsOptimization}}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classinverse__kinematics_1_1inv__kinematics__quadruped_1_1InverseKinematicsOptimization_a3950cc985a7981304272d33522ce1007}\label{classinverse__kinematics_1_1inv__kinematics__quadruped_1_1InverseKinematicsOptimization_a3950cc985a7981304272d33522ce1007}} 
+def {\bfseries \+\_\+\+\_\+init\+\_\+\+\_\+} (self, robot)
+\item 
+\mbox{\Hypertarget{classinverse__kinematics_1_1inv__kinematics__quadruped_1_1InverseKinematicsOptimization_a72ce90420c0392cce3444cf2c637bae5}\label{classinverse__kinematics_1_1inv__kinematics__quadruped_1_1InverseKinematicsOptimization_a72ce90420c0392cce3444cf2c637bae5}} 
+def {\bfseries leg\+\_\+forward\+Kinematcs} (self, q\+\_\+leg, frame\+\_\+name, ret\+\_\+J)
+\item 
+\mbox{\Hypertarget{classinverse__kinematics_1_1inv__kinematics__quadruped_1_1InverseKinematicsOptimization_ad518fc03a5ec4e20758bdac62d52e0f6}\label{classinverse__kinematics_1_1inv__kinematics__quadruped_1_1InverseKinematicsOptimization_ad518fc03a5ec4e20758bdac62d52e0f6}} 
+def {\bfseries cost} (self, q\+\_\+leg, pos\+\_\+des, frame\+\_\+name)
+\item 
+\mbox{\Hypertarget{classinverse__kinematics_1_1inv__kinematics__quadruped_1_1InverseKinematicsOptimization_a7a08c494d6ea6e226ff7ad0019a2f694}\label{classinverse__kinematics_1_1inv__kinematics__quadruped_1_1InverseKinematicsOptimization_a7a08c494d6ea6e226ff7ad0019a2f694}} 
+def {\bfseries jac} (self, q\+\_\+leg, pos\+\_\+des, frame\+\_\+name)
+\item 
+\mbox{\Hypertarget{classinverse__kinematics_1_1inv__kinematics__quadruped_1_1InverseKinematicsOptimization_aa44f718247c93e54518321968bea97a4}\label{classinverse__kinematics_1_1inv__kinematics__quadruped_1_1InverseKinematicsOptimization_aa44f718247c93e54518321968bea97a4}} 
+def {\bfseries solve} (self, pos\+\_\+des, frame\+\_\+name, q0=np.\+zeros(3))
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classinverse__kinematics_1_1inv__kinematics__quadruped_1_1InverseKinematicsOptimization_aff72afe775d69fa1a79e08b4653218b2}\label{classinverse__kinematics_1_1inv__kinematics__quadruped_1_1InverseKinematicsOptimization_aff72afe775d69fa1a79e08b4653218b2}} 
+{\bfseries robot}
+\item 
+\mbox{\Hypertarget{classinverse__kinematics_1_1inv__kinematics__quadruped_1_1InverseKinematicsOptimization_a5cf4f23455ec6ef6e4eea378a34bbfa8}\label{classinverse__kinematics_1_1inv__kinematics__quadruped_1_1InverseKinematicsOptimization_a5cf4f23455ec6ef6e4eea378a34bbfa8}} 
+{\bfseries u}
+\item 
+\mbox{\Hypertarget{classinverse__kinematics_1_1inv__kinematics__quadruped_1_1InverseKinematicsOptimization_ac6b01e5e71be4fc7ebcd0c4ff822c0a8}\label{classinverse__kinematics_1_1inv__kinematics__quadruped_1_1InverseKinematicsOptimization_ac6b01e5e71be4fc7ebcd0c4ff822c0a8}} 
+{\bfseries frame\+\_\+names}
+\item 
+\mbox{\Hypertarget{classinverse__kinematics_1_1inv__kinematics__quadruped_1_1InverseKinematicsOptimization_ac62a974605ce1eede35130f022de6f67}\label{classinverse__kinematics_1_1inv__kinematics__quadruped_1_1InverseKinematicsOptimization_ac62a974605ce1eede35130f022de6f67}} 
+{\bfseries q\+\_\+range}
+\item 
+\mbox{\Hypertarget{classinverse__kinematics_1_1inv__kinematics__quadruped_1_1InverseKinematicsOptimization_aa54f3da886453e52cbdcb8468b72cb76}\label{classinverse__kinematics_1_1inv__kinematics__quadruped_1_1InverseKinematicsOptimization_aa54f3da886453e52cbdcb8468b72cb76}} 
+{\bfseries J\+\_\+range}
+\item 
+\mbox{\Hypertarget{classinverse__kinematics_1_1inv__kinematics__quadruped_1_1InverseKinematicsOptimization_a39a159619a26334d0b4c5551dc89fd79}\label{classinverse__kinematics_1_1inv__kinematics__quadruped_1_1InverseKinematicsOptimization_a39a159619a26334d0b4c5551dc89fd79}} 
+{\bfseries frame\+\_\+id}
+\item 
+\mbox{\Hypertarget{classinverse__kinematics_1_1inv__kinematics__quadruped_1_1InverseKinematicsOptimization_a836d43442be374d20292d168245c8882}\label{classinverse__kinematics_1_1inv__kinematics__quadruped_1_1InverseKinematicsOptimization_a836d43442be374d20292d168245c8882}} 
+{\bfseries bounds}
+\end{DoxyCompactItemize}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+components/inverse\+\_\+kinematics/inv\+\_\+kinematics\+\_\+quadruped.\+py\end{DoxyCompactItemize}
